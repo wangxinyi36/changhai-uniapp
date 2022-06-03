@@ -1,0 +1,69 @@
+{
+	"pages": [{
+		"path": "pages/home/home",
+		"style": {
+			"navigationBarTitleText": "首页",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/mall/mall",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/my/my",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/car-rental/car-rental",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}],
+	"globalStyle": {
+		"navigationBarTextStyle": "black",
+		"navigationBarBackgroundColor": "#fff",
+		"backgroundColor": "#fff",
+		"app-plus": {
+			"background": "#fff"
+		}
+	},
+	"tabBar": {
+		"color": "#D7D7D7",
+		"selectedColor": "#31D0E6",
+		"borderStyle": "white",
+		"backgroundColor": "#ffffff",
+		"list": [{
+			"pagePath": "pages/home/home",
+			"iconPath": "static/tab1.png",
+			"selectedIconPath": "static/tab1-active.png",
+			"text": "首页"
+		}, {
+			"pagePath": "pages/mall/mall",
+			"iconPath": "static/tab2.png",
+			"selectedIconPath": "static/tab2-active.png",
+			"text": "长海礼物"
+		}, {
+			"pagePath": "pages/my/my",
+			"iconPath": "static/tab3.png",
+			"selectedIconPath": "static/tab3-active.png",
+			"text": "我的"
+		}]
+	},
+	"condition": { //模式配置，仅开发期间生效
+		"current": 0, //当前激活的模式(list 的索引项)
+		"list": [{
+			"name": "", //模式名称
+			"path": "", //启动页面，必选
+			"query": "" //启动参数，在页面的onLoad函数里面得到
+		}]
+	}
+}
