@@ -5,7 +5,7 @@
 				<view class="car-list">
 					<view class="car-item" v-for="item,index in carList" :key="index">
 						<view class="u14">
-							<image src="/static/home8.png" mode="aspectFill" class="u14-img"></image>
+							<image src="/static/home7.png" mode="aspectFill" class="u14-img"></image>
 							<view class="u14-box">
 								<view class="u9-text">{{item.name}}</view>
 								<span class="u10-text" v-for="tag,i in item.tags" :key="i">{{tag}}</span>

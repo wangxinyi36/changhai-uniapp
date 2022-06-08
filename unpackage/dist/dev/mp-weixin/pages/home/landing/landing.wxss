@@ -1,0 +1,36 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.default-flex.data-v-1c6bd168 {
+  display: flex;
+  align-items: center;
+}
+.data-v-1c6bd168 .uni-table {
+  min-width: 100% !important;
+  padding: 0 10px;
+}
+.data-v-1c6bd168 .uni-table .uni-table-td {
+  font: 400 normal 24rpx normal;
+  color: #333;
+}
+.data-v-1c6bd168 .uni-table .u203 {
+  font: 400 normal 24rpx normal;
+  color: #4971EE;
+}
+.data-v-1c6bd168 .uni-table .u203-pass {
+  font: 400 normal 24rpx normal;
+  color: #13B844;
+}
+.bottom.data-v-1c6bd168 {
+  padding: 40rpx;
+}
+.bottom .btn.data-v-1c6bd168 {
+  height: 56rpx;
+  background-color: #31d0e6;
+  border-radius: 12rpx;
+  font: 400 normal 24rpx normal;
+  color: #fff;
+  text-align: center;
+  line-height: 56rpx;
+}
+

@@ -1,0 +1,7 @@
+{
+  "navigationBarTitleText": "",
+  "enablePullDownRefresh": false,
+  "usingComponents": {
+    "common-tree-select": "/components/common-tree-select/common-tree-select"
+  }
+}

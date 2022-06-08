@@ -1,0 +1,40 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.default-flex.data-v-231b239a {
+  display: flex;
+  align-items: center;
+}
+.data-v-231b239a .uni-list-item__container {
+  align-items: center;
+}
+.avatar.data-v-231b239a {
+  width: 100rpx;
+  height: 100rpx;
+  border-radius: 50%;
+}
+.nickname.data-v-231b239a {
+  text-align: right;
+  font: 400 normal 30rpx normal;
+  color: #555;
+}
+.nickname-placeholder.data-v-231b239a {
+  font: 400 normal 24rpx normal;
+  color: #D7D7D7;
+}
+.u98.data-v-231b239a {
+  width: 100%;
+  position: fixed;
+  bottom: 100rpx;
+}
+.u98-btn.data-v-231b239a {
+  height: 80rpx;
+  background-color: #31d0e6;
+  border-radius: 121rpx;
+  font-size: 24rpx;
+  color: #FFFFFF;
+  text-align: center;
+  line-height: 80rpx;
+  margin: 0 20px;
+}
+

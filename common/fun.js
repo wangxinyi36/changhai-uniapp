@@ -30,3 +30,44 @@ export const OpenPage = (url, params) => {
 export const GetSystemInfo = () => {
 	return uni.getSystemInfoSync();
 }
+
+/**
+ * 省市区筛选列表
+ *
+ * @param {string} url 地址(参数短可带参数)
+ * @param {string} params 参数(参数过多)
+ * @return {Array} 返回值无
+ */
+import {
+	REGION
+} from '@/common/citys.js'
+export const getRegionList = () => {
+	let provinces = REGION['86'];
+	let provinceList = []
+	for (let i in provinces) {
+		provinceList.push({
+			"value": i,
+			"text": provinces[i],
+		})
+	}
+
+	for (let j = 0, len = provinceList.length; j < len; j++) {
+		let provinceCode = provinceList[j].value;
+		let provinceText = provinceList[j].text;
+		let citysList = []
+		for (let c in REGION[provinceCode]) {
+			citysList.push({
+				"value": c,
+				"text": REGION[provinceCode][c],
+			})
+		}
+		if (citysList.length) {
+			provinceList[j].children = citysList;
+		}
+	}
+
+	for (let d = 0, len = provinceList.length; d < len; d++) {
+		// let districtCode = 
+	}
+	console.log(provinceList)
+}

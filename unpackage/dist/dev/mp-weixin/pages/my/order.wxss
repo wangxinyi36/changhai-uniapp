@@ -1,0 +1,11 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.default-flex.data-v-1c376db8 {
+  display: flex;
+  align-items: center;
+}
+.content.data-v-1c376db8 {
+  padding: 0 20rpx;
+}
+

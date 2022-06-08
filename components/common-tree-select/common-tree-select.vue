@@ -7,7 +7,7 @@
 				</view>
 			</view>
 		</scroll-view>
-		<scroll-view scroll-y="true" :style="{ height: scrollHeight + 'px' }">
+		<scroll-view scroll-y="true" :style="{ height: scrollHeight + 'px' }" class="right">
 			<slot></slot>
 		</scroll-view>
 	</view>
@@ -33,10 +33,10 @@
 				this.scrollHeight = GetSystemInfo().windowHeight - 10;
 			})
 		},
-		methods:{
-			changeLeft(index){
+		methods: {
+			changeLeft(index) {
 				this.activeIndex = index;
-				this.$emit('changeLeft',index)
+				this.$emit('changeLeft', index)
 			}
 		}
 	};
@@ -72,6 +72,10 @@
 					}
 				}
 			}
+		}
+
+		.right {
+			flex: 1
 		}
 	}
 </style>

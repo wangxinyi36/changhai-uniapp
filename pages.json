@@ -9,7 +9,7 @@
 	}, {
 		"path": "pages/mall/mall",
 		"style": {
-			"navigationBarTitleText": "",
+			"navigationBarTitleText": "商城",
 			"enablePullDownRefresh": false
 		}
 
@@ -27,7 +27,145 @@
 			"enablePullDownRefresh": false
 		}
 
-	}],
+	}, {
+		"path": "pages/mall/detail",
+		"style": {
+			"navigationBarTitleText": "商品详情",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/mall/comments",
+		"style": {
+			"navigationBarTitleText": "用户评价",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/my/userInfo",
+		"style": {
+			"navigationBarTitleText": "个人信息",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/my/order",
+		"style": {
+			"navigationBarTitleText": "我的订单",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/my/evaluate",
+		"style": {
+			"navigationBarTitleText": "评价",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/my/complaint",
+		"style": {
+			"navigationBarTitleText": "我的投诉",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/my/help",
+		"style": {
+			"navigationBarTitleText": "帮助中心",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/my/setting",
+		"style": {
+			"navigationBarTitleText": "设置",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/my/about",
+		"style": {
+			"navigationBarTitleText": "关于小程序",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/landing/landing",
+		"style": {
+			"navigationBarTitleText": "登岛申请记录",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/landing/land-form",
+		"style": {
+			"navigationBarTitleText": "长海县登岛人员健康信息登录",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/activity/activity",
+		"style": {
+			"navigationBarTitleText": "活动",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/home-stay/home-stay",
+		"style": {
+			"navigationBarTitleText": "民宿",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/home-stay/home-stay-detail",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/home-stay/home-stay-info",
+		"style": {
+			"navigationBarTitleText": "详情",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/home-stay/pay",
+		"style": {
+			"navigationBarTitleText": "支付",
+			"enablePullDownRefresh": false,
+			"navigationBarBackgroundColor": "#edf0f7"
+		}
+
+	}, {
+		"path": "pages/home/home-stay/home-stay-people",
+		"style": {
+			"navigationBarTitleText": "添加入住人",
+			"enablePullDownRefresh": false,
+			"navigationBarBackgroundColor": "#f59a23",
+			"navigationBarTextStyle": "white"
+		}
+
+	}, {
+		"path": "pages/home/home-stay/home-stay-address",
+		"style": {
+			"navigationBarTitleText": "地址",
+			"enablePullDownRefresh": false
+		}
+
+	}    ,{
+            "path" : "pages/home/home-stay/pay-suc",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
 		"navigationBarBackgroundColor": "#fff",

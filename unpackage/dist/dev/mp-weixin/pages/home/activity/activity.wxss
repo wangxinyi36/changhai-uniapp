@@ -1,0 +1,25 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.default-flex.data-v-532bc918 {
+  display: flex;
+  align-items: center;
+}
+.u17-img.data-v-532bc918 {
+  height: 428rpx;
+  width: 100%;
+}
+.u17-box.data-v-532bc918 {
+  padding: 0 30rpx;
+  margin-bottom: 20px;
+}
+.u17-box-title.data-v-532bc918 {
+  font: 700 32rpx/30rpx '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
+  color: #333;
+  margin: 20rpx 0;
+}
+.u17-box-text.data-v-532bc918 {
+  font: 400 20rpx/30rpx 'Arial Normal', 'Arial', sans-serif;
+  color: #333;
+}
+

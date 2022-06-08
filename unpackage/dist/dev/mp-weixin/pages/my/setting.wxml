@@ -1,0 +1,1 @@
+<view><uni-list vue-id="2dcb8e20-1" bind:__l="__l" vue-slots="{{['default']}}"><uni-list-item vue-id="{{('2dcb8e20-2')+','+('2dcb8e20-1')}}" title="关于小程序" link="{{true}}" to="/pages/my/about" bind:__l="__l"></uni-list-item></uni-list></view>

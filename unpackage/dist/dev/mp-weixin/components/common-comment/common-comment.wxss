@@ -1,0 +1,28 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.default-flex.data-v-5c6004b8, .common-comment .u33.data-v-5c6004b8 {
+  display: flex;
+  align-items: center;
+}
+.common-comment .u33.data-v-5c6004b8 {
+  margin-top: 20rpx;
+}
+.common-comment .u33-avatar.data-v-5c6004b8 {
+  width: 60rpx;
+  height: 60rpx;
+  border-radius: 50%;
+  margin-right: 20rpx;
+}
+.common-comment .content.data-v-5c6004b8 {
+  font: 400 normal 24rpx normal;
+  margin-top: 10rpx;
+}
+.common-comment .pics.data-v-5c6004b8 {
+  margin-top: 10rpx;
+}
+.common-comment .pics .pic.data-v-5c6004b8 {
+  height: 170rpx;
+  width: 100%;
+}
+

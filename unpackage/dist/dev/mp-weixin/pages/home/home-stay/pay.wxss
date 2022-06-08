@@ -1,0 +1,145 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.default-flex {
+  display: flex;
+  align-items: center;
+}
+page {
+  background-color: #edf0f7;
+}
+
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.default-flex.data-v-dca61fae, .u7 .u8 .u9.data-v-dca61fae, .u7 .u8 .u11.data-v-dca61fae, .u7 .u8 .u11 .u17.data-v-dca61fae, .u7 .u8 .u11 .u17-sub.data-v-dca61fae, .u7 .u8 .u11 .u17-add.data-v-dca61fae, .u7 .u25.data-v-dca61fae, .u7 .u47-box.data-v-dca61fae, .u7 .u47-box-left.data-v-dca61fae, .bottom.data-v-dca61fae {
+  display: flex;
+  align-items: center;
+}
+.u7.data-v-dca61fae {
+  padding: 20rpx 30rpx;
+}
+.u7 .u8.data-v-dca61fae {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx;
+}
+.u7 .u8 .u9-label.data-v-dca61fae, .u7 .u8 .u9-time.data-v-dca61fae, .u7 .u8 .u11-box-name.data-v-dca61fae {
+  font: normal 400 28rpx/normal '微软雅黑', sans-serif;
+  color: #333;
+}
+.u7 .u8 .u9-time.data-v-dca61fae {
+  font-size: 24rpx;
+  margin-left: 20rpx;
+}
+.u7 .u8 .u11.data-v-dca61fae {
+  justify-content: space-between;
+  margin-top: 10rpx;
+}
+.u7 .u8 .u11-box-name.data-v-dca61fae {
+  font-size: 28rpx;
+}
+.u7 .u8 .u11-box-dec.data-v-dca61fae {
+  font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+  color: #AAAAAA;
+  margin: 10rpx 0;
+}
+.u7 .u8 .u11-box-tip.data-v-dca61fae {
+  font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+  color: #F59A23;
+}
+.u7 .u8 .u11 .u17.data-v-dca61fae {
+  border: 1rpx solid #aaaaaa;
+}
+.u7 .u8 .u11 .u17-num.data-v-dca61fae {
+  border: 1rpx solid #aaaaaa;
+  border-top: 0;
+  border-bottom: 0;
+  width: 64rpx;
+  text-align: center;
+}
+.u7 .u8 .u11 .u17-sub.data-v-dca61fae, .u7 .u8 .u11 .u17-add.data-v-dca61fae {
+  width: 40rpx;
+  justify-content: center;
+}
+.u7 .u63.data-v-dca61fae, .u7 .u25.data-v-dca61fae, .u7 .u47.data-v-dca61fae {
+  margin-top: 20rpx;
+  background-color: #fff;
+  padding: 40rpx;
+  border-radius: 20rpx;
+}
+.u7 .u63-box.data-v-dca61fae {
+  border: 2rpx solid #f59a23;
+  border-radius: 20rpx;
+  color: #F59A23;
+  font: normal 400 24rpx/normal 'Arial Normal', 'Arial', sans-serif;
+  text-align: center;
+  padding: 15rpx 0;
+}
+.u7 .u25.data-v-dca61fae {
+  padding: 10rpx 20rpx;
+  justify-content: space-between;
+}
+.u7 .u25-box.data-v-dca61fae {
+  font: normal 400 30rpx/normal '微软雅黑', sans-serif;
+  color: #000;
+}
+.u7 .u25-text.data-v-dca61fae {
+  color: #D7D7D7;
+  font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+}
+.u7 .u47.data-v-dca61fae {
+  padding: 30rpx 60rpx;
+}
+.u7 .u47-box.data-v-dca61fae {
+  justify-content: space-between;
+}
+.u7 .u47-box-left .icon-wechat.data-v-dca61fae {
+  width: 30rpx;
+  height: 25rpx;
+}
+.u7 .u47-box-left-text.data-v-dca61fae {
+  font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+  color: #333;
+  margin-left: 20rpx;
+}
+.u7 .u47-box.data-v-dca61fae:nth-of-type(2) {
+  margin-top: 30rpx;
+}
+.u7 .u47-box-choose.data-v-dca61fae {
+  width: 30rpx;
+  height: 30rpx;
+}
+.u7 .u47-text.data-v-dca61fae {
+  color: #D7D7D7;
+  font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+}
+.bottom.data-v-dca61fae {
+  position: fixed;
+  bottom: 0;
+  width: 100%;
+  background-color: #fff;
+  justify-content: space-between;
+  height: 108rpx;
+}
+.bottom-left.data-v-dca61fae {
+  font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+  color: #333;
+  margin-left: 30rpx;
+}
+.bottom-left-text.data-v-dca61fae {
+  color: #D9001B;
+  font-size: 32rpx;
+}
+.bottom-btn.data-v-dca61fae {
+  width: 256rpx;
+  height: 94rpx;
+  background-color: #f59a23;
+  border-radius: 92rpx;
+  color: #FFFFFF;
+  font: normal 400 36rpx/normal 'Arial Normal', 'Arial', sans-serif;
+  text-align: center;
+  line-height: 94rpx;
+  margin-right: 20rpx;
+}
+
