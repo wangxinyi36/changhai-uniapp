@@ -1,0 +1,77 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.default-flex.data-v-eec86df8, .u24-item-top.data-v-eec86df8, .u24-item-top .u167.data-v-eec86df8, .u24-item-top .u168.data-v-eec86df8, .u24-item-bottom.data-v-eec86df8, .u24-item-bottom .u270.data-v-eec86df8 {
+  display: flex;
+  align-items: center;
+}
+.u24-item.data-v-eec86df8 {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx;
+  margin-bottom: 20rpx;
+}
+.u24-item-top.data-v-eec86df8 {
+  align-items: unset;
+}
+.u24-item-top-img.data-v-eec86df8 {
+  width: 120rpx;
+  height: 100rpx;
+  border-radius: 10rpx;
+  margin-right: 20rpx;
+}
+.u24-item-top .u166.data-v-eec86df8 {
+  flex: 1;
+  padding-bottom: 10rpx;
+  border-bottom: 1rpx solid #f2f2f2;
+}
+.u24-item-top .u166-name.data-v-eec86df8 {
+  font: normal 400 32rpx/normal '微软雅黑', sans-serif;
+  color: #333;
+}
+.u24-item-top .u167-pay.data-v-eec86df8 {
+  color: #aaa;
+  font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+  margin-left: 20rpx;
+}
+.u24-item-top .u168.data-v-eec86df8 {
+  justify-content: space-between;
+}
+.u24-item-top .u168-address.data-v-eec86df8 {
+  color: #bbb;
+  font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+}
+.u24-item-top .u168-distance.data-v-eec86df8 {
+  color: #888;
+  font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+}
+.u24-item-bottom.data-v-eec86df8 {
+  justify-content: space-between;
+  margin-top: 10rpx;
+}
+.u24-item-bottom .u269.data-v-eec86df8 {
+  width: 120rpx;
+  height: 100rpx;
+  margin-right: 10rpx;
+}
+.u24-item-bottom .u270.data-v-eec86df8 {
+  flex: 1;
+  justify-content: space-between;
+}
+.u24-item-bottom .u270 .u270-item.data-v-eec86df8 {
+  width: 32%;
+}
+.u24-item-bottom .u270 .u270-item-img.data-v-eec86df8 {
+  width: 100%;
+  height: 96rpx;
+  border-radius: 10rpx;
+}
+.u24-item-bottom .u270 .u270-item-name.data-v-eec86df8 {
+  font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+  color: #1a1a1a;
+}
+.u24-item-bottom .u270 .u270-item-money.data-v-eec86df8 {
+  color: #DD0000;
+  font: normal 400 24rpx/normal 'Arial Normal', 'Arial', sans-serif;
+}
+

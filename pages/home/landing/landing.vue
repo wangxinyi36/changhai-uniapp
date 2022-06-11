@@ -36,12 +36,12 @@
 		data() {
 			return {
 				list: [{
-					name: '张三',
+					name: '徐磊',
 					time: '2022-05-13',
 					status: 1, //1审核中 2通过 3拒绝
 					code: 0,
 				}, {
-					name: '张三',
+					name: '张泽瑞',
 					time: '2022-05-13',
 					status: 2, //1审核中 2通过 3拒绝
 					code: 1,

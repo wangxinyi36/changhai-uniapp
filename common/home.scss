@@ -1,6 +1,7 @@
 .intro-text{
 	font-weight: 700;
 	color: #FFFFFF;
+	font-family: '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
 }
 
 .u47{
@@ -23,10 +24,10 @@
 			height: 100%;
 		}
 		.u47-intro{
-			font-size: 56rpx;
+			font-size: 28rpx;
 			position: absolute;
-			left: 43rpx;
-			bottom: 30rpx;
+			left: 20rpx;
+			bottom: 10rpx;
 		}
 	}
 }
@@ -40,7 +41,7 @@
 			height: 100%;
 		}
 		.u49-intro{
-			font-size: 32rpx;
+			font-size: 28rpx;
 			position: absolute;
 			left: 20rpx;
 			bottom: 10rpx;

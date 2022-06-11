@@ -5,7 +5,7 @@
 			<view class="u55-text">支付成功</view>
 		</view>
 		<view class="bottom">
-			<view class="bottom-btn">返回商家</view>
+			<view class="bottom-btn" @click="back">返回商家</view>
 		</view>
 	</view>
 </template>
@@ -16,6 +16,11 @@
 			return {
 
 			};
+		},
+		methods:{
+			back(){
+				uni.navigateBack()
+			}
 		}
 	}
 </script>
@@ -25,7 +30,7 @@
 		@extend .default-flex;
 		flex-direction: column;
 		justify-content: center;
-		margin-top: 100rpx;
+		margin-top: 188rpx;
 
 		.icon-suc {
 			width: 142rpx;

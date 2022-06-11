@@ -19,7 +19,14 @@
         "pages/home/home-stay/home-stay",
         "pages/home/home-stay/home-stay-detail",
         "pages/home/home-stay/home-stay-info",
-        "pages/home/home-stay/pay"
+        "pages/home/home-stay/pay",
+        "pages/home/home-stay/home-stay-people",
+        "pages/home/home-stay/home-stay-address",
+        "pages/home/home-stay/pay-suc",
+        "pages/home/airplane/airplane",
+        "pages/home/search/search",
+        "pages/home/tasty-food/tasty-food",
+        "pages/home/tasty-food/tasty-food-detail"
     ],
     "subPackages": [],
     "window": {

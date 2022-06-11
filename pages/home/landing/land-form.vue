@@ -19,7 +19,7 @@
 			</uni-forms-item>
 			<uni-forms-item label="上传健康码/行程码/核酸报告" label-position="top" :label-width="200">
 				<view class="u54">(根据疫情防控有关要求，来自大连市的登岛人员需提供国务院行程码、健康码。来自大连市以外的登岛人员需提供国务院行程码、健康码以及48小时以内核酸报告。)</view>
-				<uni-file-picker v-model="landFormData.imageValue" title="" limit="3" file-mediatype="image">
+				<uni-file-picker v-model="landFormData.imageValue" file-mediatype="image">
 				</uni-file-picker>
 			</uni-forms-item>
 			<uni-forms-item label="进岛原因" label-position="top">
@@ -35,12 +35,26 @@
 				<uni-easyinput v-model="landFormData.name" :clearable="false" placeholder="请输入计划上船港口" />
 			</uni-forms-item>
 			<uni-forms-item label="进岛前居住地址" label-position="top" :label-width="110">
-				<!-- <view class="u66" @click="open">请选择</view> -->
-				<uni-data-picker placeholder="请选择" popup-title="请选择省市区" :localdata="dataTree"
+				<view class="u66" @click="open">请选择</view>
+				<uni-popup ref="popup" type="bottom">
+					<picker-view-column>
+						<view class="item" v-for="(item,index) in years" :key="index">{{item}}年</view>
+					</picker-view-column>
+					<picker-view-column>
+						<view class="item" v-for="(item,index) in months" :key="index">{{item}}月</view>
+					</picker-view-column>
+					<picker-view-column>
+						<view class="item" v-for="(item,index) in days" :key="index">{{item}}日</view>
+					</picker-view-column>
+				</uni-popup>
+
+				<!-- <uni-data-picker placeholder="请选择" popup-title="请选择省市区" :localdata="dataTree"
 					v-model="landFormData.city" @change="onchange" @nodeclick="onnodeclick" @popupopened="onpopupopened"
 					@popupclosed="onpopupclosed">
-				</uni-data-picker>
-				<uni-easyinput v-model="landFormData.name" type="textarea" :clearable="false" placeholder="详细地址" />
+				</uni-data-picker> -->
+				<view class="u75">
+					<uni-easyinput v-model="landFormData.name" type="textarea" :clearable="false" placeholder="详细地址" />
+				</view>
 			</uni-forms-item>
 			<uni-forms-item label="进入我县居住地址" label-position="top" :label-width="120">
 				<uni-easyinput v-model="landFormData.name" type="textarea" :clearable="false" placeholder="详细地址" />
@@ -60,7 +74,7 @@
 		</uni-forms>
 
 		<view class="bottom">
-			<view class="btn">申请</view>
+			<view class="btn" @click="submit">申请</view>
 		</view>
 	</view>
 </template>
@@ -82,7 +96,7 @@
 					hobby: [5],
 					datetimesingle: 1627529992399,
 					imageValue: [],
-					city: ''
+					city: []
 				},
 				owns: [{
 					text: '本人',
@@ -113,13 +127,20 @@
 		methods: {
 			open() {
 				this.$refs.popup.open('bottom')
+			},
+			submit() {
+				this.$refs.landForm.validate().then(res => {
+					console.log('表单数据信息：', res);
+				}).catch(err => {
+					console.log('表单错误信息：', err);
+				})
 			}
 		}
 	}
 </script>
 
 <style lang="scss" scoped>
-	.uni-forms {
+	/deep/ .uni-forms {
 		padding: 0 20rpx;
 
 		/deep/ .uni-forms-item__inner {
@@ -140,6 +161,10 @@
 			&-text {
 				margin-left: 10rpx;
 			}
+		}
+
+		.u75 {
+			margin-top: 10rpx;
 		}
 
 		.u66 {

@@ -1,0 +1,92 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.default-flex.data-v-06db106c, .u244-tabs.data-v-06db106c, .u264-item-title.data-v-06db106c, .u264-item-text.data-v-06db106c, .u264-item-title .u274.data-v-06db106c, .u264-item-text .u274.data-v-06db106c {
+  display: flex;
+  align-items: center;
+}
+.u242.data-v-06db106c {
+  position: relative;
+  height: 424rpx;
+}
+.u242-img.data-v-06db106c {
+  height: 424rpx;
+  width: 100%;
+  position: absolute;
+  top: 0;
+}
+.u243.data-v-06db106c {
+  padding: 50rpx 30rpx 10rpx 30rpx;
+  border-bottom: 2rpx solid #f2f2f2;
+}
+.u243-title.data-v-06db106c {
+  font: normal 700 32rpx/normal '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
+  color: #333;
+}
+.u243-text.data-v-06db106c {
+  font: normal 400 28rpx/normal '微软雅黑', sans-serif;
+  color: #333;
+  margin-top: 10rpx;
+}
+.u244.data-v-06db106c {
+  padding: 10rpx 30rpx;
+}
+.u244-tabs.data-v-06db106c {
+  margin-bottom: 40rpx;
+}
+.u244-tab.data-v-06db106c {
+  margin-right: 30rpx;
+  font: normal 400 32rpx/normal '微软雅黑', sans-serif;
+  color: #333;
+}
+.u244-tab-active.data-v-06db106c {
+  color: #31D0E6;
+  font-family: '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
+  font-weight: 700;
+}
+.u264-title.data-v-06db106c {
+  font: normal 700 32rpx/normal '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
+  color: #333;
+  margin: 20rpx 0;
+}
+.u264-text.data-v-06db106c {
+  font: normal 400 28rpx/normal '微软雅黑', sans-serif;
+  color: #333;
+  letter-spacing: 1rpx;
+}
+.u264-box.data-v-06db106c {
+  border-left: 2rpx dashed #999;
+}
+.u264-item.data-v-06db106c {
+  margin: 40rpx 0 0 40rpx;
+}
+.u264-item-title.data-v-06db106c, .u264-item-text.data-v-06db106c {
+  font: normal 400 28rpx/normal '微软雅黑', sans-serif;
+  color: #333;
+}
+.u264-item-title .u274.data-v-06db106c, .u264-item-text .u274.data-v-06db106c {
+  width: 40rpx;
+  height: 40rpx;
+  border-radius: 50%;
+  background-color: #00bfbf;
+  justify-content: center;
+  color: #fff;
+  font-size: 20rpx;
+  position: absolute;
+  left: 5px;
+}
+.u264-item-text.data-v-06db106c {
+  line-height: 32rpx;
+  letter-spacing: 1rpx;
+  margin-top: 15rpx;
+}
+.u264-map.data-v-06db106c {
+  width: 100%;
+  height: 370rpx;
+  margin-bottom: 20rpx;
+}
+.u264-map-box.data-v-06db106c {
+  width: 100%;
+  height: 100%;
+}
+

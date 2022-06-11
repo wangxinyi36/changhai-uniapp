@@ -16,14 +16,14 @@
 	}, {
 		"path": "pages/my/my",
 		"style": {
-			"navigationBarTitleText": "",
+			"navigationBarTitleText": "我的",
 			"enablePullDownRefresh": false
 		}
 
 	}, {
 		"path": "pages/home/car-rental/car-rental",
 		"style": {
-			"navigationBarTitleText": "",
+			"navigationBarTitleText": "租车",
 			"enablePullDownRefresh": false
 		}
 
@@ -156,8 +156,88 @@
 			"enablePullDownRefresh": false
 		}
 
+	}, {
+		"path": "pages/home/home-stay/pay-suc",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false,
+			"navigationStyle": "custom"
+		}
+
+	}, {
+		"path": "pages/home/airplane/airplane",
+		"style": {
+			"navigationBarTitleText": "订机票",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/search/search",
+		"style": {
+			"navigationBarTitleText": "搜索",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/tasty-food/tasty-food",
+		"style": {
+			"navigationBarTitleText": "美食",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/tasty-food/tasty-food-detail",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false,
+			"navigationStyle": "custom"
+		}
+
+	}, {
+		"path": "pages/home/special-route/special-route",
+		"style": {
+			"navigationBarTitleText": "精品路线",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/special-route/special-route-detail",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false,
+			"navigationStyle": "custom"
+		}
+
+	}, {
+		"path": "pages/home/public-toilet/public-toilet",
+		"style": {
+			"navigationBarTitleText": "公共厕所",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/home-meal/home-meal",
+		"style": {
+			"navigationBarTitleText": "",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/tasty-food/shop-map",
+		"style": {
+			"navigationBarTitleText": "店铺地图",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/tasty-food/tasty-food-pay",
+		"style": {
+			"navigationBarTitleText": "提交订单",
+			"enablePullDownRefresh": false
+		}
+
 	}    ,{
-            "path" : "pages/home/home-stay/pay-suc",
+            "path" : "pages/home/tasty-food/tasty-food-combo",
             "style" :                                                                                    
             {
                 "navigationBarTitleText": "",

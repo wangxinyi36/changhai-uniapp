@@ -3,7 +3,7 @@
 		<view class="u47">
 			<view class="u47-box">
 				<image src="/static/home1.png" mode="scaleToFill" class="u47-img"></image>
-				<text class="intro-text u47-intro">广鹿岛</text>
+				<text class="intro-text u47-intro">长海的黄金海岸</text>
 			</view>
 			<view class="u72"><text class="u47-text">长海县文旅局官方推荐</text></view>
 		</view>
@@ -13,14 +13,14 @@
 				<uni-row :gutter="5">
 					<uni-col :span="16">
 						<view class="u49-box">
-							<image src="/static/home1.png" mode="scaleToFill" class="u49-img"></image>
+							<image src="/static/u49.png" mode="scaleToFill" class="u49-img"></image>
 							<text class="intro-text u49-intro">住在长海是什么样的神仙体验</text>
 						</view>
 					</uni-col>
 					<uni-col :span="8">
 						<view class="u49-box u50-box">
 							<image src="/static/home5.png" mode="scaleToFill" class="u49-img"></image>
-							<text class="intro-text u49-intro">海岛活动</text>
+							<text class="intro-text u49-intro">节日活动及赛事时间说明</text>
 						</view>
 					</uni-col>
 				</uni-row>
@@ -29,13 +29,13 @@
 						<uni-col :span="8">
 							<view class="u49-box u50-box">
 								<image src="/static/home3.png" mode="scaleToFill" class="u49-img"></image>
-								<text class="intro-text u49-intro">长海海鲜</text>
+								<text class="intro-text u49-intro">长海特色海鲜</text>
 							</view>
 						</uni-col>
 						<uni-col :span="8">
 							<view class="u49-box u50-box">
-								<image src="/static/home7.png" mode="scaleToFill" class="u49-img"></image>
-								<text class="intro-text u49-intro">广鹿岛网红打卡</text>
+								<image src="/static/u51.png" mode="scaleToFill" class="u49-img"></image>
+								<text class="intro-text u49-intro">达人攻略</text>
 							</view>
 						</uni-col>
 						<uni-col :span="8">
@@ -97,7 +97,9 @@
 							<view class="title-text">精选美食</view>
 						</uni-col>
 						<uni-col :span="12">
-							<view class="title-more">查看更多</view>
+							<navigator url="/pages/home/tasty-food/tasty-food" hover-class="none">
+								<view class="title-more">查看更多</view>
+							</navigator>
 						</uni-col>
 					</view>
 				</uni-row>
@@ -123,7 +125,9 @@
 							<view class="title-text">精选线路</view>
 						</uni-col>
 						<uni-col :span="12">
-							<view class="title-more">查看更多</view>
+							<navigator url="/pages/home/special-route/special-route" hover-class="none">
+								<view class="title-more">查看更多</view>
+							</navigator>
 						</uni-col>
 					</view>
 				</uni-row>
@@ -154,6 +158,12 @@
 		data() {
 			return {
 				sectionList: [{
+						url: '/static/home-island.svg',
+						name: '登岛申请',
+						width: '46rpx',
+						height: '48rpx',
+						open: '/pages/home/landing/landing'
+					}, {
 						url: '/static/home-ship.svg',
 						name: '船票',
 						width: '54rpx',
@@ -163,13 +173,21 @@
 						url: '/static/home-hotel.svg',
 						name: '酒店',
 						width: '50rpx',
-						height: '48rpx'
+						height: '48rpx',
+						open: '/pages/home/home-stay/home-stay'
 					},
 					{
 						url: '/static/home-food.svg',
 						name: '美食',
 						width: '60rpx',
-						height: '39rpx'
+						height: '39rpx',
+						open: '/pages/home/tasty-food/tasty-food'
+					},{
+						url: '/static/home-meal.svg',
+						name: '外卖',
+						width: '60rpx',
+						height: '39rpx',
+						open: '/pages/home/home-meal/home-meal'
 					},
 					{
 						url: '/static/home-car.svg',
@@ -182,7 +200,8 @@
 						url: '/static/home-tol.svg',
 						name: '公共厕所',
 						width: '50rpx',
-						height: '50rpx'
+						height: '50rpx',
+						open:'/pages/home/public-toilet/public-toilet'
 					},
 					{
 						url: '/static/home-activity.svg',
@@ -195,34 +214,30 @@
 						url: '/static/home-gift.svg',
 						name: '长海礼物',
 						width: '50rpx',
-						height: '48rpx'
+						height: '48rpx',
+						open: '/pages/mall/mall'
 					},
 					{
 						url: '/static/home-airplan.svg',
 						name: '订机票',
 						width: '47rpx',
 						height: '49rpx',
-						transform: 'rotate(45deg)'
+						transform: 'rotate(45deg)',
+						open: '/pages/home/airplane/airplane'
 					},
-					{
-						url: '/static/home-island.svg',
-						name: '登岛申请',
-						width: '46rpx',
-						height: '48rpx',
-						open: '/pages/home/landing/landing'
-					}
+
 				],
 				homeStay: [{
-						url: '/static/home7.png',
-						name: '大长山岛'
+						url: '/static/stay1.jpg',
+						name: '丽景山庄'
 					},
 					{
-						url: '/static/home7.png',
-						name: '大长山岛'
+						url: '/static/stay2.jpg',
+						name: '老吴家渔子宿'
 					},
 					{
-						url: '/static/home7.png',
-						name: '大长山岛'
+						url: '/static/stay3.jpg',
+						name: '金水岸'
 					},
 					{
 						url: '/static/home7.png',
@@ -234,15 +249,15 @@
 						name: '海鲜杂烩'
 					},
 					{
-						url: '/static/home3.png',
+						url: '/static/mall8.png',
 						name: '海鲜杂烩'
 					},
 					{
-						url: '/static/home3.png',
-						name: '海鲜杂烩'
+						url: '/static/mall5.png',
+						name: '蒜蓉扇贝'
 					},
 					{
-						url: '/static/home3.png',
+						url: '/static/mall4.png',
 						name: '海鲜杂烩'
 					}
 				],
@@ -256,13 +271,20 @@
 						title: '长海县环岛自驾行',
 						time: '包住 7日游',
 						tags: ['200元起', '环岛自驾', '风土人情'],
-						url: '/static/home1.png'
+						url: '/static/u55.png'
 					}
 				]
 			};
 		},
 		methods: {
 			openType(item, index) {
+				console.log(item)
+				if (item.open == '/pages/mall/mall') {
+					uni.switchTab({
+						url: item.open
+					});
+					return;
+				}
 				OpenPage(`${item.open}?title=${item.name}`)
 			},
 			openPage(item, url) {

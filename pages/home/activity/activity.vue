@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="u17">
-			<image src="/static/home1.png" mode="aspectFill" class="u17-img"></image>
+			<image src="/static/home1.jpg" mode="aspectFill" class="u17-img"></image>
 			<view class="u17-box">
 				<view class="u17-box-title">三元宫</view>
 				<view class="u17-box-text">三元宫始建于明末清初，位于大长山岛三官庙村，后来被毁。现在的三元宫是由华龙企业投资修建的，为辽南地区最大的道家宫观。</view>

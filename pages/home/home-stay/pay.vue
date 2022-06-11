@@ -29,19 +29,14 @@
 				<view class="u25-text">离店当日向商家申请开具</view>
 			</view>
 			<view class="u47">
-				<view class="u47-box">
+				<view class="u47-box" v-for="item,index in payList" :key="index" @click="choose(index)">
 					<view class="u47-box-left">
-						<image src="/static/icon-wechat.svg" mode="aspectFill" class="icon-wechat"></image>
-						<view class="u47-box-left-text">微信支付</view>
+						<image :src="item.url" mode="aspectFill" class="icon-wechat"></image>
+						<view class="u47-box-left-text">{{item.name}}</view>
 					</view>
-					<image :src="chooseIcon" mode="aspectFill" class="u47-box-choose"></image>
-				</view>
-				<view class="u47-box">
-					<view class="u47-box-left">
-						<image src="/static/icon-zhi.svg" mode="aspectFill" class="icon-wechat"></image>
-						<view class="u47-box-left-text">支付宝支付</view>
-					</view>
-					<image :src="chooseIcon" mode="aspectFill" class="u47-box-choose"></image>
+					<image :src="payIndex == index ? chooseActiveIcon: chooseIcon" mode="aspectFill"
+						class="u47-box-choose">
+					</image>
 				</view>
 			</view>
 			<view class="u25">
@@ -65,9 +60,22 @@
 		data() {
 			return {
 				chooseIcon: '/static/icon-choose-no.svg',
-				chooseActiveIcon: '/static/icon-choose.svg'
+				chooseActiveIcon: '/static/icon-choose.svg',
+				payIndex: 0,
+				payList: [{
+					name: '微信支付',
+					url: '/static/icon-wechat.svg',
+				}, {
+					name: '支付宝支付',
+					url: '/static/icon-zhi.svg',
+				}]
 			};
 		},
+		methods: {
+			choose(value) {
+				this.payIndex = value;
+			}
+		}
 	}
 </script>
 <style lang="scss">

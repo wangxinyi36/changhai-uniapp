@@ -53,48 +53,11 @@
 					tel: '8888888888',
 					address: '大长山岛镇木路客家话354号',
 					pay: '约￥100',
-				}, {
-					name: '辽A 68866',
-					tags: ['自动挡', '三厢车', '4座'],
-					connect: '孙李',
-					tel: '8888888888',
-					address: '大长山岛镇木路客家话354号',
-					pay: '约￥100',
-				}, {
-					name: '辽A 68866',
-					tags: ['自动挡', '三厢车', '4座'],
-					connect: '孙李',
-					tel: '8888888888',
-					address: '大长山岛镇木路客家话354号',
-					pay: '约￥100',
-				}, {
-					name: '辽A 68866',
-					tags: ['自动挡', '三厢车', '4座'],
-					connect: '孙李',
-					tel: '8888888888',
-					address: '大长山岛镇木路客家话354号',
-					pay: '约￥100',
-				}, {
-					name: '辽A 68866',
-					tags: ['自动挡', '三厢车', '4座'],
-					connect: '孙李',
-					tel: '8888888888',
-					address: '大长山岛镇木路客家话354号',
-					pay: '约￥100',
-				}, {
-					name: '辽A 68866',
-					tags: ['自动挡', '三厢车', '4座'],
-					connect: '孙李',
-					tel: '8888888888',
-					address: '大长山岛镇木路客家话354号',
-					pay: '约￥100',
 				}]
 			};
 		},
 		onLoad(options) {
-			uni.setNavigationBarTitle({
-				title: options.title
-			});
+
 		},
 		methods: {
 			changeLeft(val) {

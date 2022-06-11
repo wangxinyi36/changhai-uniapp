@@ -1,0 +1,23 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.default-flex.data-v-605abbc8 {
+  display: flex;
+  align-items: center;
+}
+.toilet.data-v-605abbc8 {
+  width: 100%;
+  height: 100vh;
+}
+.u0.data-v-605abbc8 {
+  height: 70%;
+}
+.u0-map.data-v-605abbc8 {
+  height: 100%;
+  width: 100%;
+}
+.u1.data-v-605abbc8 {
+  height: 30%;
+  background-color: #f90;
+}
+

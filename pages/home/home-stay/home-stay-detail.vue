@@ -2,7 +2,7 @@
 	<view>
 		<image src="/static/home1.png" mode="aspectFill" class="bg"></image>
 		<view class="u1">
-			<view class="u1-title">杏树镇民宿</view>
+			<view class="u1-title">{{title}}</view>
 			<view class="u1-tags">
 				<view class="u1-tag" v-for="item,index in tags" :key="index">{{item}}</view>
 				<navigator url="/pages/home/home-stay/home-stay-info" hover-class="none">
@@ -51,6 +51,7 @@
 			return {
 				tags: ['2019年装修', '免费停车场', '24小时客服服务'],
 				single: '',
+				title:'',
 				list: [{
 					name: '精品单人间',
 					dec: '1张单人床 · 32㎡',
@@ -73,6 +74,7 @@
 			};
 		},
 		onLoad(options) {
+			this.title = options.title;
 			uni.setNavigationBarTitle({
 				title: options.title
 			})

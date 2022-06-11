@@ -69,5 +69,8 @@ export const getRegionList = () => {
 	for (let d = 0, len = provinceList.length; d < len; d++) {
 		// let districtCode = 
 	}
+	return new Promise((resolve,reject)=>{
+		resolve(provinceList)
+	})
 	console.log(provinceList)
 }

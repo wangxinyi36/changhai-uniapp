@@ -8,6 +8,7 @@
 .intro-text.data-v-92bb8f34 {
   font-weight: 700;
   color: #FFFFFF;
+  font-family: '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
 }
 .u47 .u72.data-v-92bb8f34 {
   height: 70rpx;
@@ -28,10 +29,10 @@
   height: 100%;
 }
 .u47 .u47-box .u47-intro.data-v-92bb8f34 {
-  font-size: 56rpx;
+  font-size: 28rpx;
   position: absolute;
-  left: 43rpx;
-  bottom: 30rpx;
+  left: 20rpx;
+  bottom: 10rpx;
 }
 .u49 .u49-box.data-v-92bb8f34 {
   position: relative;
@@ -42,7 +43,7 @@
   height: 100%;
 }
 .u49 .u49-box .u49-intro.data-v-92bb8f34 {
-  font-size: 32rpx;
+  font-size: 28rpx;
   position: absolute;
   left: 20rpx;
   bottom: 10rpx;

@@ -20,7 +20,7 @@
 			</view>
 		</view>
 
-		<uni-popup ref="popup" type="top" @close="cancel">
+		<uni-popup ref="popup" type="top" @close="cancel" @maskClick="cancel">
 			<view class="condition" v-if="tabIndex == 1">
 				<view class="u76">
 					<view class="u76-box" v-for="item,index in regions" :key="index">
@@ -92,6 +92,7 @@
 				this.$refs.popup.open('top')
 			},
 			cancel() {
+				this.tabIndex = 0;
 				this.$refs.popup.close()
 			},
 			confirm(){
@@ -106,7 +107,8 @@
 		background-color: #fff;
 		width: 100%;
 		position: sticky;
-		top: 56px;
+		top: 36px;
+		z-index: 1;
 
 		.sticky-head {
 			position: sticky;
@@ -148,7 +150,7 @@
 
 
 		.condition {
-			margin-top: 200rpx;
+			margin-top: 160rpx;
 			background: #fff;
 			padding-bottom: 10rpx;
 
@@ -184,7 +186,7 @@
 					background-color: rgba(255, 255, 255, 0);
 					border: 1rpx solid rgba(215, 215, 215, 1);
 					border-radius: 36rpx;
-					font: normal 400 28rpx/normal '微软雅黑', sans-serif;
+					font: normal 400 28rpx/48rpx '微软雅黑', sans-serif;
 					color: #333;
 					width: 128rpx;
 					height: 48rpx;

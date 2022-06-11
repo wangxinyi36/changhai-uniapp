@@ -22,7 +22,18 @@
     "pages/home/home-stay/pay",
     "pages/home/home-stay/home-stay-people",
     "pages/home/home-stay/home-stay-address",
-    "pages/home/home-stay/pay-suc"
+    "pages/home/home-stay/pay-suc",
+    "pages/home/airplane/airplane",
+    "pages/home/search/search",
+    "pages/home/tasty-food/tasty-food",
+    "pages/home/tasty-food/tasty-food-detail",
+    "pages/home/special-route/special-route",
+    "pages/home/special-route/special-route-detail",
+    "pages/home/public-toilet/public-toilet",
+    "pages/home/home-meal/home-meal",
+    "pages/home/tasty-food/shop-map",
+    "pages/home/tasty-food/tasty-food-pay",
+    "pages/home/tasty-food/tasty-food-combo"
   ],
   "subPackages": [],
   "window": {
@@ -59,5 +70,6 @@
   "uniStatistics": {
     "enable": false
   },
+  "permission": {},
   "usingComponents": {}
 }

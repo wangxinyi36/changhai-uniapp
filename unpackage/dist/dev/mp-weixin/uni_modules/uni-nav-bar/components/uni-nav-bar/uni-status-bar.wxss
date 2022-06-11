@@ -1,0 +1,11 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.default-flex {
+  display: flex;
+  align-items: center;
+}
+.uni-status-bar {
+  height: 20px;
+}
+

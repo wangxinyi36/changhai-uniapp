@@ -10,7 +10,8 @@
   width: 100%;
   position: -webkit-sticky;
   position: sticky;
-  top: 56px;
+  top: 36px;
+  z-index: 1;
 }
 .common-dropdown .sticky-head.data-v-7eefe76c {
   position: -webkit-sticky;
@@ -42,7 +43,7 @@
   color: #4FD7EA;
 }
 .common-dropdown .condition.data-v-7eefe76c {
-  margin-top: 200rpx;
+  margin-top: 160rpx;
   background: #fff;
   padding-bottom: 10rpx;
 }
@@ -71,7 +72,7 @@
   background-color: rgba(255, 255, 255, 0);
   border: 1rpx solid #d7d7d7;
   border-radius: 36rpx;
-  font: normal 400 28rpx/normal '微软雅黑', sans-serif;
+  font: normal 400 28rpx/48rpx '微软雅黑', sans-serif;
   color: #333;
   width: 128rpx;
   height: 48rpx;

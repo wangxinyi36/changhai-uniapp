@@ -1,0 +1,36 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.default-flex.data-v-ba9e6910, .u121-tags.data-v-ba9e6910 {
+  display: flex;
+  align-items: center;
+}
+.sticky-head.data-v-ba9e6910 {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: #fff;
+  padding-bottom: 20rpx;
+}
+.sticky-head.data-v-ba9e6910 .uni-searchbar {
+  padding: 0 10px;
+}
+.u121.data-v-ba9e6910 {
+  padding: 20rpx 30rpx;
+}
+.u121-title.data-v-ba9e6910, .u121-tag.data-v-ba9e6910 {
+  font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+  color: #000;
+}
+.u121-tags.data-v-ba9e6910 {
+  flex-wrap: wrap;
+  margin-top: 20rpx;
+}
+.u121-tag.data-v-ba9e6910 {
+  margin-right: 30rpx;
+}
+.list.data-v-ba9e6910 {
+  padding: 0 20rpx 20rpx 20rpx;
+}
+

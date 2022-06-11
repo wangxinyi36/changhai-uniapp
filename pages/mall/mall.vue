@@ -36,36 +36,24 @@
 					name: '长海海鲜礼',
 					id: 1
 				}, {
-					name: '文创衍生伴手礼',
+					name: '文创产品',
 					id: 2
 				}, {
-					name: '旅游生活类',
+					name: '休闲旅游产品',
 					id: 3
 				}],
 				goods: [{
-					name: '长海海参',
+					name: '干海参',
 					pay: '￥88/盆',
-					url: '/static/mall8.png'
+					url: '/static/gift1.png'
 				}, {
-					name: '长海海参',
+					name: '盐渍海参',
 					pay: '￥88/盆',
-					url: '/static/mall8.png'
+					url: '/static/gift2.png'
 				}, {
-					name: '长海海参',
-					pay: '￥88/盆',
-					url: '/static/mall8.png'
-				}, {
-					name: '长海海参',
-					pay: '￥88/盆',
-					url: '/static/mall8.png'
-				}, {
-					name: '长海海参',
-					pay: '￥88/盆',
-					url: '/static/mall8.png'
-				}, {
-					name: '长海海参',
-					pay: '￥88/盆',
-					url: '/static/mall8.png'
+					name: '水发海参',
+					pay: '￥88/盒',
+					url: '/static/gift3.png'
 				}]
 			};
 		},
