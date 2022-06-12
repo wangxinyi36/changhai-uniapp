@@ -1,14 +1,19 @@
 <template>
 	<view>
-		<view class="u242">
-			<uni-nav-bar :title="title" leftIcon="left" :fixed="true" :border="false" backgroundColor="#0000"
-				color="#ffff" @clickLeft="back">
-			</uni-nav-bar>
-			<image src="/static/home1.png" mode="aspectFill" class="u242-img"></image>
+		<view class="u22" :style="{height: 150 + safeTop + 'px',backgroundImage: `url(${bgImg})`}">
+			<view class="u21" :style="{background:backgroundColor}">
+				<view :style="{height:safeTop + 'px'}"></view>
+				<view class="u22-nav">
+					<uni-icons type="back" size="20" :color="color" @click="back"></uni-icons>
+					<view class="u22-nav-title" :style="{color:color}">{{detail.name}}</view>
+				</view>
+			</view>
 		</view>
+
+
 		<view class="u243">
-			<view class="u243-title">{{title}}</view>
-			<view class="u243-text">海岛9人游+免费接送，景点一网打尽，装备齐全。</view>
+			<view class="u243-title">{{detail.name}}</view>
+			<view class="u243-text">{{detail.brief}}</view>
 		</view>
 		<view class="u244">
 			<view class="u244-tabs">
@@ -18,10 +23,7 @@
 			<view class="u264">
 				<view class="u264-title">路线特色</view>
 				<view class="u264-text">
-					全程零购物零自费<br>
-					精品住宿<br>
-					祈祥园—园中最高处耸立一尊高6米的海神娘娘白色大理石雕像，为上岛客人送去平安吉祥。<br>
-					三元宫—大连地区最大的道家宫观。
+					<rich-text :nodes="detail.detail"></rich-text>
 				</view>
 			</view>
 			<view class="u264">
@@ -71,26 +73,84 @@
 	export default {
 		data() {
 			return {
-				title: '',
+				safeTop: '',
+				backgroundColor: '#ffffff00',
+				color: '#fff',
+				bgImg: '/static/home1.png',
 				tab: ['路线特色', '行程安排', '地图'],
 				tabIndex: 0,
 				latitude: 39.909,
 				longitude: 116.39742,
+				id: '',
+				detail: {},
+				specifications: []
 			};
 		},
+		created() {
+			this.safeTop = GetSystemInfo().safeArea.top;
+		},
 		onLoad(options) {
-			console.log(options)
-			this.title = options.title;
+			this.id = options.id;
+			this.getTralDetail()
 		},
 		methods: {
 			back() {
 				uni.navigateBack()
+			},
+			async getTralDetail() {
+				try {
+					const res = await this.$http(`${this.$API.getTralDetail}?id=${this.id}`);
+					this.detail = res.data.goods;
+					this.specifications = res.data.specifications;
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
+		},
+		onPageScroll(e) {
+			if (e.scrollTop > 50) {
+				this.backgroundColor = '#fff'
+				this.color = '#000'
 			}
-		}
+			if (e.scrollTop > 0 && e.scrollTop <= 50) {
+				this.backgroundColor = '#ffffff' + parseInt(e.scrollTop)
+				this.color = '#000' + parseInt(e.scrollTop)
+			}
+			if (e.scrollTop == 0) {
+				this.backgroundColor = '#ffffff00'
+				this.color = '#fff'
+			}
+		},
 	}
 </script>
 
 <style lang="scss" scoped>
+	.u22 {
+		width: 100%;
+		background-size: 100% 100%;
+		background-position: center;
+
+		.u21 {
+			position: fixed;
+			width: 100%;
+			top: 0;
+			z-index: 1;
+		}
+
+		&-nav {
+			@extend .default-flex;
+			padding: 0 20rpx;
+			height: 44px;
+
+			&-title {
+				font-size: 30rpx;
+				text-align: center;
+				flex: 1;
+				margin-right: 20rpx;
+			}
+		}
+	}
+
 	.u242 {
 		position: relative;
 		height: 424rpx;

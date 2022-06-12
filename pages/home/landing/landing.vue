@@ -45,13 +45,36 @@
 					time: '2022-05-13',
 					status: 2, //1审核中 2通过 3拒绝
 					code: 1,
-				}]
+				}],
+				total: 0,
+				page: 1
 			};
+		},
+		onLoad() {
+			this.getHealth()
 		},
 		methods: {
 			openPage(url) {
 				OpenPage(url)
+			},
+			async getHealth() {
+				let {
+					page,
+					list
+				} = this.$data;
+				try {
+					const res = await this.$http(
+						`${this.$API.getHealthList}?limit=10&page=${page}`);
+					this.total = res.data.total;
+					this.list = this.list.concat(res.data.items);
+				} catch (e) {
+					//TODO handle the exception
+				}
 			}
+		},
+		onReachBottom() {
+			this.page++;
+			this.getHealth()
 		}
 	}
 </script>

@@ -3,20 +3,21 @@
 		<common-tree-select :leftList="leftList" @changeLeft="changeLeft">
 			<template>
 				<view class="car-list">
-					<view class="car-item" v-for="item,index in carList" :key="index">
+					<view class="car-item" v-for="item,index in carList" :key="item.id">
 						<view class="u14">
-							<image src="/static/home7.png" mode="aspectFill" class="u14-img"></image>
+							<image :src="item.url" mode="aspectFill" class="u14-img"></image>
 							<view class="u14-box">
-								<view class="u9-text">{{item.name}}</view>
-								<span class="u10-text" v-for="tag,i in item.tags" :key="i">{{tag}}</span>
-								<view class="u12-text">{{`联系人：${item.connect}`}}</view>
-								<view class="u12-text">电话：<text class="u23-text">{{item.tel}}</text> </view>
+								<view class="u9-text">{{item.vin}}</view>
+								<span class="u10-text">{{item.detail}}</span>
+								<view class="u12-text">{{`联系人：${item.name}`}}</view>
+								<view class="u12-text">电话：<text class="u23-text">{{item.mobile}}</text> </view>
 							</view>
 						</view>
 						<view class="u12-text">{{`地址：${item.address}`}}</view>
 						<view class="u13">
-							<text class="u13-text">{{item.pay}}</text>
-							<image src="/static/home9.svg" class="u13-img" mode="aspectFill"></image>
+							<text class="u13-text">{{item.price}}</text>
+							<image src="/static/home9.svg" class="u13-img" mode="aspectFill" @click="Call(item.mobile)">
+							</image>
 						</view>
 					</view>
 				</view>
@@ -30,39 +31,61 @@
 		data() {
 			return {
 				activeIndex: 0,
-				leftList: [{
-					name: '大长山岛镇',
-					id: 1
-				}, {
-					name: '獐子岛镇',
-					id: 2
-				}, {
-					name: '广鹿岛镇',
-					id: 3
-				}, {
-					name: '小长山岛镇',
-					id: 4
-				}, {
-					name: '海洋岛镇',
-					id: 5
-				}],
-				carList: [{
-					name: '辽A 68866',
-					tags: ['自动挡', '三厢车', '4座'],
-					connect: '孙李',
-					tel: '8888888888',
-					address: '大长山岛镇木路客家话354号',
-					pay: '约￥100',
-				}]
+				leftList: [],
+				cityCode: '',
+				carList: [],
+				page: 1,
+				carTotal:0,
 			};
 		},
 		onLoad(options) {
-
+			this.getRegion()
 		},
 		methods: {
 			changeLeft(val) {
-				console.log(val)
+				this.cityCode = val.code;
+				this.page = 1;
+				this.carList = []
+				this.getCar()
+			},
+			Call(tel) {
+				uni.makePhoneCall({
+					phoneNumber: tel
+				});
+			},
+			async getRegion() {
+				try {
+					const res = await this.$http(this.$API.getRegions);
+					this.leftList = res.data.items;
+					if (this.leftList.length > 0) {
+						this.cityCode = this.leftList[0].code;
+					}
+					this.getCar()
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
+			async getCar() {
+				let {
+					page,
+					cityCode
+				} = this.$data;
+				try {
+					const res = await this.$http(
+						`${this.$API.getCarList}?cityCode=${cityCode}&limit=10&page=${page}`);
+					this.carTotal = res.data.total;
+					this.carList = this.carList.concat(res.data.items);
+				} catch (e) {
+					//TODO handle the exception
+				}
 			}
+		},
+		onReachBottom() {
+			if (this.carTotal > 0 && this.carTotal == this.carList.length) {
+				return;
+			}
+			this.page++;
+			this.getCar()
 		}
 	};
 </script>

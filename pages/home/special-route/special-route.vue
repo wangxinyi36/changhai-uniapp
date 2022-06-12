@@ -13,11 +13,11 @@
 		<view class="u227">
 			<view class="u227-title">当季热门</view>
 			<view class="u227-list">
-				<view class="u227-list-item" v-for="item,index in list" :key="index" @click="openPage(item)">
-					<image :src="item.url" mode="aspectFill" class="u227-list-item-img"></image>
+				<view class="u227-list-item" v-for="item,index in list" :key="item.id" @click="openPage(item)">
+					<image :src="item.picUrl" mode="aspectFill" class="u227-list-item-img"></image>
 					<view class="u227-list-item-box">
 						<view class="u229">{{item.name}}</view>
-						<view class="u230">{{item.summary}}</view>
+						<view class="u230">{{item.brief}}</view>
 					</view>
 				</view>
 			</view>
@@ -33,37 +33,38 @@
 		data() {
 			return {
 				swipers: ['/static/home1.png', '/static/home1.png', '/static/home1.png'],
-				list: [{
-					name: '大长山岛',
-					url: '/static/home1.png',
-					summary: '2-6人独立小团，海岛9人游+免费接送，景点一网打尽，装备齐全。'
-				}, {
-					name: '大长山岛',
-					url: '/static/home1.png',
-					summary: '2-6人独立小团，海岛9人游+免费接送，景点一网打尽，装备齐全。'
-				}, {
-					name: '大长山岛',
-					url: '/static/home1.png',
-					summary: '2-6人独立小团，海岛9人游+免费接送，景点一网打尽，装备齐全。'
-				}, {
-					name: '大长山岛',
-					url: '/static/home1.png',
-					summary: '2-6人独立小团，海岛9人游+免费接送，景点一网打尽，装备齐全。'
-				}, {
-					name: '大长山岛',
-					url: '/static/home1.png',
-					summary: '2-6人独立小团，海岛9人游+免费接送，景点一网打尽，装备齐全。'
-				}, {
-					name: '大长山岛',
-					url: '/static/home1.png',
-					summary: '2-6人独立小团，海岛9人游+免费接送，景点一网打尽，装备齐全。'
-				}]
+				list: [],
+				page: 1,
+				total: 0,
 			};
+		},
+		onLoad() {
+			this.getTral()
 		},
 		methods: {
 			openPage(item) {
-				OpenPage(`/pages/home/special-route/special-route-detail?title=${item.name}`)
+				OpenPage(`/pages/home/special-route/special-route-detail?id=${item.id}`)
+			},
+			async getTral() {
+				try {
+					let {
+						page,
+						list
+					} = this.$data;
+					const res = await this.$http(`${this.$API.getTralList}?limit=10&page=${page}`);
+					this.total = res.data.total;
+					this.list = list.concat(res.data.items)
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
+		},
+		onReachBottom() {
+			if (this.total > 0 && this.total == this.list.length) {
+				return;
 			}
+			this.page++;
+			this.getTral()
 		}
 	}
 </script>

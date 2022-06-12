@@ -132,17 +132,21 @@
 					</view>
 				</uni-row>
 				<view class="u54">
-					<view class="u54-item" v-for="(item, index) in speLine" :key="index">
-						<image :src="item.url" mode="scaleToFill" class="u54-img"></image>
-						<view class="u54-box">
-							<uni-row>
-								<text class="u54-title">{{ item.title }}</text>
-								<text class="u54-time">{{ item.time }}</text>
-							</uni-row>
-							<uni-row>
-								<text class="u54-tag" v-for="(tag, i) in item.tags" :key="i">{{ tag }}</text>
-							</uni-row>
-						</view>
+					<view class="u54-item" v-for="(item, index) in speLine" :key="item.id">
+						<navigator :url="`/pages/home/special-route/special-route-detail?id=${item.id}`"
+							hover-class="none">
+							<image :src="item.picUrl" mode="scaleToFill" class="u54-img"></image>
+							<view class="u54-box">
+								<uni-row>
+									<text class="u54-title">{{ item.name }}</text>
+									<text class="u54-time">{{ item.brief }}</text>
+								</uni-row>
+								<!-- <uni-row>
+									<text class="u54-tag" v-for="(tag, i) in item.tags" :key="i">{{ tag }}</text>
+								</uni-row> -->
+							</view>
+						</navigator>
+
 					</view>
 				</view>
 			</view>
@@ -182,7 +186,7 @@
 						width: '60rpx',
 						height: '39rpx',
 						open: '/pages/home/tasty-food/tasty-food'
-					},{
+					}, {
 						url: '/static/home-meal.svg',
 						name: '外卖',
 						width: '60rpx',
@@ -201,7 +205,7 @@
 						name: '公共厕所',
 						width: '50rpx',
 						height: '50rpx',
-						open:'/pages/home/public-toilet/public-toilet'
+						open: '/pages/home/public-toilet/public-toilet'
 					},
 					{
 						url: '/static/home-activity.svg',
@@ -261,35 +265,33 @@
 						name: '海鲜杂烩'
 					}
 				],
-				speLine: [{
-						title: '长海县海上活动组团',
-						time: '7日游 早上7点出发',
-						tags: ['组团', '潜水', '海上冲浪'],
-						url: '/static/home1.png'
-					},
-					{
-						title: '长海县环岛自驾行',
-						time: '包住 7日游',
-						tags: ['200元起', '环岛自驾', '风土人情'],
-						url: '/static/u55.png'
-					}
-				]
+				speLine: []
 			};
+		},
+		onLoad() {
+			this.getTral()
 		},
 		methods: {
 			openType(item, index) {
-				console.log(item)
 				if (item.open == '/pages/mall/mall') {
 					uni.switchTab({
 						url: item.open
 					});
 					return;
 				}
-				OpenPage(`${item.open}?title=${item.name}`)
+				OpenPage(item.open)
 			},
 			openPage(item, url) {
 				OpenPage(`${url}?title=${item.name}`)
-			}
+			},
+			async getTral() {
+				try {
+					const res = await this.$http(`${this.$API.getTralList}?limit=2`);
+					this.speLine = res.data.items;
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
 		}
 	};
 </script>

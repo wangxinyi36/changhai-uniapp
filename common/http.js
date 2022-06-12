@@ -1,4 +1,4 @@
-const REQUEST_URL = '';
+const REQUEST_URL = 'http://175.27.189.109:8081/dev/';
 /**
  * @description 公共请求方法
  * @param {*} url 接口类路径
@@ -6,7 +6,7 @@ const REQUEST_URL = '';
  * @param {*} data 参数
  * @param {*} type 请求头类型，默认json
  */
-export const http = (url, method, data, type) => {
+export const http = (url, data, method = 'GET', type) => {
 	return new Promise((resolve, reject) => {
 		let header = {
 			'custom-type': 'application/json'
@@ -14,11 +14,14 @@ export const http = (url, method, data, type) => {
 		if (type && type == 'form') {
 			header['custom-type'] = 'application/x-www-form-urlencoded'
 		}
+		let newUrl = `${REQUEST_URL}${url}`
+		console.log('请求地址：', url)
+		console.log('请求方式：', method)
+		console.log('请求参数：', data)
+		console.log('请求头：', type)
 		uni.request({
-			url,
-			data: {
-				text: 'uni.request'
-			},
+			url: newUrl,
+			data,
 			header,
 			method,
 			success: (res) => {

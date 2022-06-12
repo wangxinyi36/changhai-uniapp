@@ -21,8 +21,19 @@
 	export default {
 		data() {
 			return {
-
+				detail: {}
 			};
+		},
+		onLoad() {},
+		methods: {
+			async getAirportDetail() {
+				try {
+					const res = await this.$http(this.$API.getAirportDetail);
+
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
 		}
 	}
 </script>
