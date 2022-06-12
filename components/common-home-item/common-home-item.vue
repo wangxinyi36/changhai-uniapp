@@ -1,5 +1,5 @@
 <template>
-	<view class="u24-item">
+	<view class="u24-item" @click="openPage">
 		<image :src="info.url" mode="aspectFill" class="u24-item-img"></image>
 		<view class="u24-item-box">
 			<view class="u24-item-box-name">{{info.name}}</view>
@@ -14,12 +14,20 @@
 </template>
 
 <script>
+	import {
+		OpenPage
+	} from '@/common/fun.js'
 	export default {
 		props: ['info'],
 		data() {
 			return {
 
 			};
+		},
+		methods: {
+			openPage() {
+				OpenPage(`/pages/home/home-stay/home-stay-detail?title=${this.info.name}`)
+			}
 		}
 	}
 </script>

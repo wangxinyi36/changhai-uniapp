@@ -9,7 +9,7 @@
 		<common-dropdown></common-dropdown>
 
 		<view class="u24-list">
-			<common-home-item v-for="item,index in list" :key="index" @click="openPage(item)" :info="item">
+			<common-home-item v-for="item,index in list" :key="index" :info="item">
 			</common-home-item>
 		</view>
 	</view>
