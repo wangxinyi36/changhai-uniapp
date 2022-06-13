@@ -37,7 +37,7 @@
 					<view class="u185-text">总优惠￥2</view>
 				</view>
 			</view>
-			<navigator url="/pages/home/home-stay/pay-suc" hover-class="none">
+			<navigator url="/pagesStay/home-stay/pay-suc" hover-class="none">
 				<view class="bottom-btn">提交订单</view>
 			</navigator>
 		</view>

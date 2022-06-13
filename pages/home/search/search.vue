@@ -75,7 +75,7 @@
 				this.isShow = false;
 			},
 			openPage(item) {
-				OpenPage(`/pages/home/home-stay/home-stay-detail?title=${item.name}`)
+				OpenPage(`/pagesStay/home-stay/home-stay-detail?title=${item.name}`)
 			}
 		}
 	}

@@ -1,0 +1,68 @@
+
+page {
+	background-color: #edf0f7;
+}
+
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.default-flex.data-v-214f6d86, .u93.data-v-214f6d86, .u71-list .u71.data-v-214f6d86, .u71-list .u71-left.data-v-214f6d86 {
+  display: flex;
+  align-items: center;
+}
+.u93.data-v-214f6d86 {
+  height: 82rpx;
+  background-color: #fff;
+  justify-content: center;
+}
+.u93-add.data-v-214f6d86 {
+  width: 33rpx;
+  height: 33rpx;
+}
+.u93-text.data-v-214f6d86 {
+  font: normal 400 32rpx/normal 'Arial Normal', 'Arial', sans-serif;
+  color: #000;
+  margin-left: 20rpx;
+}
+.u71-list.data-v-214f6d86 {
+  margin-top: 40rpx;
+}
+.u71-list .u71.data-v-214f6d86 {
+  background-color: #fff;
+  padding: 20rpx 40rpx;
+  margin-top: 20rpx;
+  justify-content: space-between;
+}
+.u71-list .u71-img.data-v-214f6d86 {
+  width: 24rpx;
+  height: 24rpx;
+}
+.u71-list .u71-left-img.data-v-214f6d86 {
+  width: 30rpx;
+  height: 30rpx;
+  margin-right: 20rpx;
+}
+.u71-list .u71-left-box-name.data-v-214f6d86 {
+  font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+  color: #333;
+}
+.u71-list .u71-left-box-card.data-v-214f6d86 {
+  font: normal 400 18rpx/normal 'Arial Normal', 'Arial', sans-serif;
+  color: #333;
+  margin-top: 10rpx;
+}
+.bottom.data-v-214f6d86 {
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+  height: 112rpx;
+  background-color: #f59a23;
+}
+.bottom-btn.data-v-214f6d86 {
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font: normal 400 32rpx/112rpx 'Arial Normal', 'Arial', sans-serif;
+  color: #fff;
+}
+

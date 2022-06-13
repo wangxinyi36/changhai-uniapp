@@ -16,19 +16,32 @@
         "pages/home/landing/landing",
         "pages/home/landing/land-form",
         "pages/home/activity/activity",
-        "pages/home/home-stay/home-stay",
-        "pages/home/home-stay/home-stay-detail",
-        "pages/home/home-stay/home-stay-info",
-        "pages/home/home-stay/pay",
-        "pages/home/home-stay/home-stay-people",
-        "pages/home/home-stay/home-stay-address",
-        "pages/home/home-stay/pay-suc",
         "pages/home/airplane/airplane",
         "pages/home/search/search",
         "pages/home/tasty-food/tasty-food",
-        "pages/home/tasty-food/tasty-food-detail"
+        "pages/home/tasty-food/tasty-food-detail",
+        "pages/home/special-route/special-route",
+        "pages/home/special-route/special-route-detail",
+        "pages/home/public-toilet/public-toilet",
+        "pages/home/home-meal/home-meal",
+        "pages/home/tasty-food/shop-map",
+        "pages/home/tasty-food/tasty-food-pay",
+        "pages/home/tasty-food/tasty-food-combo"
     ],
-    "subPackages": [],
+    "subPackages": [
+        {
+            "root": "pagesStay",
+            "pages": [
+                "home-stay/home-stay",
+                "home-stay/home-stay-detail",
+                "home-stay/home-stay-info",
+                "home-stay/pay",
+                "home-stay/home-stay-people",
+                "home-stay/home-stay-address",
+                "home-stay/pay-suc"
+            ]
+        }
+    ],
     "window": {
         "navigationBarTextStyle": "black",
         "navigationBarBackgroundColor": "#fff",
@@ -63,6 +76,7 @@
     "uniStatistics": {
         "enable": false
     },
+    "permission": {},
     "usingComponents": {},
     "sitemapLocation": "sitemap.json"
 }
