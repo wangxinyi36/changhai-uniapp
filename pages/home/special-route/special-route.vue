@@ -37,26 +37,6 @@
 					name: '大长山岛',
 					url: '/static/home1.png',
 					summary: '2-6人独立小团，海岛9人游+免费接送，景点一网打尽，装备齐全。'
-				}, {
-					name: '大长山岛',
-					url: '/static/home1.png',
-					summary: '2-6人独立小团，海岛9人游+免费接送，景点一网打尽，装备齐全。'
-				}, {
-					name: '大长山岛',
-					url: '/static/home1.png',
-					summary: '2-6人独立小团，海岛9人游+免费接送，景点一网打尽，装备齐全。'
-				}, {
-					name: '大长山岛',
-					url: '/static/home1.png',
-					summary: '2-6人独立小团，海岛9人游+免费接送，景点一网打尽，装备齐全。'
-				}, {
-					name: '大长山岛',
-					url: '/static/home1.png',
-					summary: '2-6人独立小团，海岛9人游+免费接送，景点一网打尽，装备齐全。'
-				}, {
-					name: '大长山岛',
-					url: '/static/home1.png',
-					summary: '2-6人独立小团，海岛9人游+免费接送，景点一网打尽，装备齐全。'
 				}]
 			};
 		},

@@ -114,6 +114,7 @@
 }
 .common-dropdown .condition .bottom .btn-box-confirm.data-v-7eefe76c {
   border-radius: 0 253rpx 253rpx 0;
-  background: -webkit-linear-gradient(0.23487deg, white 0%, #31d0e6 100%);
+  background: -webkit-linear-gradient(0.23deg, white 0%, #31d0e6 100%);
+  color: #fff;
 }
 

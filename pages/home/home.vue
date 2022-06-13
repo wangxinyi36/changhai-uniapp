@@ -285,7 +285,7 @@
 					});
 					return;
 				}
-				OpenPage(`${item.open}?title=${item.name}`)
+				OpenPage(`${item.open}`)
 			},
 			openPage(item, url) {
 				OpenPage(`${url}?title=${item.name}`)

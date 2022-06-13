@@ -139,20 +139,6 @@
 					pay: 155,
 					summary: '海鲜都很新鲜',
 					discount: 7.7
-				}, {
-					name: '螃蟹大锅烩',
-					url: '/static/gift1.png',
-					tip: '可团购 · 免预约 · 周一至周日',
-					pay: 155,
-					summary: '海鲜都很新鲜',
-					discount: 7.7
-				}, {
-					name: '螃蟹大锅烩',
-					url: '/static/gift1.png',
-					tip: '可团购 · 免预约 · 周一至周日',
-					pay: 155,
-					summary: '海鲜都很新鲜',
-					discount: 7.7
 				}]
 			};
 		},

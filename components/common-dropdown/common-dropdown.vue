@@ -3,19 +3,19 @@
 		<view class="u34">
 			<view class="u33">
 				<view class="u34-box" @click="open(1)">
-					<view class="u34-box-text" :class="[{'u34-box-text-active':tabIndex == 1}]">位置区域</view>
+					<view class="u34-box-text" :style="{color:tabIndex == 1 ? color : ''}">位置区域</view>
 					<uni-icons :type="tabIndex == 1 ? 'top' : 'bottom'" size="16"
-						:color="tabIndex == 1 ? '#4FD7EA' : '#333'"></uni-icons>
+						:color="tabIndex == 1 ? color : '#333'"></uni-icons>
 				</view>
 				<view class="u34-box" @click="open(2)">
-					<view class="u34-box-text" :class="[{'u34-box-text-active':tabIndex == 2}]">价格范围</view>
+					<view class="u34-box-text" :style="{color:tabIndex == 2 ? color : ''}">价格范围</view>
 					<uni-icons :type="tabIndex == 2 ? 'top' : 'bottom'" size="16"
-						:color="tabIndex == 2 ? '#4FD7EA' : '#333'"></uni-icons>
+						:color="tabIndex == 2 ? color : '#333'"></uni-icons>
 				</view>
 				<view class="u34-box" @click="open(3)">
-					<view class="u34-box-text" :class="[{'u34-box-text-active':tabIndex == 3}]">筛选条件</view>
+					<view class="u34-box-text" :style="{color:tabIndex == 3 ? color : ''}">筛选条件</view>
 					<uni-icons :type="tabIndex == 3 ? 'top' : 'bottom'" size="16"
-						:color="tabIndex == 3 ? '#4FD7EA' : '#333'"></uni-icons>
+						:color="tabIndex == 3 ? color : '#333'"></uni-icons>
 				</view>
 			</view>
 		</view>
@@ -30,7 +30,7 @@
 				<view class="bottom">
 					<view class="btn-box">
 						<view class="btn-box-cancel" @click="cancel">取消</view>
-						<view class="btn-box-confirm" @click="confirm">确定</view>
+						<view class="btn-box-confirm" :style="{background:background}" @click="confirm">确定</view>
 					</view>
 				</view>
 			</view>
@@ -44,7 +44,7 @@
 				<view class="bottom">
 					<view class="btn-box">
 						<view class="btn-box-cancel" @click="cancel">取消</view>
-						<view class="btn-box-confirm" @click="confirm">确定</view>
+						<view class="btn-box-confirm" :style="{background:background}" @click="confirm">确定</view>
 					</view>
 				</view>
 			</view>
@@ -64,7 +64,7 @@
 				<view class="bottom">
 					<view class="btn-box">
 						<view class="btn-box-cancel" @click="cancel">取消</view>
-						<view class="btn-box-confirm" @click="confirm">确定</view>
+						<view class="btn-box-confirm" :style="{background:background}" @click="confirm">确定</view>
 					</view>
 				</view>
 			</view>
@@ -76,6 +76,7 @@
 <script>
 	export default {
 		name: "common-dropdown",
+		props: ['color', 'background'],
 		data() {
 			return {
 				tabIndex: 0,
@@ -95,7 +96,7 @@
 				this.tabIndex = 0;
 				this.$refs.popup.close()
 			},
-			confirm(){
+			confirm() {
 				this.cancel()
 			}
 		},
@@ -239,8 +240,8 @@
 					&-confirm {
 						@extend .btn-box-cancel;
 						border-radius: 0 253rpx 253rpx 0;
-						background: -webkit-linear-gradient(0.234865581447934deg, rgba(255, 255, 255, 1) 0%, rgba(49, 208, 230, 1) 100%);
-
+						background: -webkit-linear-gradient(0.23deg, rgba(255, 255, 255, 1) 0%, rgba(49, 208, 230, 1) 100%);
+						color: #fff
 					}
 				}
 			}

@@ -1,5 +1,11 @@
 {
-  "navigationBarTitleText": "",
+  "navigationBarTitleText": "外卖",
   "enablePullDownRefresh": false,
-  "usingComponents": {}
+  "usingComponents": {
+    "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons",
+    "common-dropdown": "/components/common-dropdown/common-dropdown",
+    "common-meal-item": "/components/common-meal-item/common-meal-item",
+    "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup",
+    "common-cart-goods": "/components/common-cart-goods/common-cart-goods"
+  }
 }

@@ -6,7 +6,7 @@
 				<view class="u182-text">搜索</view>
 			</view>
 		</view>
-		<common-dropdown></common-dropdown>
+		<common-dropdown color="#4FD7EA"></common-dropdown>
 
 		<view class="u24-list">
 			<common-home-item v-for="item,index in list" :key="index" :info="item">
