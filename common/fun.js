@@ -67,10 +67,26 @@ export const getRegionList = () => {
 	}
 
 	for (let d = 0, len = provinceList.length; d < len; d++) {
-		// let districtCode = 
+		let province = provinceList[d].children;
+		let provinceText = provinceList[d].text;
+		if (province) {
+			for (let e = 0, len = province.length; e < len; e++) {
+				let cityCode = province[e].value;
+				let cityText = province[e].text;
+				let cityChildren = [];
+				for (let city in REGION[cityCode]) {
+					cityChildren.push({
+						"value": city,
+						"text": REGION[cityCode][city],
+					})
+				}
+				if (cityChildren.length) {
+					province[e].children = cityChildren;
+				}
+			}
+		}
 	}
-	return new Promise((resolve,reject)=>{
+	return new Promise((resolve, reject) => {
 		resolve(provinceList)
 	})
-	console.log(provinceList)
 }
