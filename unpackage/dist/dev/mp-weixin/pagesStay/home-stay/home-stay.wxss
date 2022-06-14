@@ -1,0 +1,31 @@
+@charset "UTF-8";
+/* 水平间距 */
+/* 水平间距 */
+.default-flex.data-v-3410370f, .sticky-head .u182.data-v-3410370f {
+  display: flex;
+  align-items: center;
+}
+.sticky-head.data-v-3410370f {
+  position: -webkit-sticky;
+  position: sticky;
+  top: 0;
+  width: 100%;
+  background: #fff;
+  z-index: 2;
+}
+.sticky-head .u182.data-v-3410370f {
+  margin: 0 20rpx;
+  height: 36px;
+  background-color: #edf0f7;
+  border-radius: 116rpx;
+  justify-content: center;
+}
+.sticky-head .u182-text.data-v-3410370f {
+  font: normal 250 24rpx/normal '微软雅黑 Light', '微软雅黑 Regular', '微软雅黑', sans-serif;
+  color: #aaa;
+  margin-left: 10rpx;
+}
+.u24-list.data-v-3410370f {
+  padding: 108rpx 20rpx 20rpx 20rpx;
+}
+

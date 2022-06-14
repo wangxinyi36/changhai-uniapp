@@ -6,7 +6,7 @@
 				<view class="u182-text">搜索</view>
 			</view>
 		</view>
-		<common-dropdown></common-dropdown>
+		<common-dropdown color="#ff7100" :background="background"></common-dropdown>
 
 		<view class="u24-list">
 			<common-meal-item v-for="item,index in list" :key="index" @click="openPage(item)" :info="item">
@@ -47,43 +47,8 @@
 	export default {
 		data() {
 			return {
+				background: '-webkit-linear-gradient(0.23deg, rgba(255, 255, 255, 1) 0%, rgba(255, 113, 0, 1) 100%)',
 				goods: [{
-					name: '海参',
-					url: '/static/mall4.png',
-					weight: 555,
-					count: 1,
-					pay: 155
-				}, {
-					name: '海参',
-					url: '/static/mall4.png',
-					weight: 555,
-					count: 1,
-					pay: 155
-				}, {
-					name: '海参',
-					url: '/static/mall4.png',
-					weight: 555,
-					count: 1,
-					pay: 155
-				}, {
-					name: '海参',
-					url: '/static/mall4.png',
-					weight: 555,
-					count: 1,
-					pay: 155
-				}, {
-					name: '海参',
-					url: '/static/mall4.png',
-					weight: 555,
-					count: 1,
-					pay: 155
-				}, {
-					name: '海参',
-					url: '/static/mall4.png',
-					weight: 555,
-					count: 1,
-					pay: 155
-				}, {
 					name: '海参',
 					url: '/static/mall4.png',
 					weight: 555,
@@ -98,21 +63,16 @@
 					pay: 54,
 					tags: ['精选好店', '近期100人下单'],
 					url: '/static/stay1.jpg'
-				}, {
-					name: '新鲜海鲜',
-					count: 1155,
-					grade: 5.0,
-					send: 0,
-					pay: 54,
-					tags: ['精选好店', '近期100人下单'],
-					url: '/static/stay1.jpg'
 				}]
 			};
 		},
 		methods: {
 			open() {
 				this.$refs.popup.open('bottom')
-			}
+			},
+			openSearch() {
+				OpenPage(`/pages/home/search/search?from=home_meal`)
+			},
 		}
 	}
 </script>

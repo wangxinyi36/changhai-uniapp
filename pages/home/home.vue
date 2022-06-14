@@ -68,7 +68,7 @@
 							<view class="title-text">民宿优选</view>
 						</uni-col>
 						<uni-col :span="12">
-							<navigator url="/pages/home/home-stay/home-stay" hover-class="none">
+							<navigator url="/pagesStay/home-stay/home-stay" hover-class="none">
 								<view class="title-more">查看更多</view>
 							</navigator>
 						</uni-col>
@@ -77,7 +77,7 @@
 				<scroll-view scroll-x="true">
 					<view class="u4 u82-list">
 						<view class="u82-item" v-for="(item, index) in homeStay" :key="index" :id="`id-` + index"
-							@click="openPage(item,'/pages/home/home-stay/home-stay-detail')">
+							@click="openPage(item,'/pagesStay/home-stay/home-stay-detail')">
 							<view class="u82-box">
 								<image class="u82-img" :src="item.url" mode="scaleToFill"></image>
 								<view class="u71">热门</view>
@@ -178,7 +178,7 @@
 						name: '酒店',
 						width: '50rpx',
 						height: '48rpx',
-						open: '/pages/home/home-stay/home-stay'
+						open: '/pagesStay/home-stay/home-stay'
 					},
 					{
 						url: '/static/home-food.svg',

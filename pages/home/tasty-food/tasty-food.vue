@@ -6,7 +6,7 @@
 				<view class="u182-text">搜索</view>
 			</view>
 		</view>
-		<common-dropdown></common-dropdown>
+		<common-dropdown color="#ff7100" :background="background"></common-dropdown>
 
 		<view class="u7">
 			<image src="/static/home1.png" mode="aspectFill" class="u7-img"></image>
@@ -26,7 +26,7 @@
 	export default {
 		data() {
 			return {
-				keyword: '',
+				background: '-webkit-linear-gradient(0.23deg, rgba(255, 255, 255, 1) 0%, rgba(255, 113, 0, 1) 100%)',
 				list: [{
 					avatar: '/static/mall1.svg',
 					name: '新鲜海鲜',

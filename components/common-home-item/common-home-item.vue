@@ -26,7 +26,7 @@
 		},
 		methods: {
 			openPage() {
-				OpenPage(`/pages/home/home-stay/home-stay-detail?title=${this.info.name}`)
+				OpenPage(`/pagesStay/home-stay/home-stay-detail?title=${this.info.name}`)
 			}
 		}
 	}

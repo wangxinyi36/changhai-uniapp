@@ -17,7 +17,7 @@
 				</common-home-item>
 			</template>
 
-			<template v-if="from == 'tasty_food'">
+			<template v-if="from == 'tasty_food' || from == 'home_meal'">
 				<common-food-item v-for="item,index in listFood" :key="index" @click="openPage(item)" :info="item">
 				</common-food-item>
 			</template>
@@ -56,106 +56,6 @@
 						name: '海鲜杂烩',
 						money: 130
 					}]
-				}, {
-					avatar: '/static/home1.png',
-					name: '新鲜海鲜',
-					grade: 4,
-					pay: 20,
-					address: '大长山岛',
-					distance: '1.2km',
-					foods: [{
-						url: '/static/home1.png',
-						name: '海鲜杂烩',
-						money: 130
-					}, {
-						url: '/static/home1.png',
-						name: '海鲜杂烩',
-						money: 130
-					}, {
-						url: '/static/home1.png',
-						name: '海鲜杂烩',
-						money: 130
-					}]
-				}, {
-					avatar: '/static/home1.png',
-					name: '新鲜海鲜',
-					grade: 4,
-					pay: 20,
-					address: '大长山岛',
-					distance: '1.2km',
-					foods: [{
-						url: '/static/home1.png',
-						name: '海鲜杂烩',
-						money: 130
-					}, {
-						url: '/static/home1.png',
-						name: '海鲜杂烩',
-						money: 130
-					}, {
-						url: '/static/home1.png',
-						name: '海鲜杂烩',
-						money: 130
-					}]
-				}, {
-					avatar: '/static/home1.png',
-					name: '新鲜海鲜',
-					grade: 4,
-					pay: 20,
-					address: '大长山岛',
-					distance: '1.2km',
-					foods: [{
-						url: '/static/home1.png',
-						name: '海鲜杂烩',
-						money: 130
-					}, {
-						url: '/static/home1.png',
-						name: '海鲜杂烩',
-						money: 130
-					}, {
-						url: '/static/home1.png',
-						name: '海鲜杂烩',
-						money: 130
-					}]
-				}, {
-					avatar: '/static/home1.png',
-					name: '新鲜海鲜',
-					grade: 4,
-					pay: 20,
-					address: '大长山岛',
-					distance: '1.2km',
-					foods: [{
-						url: '/static/home1.png',
-						name: '海鲜杂烩',
-						money: 130
-					}, {
-						url: '/static/home1.png',
-						name: '海鲜杂烩',
-						money: 130
-					}, {
-						url: '/static/home1.png',
-						name: '海鲜杂烩',
-						money: 130
-					}]
-				}, {
-					avatar: '/static/home1.png',
-					name: '新鲜海鲜',
-					grade: 4,
-					pay: 20,
-					address: '大长山岛',
-					distance: '1.2km',
-					foods: [{
-						url: '/static/home1.png',
-						name: '海鲜杂烩',
-						money: 130
-					}, {
-						url: '/static/home1.png',
-						name: '海鲜杂烩',
-						money: 130
-					}, {
-						url: '/static/home1.png',
-						name: '海鲜杂烩',
-						money: 130
-					}]
 				}],
 				listStay: [{
 					name: '杏树镇民宿',
@@ -163,62 +63,8 @@
 					pay: 1168,
 					tags: ['24小时客房服务', '公共区域WIFI'],
 					url: '/static/home1.png'
-				}, {
-					name: '杏树镇民宿',
-					address: '大长山岛镇',
-					pay: 1168,
-					tags: ['24小时客房服务', '公共区域WIFI'],
-					url: '/static/home1.png'
-				}, {
-					name: '杏树镇民宿',
-					address: '大长山岛镇',
-					pay: 1168,
-					tags: ['24小时客房服务', '公共区域WIFI'],
-					url: '/static/home1.png'
-				}, {
-					name: '杏树镇民宿',
-					address: '大长山岛镇',
-					pay: 1168,
-					tags: ['24小时客房服务', '公共区域WIFI'],
-					url: '/static/home1.png'
-				}, {
-					name: '杏树镇民宿',
-					address: '大长山岛镇',
-					pay: 1168,
-					tags: ['24小时客房服务', '公共区域WIFI'],
-					url: '/static/home1.png'
-				}, {
-					name: '杏树镇民宿',
-					address: '大长山岛镇',
-					pay: 1168,
-					tags: ['24小时客房服务', '公共区域WIFI'],
-					url: '/static/home1.png'
-				}, {
-					name: '杏树镇民宿',
-					address: '大长山岛镇',
-					pay: 1168,
-					tags: ['24小时客房服务', '公共区域WIFI'],
-					url: '/static/home1.png'
-				}, {
-					name: '杏树镇民宿',
-					address: '大长山岛镇',
-					pay: 1168,
-					tags: ['24小时客房服务', '公共区域WIFI'],
-					url: '/static/home1.png'
-				}, {
-					name: '杏树镇民宿',
-					address: '大长山岛镇',
-					pay: 1168,
-					tags: ['24小时客房服务', '公共区域WIFI'],
-					url: '/static/home1.png'
-				}, {
-					name: '杏树镇民宿',
-					address: '大长山岛镇',
-					pay: 1168,
-					tags: ['24小时客房服务', '公共区域WIFI'],
-					url: '/static/home1.png'
 				}],
-				from: '', //home_stay  tasty_food
+				from: '', //home_stay酒店  tasty_food美食   home_meal外卖
 			};
 		},
 		onLoad(options) {
@@ -229,7 +75,7 @@
 				this.isShow = false;
 			},
 			openPage(item) {
-				OpenPage(`/pages/home/home-stay/home-stay-detail?title=${item.name}`)
+				OpenPage(`/pagesStay/home-stay/home-stay-detail?title=${item.name}`)
 			}
 		}
 	}

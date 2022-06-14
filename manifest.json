@@ -60,7 +60,10 @@
         "uniStatistics" : {
             "enable" : false
         },
-        "permission" : {}
+        "permission" : {},
+        "optimization" : {
+            "subPackages" : true
+        }
     },
     "vueVersion" : "2"
 }
