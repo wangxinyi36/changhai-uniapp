@@ -2,7 +2,7 @@
 	<view>
 		<uni-forms :rules="rules" ref="landForm" :modelValue="landFormData">
 			<uni-forms-item label="是否本人填表" :label-width="100">
-				<uni-data-checkbox v-model="landFormData.isOwn" :localdata="owns" />
+				<uni-data-checkbox v-model="landFormData.ifOwner" :localdata="owns" />
 			</uni-forms-item>
 			<uni-forms-item label="姓名" label-position="top">
 				<uni-easyinput v-model="landFormData.name" :clearable="false" placeholder="请输入姓名" />
@@ -11,19 +11,19 @@
 				<uni-data-checkbox v-model="landFormData.sex" :localdata="sexs" />
 			</uni-forms-item>
 			<uni-forms-item label="身份证号" label-position="top">
-				<uni-easyinput v-model="landFormData.name" type="idcard" :clearable="false" placeholder="请输入身份证号" />
+				<uni-easyinput v-model="landFormData.idcard" type="idcard" :clearable="false" placeholder="请输入身份证号" />
 			</uni-forms-item>
 			<uni-forms-item label="手机号" label-position="top">
-				<uni-easyinput v-model="landFormData.name" type="number" maxlength="11" :clearable="false"
+				<uni-easyinput v-model="landFormData.mobile" type="number" maxlength="11" :clearable="false"
 					placeholder="请输入手机号" />
 			</uni-forms-item>
 			<uni-forms-item label="上传健康码/行程码/核酸报告" label-position="top" :label-width="200">
 				<view class="u54">(根据疫情防控有关要求，来自大连市的登岛人员需提供国务院行程码、健康码。来自大连市以外的登岛人员需提供国务院行程码、健康码以及48小时以内核酸报告。)</view>
-				<uni-file-picker v-model="landFormData.imageValue" file-mediatype="image">
+				<uni-file-picker v-model="landFormData.url" file-mediatype="image">
 				</uni-file-picker>
 			</uni-forms-item>
 			<uni-forms-item label="进岛原因" label-position="top">
-				<uni-easyinput v-model="landFormData.name" :clearable="false" placeholder="请输入进岛原因" />
+				<uni-easyinput v-model="landFormData.reason" :clearable="false" placeholder="请输入进岛原因" />
 			</uni-forms-item>
 			<uni-forms-item label-position="top">
 				<template slot="label">
@@ -35,35 +35,49 @@
 				<uni-easyinput v-model="landFormData.name" :clearable="false" placeholder="请输入计划上船港口" />
 			</uni-forms-item>
 			<uni-forms-item label="进岛前居住地址" label-position="top" :label-width="110">
-				<view class="u66" @click="open">请选择</view>
+				<view class="u66" @click="open('popup')">请选择</view>
 				<uni-popup ref="popup" type="bottom">
-					<picker-view-column>
-						<view class="item" v-for="(item,index) in years" :key="index">{{item}}年</view>
-					</picker-view-column>
-					<picker-view-column>
-						<view class="item" v-for="(item,index) in months" :key="index">{{item}}月</view>
-					</picker-view-column>
-					<picker-view-column>
-						<view class="item" v-for="(item,index) in days" :key="index">{{item}}日</view>
-					</picker-view-column>
+					<view class="u67">
+						<view class="u67-cancel" @click="cancel('popup')">取消</view>
+						<view class="u67-confirm" @click="confirm('popup')">确定</view>
+					</view>
+					<picker-view indicator-style="height: 50px;" :value="value" @change="bindChange" class="u168">
+						<picker-view-column>
+							<view class="u168-item" v-for="(item,index) in province" :key="index">{{item.text}}</view>
+						</picker-view-column>
+						<picker-view-column>
+							<view class="u168-item" v-for="(item,index) in city" :key="index">{{item.text}}</view>
+						</picker-view-column>
+						<picker-view-column>
+							<view class="u168-item" v-for="(item,index) in district" :key="index">{{item.text}}</view>
+						</picker-view-column>
+					</picker-view>
 				</uni-popup>
-
-				<!-- <uni-data-picker placeholder="请选择" popup-title="请选择省市区" :localdata="dataTree"
-					v-model="landFormData.city" @change="onchange" @nodeclick="onnodeclick" @popupopened="onpopupopened"
-					@popupclosed="onpopupclosed">
-				</uni-data-picker> -->
 				<view class="u75">
 					<uni-easyinput v-model="landFormData.name" type="textarea" :clearable="false" placeholder="详细地址" />
 				</view>
 			</uni-forms-item>
 			<uni-forms-item label="进入我县居住地址" label-position="top" :label-width="120">
+				<view class="u66" @click="open('popup-one')">请选择</view>
+				<uni-popup ref="popup-one" type="bottom">
+					<view class="u67">
+						<view class="u67-cancel" @click="cancel('popup-one')">取消</view>
+						<view class="u67-confirm" @click="confirm('popup-one')">确定</view>
+					</view>
+					<picker-view indicator-style="height: 50px;" :value="land_value" @change="bindChange2" class="u168">
+						<picker-view-column>
+							<view class="u168-item" v-for="(item,index) in land_address" :key="index">{{item.name}}
+							</view>
+						</picker-view-column>
+					</picker-view>
+				</uni-popup>
 				<uni-easyinput v-model="landFormData.name" type="textarea" :clearable="false" placeholder="详细地址" />
 			</uni-forms-item>
 			<uni-forms-item label="进岛前15天活动轨迹" label-position="top" :label-width="140">
 				<uni-easyinput v-model="landFormData.name" :clearable="false" placeholder="请输入进岛前15天活动轨迹" />
 			</uni-forms-item>
 			<uni-forms-item label="单位" label-position="top">
-				<uni-easyinput v-model="landFormData.name" :clearable="false" placeholder="请输入单位" />
+				<uni-easyinput v-model="landFormData.profession" :clearable="false" placeholder="请输入单位" />
 			</uni-forms-item>
 			<uni-forms-item label="职业" label-position="top">
 				<uni-easyinput v-model="landFormData.name" :clearable="false" placeholder="请输入职业" />
@@ -83,19 +97,33 @@
 	import {
 		getRegionList
 	} from '@/common/fun.js'
+	import {
+		COMMON_ADDRESS
+	} from '@/common/common.js'
 	export default {
 		data() {
 			return {
-				rules: [],
+				rules: {
+					name: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入姓名',
+						}, ]
+					},
+				},
 				dataTree: [],
 				landFormData: {
+					ifOwner: -1,
 					name: '',
-					age: '',
+					sex: -1,
+					idcard: '',
+					mobile: '',
+					url: [],
+					reason: '',
 					introduction: '',
-					sex: 2,
 					hobby: [5],
 					datetimesingle: 1627529992399,
-					imageValue: [],
+					profession: '',
 					city: []
 				},
 				owns: [{
@@ -119,14 +147,26 @@
 					text: '女',
 					value: 1
 				}],
+				province: [],
+				city: [],
+				district: [],
+				value: [0, 0, 0],
+				land_address: COMMON_ADDRESS,
+				land_value: [0],
 			};
 		},
-		created() {
-			getRegionList()
+		onLoad() {
+			this.getProvince()
 		},
 		methods: {
-			open() {
-				this.$refs.popup.open('bottom')
+			open(name) {
+				this.$refs[name].open('bottom')
+			},
+			cancel(name) {
+				this.$refs[name].close()
+			},
+			confirm(name) {
+				this.cancel(name)
 			},
 			submit() {
 				this.$refs.landForm.validate().then(res => {
@@ -134,6 +174,26 @@
 				}).catch(err => {
 					console.log('表单错误信息：', err);
 				})
+			},
+			async getProvince() {
+				try {
+					const res = await getRegionList();
+					this.province = res;
+					this.city = res[0].children;
+					this.district = res[0].children[0].children;
+					console.log(res)
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
+			bindChange(val) {
+				let p = val.detail.value[0]
+				let c = val.detail.value[1]
+				this.city = this.province[p].children;
+				this.district = this.province[p].children[c].children;
+			},
+			bindChange2(val) {
+
 			}
 		}
 	}
@@ -145,6 +205,17 @@
 
 		/deep/ .uni-forms-item__inner {
 			padding-bottom: 0;
+		}
+
+		.u168 {
+			width: 100%;
+			height: 600rpx;
+			background-color: #fff;
+
+			&-item {
+				line-height: 50px;
+				text-align: center;
+			}
 		}
 
 		.u54 {
@@ -176,6 +247,19 @@
 			font-weight: 200;
 			padding: 20rpx;
 			margin-bottom: 10rpx;
+		}
+
+		.u67 {
+			@extend .default-flex;
+			justify-content: space-between;
+			background-color: #fff;
+			border-radius: 20rpx 20rpx 0 0;
+			padding: 20rpx;
+			box-sizing: border-box;
+
+			&-confirm {
+				color: rgba(49, 208, 230, 1);
+			}
 		}
 	}
 
