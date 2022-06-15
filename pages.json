@@ -190,6 +190,14 @@
 			"enablePullDownRefresh": false
 		}
 
+	}, {
+		"path": "pages/mall/mall-cart",
+		"style": {
+			"navigationBarTitleText": "购物车",
+			"enablePullDownRefresh": false,
+			"navigationStyle": "custom"
+		}
+
 	}],
 	"subPackages": [{
 		"root": "pagesStay",

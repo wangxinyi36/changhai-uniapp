@@ -26,7 +26,8 @@
     "pages/home/home-meal/home-meal",
     "pages/home/tasty-food/shop-map",
     "pages/home/tasty-food/tasty-food-pay",
-    "pages/home/tasty-food/tasty-food-combo"
+    "pages/home/tasty-food/tasty-food-combo",
+    "pages/mall/mall-cart"
   ],
   "subPackages": [
     {
