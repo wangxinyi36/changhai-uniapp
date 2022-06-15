@@ -19,9 +19,11 @@
 				</uni-row>
 			</view>
 		</common-tree-select>
-		<view class="btn-cart">
-			<!-- <image src="/static/mall9.svg" mode="aspectFill" class="u58-img"></image> -->
-		</view>
+		<navigator url="/pages/mall/mall-cart" hover-class="navigator-hover">
+			<view class="btn-cart">
+				<image src="/static/mall9.svg" mode="aspectFill" class="u58-img"></image>
+			</view>
+		</navigator>
 	</view>
 </template>
 
@@ -108,6 +110,15 @@
 						font-weight: 400;
 						font-size: 24rpx;
 						color: #000;
+						display: -webkit-box;
+						overflow: hidden;
+						word-break: break-all;
+						/* break-all(允许在单词内换行。) */
+						text-overflow: ellipsis;
+						/* 超出部分省略号 */
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 1;
+						/** 显示的行数 **/
 					}
 
 					.u27 {
@@ -129,23 +140,21 @@
 			}
 		}
 
-		// .btn-cart {
-		// 	position: fixed;
-		// 	right: 20rpx;
-		// 	bottom: 300rpx;
-		// 	width: 80rpx;
-		// 	height: 80rpx;
-		// 	@extend .default-flex;
-		// 	justify-content: center;
-		// 	background-image: url("~@/static/mall10.svg");
-		// 	background-size: 100% 100%;
-		// 	background-repeat: no-repeat;
-		// 	background-position: center;
+		.btn-cart {
+			position: fixed;
+			right: 20rpx;
+			bottom: 300rpx;
+			width: 80rpx;
+			height: 80rpx;
+			@extend .default-flex;
+			justify-content: center;
+			background-color: rgb(253, 122, 33);
+			border-radius: 50%;
 
-		// 	.u58-img {
-		// 		width: 46rpx;
-		// 		height: 41rpx;
-		// 	}
-		// }
+			.u58-img {
+				width: 46rpx;
+				height: 41rpx;
+			}
+		}
 	}
 </style>

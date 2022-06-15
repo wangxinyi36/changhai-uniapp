@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /* 水平间距 */
 /* 水平间距 */
-.default-flex.data-v-2e142186, .mall .mall-right .goods.data-v-2e142186, .mall .mall-right .goods .goods-item .u27.data-v-2e142186 {
+.default-flex.data-v-2e142186, .mall .mall-right .goods.data-v-2e142186, .mall .mall-right .goods .goods-item .u27.data-v-2e142186, .mall .btn-cart.data-v-2e142186 {
   display: flex;
   align-items: center;
 }
@@ -34,6 +34,15 @@
   font-weight: 400;
   font-size: 24rpx;
   color: #000;
+  display: -webkit-box;
+  overflow: hidden;
+  word-break: break-all;
+  /* break-all(允许在单词内换行。) */
+  text-overflow: ellipsis;
+  /* 超出部分省略号 */
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 1;
+  /** 显示的行数 **/
 }
 .mall .mall-right .goods .goods-item .u27.data-v-2e142186 {
   justify-content: space-between;
@@ -44,5 +53,19 @@
 .mall .mall-right .goods .goods-item .u27 .goods-add.data-v-2e142186 {
   width: 32rpx;
   height: 32rpx;
+}
+.mall .btn-cart.data-v-2e142186 {
+  position: fixed;
+  right: 20rpx;
+  bottom: 300rpx;
+  width: 80rpx;
+  height: 80rpx;
+  justify-content: center;
+  background-color: #fd7a21;
+  border-radius: 50%;
+}
+.mall .btn-cart .u58-img.data-v-2e142186 {
+  width: 46rpx;
+  height: 41rpx;
 }
 
