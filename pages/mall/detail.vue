@@ -67,6 +67,7 @@
 		data() {
 			return {
 				show: false, //滚动穿透禁止
+				id: '',
 				goods: [{
 					name: '海参',
 					url: '/static/mall4.png',
@@ -139,6 +140,9 @@
 				]
 			};
 		},
+		onLoad(options) {
+			this.id = options.id;
+		},
 		methods: {
 			openPage() {
 				OpenPage('/pages/mall/comments')
@@ -152,6 +156,19 @@
 			clickBtn(i, content) {
 
 			},
+			async getDetail() {
+				let {
+					id
+				} = this.$data;
+				try {
+					const res = await this.$http(
+						`${this.$API.getGoodsDetail}?id=${id}`);
+					// this.total = res.data.total;
+					// this.goods = this.goods.concat(res.data.items);
+				} catch (e) {
+					//TODO handle the exception
+				}
+			}
 		}
 	}
 </script>

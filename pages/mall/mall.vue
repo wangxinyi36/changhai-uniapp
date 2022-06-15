@@ -6,12 +6,17 @@
 				<uni-row :gutter="20">
 					<view class="goods">
 						<uni-col :span="12" v-for="item,index in goods" :key="index">
-							<view class="goods-item" @click="openPage(item,index)">
-								<image :src="item.picUrl" mode="aspectFill" class="goods-img"></image>
+							<view class="goods-item">
+								<image :src="item.picUrl" mode="aspectFill" class="goods-img"
+									@click="openPage(item,index)"></image>
 								<view class="goods-title">{{item.name}}</view>
 								<view class="u27">
 									<text class="goods-pay">￥{{item.retailPrice}}/{{item.unit}}</text>
-									<image src="../../static/mall2.svg" mode="aspectFill" class="goods-add"></image>
+									<image src="../../static/mall2.svg" mode="aspectFill"
+										class="goods-add animate__animated"
+										:class="[{'animate__heartBeat':times > 0 && addIndex === index}]"
+										@click="add(item,index)">
+									</image>
 								</view>
 							</view>
 						</uni-col>
@@ -34,6 +39,8 @@
 	export default {
 		data() {
 			return {
+				times: 0,
+				addIndex: -1,
 				leftList: [{
 					name: '长海海鲜礼',
 					id: 1
@@ -57,7 +64,16 @@
 				console.log(val)
 			},
 			openPage(item, index) {
-				OpenPage(`/pages/mall/detail`)
+				OpenPage(`/pages/mall/detail?id=${item.id}`)
+			},
+			add(item, index) {
+				this.times++;
+				this.addIndex = index;
+				console.log(this.$store)
+				this.$store.dispatch('add', item)
+				setTimeout(() => {
+					this.times = 0;
+				}, 1000)
 			},
 			async getGoods() {
 				let {

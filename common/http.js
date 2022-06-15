@@ -7,6 +7,9 @@ const REQUEST_URL = 'http://175.27.189.109:8081/dev/';
  * @param {*} type 请求头类型，默认json
  */
 export const http = (url, data, method = 'GET', type) => {
+	uni.showLoading({
+		title: '加载中...'
+	});
 	return new Promise((resolve, reject) => {
 		let header = {
 			'custom-type': 'application/json'
@@ -26,6 +29,7 @@ export const http = (url, data, method = 'GET', type) => {
 			method,
 			success: (res) => {
 				resolve(res.data)
+				uni.hideLoading();
 			}
 		});
 	})
