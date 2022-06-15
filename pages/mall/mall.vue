@@ -7,10 +7,10 @@
 					<view class="goods">
 						<uni-col :span="12" v-for="item,index in goods" :key="index">
 							<view class="goods-item" @click="openPage(item,index)">
-								<image :src="item.url" mode="aspectFill" class="goods-img"></image>
+								<image :src="item.picUrl" mode="aspectFill" class="goods-img"></image>
 								<view class="goods-title">{{item.name}}</view>
 								<view class="u27">
-									<text class="goods-pay">{{item.pay}}</text>
+									<text class="goods-pay">￥{{item.retailPrice}}/{{item.unit}}</text>
 									<image src="../../static/mall2.svg" mode="aspectFill" class="goods-add"></image>
 								</view>
 							</view>
@@ -42,20 +42,13 @@
 					name: '休闲旅游产品',
 					id: 3
 				}],
-				goods: [{
-					name: '干海参',
-					pay: '￥88/盆',
-					url: '/static/gift1.png'
-				}, {
-					name: '盐渍海参',
-					pay: '￥88/盆',
-					url: '/static/gift2.png'
-				}, {
-					name: '水发海参',
-					pay: '￥88/盒',
-					url: '/static/gift3.png'
-				}]
+				goods: [],
+				page: 1,
+				total: 0,
 			};
+		},
+		onLoad() {
+			this.getGoods()
 		},
 		methods: {
 			changeLeft(val) {
@@ -63,6 +56,20 @@
 			},
 			openPage(item, index) {
 				OpenPage(`/pages/mall/detail`)
+			},
+			async getGoods() {
+				let {
+					page,
+					cityCode
+				} = this.$data;
+				try {
+					const res = await this.$http(
+						`${this.$API.getGoodsList}?limit=10&page=${page}`);
+					this.total = res.data.total;
+					this.goods = this.goods.concat(res.data.items);
+				} catch (e) {
+					//TODO handle the exception
+				}
 			}
 		}
 	}

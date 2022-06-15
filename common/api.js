@@ -11,6 +11,8 @@ const API = {
 	getAdList: 'xcx/ad/list', // 查询活动列表
 	
 	getHealthList: 'xcx/health/list', // 查询登岛申请列表
+	
+	getGoodsList: 'xcx/goods/list', // 查询商品列表
 }
 
 
