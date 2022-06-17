@@ -1,16 +1,48 @@
+import Vue from 'vue'
+
 const state = {
-	mallList: [],
 	mallSelectList: []
 }
-const mutations = {}
+const mutations = {
+	ADD_MALL_CART(state, payload) {
+		if (state.mallSelectList.length === 0) {
+			payload.count = 1;
+			state.mallSelectList.push(payload)
+		} else {
+			let findIndex = state.mallSelectList.findIndex(item => item.id === payload.id)
+			if (findIndex < 0) {
+				payload.count = 1;
+				state.mallSelectList.push(payload)
+			} else {
+				state.mallSelectList = state.mallSelectList.map((item, index) => {
+					if (index === findIndex) {
+						item.count++;
+					}
+					return item;
+				})
+			}
+		}
+	},
+	REDUCE_MALL_CART(state, payload) {
+		state.mallSelectList = state.mallSelectList.map((item, index) => {
+			if (item.id === payload.id) {
+				item.count--;
+			}
+			return item;
+		})
+	}
+}
 const getters = {}
 const actions = {
-	async add({
+	ADD_MALL_CART({
 		commit,
-		state
-	}, goods) {
-		console.log(commit)
-		console.log(state)
+	}, param) {
+		commit('ADD_MALL_CART', param)
+	},
+	REDUCE_MALL_CART({
+		commit,
+	}, param) {
+		commit('REDUCE_MALL_CART', param)
 	}
 }
 

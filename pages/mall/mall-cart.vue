@@ -9,23 +9,24 @@
 			<view class="u70-item" v-for="item,index in list" :key="index">
 				<image :src="icon" mode="aspectFill" class="u70-item-img"></image>
 				<view class="u70-item-box">
-					<image :src="item.url" mode="aspectFill" class="u71-img"></image>
+					<image :src="item.picUrl" mode="aspectFill" class="u71-img"></image>
 					<view class="u71-box">
 						<view class="u71-box-name">{{item.name}}</view>
-						<view class="u71-box-weight">{{item.weight}}克</view>
+						<!-- <view class="u71-box-weight">{{item.count}}{{item.unit}}</view> -->
 						<view class="u71-box-three">
-							<view class="u71-box-three-pay">￥{{item.pay}}</view>
+							<view class="u71-box-three-pay">￥{{mathResult(item.retailPrice,item.count)}}</view>
 							<view class="u72">
-								<image src="/static/del.svg" mode="aspectFill" class="u72-img"></image>
-								<view class="u72-text">1</view>
-								<image src="/static/add.svg" mode="aspectFill" class="u72-img"></image>
+								<image src="/static/del.svg" mode="aspectFill" class="u72-img" @click="reduce(item)"></image>
+								<view class="u72-text">{{item.count}}</view>
+								<image src="/static/add.svg" mode="aspectFill" class="u72-img" @click="add(item)">
+								</image>
 							</view>
 						</view>
 					</view>
 				</view>
 			</view>
 		</view>
-		<view class="bottom">
+		<view class="bottom" v-if="list.length > 0">
 			<view class="bottom-box">
 				<view class="bottom-left">
 					<image :src="icon" mode="aspectFill" class="bottom-left-img"></image>
@@ -47,42 +48,43 @@
 </template>
 
 <script>
+	import {
+		mapState
+	} from 'vuex';
+	import {
+		create,
+		all
+	} from '@/common/math.js'
 	export default {
 		data() {
 			return {
 				icon: '/static/u103.svg',
 				iconActive: '/static/u103-active.svg',
-				list: [{
-					url: '/static/gift1.png',
-					name: '海参',
-					weight: 555,
-					pay: 155,
-					count: 0
-				}, {
-					url: '/static/gift1.png',
-					name: '海参',
-					weight: 555,
-					pay: 155,
-					count: 0
-				}, {
-					url: '/static/gift1.png',
-					name: '海参',
-					weight: 555,
-					pay: 155,
-					count: 0
-				}, {
-					url: '/static/gift1.png',
-					name: '海参',
-					weight: 555,
-					pay: 155,
-					count: 0
-				}]
+				iconDel: '/static/mall11.svg',
 			};
+		},
+		computed: mapState({
+			list(state) {
+				return state.mallCart.mallSelectList
+			}
+		}),
+		onUnload() {
+			console.log(1111111111)
 		},
 		methods: {
 			clickLeft() {
 				uni.navigateBack()
-			}
+			},
+			mathResult(price, count) {
+				const result = price * count;
+				const ans = this.$math.evaluate(`${result}`)
+				return this.$math.format(ans, {
+					precision: 14
+				})
+			},
+			add(item) {
+				this.$store.dispatch('ADD_MALL_CART', item)
+			},
 		}
 	}
 </script>
@@ -132,6 +134,14 @@
 						&-name {
 							font: normal 400 30rpx/normal '微软雅黑', sans-serif;
 							color: #333;
+							display: -webkit-box;
+							overflow: hidden;
+							word-break: break-all;
+							/* break-all(允许在单词内换行。) */
+							text-overflow: ellipsis;
+							/* 超出部分省略号 */
+							-webkit-box-orient: vertical;
+							-webkit-line-clamp: 2;
 						}
 
 						&-weight {

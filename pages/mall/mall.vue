@@ -69,8 +69,7 @@
 			add(item, index) {
 				this.times++;
 				this.addIndex = index;
-				console.log(this.$store)
-				this.$store.dispatch('add', item)
+				this.$store.dispatch('ADD_MALL_CART', item)
 				setTimeout(() => {
 					this.times = 0;
 				}, 1000)
