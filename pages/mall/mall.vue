@@ -88,7 +88,7 @@
 				} catch (e) {
 					//TODO handle the exception
 				}
-			}
+			},
 		}
 	}
 </script>
