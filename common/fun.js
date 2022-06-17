@@ -90,3 +90,29 @@ export const getRegionList = () => {
 		resolve(provinceList)
 	})
 }
+
+/**
+ * 微信授权登录
+ */
+export function WechatLogin() {
+	return new Promise((resolve, reject) => {
+		uni.getUserProfile({
+			desc: '用户登录',
+			lang: "zh_CN",
+			success(res) {
+				resolve(res)
+			},
+			fail(err) {
+				reject(err)
+			}
+		})
+	})
+}
+
+/**
+ * @description 获取缓存内容
+ * @param {string} key 键值
+ */
+export function getStorage(key) {
+	return uni.getStorageSync(key)
+}

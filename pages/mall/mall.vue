@@ -6,12 +6,13 @@
 				<uni-row :gutter="20">
 					<view class="goods">
 						<uni-col :span="12" v-for="item,index in goods" :key="index">
-							<view class="goods-item" @click="openPage(item,index)">
-								<image :src="item.url" mode="aspectFill" class="goods-img"></image>
+							<view class="goods-item">
+								<image :src="item.url" mode="aspectFill" class="goods-img"
+									@click="openPage(item,index)"></image>
 								<view class="goods-title">{{item.name}}</view>
 								<view class="u27">
 									<text class="goods-pay">{{item.pay}}</text>
-									<image src="../../static/mall2.svg" mode="aspectFill" class="goods-add"></image>
+									<image src="../../static/mall2.svg" mode="aspectFill" class="goods-add" @click="add(item)"></image>
 								</view>
 							</view>
 						</uni-col>
@@ -65,6 +66,9 @@
 			},
 			openPage(item, index) {
 				OpenPage(`/pages/mall/detail`)
+			},
+			add(item){
+				console.log(this.$store)
 			}
 		}
 	}
