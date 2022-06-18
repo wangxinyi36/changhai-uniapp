@@ -116,3 +116,28 @@ export function WechatLogin() {
 export function getStorage(key) {
 	return uni.getStorageSync(key)
 }
+
+/**
+ * @description 设置缓存内容
+ * @param {string} key 键
+ * @param {any} value 值
+ */
+export function setStorage(key, value) {
+	uni.setStorageSync(key, value)
+}
+
+
+/**
+ * @description 移除缓存内容
+ * @param {string} key 键
+ */
+export function removeStorage(key) {
+	uni.removeStorageSync(key);
+}
+
+/**
+ * @description 清除缓存内容
+ */
+export function clearStorage() {
+	uni.clearStorageSync();
+}

@@ -2,12 +2,13 @@
 	<view>
 		<view class="u113">
 			<uni-nav-bar class="u113-nav" title="购物车" left-icon="left" right-text="清空" fixed :border="false"
-				@clickLeft="clickLeft">
+				@clickLeft="clickLeft" @clickRight="clickRight">
 			</uni-nav-bar>
 		</view>
 		<view class="u70">
 			<view class="u70-item" v-for="item,index in list" :key="index">
-				<image :src="icon" mode="aspectFill" class="u70-item-img"></image>
+				<image :src="item.isAcitve ? iconActive : icon" mode="aspectFill" class="u70-item-img"
+					@click="check(item)"></image>
 				<view class="u70-item-box">
 					<image :src="item.picUrl" mode="aspectFill" class="u71-img"></image>
 					<view class="u71-box">
@@ -16,7 +17,9 @@
 						<view class="u71-box-three">
 							<view class="u71-box-three-pay">￥{{mathResult(item.retailPrice,item.count)}}</view>
 							<view class="u72">
-								<image src="/static/del.svg" mode="aspectFill" class="u72-img" @click="reduce(item)"></image>
+								<image :src="item.count === 1 ? reduceOneIcon : reduceIcon" mode="aspectFill"
+									class="u72-img" @click="reduce(item)">
+								</image>
 								<view class="u72-text">{{item.count}}</view>
 								<image src="/static/add.svg" mode="aspectFill" class="u72-img" @click="add(item)">
 								</image>
@@ -29,7 +32,8 @@
 		<view class="bottom" v-if="list.length > 0">
 			<view class="bottom-box">
 				<view class="bottom-left">
-					<image :src="icon" mode="aspectFill" class="bottom-left-img"></image>
+					<image :src="isSelectAll ? iconActive : icon" mode="aspectFill" class="bottom-left-img"
+						@click="selectAll"></image>
 					<view class="bottom-left-text">全选</view>
 				</view>
 				<view class="bottom-right">
@@ -49,7 +53,8 @@
 
 <script>
 	import {
-		mapState
+		mapState,
+		mapMutations
 	} from 'vuex';
 	import {
 		create,
@@ -60,20 +65,25 @@
 			return {
 				icon: '/static/u103.svg',
 				iconActive: '/static/u103-active.svg',
-				iconDel: '/static/mall11.svg',
+
+				reduceIcon: '/static/mall11.svg', // >1时候
+				reduceOneIcon: '/static/del.svg', // =1时候
 			};
 		},
-		computed: mapState({
-			list(state) {
-				return state.mallCart.mallSelectList
-			}
-		}),
-		onUnload() {
-			console.log(1111111111)
+		onLoad() {
+			this.GET_MALL_CART()
 		},
+		computed: mapState({
+			list: state => state.mallCart.mallSelectList,
+			isSelectAll: state => state.mallCart.isSelectAll,
+		}),
 		methods: {
+			...mapMutations(['GET_MALL_CART']),
 			clickLeft() {
 				uni.navigateBack()
+			},
+			clickRight() {
+				this.$store.dispatch('CLEAR_MALL_CART')
 			},
 			mathResult(price, count) {
 				const result = price * count;
@@ -82,9 +92,21 @@
 					precision: 14
 				})
 			},
+			reduce(item) {
+				if (item.count === 1) {
+					return;
+				}
+				this.$store.dispatch('REDUCE_MALL_CART', item)
+			},
 			add(item) {
 				this.$store.dispatch('ADD_MALL_CART', item)
 			},
+			selectAll() {
+				this.$store.dispatch('SELECTALL_MALL_CART')
+			},
+			check(item) {
+				this.$store.dispatch('SELECT_MALL_CART', item)
+			}
 		}
 	}
 </script>
