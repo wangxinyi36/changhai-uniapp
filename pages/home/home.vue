@@ -1,10 +1,12 @@
 <template>
 	<view>
 		<view class="u47">
-			<view class="u47-box">
-				<image src="/static/home1.png" mode="scaleToFill" class="u47-img"></image>
-				<text class="intro-text u47-intro">长海的黄金海岸</text>
-			</view>
+			<navigator url="/pages/home/home-detail?title=长海的黄金海岸" hover-class="none">
+				<view class="u47-box">
+					<image src="/static/home1.png" mode="scaleToFill" class="u47-img"></image>
+					<text class="intro-text u47-intro">长海的黄金海岸</text>
+				</view>
+			</navigator>
 			<view class="u72"><text class="u47-text">长海县文旅局官方推荐</text></view>
 		</view>
 
@@ -210,6 +212,13 @@
 					{
 						url: '/static/home-activity.svg',
 						name: '海岛活动',
+						width: '50rpx',
+						height: '47rpx',
+						open: '/pages/home/activity/activity'
+					},
+					{
+						url: '/static/home-news.svg',
+						name: '新闻',
 						width: '50rpx',
 						height: '47rpx',
 						open: '/pages/home/activity/activity'
