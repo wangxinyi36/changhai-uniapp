@@ -1,12 +1,22 @@
 <template>
 	<view class="my">
-		<view class="u16" @click="openPage(`/pages/my/userInfo`)">
-			<image src="/static/home1.png" mode="aspectFill" class="u16-img"></image>
+		<!-- <view class="u16" @click="openPage(`/pages/my/userInfo`)">
+			<image :src="wechat_userInfo.avatarUrl" mode="aspectFill" class="u16-img"></image>
 			<view class="u17">
 				<view class="u17-name">游客</view>
 				<view class="u17-tel">绑定手机号</view>
 			</view>
-		</view>
+		</view> -->
+		<button class="u15" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">
+			<view class="u16">
+				<image :src="wechat_userInfo.avatarUrl || defautlAvatar" mode="aspectFill" class="u16-img"></image>
+				<view class="u17">
+					<view class="u17-name">游客</view>
+					<view class="u17-tel">绑定手机号</view>
+				</view>
+			</view>
+		</button>
+
 
 		<uni-list :border="false">
 			<uni-list-item title="我的订单" link="navigateTo" thumb="/static/my1.svg" :clickable="true"
@@ -31,16 +41,18 @@
 	import {
 		OpenPage,
 		WechatLogin,
-		getStorage
+		getStorage,
+		setStorage
 	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
-				wechat_userInfo: {}
+				wechat_userInfo: {},
+				defautlAvatar: '/static/avatar-default.svg'
 			};
 		},
 		onLoad() {
-			this.wechat_userInfo = getStorage()
+			this.wechat_userInfo = getStorage('userInfo')
 		},
 		methods: {
 			clickItem(url) {
@@ -48,18 +60,22 @@
 			},
 			async openPage(url) {
 				try {
-					const value = uni.getStorageSync('userInfo');
+					const value = getStorage('userInfo');
 					if (value) {
 						// OpenPage(url)
 					} else {
 						const result = await WechatLogin();
-						uni.setStorageSync('wechat_userInfo', result.userInfo);
+						setStorage('wechat_userInfo', result.userInfo);
 						this.wechat_userInfo = result.userInfo;
 					}
 				} catch (err) {
 					console.log(err)
 					// error
 				}
+			},
+			getPhoneNumber(val) {
+				console.log(val)
+				openPage(`/pages/my/userInfo`)
 			}
 		}
 	}
@@ -68,6 +84,17 @@
 <style lang="scss" scoped>
 	.my {
 		padding: 20rpx;
+
+		.u15 {
+			margin: 0;
+			padding: 0;
+			background-color: #FFFFFF;
+		}
+
+		.u15::after {
+			border: none;
+			position: unset !important;
+		}
 
 		.u16 {
 			@extend .default-flex;
@@ -90,6 +117,7 @@
 				&-name {
 					font: 400 normal 32rpx normal;
 					color: #333;
+					text-align: left;
 				}
 
 				&-tel {

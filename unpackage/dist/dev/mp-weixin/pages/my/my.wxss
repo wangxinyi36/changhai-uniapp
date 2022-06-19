@@ -8,6 +8,15 @@
 .my.data-v-0be17cc6 {
   padding: 20rpx;
 }
+.my .u15.data-v-0be17cc6 {
+  margin: 0;
+  padding: 0;
+  background-color: #FFFFFF;
+}
+.my .u15.data-v-0be17cc6::after {
+  border: none;
+  position: unset !important;
+}
 .my .u16.data-v-0be17cc6 {
   height: 120rpx;
   margin-bottom: 60rpx;
@@ -27,6 +36,7 @@
 .my .u16 .u17-name.data-v-0be17cc6 {
   font: 400 normal 32rpx normal;
   color: #333;
+  text-align: left;
 }
 .my .u16 .u17-tel.data-v-0be17cc6 {
   font: 400 normal 30rpx normal;
