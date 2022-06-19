@@ -198,7 +198,16 @@
 			"navigationStyle": "custom"
 		}
 
-	}],
+	}    ,{
+            "path" : "pages/home/home-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"subPackages": [{
 		"root": "pagesStay",
 		"pages": [{
