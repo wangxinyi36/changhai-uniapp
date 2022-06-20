@@ -212,6 +212,20 @@
 			"enablePullDownRefresh": false
 		}
 
+	}, {
+		"path": "pages/home/news/detail",
+		"style": {
+			"navigationBarTitleText": "新闻详情",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/home/activity/detail",
+		"style": {
+			"navigationBarTitleText": "活动详情",
+			"enablePullDownRefresh": false
+		}
+
 	}],
 	"subPackages": [{
 		"root": "pagesStay",

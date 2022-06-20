@@ -1,13 +1,15 @@
 <template>
 	<view>
 		<view class="u17" v-for="item,index in list" :key="item.id">
-			<image :src="item.url" mode="aspectFill" class="u17-img"></image>
-			<view class="u17-box">
-				<view class="u17-box-title">{{item.name}}</view>
-				<view class="u17-box-text">
-					<rich-text :nodes="item.content"></rich-text>
+			<navigator :url="`/pages/home/activity/detail?id=${item.id}`" hover-class="none">
+				<image :src="item.url" mode="aspectFill" class="u17-img"></image>
+				<view class="u17-box">
+					<view class="u17-box-title">{{item.name}}</view>
+					<view class="u17-box-text">
+						<rich-text :nodes="item.content"></rich-text>
+					</view>
 				</view>
-			</view>
+			</navigator>
 		</view>
 	</view>
 </template>

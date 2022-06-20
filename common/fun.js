@@ -141,3 +141,15 @@ export function removeStorage(key) {
 export function clearStorage() {
 	uni.clearStorageSync();
 }
+
+/**
+ * @description 显示提示
+ * @param {string} title 内容 
+ * @param {*} icon 图标
+ */
+export function showToast(title, icon = 'none') {
+	uni.showToast({
+		title,
+		icon,
+	})
+}

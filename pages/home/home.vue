@@ -1,12 +1,10 @@
 <template>
 	<view>
 		<view class="u47">
-			<navigator url="/pages/home/home-detail?title=长海的黄金海岸" hover-class="none">
-				<view class="u47-box">
-					<image src="/static/home1.png" mode="scaleToFill" class="u47-img"></image>
-					<text class="intro-text u47-intro">长海的黄金海岸</text>
-				</view>
-			</navigator>
+			<view class="u47-box" @click="homeDetail(0)">
+				<image :src="homeList[0].url" mode="scaleToFill" class="u47-img"></image>
+				<text class="intro-text u47-intro">{{homeList[0].name}}</text>
+			</view>
 			<view class="u72"><text class="u47-text">长海县文旅局官方推荐</text></view>
 		</view>
 
@@ -15,14 +13,14 @@
 				<uni-row :gutter="5">
 					<uni-col :span="16">
 						<view class="u49-box">
-							<image src="/static/u49.png" mode="scaleToFill" class="u49-img"></image>
-							<text class="intro-text u49-intro">住在长海是什么样的神仙体验</text>
+							<image :src="homeList[1].url" mode="scaleToFill" class="u49-img"></image>
+							<text class="intro-text u49-intro">{{homeList[1].name}}</text>
 						</view>
 					</uni-col>
 					<uni-col :span="8">
 						<view class="u49-box u50-box">
-							<image src="/static/home5.png" mode="scaleToFill" class="u49-img"></image>
-							<text class="intro-text u49-intro">节日活动及赛事时间说明</text>
+							<image :src="homeList[2].url" mode="scaleToFill" class="u49-img"></image>
+							<text class="intro-text u49-intro">{{homeList[2].name}}</text>
 						</view>
 					</uni-col>
 				</uni-row>
@@ -30,20 +28,20 @@
 					<view class="u49-row">
 						<uni-col :span="8">
 							<view class="u49-box u50-box">
-								<image src="/static/home3.png" mode="scaleToFill" class="u49-img"></image>
-								<text class="intro-text u49-intro">长海特色海鲜</text>
+								<image :src="homeList[3].url" mode="scaleToFill" class="u49-img"></image>
+								<text class="intro-text u49-intro">{{homeList[3].name}}</text>
 							</view>
 						</uni-col>
 						<uni-col :span="8">
 							<view class="u49-box u50-box">
-								<image src="/static/u51.png" mode="scaleToFill" class="u49-img"></image>
-								<text class="intro-text u49-intro">达人攻略</text>
+								<image :src="homeList[4].url" mode="scaleToFill" class="u49-img"></image>
+								<text class="intro-text u49-intro">{{homeList[4].name}}</text>
 							</view>
 						</uni-col>
 						<uni-col :span="8">
 							<view class="u49-box u50-box">
-								<image src="/static/home7.png" mode="scaleToFill" class="u49-img"></image>
-								<text class="intro-text u49-intro">逍遥岛主</text>
+								<image :src="homeList[5].url" mode="scaleToFill" class="u49-img"></image>
+								<text class="intro-text u49-intro">{{homeList[5].name}}</text>
 							</view>
 						</uni-col>
 					</view>
@@ -274,11 +272,13 @@
 						name: '海鲜杂烩'
 					}
 				],
-				speLine: []
+				speLine: [],
+				homeList: []
 			};
 		},
 		onLoad() {
-			this.getTral()
+			this.getTral();
+			this.getHomeList()
 		},
 		methods: {
 			openType(item, index) {
@@ -293,6 +293,14 @@
 			openPage(item, url) {
 				OpenPage(`${url}?title=${item.name}`)
 			},
+			homeDetail(value) {
+				let {
+					homeList
+				} = this.$data;
+				this.$nextTick(() => {
+					OpenPage(`/pages/home/home-detail?title=${homeList[value].name}&id=${homeList[value].id}`)
+				})
+			},
 			async getTral() {
 				try {
 					const res = await this.$http(`${this.$API.getTralList}?limit=2`);
@@ -301,8 +309,13 @@
 					//TODO handle the exception
 				}
 			},
-			async getHomeList(){
-				
+			async getHomeList() {
+				try {
+					const res = await this.$http(`${this.$API.getHomeList}`);
+					this.homeList = res.data;
+				} catch (e) {
+					//TODO handle the exception
+				}
 			}
 		}
 	};

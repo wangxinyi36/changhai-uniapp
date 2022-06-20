@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="u17" v-for="item,index in list" :key="item.id">
+		<view class="u17" v-for="item,index in list" :key="item.id" @click="openPage(item.id)">
 			<image :src="item.url" mode="aspectFill" class="u17-img"></image>
 			<view class="u17-box">
 				<view class="u17-box-title">{{item.title}}</view>
@@ -13,6 +13,9 @@
 </template>
 
 <script>
+	import {
+		OpenPage
+	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
@@ -25,6 +28,9 @@
 			this.getNews()
 		},
 		methods: {
+			openPage(id) {
+				OpenPage(`/pages/home/news/detail?id=${id}`)
+			},
 			async getNews() {
 				try {
 					const {
