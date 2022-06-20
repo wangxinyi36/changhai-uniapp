@@ -14,6 +14,8 @@ const API = {
 
 	getGoodsList: 'xcx/goods/list', // 查询商品列表
 	getGoodsDetail: 'xcx/goods/detail', // 查询商品详情
+	
+	getNewsList: 'xcx/article/list', // 查询新闻列表
 }
 
 

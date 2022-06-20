@@ -221,7 +221,7 @@
 						name: '新闻',
 						width: '50rpx',
 						height: '47rpx',
-						open: '/pages/home/activity/activity'
+						open: '/pages/home/news/news'
 					},
 					{
 						url: '/static/home-gift.svg',
@@ -301,6 +301,9 @@
 					//TODO handle the exception
 				}
 			},
+			async getHomeList(){
+				
+			}
 		}
 	};
 </script>
