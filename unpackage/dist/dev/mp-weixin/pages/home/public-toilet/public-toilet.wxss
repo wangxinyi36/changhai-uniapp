@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /* 水平间距 */
 /* 水平间距 */
-.default-flex.data-v-605abbc8, .u1 .u75.data-v-605abbc8 {
+.default-flex.data-v-605abbc8, .u1 .u75.data-v-605abbc8, .u1 .u33.data-v-605abbc8 {
   display: flex;
   align-items: center;
 }
@@ -36,5 +36,32 @@
 }
 .u1 .u75-active.data-v-605abbc8 {
   color: #31d0e6;
+}
+.u1 .u33.data-v-605abbc8 {
+  height: 75rpx;
+  justify-content: space-between;
+  border-top: 2rpx solid #f2f2f2;
+  position: fixed;
+  width: 100%;
+  bottom: 0;
+}
+.u1 .u33-distance.data-v-605abbc8 {
+  font: normal 400 30rpx/75rpx '微软雅黑', sans-serif;
+  color: #333;
+  padding-left: 20rpx;
+}
+.u1 .u33-btn.data-v-605abbc8 {
+  color: #fff;
+  width: 197rpx;
+  font: normal 400 24rpx/75rpx 'Arial Normal', 'Arial', sans-serif;
+  text-align: center;
+  background-color: #31d0e6;
+  padding: 0;
+  border-radius: unset;
+  margin: 0;
+}
+.u1 .u33-btn.data-v-605abbc8::after {
+  border: none;
+  position: unset !important;
 }
 

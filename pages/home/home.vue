@@ -141,9 +141,9 @@
 									<text class="u54-title">{{ item.name }}</text>
 									<text class="u54-time">{{ item.brief }}</text>
 								</uni-row>
-								<!-- <uni-row>
+								<uni-row>
 									<text class="u54-tag" v-for="(tag, i) in item.tags" :key="i">{{ tag }}</text>
-								</uni-row> -->
+								</uni-row>
 							</view>
 						</navigator>
 
@@ -156,7 +156,8 @@
 
 <script>
 	import {
-		OpenPage
+		OpenPage,
+		getAddressAuthorize
 	} from '@/common/fun.js';
 	export default {
 		data() {
@@ -281,12 +282,15 @@
 			this.getHomeList()
 		},
 		methods: {
-			openType(item, index) {
+			async openType(item, index) {
 				if (item.open == '/pages/mall/mall') {
 					uni.switchTab({
 						url: item.open
 					});
 					return;
+				}
+				if (item.open.includes('public-toilet')) {
+					let currentPoint = await getAddressAuthorize();
 				}
 				OpenPage(item.open)
 			},

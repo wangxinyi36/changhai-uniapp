@@ -110,6 +110,90 @@ export function WechatLogin() {
 }
 
 /**
+ * @description 获取位置授权
+ */
+export async function getAddressAuthorize() {
+	return new Promise((resolve, reject) => {
+		uni.getSetting({
+			success(sucSetting) {
+				if (sucSetting.authSetting['scope.userLocation']) {
+					uni.getLocation({
+						success(result) {
+							setStorage('currentPoint', {
+								latitude: result
+									.latitude,
+								longitude: result
+									.longitude
+							})
+							resolve(result)
+						},
+					})
+				} else {
+					uni.openSetting({
+						success(openSuc) {
+							if (!openSuc.authSetting['scope.userLocation']) {
+								uni.authorize({
+									scope: 'scope.userLocation',
+									success(suc) {
+										uni.getLocation({
+											success(result) {
+												setStorage('currentPoint', {
+													latitude: result
+														.latitude,
+													longitude: result
+														.longitude
+												})
+												resolve(result)
+											},
+										})
+									},
+									fail(err) {
+										console.log('获取授权', err)
+									}
+								})
+							} else {
+								uni.getLocation({
+									success(result) {
+										setStorage('currentPoint', {
+											latitude: result.latitude,
+											longitude: result.longitude
+										})
+										resolve(result)
+									}
+								})
+							}
+						},
+						fail(error) {}
+					});
+				}
+			}
+		})
+
+
+	})
+
+}
+
+
+/**
+ * @description 获取当前位置经纬度
+ */
+export function getCurrentPoint() {
+	new Promise((resolve, reject) => {
+		uni.getLocation({
+			success(result) {
+				setStorage('currentPoint', {
+					latitude: result
+						.latitude,
+					longitude: result
+						.longitude
+				})
+				resolve(result)
+			},
+		})
+	})
+}
+/**
  * @description 获取缓存内容
  * @param {string} key 键值
  */

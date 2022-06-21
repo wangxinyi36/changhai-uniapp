@@ -1,7 +1,7 @@
 <template>
 	<view class="toilet">
 		<view class="u0">
-			<map class="u0-map" :markers="markers" :scale="10" @markertap="clickMark"></map>
+			<map class="u0-map" :markers="markers" :polyline="polyline" :scale="10" @markertap="clickMark"></map>
 		</view>
 		<view class="u1">
 			<view class="u86">筛选</view>
@@ -9,13 +9,23 @@
 				<view class="u75-item" :class="[{'u75-active': type == item.type }]" v-for="item,index in typeList"
 					:key="index" @click="change(item)">{{item.label}}</view>
 			</view>
+			<!-- <view class="u33" v-if="markItem && markItem.id">
+				<view class="u33-distance">距离约为{{distance}}米，加把劲就到了</view>
+				<button class="u33-btn" @click="leave">出发</button>
+			</view> -->
+			<view class="u33">
+				<view class="u33-distance">距离约为{{distance}}米，加把劲就到了</view>
+				<button class="u33-btn" @click="leave">出发</button>
+			</view>
 		</view>
+
 	</view>
 </template>
 
 <script>
 	import {
-		showToast
+		showToast,
+		getAddressAuthorize
 	} from '@/common/fun.js'
 	import {
 		getDrivingRoute
@@ -23,6 +33,7 @@
 	export default {
 		data() {
 			return {
+				isShow: false,
 				type: 1, //1 公厕
 				address: [],
 				markers: [], //标记点
@@ -39,7 +50,10 @@
 				}, {
 					type: 3,
 					label: '医院'
-				}]
+				}],
+				polyline: [],
+				distance: 0,
+				markItem: {}
 			};
 		},
 		onLoad() {
@@ -55,8 +69,23 @@
 					markerId
 				} = e.detail;
 				let mark = this.markers.find(item => item.id == markerId)
-				getDrivingRoute(mark.pointLat, mark.pointLng);
-				console.log(result)
+				this.markItem = mark;
+				let result = await getDrivingRoute(mark.longitude, mark.latitude);
+				this.polyline = result.polyline;
+				this.distance = result.distance;
+			},
+			async leave() {
+				let {
+					markItem
+				} = this.$data;
+				uni.openLocation({
+					latitude: parseFloat(markItem.latitude),
+					longitude: parseFloat(markItem.longitude),
+					scale: 10,
+					success(res) {
+						console.log(res)
+					}
+				})
 			},
 			async getAbj() {
 				try {
@@ -71,17 +100,16 @@
 							title: '暂无内容',
 							icon: 'none'
 						});
+						this.markers = []
 						return;
 					}
 					this.markers = this.address.map(item => {
 						return {
 							id: item.id,
-							// latitude: item.pointLat,
-							// longitude: item.pointLng,
-							latitude: item.pointLng,
-							longitude: item.pointLat,
+							latitude: item.pointLat,
+							longitude: item.pointLng,
 							title: item.point,
-							iconPath: icons[type],
+							iconPath: icons[item.type],
 							width: 45,
 							height: 45
 						}
@@ -134,10 +162,38 @@
 				@extend .u75-item;
 				color: #31d0e6;
 			}
+		}
 
-			// &-item-acitve {
-			// 	color: #31d0e6;
-			// }
+		.u33 {
+			height: 75rpx;
+			@extend .default-flex;
+			justify-content: space-between;
+			border-top: 2rpx solid rgba(242, 242, 242, 1);
+			position: fixed;
+			width: 100%;
+			bottom: 0;
+
+			&-distance {
+				font: normal 400 30rpx/75rpx '微软雅黑', sans-serif;
+				color: #333;
+				padding-left: 20rpx;
+			}
+
+			&-btn {
+				color: #fff;
+				width: 197rpx;
+				font: normal 400 24rpx/75rpx 'Arial Normal', 'Arial', sans-serif;
+				text-align: center;
+				background-color: rgba(49, 208, 230, 1);
+				padding: 0;
+				border-radius: unset;
+				margin: 0;
+
+				&::after {
+					border: none;
+					position: unset !important;
+				}
+			}
 		}
 	}
 </style>
