@@ -9,10 +9,6 @@
 				<view class="u75-item" :class="[{'u75-active': type == item.type }]" v-for="item,index in typeList"
 					:key="index" @click="change(item)">{{item.label}}</view>
 			</view>
-			<!-- <view class="u33" v-if="markItem && markItem.id">
-				<view class="u33-distance">距离约为{{distance}}米，加把劲就到了</view>
-				<button class="u33-btn" @click="leave">出发</button>
-			</view> -->
 			<view class="u33">
 				<view class="u33-distance">距离约为{{distance}}米，加把劲就到了</view>
 				<button class="u33-btn" @click="leave">出发</button>

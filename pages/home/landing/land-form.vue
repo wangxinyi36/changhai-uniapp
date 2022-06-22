@@ -1,40 +1,41 @@
 <template>
 	<view>
 		<uni-forms :rules="rules" ref="landForm" :modelValue="landFormData">
-			<uni-forms-item label="是否本人填表" :label-width="100">
+			<uni-forms-item label="是否本人填表" :label-width="100" name="ifOwner">
 				<uni-data-checkbox v-model="landFormData.ifOwner" :localdata="owns" />
 			</uni-forms-item>
-			<uni-forms-item label="姓名" label-position="top">
+			<uni-forms-item label="姓名" label-position="top" name="name">
 				<uni-easyinput v-model="landFormData.name" :clearable="false" placeholder="请输入姓名" />
 			</uni-forms-item>
-			<uni-forms-item label="性别" :label-width="50">
+			<uni-forms-item label="性别" :label-width="50" name="sex">
 				<uni-data-checkbox v-model="landFormData.sex" :localdata="sexs" />
 			</uni-forms-item>
-			<uni-forms-item label="身份证号" label-position="top">
+			<uni-forms-item label="身份证号" label-position="top" name="idcard">
 				<uni-easyinput v-model="landFormData.idcard" type="idcard" :clearable="false" placeholder="请输入身份证号" />
 			</uni-forms-item>
-			<uni-forms-item label="手机号" label-position="top">
+			<uni-forms-item label="手机号" label-position="top" name="mobile">
 				<uni-easyinput v-model="landFormData.mobile" type="number" maxlength="11" :clearable="false"
 					placeholder="请输入手机号" />
 			</uni-forms-item>
-			<uni-forms-item label="上传健康码/行程码/核酸报告" label-position="top" :label-width="200">
+			<uni-forms-item label="上传健康码/行程码/核酸报告" label-position="top" :label-width="200" name="url">
 				<view class="u54">(根据疫情防控有关要求，来自大连市的登岛人员需提供国务院行程码、健康码。来自大连市以外的登岛人员需提供国务院行程码、健康码以及48小时以内核酸报告。)</view>
-				<uni-file-picker v-model="landFormData.url" file-mediatype="image">
+				<uni-file-picker v-model="landFormData.url" file-mediatype="image" @select="select" @delete="deletePic">
 				</uni-file-picker>
 			</uni-forms-item>
-			<uni-forms-item label="进岛原因" label-position="top">
+			<uni-forms-item label="进岛原因" label-position="top" name="reason">
 				<uni-easyinput v-model="landFormData.reason" :clearable="false" placeholder="请输入进岛原因" />
 			</uni-forms-item>
-			<uni-forms-item label-position="top">
+			<uni-forms-item label-position="top" class="u61" name="uptime">
 				<template slot="label">
 					<view class="u60">进岛时间<text class="u54 u60-text">需要提前一天登岛报备</text></view>
 				</template>
-				<uni-easyinput v-model="landFormData.name" :clearable="false" placeholder="格式如2022.01.01 08:00" />
+				<uni-datetime-picker type="datetime" v-model="landFormData.uptime" placeholder=" ">
+				</uni-datetime-picker>
 			</uni-forms-item>
-			<uni-forms-item label="计划上船港口" label-position="top" :label-width="100">
-				<uni-easyinput v-model="landFormData.name" :clearable="false" placeholder="请输入计划上船港口" />
+			<uni-forms-item label="计划上船港口" name="upport" label-position="top" :label-width="100">
+				<uni-easyinput v-model="landFormData.upport" :clearable="false" placeholder="请输入计划上船港口" />
 			</uni-forms-item>
-			<uni-forms-item label="进岛前居住地址" label-position="top" :label-width="110">
+			<uni-forms-item label="进岛前居住地址" name="upAddress" label-position="top" :label-width="110" class="u74">
 				<view class="u66" @click="open('popup')">请选择</view>
 				<uni-popup ref="popup" type="bottom">
 					<view class="u67">
@@ -53,11 +54,13 @@
 						</picker-view-column>
 					</picker-view>
 				</uni-popup>
-				<view class="u75">
-					<uni-easyinput v-model="landFormData.name" type="textarea" :clearable="false" placeholder="详细地址" />
-				</view>
 			</uni-forms-item>
-			<uni-forms-item label="进入我县居住地址" label-position="top" :label-width="120">
+			<uni-forms-item label="进岛前居住详细地址" label-position="top" :label-width="140" name="upAddressDetail"
+				class="u75">
+				<uni-easyinput v-model="landFormData.upAddressDetail" type="textarea" :clearable="false"
+					placeholder="详细地址" />
+			</uni-forms-item>
+			<uni-forms-item label="进入我县居住地址" name="downAddress" label-position="top" :label-width="120">
 				<view class="u66" @click="open('popup-one')">请选择</view>
 				<uni-popup ref="popup-one" type="bottom">
 					<view class="u67">
@@ -71,24 +74,29 @@
 						</picker-view-column>
 					</picker-view>
 				</uni-popup>
-				<uni-easyinput v-model="landFormData.name" type="textarea" :clearable="false" placeholder="详细地址" />
+
 			</uni-forms-item>
-			<uni-forms-item label="进岛前15天活动轨迹" label-position="top" :label-width="140">
-				<uni-easyinput v-model="landFormData.name" :clearable="false" placeholder="请输入进岛前15天活动轨迹" />
+			<uni-forms-item label="进入我县居住详细地址" name="downAddressDetail" label-position="top" :label-width="140">
+				<uni-easyinput v-model="landFormData.downAddressDetail" type="textarea" :clearable="false"
+					placeholder="详细地址" />
 			</uni-forms-item>
-			<uni-forms-item label="单位" label-position="top">
-				<uni-easyinput v-model="landFormData.profession" :clearable="false" placeholder="请输入单位" />
+			<uni-forms-item label="进岛前15天活动轨迹" name="trace" label-position="top" :label-width="140">
+				<uni-easyinput v-model="landFormData.trace" type="textarea" :clearable="false"
+					placeholder="请输入进岛前15天活动轨迹" />
 			</uni-forms-item>
-			<uni-forms-item label="职业" label-position="top">
-				<uni-easyinput v-model="landFormData.name" :clearable="false" placeholder="请输入职业" />
+			<uni-forms-item label="单位" label-position="top" name="unit">
+				<uni-easyinput v-model="landFormData.unit" :clearable="false" placeholder="请输入单位" />
 			</uni-forms-item>
-			<uni-forms-item label="是否有48小时内核酸报告" :label-width="170">
-				<uni-data-checkbox v-model="landFormData.isOwn" :localdata="report" />
+			<uni-forms-item label="职业" label-position="top" name="profession">
+				<uni-easyinput v-model="landFormData.profession" :clearable="false" placeholder="请输入职业" />
+			</uni-forms-item>
+			<uni-forms-item label="是否有48小时内核酸报告" :label-width="170" name="ifHealth">
+				<uni-data-checkbox v-model="landFormData.ifHealth" :localdata="report" />
 			</uni-forms-item>
 		</uni-forms>
 
 		<view class="bottom">
-			<view class="btn" @click="submit">申请</view>
+			<view class="btn" @click="submit('landForm')">申请</view>
 		</view>
 	</view>
 </template>
@@ -98,33 +106,138 @@
 		getRegionList
 	} from '@/common/fun.js'
 	import {
+		upload
+	} from '@/common/http.js'
+	import {
 		COMMON_ADDRESS
 	} from '@/common/common.js'
 	export default {
 		data() {
 			return {
 				rules: {
+					ifOwner: {
+						rules: [{
+							required: true,
+							errorMessage: '请选择',
+						}]
+					},
 					name: {
 						rules: [{
 							required: true,
-							errorMessage: '请输入姓名',
-						}, ]
+							errorMessage: '请输入',
+						}]
 					},
+					sex: {
+						rules: [{
+							required: true,
+							errorMessage: '请选择',
+						}]
+					},
+					idcard: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入',
+						}]
+					},
+					mobile: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入',
+						}]
+					},
+					url: {
+						rules: [{
+							required: true,
+							errorMessage: '请上传',
+						}]
+					},
+					reason: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入',
+						}]
+					},
+					uptime: {
+						rules: [{
+							required: true,
+							errorMessage: '请选择',
+						}]
+					},
+					upport: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入',
+						}]
+					},
+					upAddress: {
+						rules: [{
+							required: true,
+							errorMessage: '请选择',
+						}]
+					},
+					upAddressDetail: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入',
+						}]
+					},
+					downAddress: {
+						rules: [{
+							required: true,
+							errorMessage: '请选择',
+						}]
+					},
+					downAddressDetail: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入',
+						}]
+					},
+					trace: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入',
+						}]
+					},
+					unit: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入',
+						}]
+					},
+					profession: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入',
+						}]
+					},
+					ifHealth: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入',
+						}]
+					},
+
 				},
 				dataTree: [],
 				landFormData: {
-					ifOwner: -1,
+					ifOwner: '',
 					name: '',
-					sex: -1,
+					sex: '',
 					idcard: '',
 					mobile: '',
 					url: [],
 					reason: '',
-					introduction: '',
-					hobby: [5],
-					datetimesingle: 1627529992399,
+					uptime: '',
+					upport: '',
+					upAddress: '',
+					upAddressDetail: '',
+					downAddress: '',
+					downAddressDetail: '',
+					trace: '',
+					unit: '',
 					profession: '',
-					city: []
+					ifHealth: '',
 				},
 				owns: [{
 					text: '本人',
@@ -134,10 +247,10 @@
 					value: 1
 				}],
 				report: [{
-					text: '无',
+					text: '有',
 					value: 0
 				}, {
-					text: '有',
+					text: '无',
 					value: 1
 				}],
 				sexs: [{
@@ -168,8 +281,26 @@
 			confirm(name) {
 				this.cancel(name)
 			},
-			submit() {
-				this.$refs.landForm.validate().then(res => {
+			async select(e) {
+				for (let i = 0; i < e.tempFiles.length; i++) {
+					const res = await upload(this.$API.postStorageCreate, e.tempFiles[i].file, {
+						name: e.tempFiles[i].name,
+						extname: e.tempFiles[i].extname,
+					});
+					this.landFormData.url.push({
+						name: e.tempFiles[i].name,
+						extname: e.tempFiles[i].extname,
+						url: res,
+					})
+				}
+			},
+			async deletePic(e) {
+				console.log(e)
+				let index = this.landFormData.url.findIndex(item => item == e.tempFile);
+				console.log(index)
+			},
+			submit(ref) {
+				this.$refs[ref].validate().then(res => {
 					console.log('表单数据信息：', res);
 				}).catch(err => {
 					console.log('表单错误信息：', err);
@@ -181,7 +312,7 @@
 					this.province = res;
 					this.city = res[0].children;
 					this.district = res[0].children[0].children;
-					console.log(res)
+					// console.log(res)
 				} catch (e) {
 					//TODO handle the exception
 				}
@@ -233,38 +364,50 @@
 				margin-left: 10rpx;
 			}
 		}
+	}
 
-		.u75 {
-			margin-top: 10rpx;
+	.u75 {
+		margin-top: 10rpx;
+	}
+
+	.u66 {
+		border: 1px solid rgb(229, 229, 229);
+		border-radius: 8rpx;
+		height: 36rpx;
+		color: #999;
+		font-size: 24rpx;
+		font-weight: 200;
+		padding: 20rpx;
+		margin-bottom: 10rpx;
+	}
+
+	.u67 {
+		@extend .default-flex;
+		justify-content: space-between;
+		background-color: #fff;
+		border-radius: 20rpx 20rpx 0 0;
+		padding: 20rpx;
+		box-sizing: border-box;
+
+		&-confirm {
+			color: rgba(49, 208, 230, 1);
 		}
 
-		.u66 {
-			border: 1px solid rgb(229, 229, 229);
-			border-radius: 8rpx;
-			height: 36rpx;
-			color: #999;
-			font-size: 12rpx;
-			font-weight: 200;
-			padding: 20rpx;
-			margin-bottom: 10rpx;
+	}
+
+	.u61 {
+		/deep/ .uni-date-x--border {
+			border: 1px solid #e5e5e5;
+			height: 36px;
 		}
 
-		.u67 {
-			@extend .default-flex;
-			justify-content: space-between;
-			background-color: #fff;
-			border-radius: 20rpx 20rpx 0 0;
-			padding: 20rpx;
-			box-sizing: border-box;
-
-			&-confirm {
-				color: rgba(49, 208, 230, 1);
-			}
+		/deep/ .uni-date-x {
+			height: 100%;
 		}
 	}
 
 	.bottom {
-		padding: 0 20px;
+		padding: 0 20px 40px 20px;
 		margin: 20px 0;
 
 		.btn {
@@ -276,5 +419,7 @@
 			line-height: 56rpx;
 			border-radius: 12rpx;
 		}
+
+
 	}
 </style>

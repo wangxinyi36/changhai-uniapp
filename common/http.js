@@ -1,4 +1,4 @@
-const REQUEST_URL = 'http://175.27.189.109:8081/dev/';
+const REQUEST_URL = 'https://124.70.43.21/dev/';
 /**
  * @description 公共请求方法
  * @param {*} url 接口类路径
@@ -35,16 +35,23 @@ export const http = (url, data, method = 'GET', type) => {
 	})
 }
 
-export const upload = () => {
-	uni.uploadFile({
-		url: 'https://www.example.com/upload', //仅为示例，非真实的接口地址
-		filePath: tempFilePaths[0],
-		name: 'file',
-		formData: {
-			'user': 'test'
-		},
-		success: (uploadFileRes) => {
-			console.log(uploadFileRes.data);
-		}
-	});
+export const upload = (url, file, formData) => {
+	return new Promise((resolve, reject) => {
+		let newUrl = `${REQUEST_URL}${url}`
+		uni.uploadFile({
+			url: newUrl, //仅为示例，非真实的接口地址
+			file,
+			name: 'file',
+			formData,
+			success: (res) => {
+				let result = JSON.parse(res.data)
+				resolve(result.data.url)
+			},
+			fail(error) {
+				reject(error)
+			}
+		});
+	})
+
+
 }

@@ -9,7 +9,7 @@
 			</uni-tr>
 			<uni-tr v-for="item,index in list" :key="index">
 				<uni-td>{{item.name}}</uni-td>
-				<uni-td>{{item.time}}</uni-td>
+				<uni-td>{{dealUptime(item.uptime)}}</uni-td>
 				<uni-td>
 					<view class="u203" :class="[{'u203-pass' : item.status === 2}]">
 						{{item.status === 1 ? '审核中' : item.status === 2 ? '通过' :'驳回'}}
@@ -30,22 +30,13 @@
 
 <script>
 	import {
-		OpenPage
+		OpenPage,
+		addZero
 	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
-				list: [{
-					name: '徐磊',
-					time: '2022-05-13',
-					status: 1, //1审核中 2通过 3拒绝
-					code: 0,
-				}, {
-					name: '张泽瑞',
-					time: '2022-05-13',
-					status: 2, //1审核中 2通过 3拒绝
-					code: 1,
-				}],
+				list: [],//0待审核1已同意2审核失败
 				total: 0,
 				page: 1
 			};
@@ -57,14 +48,20 @@
 			openPage(url) {
 				OpenPage(url)
 			},
+			dealUptime(time) {
+				return `${time[0]}-${addZero(time[1])}-${addZero(time[2])}`;
+			},
 			async getHealth() {
 				let {
 					page,
-					list
+					list,
+					total
 				} = this.$data;
 				try {
-					const res = await this.$http(
-						`${this.$API.getHealthList}?limit=10&page=${page}`);
+					if (total > 0 && total == list.length) {
+						return;
+					}
+					const res = await this.$http(`${this.$API.getHealthList}?limit=10&page=${page}`);
 					this.total = res.data.total;
 					this.list = this.list.concat(res.data.items);
 				} catch (e) {

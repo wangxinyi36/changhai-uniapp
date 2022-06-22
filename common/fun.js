@@ -237,3 +237,16 @@ export function showToast(title, icon = 'none') {
 		icon,
 	})
 }
+
+
+/**
+ * @description 补0
+ * @param {number} number 数字
+ */
+export function addZero(number) {
+	if (parseInt(number) <= 9) {
+		return '0' + number
+	} else {
+		return number
+	}
+}
