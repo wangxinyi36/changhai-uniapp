@@ -7,7 +7,8 @@
 				<view class="u17-tel">绑定手机号</view>
 			</view>
 		</view> -->
-		<button class="u15" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber">
+		<button class="u15" @click="login">
+			<!-- <button class="u15" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber"> -->
 			<view class="u16">
 				<image :src="wechat_userInfo.avatarUrl || defautlAvatar" mode="aspectFill" class="u16-img"></image>
 				<view class="u17">
@@ -75,7 +76,37 @@
 			},
 			getPhoneNumber(val) {
 				console.log(val)
-				openPage(`/pages/my/userInfo`)
+				// OpenPage(`/pages/my/userInfo`)
+			},
+			login() {
+				let _this = this;
+				uni.getUserProfile({
+					desc: '需要获取您的个人信息',
+					success(res) {
+						uni.login({
+							provider: 'weixin',
+							success: async function(loginRes) {
+								let data = {
+									wxLoginInfo: {
+										code: loginRes.code,
+										userInfo: res.userInfo
+									}
+								}
+								const result = await _this.$http(_this.$API.postLoginByWeixin, data,
+									'POST');
+								console.log(loginRes);
+								console.log(result);
+							},
+							fail(err) {
+								console.log(err)
+							}
+						});
+					},
+					fail(err) {
+						console.log(err)
+					}
+				})
+
 			}
 		}
 	}

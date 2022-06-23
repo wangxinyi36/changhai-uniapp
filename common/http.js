@@ -1,4 +1,4 @@
-const REQUEST_URL = 'https://124.70.43.21/dev/';
+const REQUEST_URL = "https://www.ming-yi.net/";
 /**
  * @description 公共请求方法
  * @param {*} url 接口类路径
@@ -35,14 +35,13 @@ export const http = (url, data, method = 'GET', type) => {
 	})
 }
 
-export const upload = (url, file, formData) => {
+export const upload = (url, file) => {
 	return new Promise((resolve, reject) => {
 		let newUrl = `${REQUEST_URL}${url}`
 		uni.uploadFile({
 			url: newUrl, //仅为示例，非真实的接口地址
 			file,
 			name: 'file',
-			formData,
 			success: (res) => {
 				let result = JSON.parse(res.data)
 				resolve(result.data.url)

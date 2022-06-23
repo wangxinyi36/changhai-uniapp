@@ -36,13 +36,16 @@
 				<uni-easyinput v-model="landFormData.upport" :clearable="false" placeholder="请输入计划上船港口" />
 			</uni-forms-item>
 			<uni-forms-item label="进岛前居住地址" name="upAddress" label-position="top" :label-width="110" class="u74">
-				<view class="u66" @click="open('popup')">请选择</view>
+				<view class="u66" :class="{'u66-value':landFormData.upAddress}" @click="open('popup')">
+					{{landFormData.upAddress || '请选择'}}
+				</view>
 				<uni-popup ref="popup" type="bottom">
 					<view class="u67">
 						<view class="u67-cancel" @click="cancel('popup')">取消</view>
 						<view class="u67-confirm" @click="confirm('popup')">确定</view>
 					</view>
-					<picker-view indicator-style="height: 50px;" :value="value" @change="bindChange" class="u168">
+					<picker-view indicator-style="height: 50px;" :value="form_upAddress" @change="bindChange"
+						class="u168">
 						<picker-view-column>
 							<view class="u168-item" v-for="(item,index) in province" :key="index">{{item.text}}</view>
 						</picker-view-column>
@@ -61,13 +64,16 @@
 					placeholder="详细地址" />
 			</uni-forms-item>
 			<uni-forms-item label="进入我县居住地址" name="downAddress" label-position="top" :label-width="120">
-				<view class="u66" @click="open('popup-one')">请选择</view>
+				<view class="u66" :class="{'u66-value':landFormData.downAddress}" @click="open('popup-one')">
+					{{landFormData.downAddress || '请选择'}}
+				</view>
 				<uni-popup ref="popup-one" type="bottom">
 					<view class="u67">
 						<view class="u67-cancel" @click="cancel('popup-one')">取消</view>
 						<view class="u67-confirm" @click="confirm('popup-one')">确定</view>
 					</view>
-					<picker-view indicator-style="height: 50px;" :value="land_value" @change="bindChange2" class="u168">
+					<picker-view indicator-style="height: 50px;" :value="land_downAddress" @change="bindChange2"
+						class="u168">
 						<picker-view-column>
 							<view class="u168-item" v-for="(item,index) in land_address" :key="index">{{item.name}}
 							</view>
@@ -103,7 +109,8 @@
 
 <script>
 	import {
-		getRegionList
+		getRegionList,
+		showToast
 	} from '@/common/fun.js'
 	import {
 		upload
@@ -214,7 +221,7 @@
 					ifHealth: {
 						rules: [{
 							required: true,
-							errorMessage: '请输入',
+							errorMessage: '请选择',
 						}]
 					},
 
@@ -263,9 +270,9 @@
 				province: [],
 				city: [],
 				district: [],
-				value: [0, 0, 0],
+				form_upAddress: [0, 0, 0],
 				land_address: COMMON_ADDRESS,
-				land_value: [0],
+				land_downAddress: [0],
 			};
 		},
 		onLoad() {
@@ -279,14 +286,18 @@
 				this.$refs[name].close()
 			},
 			confirm(name) {
+				if (name == 'popup') {
+					this.landFormData.upAddress =
+						`${this.province[this.form_upAddress[0]].text}-${this.city[this.form_upAddress[1]].text}-${this.district[this.form_upAddress[2]].text}`;
+				} else if (name == 'popup-one') {
+					this.landFormData.downAddress = this.land_address[this.land_downAddress[0]].name;
+				}
+				console.log(this.landFormData)
 				this.cancel(name)
 			},
 			async select(e) {
 				for (let i = 0; i < e.tempFiles.length; i++) {
-					const res = await upload(this.$API.postStorageCreate, e.tempFiles[i].file, {
-						name: e.tempFiles[i].name,
-						extname: e.tempFiles[i].extname,
-					});
+					const res = await upload(this.$API.postStorageCreate, e.tempFiles[i].file);
 					this.landFormData.url.push({
 						name: e.tempFiles[i].name,
 						extname: e.tempFiles[i].extname,
@@ -295,15 +306,30 @@
 				}
 			},
 			async deletePic(e) {
-				console.log(e)
+				let {
+					url
+				} = this.landFormData;
 				let index = this.landFormData.url.findIndex(item => item == e.tempFile);
-				console.log(index)
+				url.splice(index, 1)
+				this.landFormData.url = url;
+				console.log(this.landFormData.url)
 			},
 			submit(ref) {
-				this.$refs[ref].validate().then(res => {
-					console.log('表单数据信息：', res);
+				let _this = this;
+				this.$refs[ref].validate().then(async function(res) {
+					let formData = JSON.parse(JSON.stringify(_this.landFormData));
+					formData.url = formData.url.map(item => {
+						return item.url;
+					})
+					formData.url = formData.url.join(',')
+					const result = await _this.$http(_this.$API.postHealth, formData, 'POST');
+					if (result.errno != 0) {
+						showToast(result.errmsg)
+					}
+					console.log(result)
 				}).catch(err => {
-					console.log('表单错误信息：', err);
+					console.log(err)
+					showToast('表单内容皆为必填项！')
 				})
 			},
 			async getProvince() {
@@ -322,9 +348,10 @@
 				let c = val.detail.value[1]
 				this.city = this.province[p].children;
 				this.district = this.province[p].children[c].children;
+				this.form_upAddress = val.detail.value;
 			},
 			bindChange2(val) {
-
+				this.land_downAddress = val.detail.value
 			}
 		}
 	}
@@ -379,6 +406,12 @@
 		font-weight: 200;
 		padding: 20rpx;
 		margin-bottom: 10rpx;
+
+		&-value {
+			font-weight: 400;
+			color: #333;
+			font-size: 26rpx
+		}
 	}
 
 	.u67 {

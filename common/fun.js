@@ -238,7 +238,6 @@ export function showToast(title, icon = 'none') {
 	})
 }
 
-
 /**
  * @description 补0
  * @param {number} number 数字
