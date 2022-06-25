@@ -292,17 +292,22 @@
 				} else if (name == 'popup-one') {
 					this.landFormData.downAddress = this.land_address[this.land_downAddress[0]].name;
 				}
-				console.log(this.landFormData)
 				this.cancel(name)
 			},
 			async select(e) {
 				for (let i = 0; i < e.tempFiles.length; i++) {
-					const res = await upload(this.$API.postStorageCreate, e.tempFiles[i].file);
-					this.landFormData.url.push({
-						name: e.tempFiles[i].name,
-						extname: e.tempFiles[i].extname,
-						url: res,
-					})
+					try {
+						const res = await upload(this.$API.postStorageCreate, e.tempFiles[i].path);
+						this.landFormData.url.push({
+							name: e.tempFiles[i].name,
+							extname: e.tempFiles[i].extname,
+							url: res,
+						})
+					} catch (e) {
+						console.log("错误", e)
+						//TODO handle the exception
+					}
+
 				}
 			},
 			async deletePic(e) {

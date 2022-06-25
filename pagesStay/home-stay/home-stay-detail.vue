@@ -2,10 +2,10 @@
 	<view>
 		<image src="/static/home1.png" mode="aspectFill" class="bg"></image>
 		<view class="u1">
-			<view class="u1-title">{{title}}</view>
+			<view class="u1-title">{{detail.UUtitle}}</view>
 			<view class="u1-tags">
-				<view class="u1-tag" v-for="item,index in tags" :key="index">{{item}}</view>
-				<navigator url="/pagesStay/home-stay/home-stay-info" hover-class="none">
+				<rich-text class="u1-tag" :nodes="detail.UUbhjq"></rich-text>
+				<navigator :url="`/pagesStay/home-stay/home-stay-info?id=${id}`" hover-class="none">
 					<view class="u1-detail">
 						<text>详情</text>
 						<image src="/static/icon1.svg" mode="aspectFill" class="u1-detail-icon"></image>
@@ -53,26 +53,40 @@
 			return {
 				tags: ['2019年装修', '免费停车场', '24小时客服服务'],
 				single: '',
-				title:'',
+				title: '',
 				list: [{
 					name: '精品单人间',
 					dec: '1张单人床 · 32㎡',
 					tip: '15分钟内可免费取消',
 					url: '/static/home1.png',
 					pay: 196.00
-				}]
+				}],
+				detail: {},
+				id:''
 			};
 		},
 		onLoad(options) {
-			this.title = options.title;
-			uni.setNavigationBarTitle({
-				title: options.title
-			})
+			this.id = options.id;
+			this.getDetail()
 		},
 		methods: {
 			openPage(url) {
 				OpenPage(url)
-			}
+			},
+			async getDetail() {
+				try {
+					const {
+						id
+					} = this.$data;
+					const res = await this.$http(`${this.$API.getProductDetail}?spotId=${id}`);
+					this.detail = res.data.Data.Rec;
+					uni.setNavigationBarTitle({
+						title: this.detail.UUtitle
+					})
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
 		}
 	}
 </script>
@@ -101,6 +115,8 @@
 			font: normal 400 24rpx/normal '微软雅黑', sans-serif;
 			color: #333;
 			margin-right: 10rpx;
+			height: 32rpx;
+			overflow: hidden;
 		}
 
 		&-detail {

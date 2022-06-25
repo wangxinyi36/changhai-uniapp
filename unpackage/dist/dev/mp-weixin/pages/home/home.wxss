@@ -135,6 +135,10 @@
   font-weight: 400;
   font-size: 30rpx;
   color: #000000;
+  overflow: hidden;
+  white-space: nowrap;
+  text-overflow: ellipsis;
+  width: 200rpx;
 }
 .u54-item.data-v-92bb8f34 {
   height: 320rpx;

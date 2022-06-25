@@ -76,13 +76,15 @@
 				</uni-row>
 				<scroll-view scroll-x="true">
 					<view class="u4 u82-list">
-						<view class="u82-item" v-for="(item, index) in homeStay" :key="index" :id="`id-` + index"
-							@click="openPage(item,'/pagesStay/home-stay/home-stay-detail')">
-							<view class="u82-box">
-								<image class="u82-img" :src="item.url" mode="scaleToFill"></image>
-								<view class="u71">热门</view>
-							</view>
-							<text class="u82-text">{{ item.name }}</text>
+						<view class="u82-item" v-for="(item, index) in homeStay" :key="index" :id="`id-` + index">
+							<navigator :url="`/pagesStay/home-stay/home-stay-detail?id=${item.uuid}`"
+								hover-class="none">
+								<view class="u82-box">
+									<image class="u82-img" :src="item.uuimgPath" mode="scaleToFill"></image>
+									<view class="u71">热门</view>
+								</view>
+								<view class="u82-text">{{ item.uutitle }}</view>
+							</navigator>
 						</view>
 					</view>
 				</scroll-view>
@@ -106,11 +108,14 @@
 				<scroll-view scroll-x="true">
 					<view class="u4 u82-list">
 						<view class="u82-item" v-for="(item, index) in foods" :key="index" :id="`id-` + index">
-							<view class="u82-box">
-								<image class="u82-img" :src="item.url" mode="scaleToFill"></image>
-								<view class="u71">热门</view>
-							</view>
-							<text class="u82-text">{{ item.name }}</text>
+							<navigator :url="`/pages/home/tasty-food/home-tasty-food-detail?id=${item.uuid}`"
+								hover-class="none">
+								<view class="u82-box">
+									<image class="u82-img" :src="item.uuimgPath" mode="scaleToFill"></image>
+									<view class="u71">热门</view>
+								</view>
+								<view class="u82-text">{{ item.uutitle }}</view>
+							</navigator>
 						</view>
 					</view>
 				</scroll-view>
@@ -239,47 +244,24 @@
 					},
 
 				],
-				homeStay: [{
-						url: '/static/stay1.jpg',
-						name: '丽景山庄'
-					},
-					{
-						url: '/static/stay2.jpg',
-						name: '老吴家渔子宿'
-					},
-					{
-						url: '/static/stay3.jpg',
-						name: '金水岸'
-					},
-					{
-						url: '/static/home7.png',
-						name: '大长山岛'
-					}
-				],
-				foods: [{
-						url: '/static/home3.png',
-						name: '海鲜杂烩'
-					},
-					{
-						url: '/static/mall8.png',
-						name: '海鲜杂烩'
-					},
-					{
-						url: '/static/mall5.png',
-						name: '蒜蓉扇贝'
-					},
-					{
-						url: '/static/mall4.png',
-						name: '海鲜杂烩'
-					}
-				],
+				homeStay: [],
+				foods: [],
 				speLine: [],
-				homeList: []
+				homeList: [],
+				productForm: {
+					area: "",
+					name: "",
+					pageNum: 4,
+					start: 0,
+					// uuType: "", //A景点 B路线 C酒店 F套票 G美食 H演出
+					uuid: ""
+				}
 			};
 		},
 		onLoad() {
 			this.getTral();
 			this.getHomeList()
+			this.postProduct()
 		},
 		methods: {
 			async openType(item, index) {
@@ -317,6 +299,22 @@
 				try {
 					const res = await this.$http(`${this.$API.getHomeList}`);
 					this.homeList = res.data;
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
+			async postProduct() {
+				try {
+					const resultFoods = await this.$http(this.$API.postProductList, {
+						...this.productForm,
+						uuType: 'G'
+					}, 'POST');
+					const resultHotel = await this.$http(this.$API.postProductList, {
+						...this.productForm,
+						uuType: 'C'
+					}, 'POST');
+					this.foods = resultFoods.data.list;
+					this.homeStay = resultHotel.data.list;
 				} catch (e) {
 					//TODO handle the exception
 				}

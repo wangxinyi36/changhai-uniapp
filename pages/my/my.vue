@@ -83,13 +83,21 @@
 				uni.getUserProfile({
 					desc: '需要获取您的个人信息',
 					success(res) {
+						console.log(res)
 						uni.login({
 							provider: 'weixin',
 							success: async function(loginRes) {
 								let data = {
-									wxLoginInfo: {
-										code: loginRes.code,
-										userInfo: res.userInfo
+									code: loginRes.code,
+									shareUserId: 0,
+									userInfo: {
+										phone: "",
+										registerDate: "",
+										status: 0,
+										userId: 0,
+										userLevel: 0,
+										userLevelDesc: "",
+										...res.userInfo
 									}
 								}
 								const result = await _this.$http(_this.$API.postLoginByWeixin, data,

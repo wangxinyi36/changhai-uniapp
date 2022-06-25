@@ -31,7 +31,8 @@
     "pages/home/home-detail",
     "pages/home/news/news",
     "pages/home/news/detail",
-    "pages/home/activity/detail"
+    "pages/home/activity/detail",
+    "pages/home/tasty-food/home-tasty-food-detail"
   ],
   "subPackages": [
     {

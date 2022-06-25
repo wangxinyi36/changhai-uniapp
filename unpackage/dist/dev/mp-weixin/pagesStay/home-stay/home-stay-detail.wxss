@@ -24,6 +24,8 @@
   font: normal 400 24rpx/normal '微软雅黑', sans-serif;
   color: #333;
   margin-right: 10rpx;
+  height: 32rpx;
+  overflow: hidden;
 }
 .u1-detail.data-v-65137dff {
   position: absolute;

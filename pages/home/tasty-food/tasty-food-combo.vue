@@ -65,7 +65,7 @@
 					</view>
 					<view class="u221-box-right">
 						<view class="u234">
-							<image src="/static/icon9.svg" class="u234-img" mode="aspectFill"></image>
+							<image src="/static/icon7.svg" class="u234-img" mode="aspectFill"></image>
 						</view>
 						<view class="u234-text">联系商家</view>
 					</view>

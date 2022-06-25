@@ -7,16 +7,15 @@
 		<view class="u58">
 			<view class="u58-title">民宿信息</view>
 			<view class="u58-box">
-				<view class="u58-box-title">杏树镇民宿</view>
-				<view class="u58-box-text">2019年装修 20间客房</view>
-				<view class="u58-box-text">民宿描述：是吗是吗是吗是吗是吗是吗没什么咩咩咩咩什么什么什么什么是什么。</view>
+				<view class="u58-box-title">{{detail.UUtitle}}</view>
+				<rich-text class="u58-box-text" :nodes="detail.UUbhjq"></rich-text>
 			</view>
 		</view>
 		<view class="u58">
 			<view class="u58-title">民宿要求</view>
 			<view class="u58-box">
 				<view class="u58-box-text"><text class="title">入离时间：</text>入住时间14:00以后，离店时间12:00以前</view>
-				<view class="u58-box-text"><text class="title">入住方式：</text>不允许举办派对/活动  不允许商业拍摄  不允许儿童入住</view>
+				<view class="u58-box-text"><text class="title">入住方式：</text>不允许举办派对/活动 不允许商业拍摄 不允许儿童入住</view>
 			</view>
 		</view>
 	</view>
@@ -27,11 +26,27 @@
 		data() {
 			return {
 				tab: ['民宿信息', '民宿要求'],
-				tabIndex: 0
+				tabIndex: 0,
+				detail: {},
+				id: ''
 			};
 		},
+		onLoad(options) {
+			this.id = options.id;
+			this.getDetail()
+		},
 		methods: {
-
+			async getDetail() {
+				try {
+					const {
+						id
+					} = this.$data;
+					const res = await this.$http(`${this.$API.getProductDetail}?spotId=${id}`);
+					this.detail = res.data.Data.Rec;
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
 		}
 	}
 </script>
@@ -69,6 +84,7 @@
 			&-title {
 				font: normal 400 24rpx/normal 'Arial Normal', 'Arial', sans-serif;
 				color: #333;
+				margin-bottom: 15rpx;
 			}
 
 			&-box {

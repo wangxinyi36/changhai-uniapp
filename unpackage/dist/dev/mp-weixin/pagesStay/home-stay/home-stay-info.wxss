@@ -33,6 +33,7 @@
 .home-stay-info .u58-title.data-v-f6097d48, .home-stay-info .u58-box-title.data-v-f6097d48, .home-stay-info .u58-box-text.data-v-f6097d48 {
   font: normal 400 24rpx/normal 'Arial Normal', 'Arial', sans-serif;
   color: #333;
+  margin-bottom: 15rpx;
 }
 .home-stay-info .u58-box.data-v-f6097d48 {
   border: 1rpx solid #d7d7d7;

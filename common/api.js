@@ -29,6 +29,9 @@ const API = {
 	
 	postLoginByWeixin: 'wxapi/wx/auth/login_by_weixin', // 微信登录
 	
+	postProductList: 'dev/xcx/product/getList', // 票付通产品列表
+	getProductDetail: 'dev/xcx/product/detail', // 票付通产品详情
+	
 	
 
 
