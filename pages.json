@@ -233,6 +233,13 @@
 			"enablePullDownRefresh": false
 		}
 
+	}, {
+		"path": "pages/home/landing/land-code",
+		"style": {
+			"navigationBarTitleText": "登岛信息二维码",
+			"enablePullDownRefresh": false
+		}
+
 	}],
 	"subPackages": [{
 		"root": "pagesStay",

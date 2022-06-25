@@ -22,27 +22,19 @@
 	export default {
 		data() {
 			return {
-				keyword: '',
-				list: [{
-					name: '丽景山庄',
-					address: '小长山岛镇',
-					pay: 1168,
-					tags: ['24小时客房服务', '公共区域WIFI'],
-					url: '/static/stay1.jpg'
-				}, {
-					name: '老吴家渔子宿',
-					address: '小长山岛镇',
-					pay: 980,
-					tags: ['24小时客房服务', '公共区域WIFI'],
-					url: '/static/stay2.jpg'
-				}, {
-					name: '金水岸',
-					address: '广鹿岛',
-					pay: 2890,
-					tags: ['24小时客房服务', '公共区域WIFI'],
-					url: '/static/stay3.jpg',
-				}]
+				list: [],
+				productForm: {
+					area: "",
+					name: "",
+					pageNum: 10,
+					start: 0,
+					uuType: "C", //A景点 B路线 C酒店 F套票 G美食 H演出
+					uuid: ""
+				}
 			};
+		},
+		onLoad() {
+			this.postProduct()
 		},
 		methods: {
 			openSearch() {
@@ -52,8 +44,19 @@
 
 			},
 			openPage(item) {
-				OpenPage(`/pagesStay/home-stay/home-stay-detail?title=${item.name}`)
+				OpenPage(`/pagesStay/home-stay/home-stay-detail?title=${item.uuid}`)
+			},
+			async postProduct() {
+				try {
+					const resultHotel = await this.$http(this.$API.postProductList, this.productForm, 'POST');
+					this.list = resultHotel.data.list;
+				} catch (e) {
+					//TODO handle the exception
+				}
 			}
+		},
+		onReachBottom() {
+			console.log(1)
 		}
 	}
 </script>

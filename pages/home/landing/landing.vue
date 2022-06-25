@@ -16,7 +16,9 @@
 					</view>
 				</uni-td>
 				<uni-td>
-					<view class="u203-pass">{{item.code === 1 ? '显示' : ''}}</view>
+					<navigator :url="`/pages/home/landing/land-code?id=${item.id}`" hover-class="none">
+						<view class="u203-pass">{{item.status === 2 ? '显示' : '-'}}</view>
+					</navigator>
 				</uni-td>
 			</uni-tr>
 		</uni-table>
@@ -36,7 +38,7 @@
 	export default {
 		data() {
 			return {
-				list: [],//0待审核1已同意2审核失败
+				list: [], //0待审核1已同意2审核失败
 				total: 0,
 				page: 1
 			};
@@ -46,7 +48,14 @@
 		},
 		methods: {
 			openPage(url) {
-				OpenPage(url)
+				OpenPage(url).then(res => {
+					if (res.isReload) {
+						this.page = 1;
+						this.list = [];
+						this.total = 0;
+						this.getHealth()
+					}
+				})
 			},
 			dealUptime(time) {
 				return `${time[0]}-${addZero(time[1])}-${addZero(time[2])}`;

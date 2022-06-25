@@ -32,7 +32,8 @@
     "pages/home/news/news",
     "pages/home/news/detail",
     "pages/home/activity/detail",
-    "pages/home/tasty-food/home-tasty-food-detail"
+    "pages/home/tasty-food/home-tasty-food-detail",
+    "pages/home/landing/land-code"
   ],
   "subPackages": [
     {

@@ -1,9 +1,9 @@
 <template>
 	<view class="u24-item" @click="openPage">
-		<image :src="info.url" mode="aspectFill" class="u24-item-img"></image>
+		<image :src="info.uuimgPath" mode="aspectFill" class="u24-item-img"></image>
 		<view class="u24-item-box">
-			<view class="u24-item-box-name">{{info.name}}</view>
-			<view class="u24-item-box-address">{{info.address}}</view>
+			<view class="u24-item-box-name">{{info.uutitle}}</view>
+			<view class="u24-item-box-address">{{info.uuarea}}</view>
 			<view class="u24-item-box-tags">
 				<view class="u24-item-box-tag" v-for="tag,i in info.tags" :key="i">{{tag}}</view>
 			</view>
@@ -20,9 +20,7 @@
 	export default {
 		props: ['info'],
 		data() {
-			return {
-
-			};
+			return {};
 		},
 		methods: {
 			openPage() {

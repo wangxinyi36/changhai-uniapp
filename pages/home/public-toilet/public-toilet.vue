@@ -7,9 +7,9 @@
 			<view class="u86">筛选</view>
 			<view class="u75">
 				<view class="u75-item" :class="[{'u75-active': type == item.type }]" v-for="item,index in typeList"
-					:key="index" @click="change(item)">{{item.label}}</view>
+					:key="index" @click="change(item)">{{item.typeName}}</view>
 			</view>
-			<view class="u33">
+			<view class="u33" v-if="distance > 0">
 				<view class="u33-distance">距离约为{{distance}}米，加把劲就到了</view>
 				<button class="u33-btn" @click="leave">出发</button>
 			</view>
@@ -36,16 +36,16 @@
 				icons: ['', '/static/icon-wc.svg', '/static/icon-hospital.svg', '/static/icon-serve.svg'],
 				typeList: [{
 					type: '',
-					label: '全部'
+					typeName: '全部'
 				}, {
 					type: 1,
-					label: '厕所'
+					typeName: '厕所'
 				}, {
 					type: 2,
-					label: '游客服务中心'
+					typeName: '游客服务中心'
 				}, {
 					type: 3,
-					label: '医院'
+					typeName: '医院'
 				}],
 				polyline: [],
 				distance: 0,
@@ -54,11 +54,12 @@
 		},
 		onLoad() {
 			this.getAbj()
+			this.getAbjTypes()
 		},
 		methods: {
 			change(item) {
 				this.type = item.type;
-				this.getAbj()
+				this.getAbj();
 			},
 			async clickMark(e) {
 				let {
@@ -110,6 +111,14 @@
 							height: 45
 						}
 					})
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
+			async getAbjTypes() {
+				try {
+					const res = await this.$http(this.$API.getAbjTypes);
+					this.typeList = res.data;
 				} catch (e) {
 					//TODO handle the exception
 				}

@@ -14,7 +14,8 @@
 
 			</view>
 			<view class="u8">
-				<map class="u8"></map>
+				<map class="u8" :longitude="position[0]" :latitude="position[1]" :markers="marker" scale="10"
+					@markertap="clickMark"></map>
 			</view>
 			<view class="u17">
 				<view class="u17-title">入住日期/离开日期</view>
@@ -62,7 +63,9 @@
 					pay: 196.00
 				}],
 				detail: {},
-				id:''
+				id: '',
+				position: [],
+				marker: []
 			};
 		},
 		onLoad(options) {
@@ -73,6 +76,17 @@
 			openPage(url) {
 				OpenPage(url)
 			},
+			async clickMark(e) {
+				let markItem = this.marker[0];
+				uni.openLocation({
+					latitude: parseFloat(markItem.latitude),
+					longitude: parseFloat(markItem.longitude),
+					scale: 10,
+					success(res) {
+						console.log(res)
+					}
+				})
+			},
 			async getDetail() {
 				try {
 					const {
@@ -80,6 +94,16 @@
 					} = this.$data;
 					const res = await this.$http(`${this.$API.getProductDetail}?spotId=${id}`);
 					this.detail = res.data.Data.Rec;
+					this.position = this.detail.UUlng_lat_pos.split(',')
+					this.marker = [{
+						id,
+						latitude: this.position[1],
+						longitude: this.position[0],
+						title: this.detail.UUtitle,
+						iconPath: '/static/u115.svg',
+						width: 15,
+						height: 20
+					}]
 					uni.setNavigationBarTitle({
 						title: this.detail.UUtitle
 					})
@@ -136,7 +160,7 @@
 		}
 
 		.u8 {
-			height: 130rpx;
+			height: 150rpx;
 			border-radius: 12rpx;
 			margin-top: 20rpx;
 			width: 100%;

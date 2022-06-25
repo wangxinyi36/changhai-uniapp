@@ -110,7 +110,8 @@
 <script>
 	import {
 		getRegionList,
-		showToast
+		showToast,
+		sendEvent
 	} from '@/common/fun.js'
 	import {
 		upload
@@ -168,6 +169,13 @@
 						rules: [{
 							required: true,
 							errorMessage: '请选择',
+						}, {
+							validateFunction: (rule, value, data, callback) => {
+								if (value.length != 19) {
+									callback('请选择具体时间!')
+								}
+								return true;
+							}
 						}]
 					},
 					upport: {
@@ -317,7 +325,6 @@
 				let index = this.landFormData.url.findIndex(item => item == e.tempFile);
 				url.splice(index, 1)
 				this.landFormData.url = url;
-				console.log(this.landFormData.url)
 			},
 			submit(ref) {
 				let _this = this;
@@ -327,11 +334,17 @@
 						return item.url;
 					})
 					formData.url = formData.url.join(',')
+					formData.uptime = new Date(formData.uptime)
 					const result = await _this.$http(_this.$API.postHealth, formData, 'POST');
 					if (result.errno != 0) {
 						showToast(result.errmsg)
+					} else {
+						showToast('提交成功!')
+						sendEvent(_this, {
+							isReload: true
+						})
+						uni.navigateBack()
 					}
-					console.log(result)
 				}).catch(err => {
 					console.log(err)
 					showToast('表单内容皆为必填项！')

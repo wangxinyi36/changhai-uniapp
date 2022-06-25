@@ -9,13 +9,13 @@
 			<view class="u58-box">
 				<view class="u58-box-title">{{detail.UUtitle}}</view>
 				<rich-text class="u58-box-text" :nodes="detail.UUbhjq"></rich-text>
+				<rich-text class="u58-box-text" :nodes="detail.UUjtzn"></rich-text>
 			</view>
 		</view>
 		<view class="u58">
 			<view class="u58-title">民宿要求</view>
 			<view class="u58-box">
-				<view class="u58-box-text"><text class="title">入离时间：</text>入住时间14:00以后，离店时间12:00以前</view>
-				<view class="u58-box-text"><text class="title">入住方式：</text>不允许举办派对/活动 不允许商业拍摄 不允许儿童入住</view>
+				<rich-text class="u58-box-text" :nodes="detail.UUjqts"></rich-text>
 			</view>
 		</view>
 	</view>

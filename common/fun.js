@@ -6,20 +6,32 @@
  * @return {void} 返回值无
  */
 export const OpenPage = (url, params) => {
-	uni.navigateTo({
-		url,
-		events: {
-			// 获取被打开页面传送到当前页面的数据
-			getParams(data) {
-				console.log(data)
+	return new Promise((resolve, reject) => {
+		uni.navigateTo({
+			url,
+			events: {
+				// 获取被打开页面传送到当前页面的数据
+				getParams: function(data) {
+					console.log(data)
+					resolve(data)
+				}
+			},
+			success: (res) => {
+				// 通过eventChannel向被打开页面传送数据
+				console.log(res)
+				res.eventChannel.emit('sendParams', params)
 			}
-		},
-		success: (res) => {
-			// 通过eventChannel向被打开页面传送数据
-			console.log(res)
-			res.eventChannel.emit('sendParams', params)
-		}
-	});
+		});
+	})
+}
+
+/**
+ * @description 像父级页面传值
+ * @param {object} params 
+ */
+export const sendEvent = (_this, params) => {
+	const eventChannel = _this.getOpenerEventChannel();
+	eventChannel.emit('getParams', params);
 }
 
 /**

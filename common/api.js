@@ -15,9 +15,11 @@ const API = {
 	getHomeDetail: 'dev/xcx/ad/home', // 查询首页列表详情
 
 	getAbjList: 'dev/xcx/abj/list', // 查询公共服务列表
+	getAbjTypes: 'dev/xcx/abjType/dtsAbjAllEnble', // 查询公共服务类型
 
 	getHealthList: 'dev/xcx/health/list', // 查询登岛申请列表
 	postHealth: 'dev/xcx/health/create', // 填写登岛申请
+	getHealth: 'dev/xcx/health/read', // 查看登岛申请
 
 	getGoodsList: 'dev/xcx/goods/list', // 查询商品列表
 	getGoodsDetail: 'dev/xcx/goods/detail', // 查询商品详情
