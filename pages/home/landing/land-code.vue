@@ -2,7 +2,8 @@
 	<view class="u205">
 		<!-- <view class="u208">2022-5-13</view> -->
 		<view class="u207">
-			<u-qrcode ref="qrcode" canvas-id="qrcode" :value="detail" size="210"></u-qrcode>
+			<image :src="detail.upUrl" mode="aspectFill" class="u207-img"></image>
+			<!-- <u-qrcode ref="qrcode" canvas-id="qrcode" :value="detail" size="210"></u-qrcode> -->
 		</view>
 	</view>
 </template>
@@ -26,8 +27,8 @@
 						id
 					} = this.$data;
 					const res = await this.$http(`${this.$API.getHealth}?id=${id}`);
-					this.detail = this.dealString(res.data)
-					// this.detail = JSON.stringify(res.data);
+					this.detail = res.data;
+					// this.detail = this.dealString(res.data)
 				} catch (e) {
 					console.log("错误", e)
 					//TODO handle the exception
@@ -73,6 +74,11 @@
 
 		.u207 {
 			margin: 30rpx 0;
+
+			&-img {
+				width: 420rpx;
+				height: 420rpx;
+			}
 		}
 	}
 </style>

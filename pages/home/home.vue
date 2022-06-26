@@ -137,20 +137,17 @@
 					</view>
 				</uni-row>
 				<view class="u54">
-					<view class="u54-item" v-for="(item, index) in speLine" :key="item.id">
-						<navigator :url="`/pages/home/special-route/special-route-detail?id=${item.id}`"
-							hover-class="none">
-							<image :src="item.picUrl" mode="scaleToFill" class="u54-img"></image>
-							<view class="u54-box">
-								<uni-row>
-									<text class="u54-title">{{ item.name }}</text>
-									<text class="u54-time">{{ item.brief }}</text>
-								</uni-row>
-								<uni-row>
-									<text class="u54-tag" v-for="(tag, i) in item.tags" :key="i">{{ tag }}</text>
-								</uni-row>
-							</view>
-						</navigator>
+					<view class="u54-item" v-for="(item, index) in speLine" :key="item.id" @click="openRoute(item)">
+						<image :src="item.picUrl" mode="scaleToFill" class="u54-img"></image>
+						<view class="u54-box">
+							<uni-row>
+								<text class="u54-title">{{ item.name }}</text>
+								<text class="u54-time">{{ item.brief }}</text>
+							</uni-row>
+							<uni-row>
+								<text class="u54-tag" v-for="(tag, i) in item.tags" :key="i">{{ tag }}</text>
+							</uni-row>
+						</view>
 
 					</view>
 				</view>
@@ -278,6 +275,9 @@
 			},
 			openPage(item, url) {
 				OpenPage(`${url}?title=${item.name}`)
+			},
+			openRoute(item) {
+				OpenPage(`/pages/home/special-route/special-route-detail?id=${item.id}`)
 			},
 			homeDetail(value) {
 				let {

@@ -7,8 +7,8 @@
 			<view class="u24-item-box-tags">
 				<view class="u24-item-box-tag" v-for="tag,i in info.tags" :key="i">{{tag}}</view>
 			</view>
-			<view class="u24-item-box-pay"><text style="font-size: 20rpx;">￥</text>{{info.pay}}<text
-					style="font-size: 24rpx;">起</text></view>
+			<!-- <view class="u24-item-box-pay"><text style="font-size: 20rpx;">￥</text>{{info.pay}}<text
+					style="font-size: 24rpx;">起</text></view> -->
 		</view>
 	</view>
 </template>

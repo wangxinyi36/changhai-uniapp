@@ -17,7 +17,7 @@
 				<map class="u8" :longitude="position[0]" :latitude="position[1]" :markers="marker" scale="10"
 					@markertap="clickMark"></map>
 			</view>
-			<view class="u17">
+			<!-- <view class="u17">
 				<view class="u17-title">入住日期/离开日期</view>
 				<uni-datetime-picker v-model="single">
 					<view class="u81">
@@ -25,8 +25,8 @@
 						<image src="/static/icon2.svg" mode="aspectFill" class="u81-img"></image>
 					</view>
 				</uni-datetime-picker>
-			</view>
-			<view class="u20-list">
+			</view> -->
+			<!-- <view class="u20-list">
 				<view class="u20" v-for="item,index in list" :key="index">
 					<image :src="item.url" mode="aspectFill" class="u20-img"></image>
 					<view class="u20-box">
@@ -40,7 +40,7 @@
 						<view class="u27">定</view>
 					</view>
 				</view>
-			</view>
+			</view> -->
 		</view>
 	</view>
 </template>

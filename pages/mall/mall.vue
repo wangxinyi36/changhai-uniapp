@@ -41,22 +41,14 @@
 			return {
 				times: 0,
 				addIndex: -1,
-				leftList: [{
-					name: '长海海鲜礼',
-					id: 1
-				}, {
-					name: '文创产品',
-					id: 2
-				}, {
-					name: '休闲旅游产品',
-					id: 3
-				}],
+				leftList: [],
 				goods: [],
 				page: 1,
 				total: 0,
 			};
 		},
 		onLoad() {
+			this.getCategory()
 			this.getGoods()
 		},
 		methods: {
@@ -73,6 +65,14 @@
 				setTimeout(() => {
 					this.times = 0;
 				}, 1000)
+			},
+			async getCategory() {
+				try {
+					const res = await this.$http(this.$API.getCategoryList);
+					this.leftList = res.data;
+				} catch (e) {
+					//TODO handle the exception
+				}
 			},
 			async getGoods() {
 				let {

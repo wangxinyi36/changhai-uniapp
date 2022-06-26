@@ -24,7 +24,9 @@
 				detail: {}
 			};
 		},
-		onLoad() {},
+		onLoad() {
+			// this.getAirportDetail()
+		},
 		methods: {
 			async getAirportDetail() {
 				try {

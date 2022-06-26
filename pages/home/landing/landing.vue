@@ -11,13 +11,13 @@
 				<uni-td>{{item.name}}</uni-td>
 				<uni-td>{{dealUptime(item.uptime)}}</uni-td>
 				<uni-td>
-					<view class="u203" :class="[{'u203-pass' : item.status === 2}]">
-						{{item.status === 1 ? '审核中' : item.status === 2 ? '通过' :'驳回'}}
+					<view class="u203" :class="[{'u203-pass' : item.status === 1}]">
+						{{item.status === 0 ? '审核中' : item.status === 1 ? '通过' :'驳回'}}
 					</view>
 				</uni-td>
 				<uni-td>
 					<navigator :url="`/pages/home/landing/land-code?id=${item.id}`" hover-class="none">
-						<view class="u203-pass">{{item.status === 2 ? '显示' : '-'}}</view>
+						<view class="u203-pass">{{item.status === 1 ? '显示' : '-'}}</view>
 					</navigator>
 				</uni-td>
 			</uni-tr>

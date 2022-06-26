@@ -21,6 +21,7 @@ const API = {
 	postHealth: 'dev/xcx/health/create', // 填写登岛申请
 	getHealth: 'dev/xcx/health/read', // 查看登岛申请
 
+	getCategoryList: 'dev/xcx/category/l1', // 商品类型列表
 	getGoodsList: 'dev/xcx/goods/list', // 查询商品列表
 	getGoodsDetail: 'dev/xcx/goods/detail', // 查询商品详情
 
@@ -33,6 +34,8 @@ const API = {
 	
 	postProductList: 'dev/xcx/product/getList', // 票付通产品列表
 	getProductDetail: 'dev/xcx/product/detail', // 票付通产品详情
+	
+	postCommentList: 'dev/xcx/comment/getCommentList', // 评论评分接口
 	
 	
 

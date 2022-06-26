@@ -29,41 +29,22 @@
 			<view class="u264">
 				<view class="u264-title">行程安排</view>
 				<view class="u264-box">
-					<view class="u264-item">
+					<view class="u264-item" v-for="item,index in specifications" :key="index">
 						<view class="u264-item-title">
-							<view class="u274">D1</view>
-							<view class="u275">大长山岛</view>
+							<view class="u274">D{{index+1}}</view>
+							<view class="u275">{{item.specification}}</view>
 						</view>
-						<view class="u264-item-text">上午在岛内港口接站、入住、午餐；下午在沙洁水蓝的海滨浴场进行海浴和沙滩排球、拔河等活动；晚餐品尝纯正的海鲜；晚间在海边。
-						</view>
-					</view>
-					<view class="u264-item">
-						<view class="u264-item-title">
-							<view class="u274">D2</view>
-							<view class="u275">祈祥园+长海海参博物馆+三元店</view>
-						</view>
-						<view class="u264-item-text">
-							上午游览集自然景观与人文景观为一体的平安吉祥地---祈祥园、世界首家海参博物馆——长海海参博物馆、参观辽南地区最大的道教场所——三元宫、象征海岛军民共建美好前景的双凤朝阳塔、海底旨水净化厂。
-						</view>
-					</view>
-					<view class="u264-item">
-						<view class="u264-item-title">
-							<view class="u264-item-title">
-								<view class="u274">D3</view>
-								<view class="u275">乘船出海</view>
-							</view>
-						</view>
-						<view class="u264-item-text">上午乘船出海，观赏海洋牧场并进行垂钓（也可以进行岸钓或网箱钓）；中午在口尝特色餐；中午进行海上人造沙滩活动，下午送团。</view>
+						<view class="u264-item-text">{{item.value}}</view>
 					</view>
 				</view>
 			</view>
-			<view class="u264">
+			<!-- <view class="u264">
 				<view class="u264-title">地图</view>
 				<view class="u264-map">
 					<map class="u264-map-box" :latitude="latitude" :longitude="longitude">
 					</map>
 				</view>
-			</view>
+			</view> -->
 
 		</view>
 	</view>
@@ -164,7 +145,7 @@
 	}
 
 	.u243 {
-		padding: 50rpx 30rpx 10rpx 30rpx;
+		padding: 30rpx 30rpx;
 		border-bottom: 2rpx solid rgba(242, 242, 242, 1);
 
 		&-title {
