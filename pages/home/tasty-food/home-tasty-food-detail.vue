@@ -33,7 +33,7 @@
 			<view class="u58">
 				<view class="u58-item" v-for="item,index in commentList" :key="item.id">
 					<view class="u59">
-						<image :src="item.avatar" mode="aspectFill" class="u59-img"></image>
+						<image :src="item.userHeadImage" mode="aspectFill" class="u59-img"></image>
 						<view class="u59-box">
 							<view class="u59-box-name">{{item.userName}}</view>
 							<uni-rate v-model="item.score" readonly :size="13" />

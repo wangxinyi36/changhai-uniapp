@@ -104,24 +104,6 @@ export const getRegionList = () => {
 }
 
 /**
- * 微信授权登录
- */
-export function WechatLogin() {
-	return new Promise((resolve, reject) => {
-		uni.getUserProfile({
-			desc: '用户登录',
-			lang: "zh_CN",
-			success(res) {
-				resolve(res)
-			},
-			fail(err) {
-				reject(err)
-			}
-		})
-	})
-}
-
-/**
  * @description 获取位置授权
  */
 export async function getAddressAuthorize() {

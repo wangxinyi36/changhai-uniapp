@@ -1,19 +1,10 @@
 <template>
 	<view class="my">
-		<!-- <view class="u16" @click="openPage(`/pages/my/userInfo`)">
-			<image :src="wechat_userInfo.avatarUrl" mode="aspectFill" class="u16-img"></image>
-			<view class="u17">
-				<view class="u17-name">游客</view>
-				<view class="u17-tel">绑定手机号</view>
-			</view>
-		</view> -->
 		<button class="u15" @click="login">
-			<!-- <button class="u15" open-type="getPhoneNumber" @getphonenumber="getPhoneNumber"> -->
 			<view class="u16">
 				<image :src="wechat_userInfo.avatarUrl || defautlAvatar" mode="aspectFill" class="u16-img"></image>
 				<view class="u17">
-					<view class="u17-name">游客</view>
-					<view class="u17-tel">绑定手机号</view>
+					<view class="u17-name">{{wechat_userInfo.nickName || '游客'}}</view>
 				</view>
 			</view>
 		</button>
@@ -41,9 +32,9 @@
 <script>
 	import {
 		OpenPage,
-		WechatLogin,
 		getStorage,
-		setStorage
+		setStorage,
+		showToast
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -53,37 +44,30 @@
 			};
 		},
 		onLoad() {
-			this.wechat_userInfo = getStorage('userInfo')
+			this.wechat_userInfo = getStorage('wechat_userInfo')
 		},
 		methods: {
 			clickItem(url) {
 				this.openPage(url)
 			},
 			async openPage(url) {
-				try {
-					const value = getStorage('userInfo');
-					if (value) {
-						// OpenPage(url)
-					} else {
-						const result = await WechatLogin();
-						setStorage('wechat_userInfo', result.userInfo);
-						this.wechat_userInfo = result.userInfo;
-					}
-				} catch (err) {
-					console.log(err)
-					// error
+				if (this.wechat_userInfo) {
+					OpenPage(url)
+				} else {
+					showToast('请登录！')
 				}
-			},
-			getPhoneNumber(val) {
-				console.log(val)
-				// OpenPage(`/pages/my/userInfo`)
 			},
 			login() {
 				let _this = this;
+				if (this.wechat_userInfo) {
+					OpenPage('/pages/my/userInfo').then(res => {
+						this.wechat_userInfo = getStorage('wechat_userInfo')
+					})
+					return;
+				}
 				uni.getUserProfile({
 					desc: '需要获取您的个人信息',
 					success(res) {
-						console.log(res)
 						uni.login({
 							provider: 'weixin',
 							success: async function(loginRes) {
@@ -102,8 +86,8 @@
 								}
 								const result = await _this.$http(_this.$API.postLoginByWeixin, data,
 									'POST');
-								console.log(loginRes);
-								console.log(result);
+								_this.wechat_userInfo = result.data.userInfo;
+								setStorage('wechat_userInfo', result.data.userInfo)
 							},
 							fail(err) {
 								console.log(err)

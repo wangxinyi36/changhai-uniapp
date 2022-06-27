@@ -8,10 +8,20 @@
 .data-v-231b239a .uni-list-item__container {
   align-items: center;
 }
-.avatar.data-v-231b239a {
+.data-v-231b239a .uni-file-picker {
   width: 100rpx;
   height: 100rpx;
-  border-radius: 50%;
+}
+.data-v-231b239a .uni-file-picker__container {
+  margin: 0;
+}
+.data-v-231b239a .file-picker__box-content {
+  margin: 0;
+  border: none;
+}
+.data-v-231b239a .file-image {
+  width: 100rpx;
+  height: 100rpx;
 }
 .nickname.data-v-231b239a {
   text-align: right;

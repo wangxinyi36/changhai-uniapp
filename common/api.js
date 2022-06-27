@@ -31,11 +31,14 @@ const API = {
 	postStorageCreate: 'dev/xcx/storage/create', // 上传图片
 	
 	postLoginByWeixin: 'wxapi/wx/auth/login_by_weixin', // 微信登录
+	postAuthUpdate: 'dev/xcx/auth/update', // 更新用户信息
 	
 	postProductList: 'dev/xcx/product/getList', // 票付通产品列表
 	getProductDetail: 'dev/xcx/product/detail', // 票付通产品详情
 	
 	postCommentList: 'dev/xcx/comment/getCommentList', // 评论评分接口
+	
+	getAddressList: 'dev/xcx/address/list', // 查询收货地址
 	
 	
 
