@@ -1,7 +1,7 @@
 <template>
 	<view>
 		<view class="u17" v-for="item,index in list" :key="item.id" @click="openPage(item.id)">
-			<image :src="item.url" mode="aspectFill" class="u17-img"></image>
+			<!-- <image :src="item.url" mode="aspectFill" class="u17-img"></image> -->
 			<view class="u17-box">
 				<view class="u17-box-title">{{item.title}}</view>
 				<view class="u17-box-text">
@@ -76,6 +76,10 @@
 			&-text {
 				font: 400 20rpx/30rpx 'Arial Normal', 'Arial', sans-serif;
 				color: #333;
+
+				.text img {
+					width: 100%;
+				}
 			}
 		}
 	}

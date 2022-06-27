@@ -27,33 +27,45 @@
 		data() {
 			return {
 				background: '-webkit-linear-gradient(0.23deg, rgba(255, 255, 255, 1) 0%, rgba(255, 113, 0, 1) 100%)',
-				list: [{
-					avatar: '/static/mall1.svg',
-					name: '新鲜海鲜',
-					grade: 4,
-					pay: 20,
-					address: '大长山岛',
-					distance: '1.2km',
-					foods: [{
-						url: '/static/home3.png',
-						name: '海鲜杂烩',
-						money: 130
-					}, {
-						url: '/static/mall5.png',
-						name: '蒜蓉生蚝',
-						money: 130
-					}, {
-						url: '/static/mall8.png',
-						name: '海鲜杂烩',
-						money: 130
-					}]
-				}]
+				list: [],
+				productForm: {
+					area: "",
+					name: "",
+					pageNum: 10,
+					start: 0,
+					uuType: "G", //A景点 B路线 C酒店 F套票 G美食 H演出
+					uuid: ""
+				},
+				total: 0,
 			};
+		},
+		onLoad() {
+			this.postProduct()
 		},
 		methods: {
 			openSearch() {
 				OpenPage(`/pages/home/search/search?from=tasty_food`)
 			},
+			async postProduct() {
+				try {
+					const {
+						total,
+						list
+					} = this.$data;
+					if (total > 0 && list.length == total) {
+						return;
+					}
+					const resultFoods = await this.$http(this.$API.postProductList, this.productForm, 'POST');
+					this.list = list.concat(resultFoods.data.list);
+					this.total = resultFoods.data.total;
+				} catch (e) {
+					//TODO handle the exception
+				}
+			}
+		},
+		onReachBottom() {
+			this.productForm.start += 10;
+			this.postProduct()
 		}
 	}
 </script>
