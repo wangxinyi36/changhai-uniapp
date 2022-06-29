@@ -1,30 +1,30 @@
 <template>
 	<page-meta :page-style="'overflow:'+(show?'hidden':'visible')"></page-meta>
 	<view class="mall-detail">
-		<image src="/static/mall8.jpg" mode="aspectFill" class="u20-img"></image>
+		<image :src="detail.picUrl" mode="aspectFill" class="u20-img"></image>
 		<view class="u3">
 			<view class="u22">
-				<view class="u22-title">长海海参</view>
-				<view class="u22-num">累计销售：77</view>
+				<view class="u22-title">{{detail.name}}</view>
+				<!-- <view class="u22-num">累计销售：77</view> -->
 			</view>
-			<view class="u21">￥88/盆</view>
-			<view class="u23 u22-num">新鲜海鲜，食用安心</view>
+			<view class="u21">￥{{detail.retailPrice}}/{{detail.unit}}</view>
+			<view class="u23 u22-num">{{detail.brief}}</view>
 		</view>
 
-		<view class="u24">
+		<!-- <view class="u24">
 			<view class="u24-title">服务</view>
 			<view class="u24-tags">
 				<text class="u24-tags-text">7天退还</text>
 				<text class="u24-tags-text">748小时内容发货</text>
 			</view>
-		</view>
+		</view> -->
 
-		<view class="u29">
+		<!-- <view class="u29">
 			<view class="u29-title">关于运费</view>
 			<view class="u29-text">包邮</view>
-		</view>
+		</view> -->
 
-		<view class="u1">
+		<!-- <view class="u1">
 			<view class="u31">
 				<view class="u31-title">用户评论（888）</view>
 				<view class="u31-num" @click="openPage">查看全部</view>
@@ -32,11 +32,11 @@
 			<view class="comment-list">
 				<common-comment v-for="item,index in comments" :key="index" :comment="item"></common-comment>
 			</view>
-		</view>
+		</view> -->
 
 		<view class="u42">
 			<view class="u42-title">商品详情</view>
-			<image src="/static/home5.png" class="u42-img" mode="aspectFill"></image>
+			<image :src="detail.picUrl" class="u42-img" mode="aspectFill"></image>
 		</view>
 
 		<view class="u43">
@@ -137,11 +137,13 @@
 						backgroundColor: '#ff8d3d',
 						color: '#fff'
 					}
-				]
+				],
+				detail: {}
 			};
 		},
 		onLoad(options) {
 			this.id = options.id;
+			this.getDetail()
 		},
 		methods: {
 			openPage() {
@@ -163,6 +165,7 @@
 				try {
 					const res = await this.$http(
 						`${this.$API.getGoodsDetail}?id=${id}`);
+					this.detail = res.data.goods;
 					// this.total = res.data.total;
 					// this.goods = this.goods.concat(res.data.items);
 				} catch (e) {

@@ -30,11 +30,10 @@
             "outputPath": ""
         },
         "disableUseStrict": false,
-        "useCompilerPlugins": false,
-        "minifyWXML": true
+        "useCompilerPlugins": false
     },
     "compileType": "miniprogram",
-    "libVersion": "2.24.5",
+    "libVersion": "2.24.6",
     "appid": "wx8b22cc619bd5dba2",
     "projectname": "长海一码游鸣亿开发",
     "condition": {},

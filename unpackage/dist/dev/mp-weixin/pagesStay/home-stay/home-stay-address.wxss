@@ -19,12 +19,16 @@
   font: normal 400 28rpx/normal 'Arial Normal', 'Arial', sans-serif;
   color: #aaa;
 }
-.u99 .uni-forms-item.data-v-681663b6 {
+.u99.data-v-681663b6 .uni-forms-item {
   border-bottom: 2rpx solid #999;
 }
-.u99 .uni-forms-item.data-v-681663b6 .uni-forms-item__inner {
+.u99.data-v-681663b6 .uni-error-message {
+  bottom: -20px;
+  padding-left: 0 !important;
+}
+.u99.data-v-681663b6 .uni-forms-item__inner {
   padding-bottom: 0;
-  padding-top: 40rpx;
+  padding-top: 20px;
 }
 .u99 .bottom.data-v-681663b6 {
   margin-top: 40rpx;

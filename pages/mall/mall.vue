@@ -2,7 +2,7 @@
 	<view class="mall">
 		<common-tree-select :leftList="leftList" @changeLeft="changeLeft">
 			<view class="mall-right">
-				<image src="/static/home5.png" mode="aspectFill" class="u23-img"></image>
+				<!-- <image src="/static/home1.png" mode="aspectFill" class="u23-img"></image> -->
 				<uni-row :gutter="20">
 					<view class="goods">
 						<uni-col :span="12" v-for="item,index in goods" :key="index">
@@ -49,11 +49,13 @@
 		},
 		onLoad() {
 			this.getCategory()
-			this.getGoods()
 		},
 		methods: {
 			changeLeft(val) {
-				console.log(val)
+				this.goods = [];
+				this.page = 1;
+				this.total = 0;
+				this.getGoods(val.value)
 			},
 			openPage(item, index) {
 				OpenPage(`/pages/mall/detail?id=${item.id}`)
@@ -70,18 +72,19 @@
 				try {
 					const res = await this.$http(this.$API.getCategoryList);
 					this.leftList = res.data;
+					this.getGoods(res.data[0].value)
 				} catch (e) {
 					//TODO handle the exception
 				}
 			},
-			async getGoods() {
+			async getGoods(pid) {
 				let {
 					page,
 					cityCode
 				} = this.$data;
 				try {
 					const res = await this.$http(
-						`${this.$API.getGoodsList}?limit=10&page=${page}`);
+						`${this.$API.getGoodsList}?limit=10&page=${page}&pid=${pid}`);
 					this.total = res.data.total;
 					this.goods = this.goods.concat(res.data.items);
 				} catch (e) {
@@ -107,7 +110,7 @@
 			.goods {
 				@extend .default-flex;
 				flex-wrap: wrap;
-				margin-top: 50rpx;
+				// margin-top: 50rpx;
 
 				.goods-item {
 					background-color: rgba(255, 255, 255, 1);

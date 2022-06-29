@@ -29,18 +29,24 @@ const API = {
 	getNewsDetail: 'dev/xcx/article/detail', // 查询新闻详情
 
 	postStorageCreate: 'dev/xcx/storage/create', // 上传图片
-	
+
 	postLoginByWeixin: 'wxapi/wx/auth/login_by_weixin', // 微信登录
 	postAuthUpdate: 'dev/xcx/auth/update', // 更新用户信息
-	
+
 	postProductList: 'dev/xcx/product/getList', // 票付通产品列表
 	getProductDetail: 'dev/xcx/product/detail', // 票付通产品详情
-	
+
 	postCommentList: 'dev/xcx/comment/getCommentList', // 评论评分接口
-	
+
 	getAddressList: 'dev/xcx/address/list', // 查询收货地址
-	
-	
+	postAddressSave: 'dev/xcx/address/save', // 更新或新增收货地址
+	getAddressDetail: 'dev/xcx/address/detail', // 查询收货地址详情
+
+	getMyPhoneNumber: 'dev/xcx/my/phoneNumber', // 查询联系我们手机号
+
+	getMyAboutMini: 'dev/xcx/my/aboutMini', // 关于小程序或帮助中心(传0是关于小程序，其它是返回值的pid)
+
+
 
 
 }

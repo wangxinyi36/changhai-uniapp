@@ -1,11 +1,9 @@
 <template>
 	<view>
-		<navigator url="/pagesStay/home-stay/home-stay-address" hover-class="none">
-			<view class="u93">
-				<image src="/static/icon4.svg" mode="scaleToFill" class="u93-add"></image>
-				<view class="u93-text">新增住客</view>
-			</view>
-		</navigator>
+		<view class="u93" @click="add">
+			<image src="/static/icon4.svg" mode="scaleToFill" class="u93-add"></image>
+			<view class="u93-text">新增住客</view>
+		</view>
 		<view class="u71-list">
 			<view class="u71" v-for="item,index in people" :key="index">
 				<view class="u71-left" @click="active = index">
@@ -13,7 +11,7 @@
 						class="u71-left-img"></image>
 					<view class="u71-left-box">
 						<view class="u71-left-box-name">{{item.name}}</view>
-						<view class="u71-left-box-card">{{item.idCard}}</view>
+						<view class="u71-left-box-card">{{item.mobile}}</view>
 					</view>
 				</view>
 				<navigator url="/pagesStay/home-stay/home-stay-address" hover-class="none">
@@ -29,23 +27,54 @@
 </template>
 
 <script>
+	import {
+		getStorage,
+		OpenPage
+	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
-				people: [{
-					name: '王某某',
-					idCard: '2111************5610'
-				}, {
-					name: '王某某',
-					idCard: '2111************5610'
-				}, {
-					name: '王某某',
-					idCard: '2111************5610'
-				}],
+				people: [],
 				active: 2,
 				chooseIcon: '/static/icon-choose-no.svg',
-				chooseActiveIcon: '/static/icon-choose-blue.svg'
+				chooseActiveIcon: '/static/icon-choose-blue.svg',
+				page: 1,
+				total: 0,
+				userId: ''
 			};
+		},
+		onLoad() {
+			this.userId = getStorage('wechat_userInfo').userId
+			this.getAddress()
+		},
+		methods: {
+			add() {
+				OpenPage('/pagesStay/home-stay/home-stay-address')
+			},
+			async getAddress() {
+				try {
+					const {
+						page,
+						userId,
+						total,
+						people
+					} = this.$data;
+					if (total > 0 && total == people.length) {
+						return;
+					}
+					const result = await this.$http(
+						`${this.$API.getAddressList}?limit=10&page=${page}&userId=${userId}`);
+					this.people = this.people.concat(result.data.items);
+					this.total = result.data.total;
+				} catch (e) {
+					//TODO handle the exception
+				}
+
+			}
+		},
+		onReachBottom() {
+			this.page++;
+			this.getAddress()
 		}
 	}
 </script>

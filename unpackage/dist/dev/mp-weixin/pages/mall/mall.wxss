@@ -17,7 +17,6 @@
 }
 .mall .mall-right .goods.data-v-2e142186 {
   flex-wrap: wrap;
-  margin-top: 50rpx;
 }
 .mall .mall-right .goods .goods-item.data-v-2e142186 {
   background-color: white;

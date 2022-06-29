@@ -67,7 +67,8 @@
         },
         "optimization" : {
             "subPackages" : true
-        }
+        },
+        "lazyCodeLoading" : "requiredComponents"
     },
     "vueVersion" : "2"
 }

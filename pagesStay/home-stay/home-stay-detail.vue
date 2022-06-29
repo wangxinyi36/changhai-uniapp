@@ -26,7 +26,7 @@
 					</view>
 				</uni-datetime-picker>
 			</view> -->
-			<!-- <view class="u20-list">
+			<view class="u20-list">
 				<view class="u20" v-for="item,index in list" :key="index">
 					<image :src="item.url" mode="aspectFill" class="u20-img"></image>
 					<view class="u20-box">
@@ -40,7 +40,7 @@
 						<view class="u27">定</view>
 					</view>
 				</view>
-			</view> -->
+			</view>
 		</view>
 	</view>
 </template>

@@ -20,8 +20,8 @@
 			</uni-list-item>
 			<uni-list-item title="优惠券" link="navigateTo" thumb="/static/my4.svg" thumbSize="sm" :clickable="true"
 				@click="clickItem('/pages/my/order')"></uni-list-item>
-			<uni-list-item title="联系我们" link="navigateTo" thumb="/static/my5.svg" thumbSize="sm" :clickable="true"
-				@click="clickItem('/pages/my/order')"></uni-list-item>
+			<uni-list-item title="联系我们" link="navigateTo" thumb="/static/my5.svg" thumbSize="sm"
+				:rightText="phoneNumber" :clickable="true" @click="call"></uni-list-item>
 			<uni-list-item title="设置" link="navigateTo" thumb="/static/setting.svg" class="my-setting" :clickable="true"
 				@click="clickItem('/pages/my/setting')"></uni-list-item>
 		</uni-list>
@@ -40,11 +40,15 @@
 		data() {
 			return {
 				wechat_userInfo: {},
-				defautlAvatar: '/static/avatar-default.svg'
+				defautlAvatar: '/static/avatar-default.svg',
+				phoneNumber: ''
 			};
 		},
 		onLoad() {
 			this.wechat_userInfo = getStorage('wechat_userInfo')
+			if (this.wechat_userInfo) {
+				this.getPhoneNumber()
+			}
 		},
 		methods: {
 			clickItem(url) {
@@ -55,6 +59,19 @@
 					OpenPage(url)
 				} else {
 					showToast('请登录！')
+				}
+			},
+			call() {
+				uni.makePhoneCall({
+					phoneNumber: this.phoneNumber
+				});
+			},
+			async getPhoneNumber() {
+				try {
+					const res = await this.$http(this.$API.getMyPhoneNumber);
+					this.phoneNumber = res.data.phoneNumber
+				} catch (e) {
+					//TODO handle the exception
 				}
 			},
 			login() {
@@ -122,7 +139,7 @@
 		.u16 {
 			@extend .default-flex;
 			height: 120rpx;
-			margin-bottom: 60rpx;
+			margin-bottom: 20rpx;
 
 			&-img {
 				width: 120rpx;
