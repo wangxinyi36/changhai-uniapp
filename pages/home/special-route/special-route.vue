@@ -32,7 +32,7 @@
 	export default {
 		data() {
 			return {
-				swipers: ['/static/home1.png', '/static/home1.png', '/static/home1.png'],
+				swipers: ['/static/home1.jpg', '/static/home1.jpg', '/static/home1.jpg'],
 				list: [],
 				page: 1,
 				total: 0,

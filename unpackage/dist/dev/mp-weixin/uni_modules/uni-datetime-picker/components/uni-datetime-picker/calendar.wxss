@@ -234,7 +234,7 @@
   background-color: #007aff;
   color: #fff;
   font-size: 16px;
-  letter-spacing: 5px;
+  letter-spacing: 2px;
 }
 .uni-datetime-picker--btn:active {
   opacity: 0.7;

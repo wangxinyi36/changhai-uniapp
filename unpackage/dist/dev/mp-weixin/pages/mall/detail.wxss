@@ -1,7 +1,7 @@
 @charset "UTF-8";
 /* 水平间距 */
 /* 水平间距 */
-.default-flex.data-v-11347ec3, .mall-detail .u3 .u22.data-v-11347ec3, .mall-detail .u24.data-v-11347ec3, .mall-detail .u1 .u31.data-v-11347ec3, .mall-detail .u120 .u128.data-v-11347ec3 {
+.default-flex.data-v-11347ec3, .mall-detail .u24-tags.data-v-11347ec3, .mall-detail .u1 .u31.data-v-11347ec3, .mall-detail .u120 .u128.data-v-11347ec3 {
   display: flex;
   align-items: center;
 }
@@ -18,12 +18,14 @@
   padding: 20rpx;
 }
 .mall-detail .u3 .u22.data-v-11347ec3 {
+  display: flex;
   justify-content: space-between;
 }
 .mall-detail .u3 .u22-title.data-v-11347ec3 {
   font-weight: 700;
   color: #000000;
   font-size: 32rpx;
+  flex: 1;
 }
 .mall-detail .u3 .u22-num.data-v-11347ec3 {
   font-weight: 400;
@@ -35,6 +37,7 @@
   color: #D9001B;
 }
 .mall-detail .u24.data-v-11347ec3 {
+  display: flex;
   background-color: #fff;
   margin-top: 20rpx;
   padding: 20rpx;
@@ -45,14 +48,17 @@
 }
 .mall-detail .u24-tags.data-v-11347ec3 {
   margin-left: 16rpx;
+  flex: 1;
+  flex-wrap: wrap;
 }
 .mall-detail .u24-tags-text.data-v-11347ec3 {
-  font: 400 normal 24rpx;
+  font: normal 400 24rpx/normal '微软雅黑', sans-serif;
   font-style: normal;
   color: rgba(248, 113, 113, 0.690196);
   background-color: rgba(248, 113, 113, 0.231373);
   margin-right: 20rpx;
   padding: 0 20rpx;
+  margin-bottom: 16rpx;
 }
 .mall-detail .u29.data-v-11347ec3 {
   background-color: #fff;
@@ -96,6 +102,9 @@
 }
 .mall-detail .u42-img.data-v-11347ec3 {
   height: 636rpx;
+  width: 100%;
+}
+.mall-detail .u42-img ._img.data-v-11347ec3 {
   width: 100%;
 }
 .mall-detail .u43.data-v-11347ec3 {

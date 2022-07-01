@@ -1,17 +1,34 @@
 <template>
-	<view class="common-comment">
-		<view class="u33">
-			<image :src="comment.avatar" mode="aspectFill" class="u33-avatar"></image>
-			<view class="u33-name">{{comment.name}}</view>
+	<view>
+		<view class="common-comment" v-if="from && from == 'mall'">
+			<view class="u33">
+				<image :src="comment.avatar" mode="aspectFill" class="u33-avatar"></image>
+				<view class="u33-name">{{comment.nickname}}</view>
+			</view>
+			<view class="content">{{comment.content}}</view>
+			<view class="pics" v-if="comment.picUrls.length > 0">
+				<uni-row :gutter="10">
+					<uni-col :span="12" v-for="item,index in comment.picUrls" :key="index">
+						<image :src="item" mode="aspectFill" class="pic">
+						</image>
+					</uni-col>
+				</uni-row>
+			</view>
 		</view>
-		<view class="content">{{comment.content}}</view>
-		<view class="pics" v-if="comment.pics.length > 0">
-			<uni-row :gutter="10">
-				<uni-col :span="12" v-for="item,index in comment.pics" :key="index">
-					<image :src="item" mode="aspectFill" class="pic">
-					</image>
-				</uni-col>
-			</uni-row>
+		<view class="common-comment" v-else>
+			<view class="u33">
+				<image :src="comment.avatar" mode="aspectFill" class="u33-avatar"></image>
+				<view class="u33-name">{{comment.name}}</view>
+			</view>
+			<view class="content">{{comment.content}}</view>
+			<view class="pics" v-if="comment.pics.length > 0">
+				<uni-row :gutter="10">
+					<uni-col :span="12" v-for="item,index in comment.pics" :key="index">
+						<image :src="item" mode="aspectFill" class="pic">
+						</image>
+					</uni-col>
+				</uni-row>
+			</view>
 		</view>
 	</view>
 </template>
@@ -20,7 +37,8 @@
 	export default {
 		name: "common-comment",
 		props: {
-			comment: Object
+			comment: Object,
+			from: String,
 		},
 		data() {
 			return {

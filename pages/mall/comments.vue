@@ -1,31 +1,69 @@
 <template>
 	<view class="comments">
 		<view class="u48">
-			<view class="u48-text">全部</view>
-			<view class="u48-text">最新</view>
+			<view class="u48-text" v-for="item,index in tabs" :key="index" :class="{'u48-text-active': tabIndex == index }"
+				@click="change(index)">
+				{{item.name}}
+			</view>
 		</view>
 		<view class="">
-			<common-comment v-for="item,index in comments" :key="index" :comment="item"></common-comment>
+			<common-comment v-for="item,index in comments" :key="index" :comment="item" from="mall"></common-comment>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		getStorage
+	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
-				comments: [{
-					avatar: '/static/mall8.png',
-					name: '张三',
-					content: '很新鲜，口感滑嫩，下饭的好菜、鲜艳非常诱人分量足，性价比高',
-					pics: ['/static/mall8.png', '/static/mall8.png', '/static/mall8.png']
+				tabIndex: -1,
+				tabs: [{
+					name: '全部'
 				}, {
-					avatar: '/static/mall8.png',
-					name: '李四',
-					content: '很新鲜，口感滑嫩，下饭的好菜、鲜艳非常诱人分量足，性价比高',
-					pics: []
+					name: '最新'
 				}],
+				comments: [],
+				id: '',
+				page: 1,
+				total: 0,
 			};
+		},
+		onLoad(options) {
+			this.id = options.id;
+			this.tabIndex = 0;
+			this.getComments()
+		},
+		methods: {
+			change(val) {
+				this.tabIndex = val;
+			},
+			async getComments() {
+				try {
+					let {
+						id,
+						userId,
+						page,
+						total,
+						comments
+					} = this.$data;
+					if (total > 0 && total == comments.length) {
+						return;
+					}
+					const res = await this.$http(
+						`${this.$API.getCommentList}?limit=10&page=${page}&valueId=${id}`);
+					this.comments = res.data.items;
+					this.total = res.data.total;
+				} catch (e) {
+					//TODO handle the exception
+				}
+			}
+		},
+		onReachBottom() {
+			this.page++;
+			this.getComments()
 		}
 	}
 </script>
@@ -46,7 +84,15 @@
 				padding: 6rpx 50rpx;
 				box-sizing: border-box;
 				margin-right: 20rpx;
+
 			}
+
+			.u48-text-active {
+				background: #31d0e6;
+				color: #fff;
+			}
+
+
 		}
 
 

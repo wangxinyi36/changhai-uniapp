@@ -1,17 +1,15 @@
 <template>
 	<view>
-		<image src="/static/home1.png" mode="aspectFill" class="u9-img"></image>
 		<view class="u8">
-			<view class="u8-text">长海机场航班信息通告：2022年5月11日因天气原因无航班计划，12日航班待定，具体航班时刻待定，单程票价160元，具体售票时间可关注“长海大长山岛机场”公众号查看最新消息
-			</view>
+			<rich-text class="u8-text" :nodes="detail.content"></rich-text>
 		</view>
 		<view class="bottom">
 			<view class="bottom-btn">
 				<view class="bottom-btn-left">
 					<view class="u5">订票电话</view>
-					<view class="u6">0411-8988-1366</view>
+					<view class="u6">{{detail.phoneNumber}}</view>
 				</view>
-				<image src="/static/icon6.svg" mode="scaleToFill" class="bottom-btn-img"></image>
+				<image src="/static/icon6.svg" mode="scaleToFill" class="bottom-btn-img" @click="call"></image>
 			</view>
 		</view>
 	</view>
@@ -25,17 +23,22 @@
 			};
 		},
 		onLoad() {
-			// this.getAirportDetail()
+			this.getAirportDetail()
 		},
 		methods: {
 			async getAirportDetail() {
 				try {
 					const res = await this.$http(this.$API.getAirportDetail);
-
+					this.detail = res.data;
 				} catch (e) {
 					//TODO handle the exception
 				}
 			},
+			call() {
+				uni.makePhoneCall({
+					phoneNumber: this.detail.phoneNumber
+				});
+			}
 		}
 	}
 </script>
@@ -51,7 +54,7 @@
 	}
 
 	.u8 {
-		padding: 0 20rpx;
+		padding: 20rpx;
 
 		&-text {
 			font: normal 400 28rpx/32rpx 'Arial Normal', 'Arial', sans-serif;

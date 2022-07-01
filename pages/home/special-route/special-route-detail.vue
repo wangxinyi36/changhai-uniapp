@@ -51,13 +51,16 @@
 </template>
 
 <script>
+	import {
+		GetSystemInfo
+	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
 				safeTop: '',
 				backgroundColor: '#ffffff00',
 				color: '#fff',
-				bgImg: '/static/home1.png',
+				bgImg: '/static/home1.jpg',
 				tab: ['路线特色', '行程安排', '地图'],
 				tabIndex: 0,
 				latitude: 39.909,

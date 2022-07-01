@@ -37,22 +37,22 @@
 				isShow: true, //true展示历史记录  false不展示
 				searchList: [],
 				listFood: [{
-					avatar: '/static/home1.png',
+					avatar: '/static/home1.jpg',
 					name: '新鲜海鲜',
 					grade: 4,
 					pay: 20,
 					address: '大长山岛',
 					distance: '1.2km',
 					foods: [{
-						url: '/static/home1.png',
+						url: '/static/home1.jpg',
 						name: '海鲜杂烩',
 						money: 130
 					}, {
-						url: '/static/home1.png',
+						url: '/static/home1.jpg',
 						name: '海鲜杂烩',
 						money: 130
 					}, {
-						url: '/static/home1.png',
+						url: '/static/home1.jpg',
 						name: '海鲜杂烩',
 						money: 130
 					}]
@@ -62,7 +62,7 @@
 					address: '大长山岛镇',
 					pay: 1168,
 					tags: ['24小时客房服务', '公共区域WIFI'],
-					url: '/static/home1.png'
+					url: '/static/home1.jpg'
 				}],
 				from: '', //home_stay酒店  tasty_food美食   home_meal外卖
 			};

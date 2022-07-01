@@ -9,7 +9,7 @@
 		<common-dropdown color="#ff7100" :background="background"></common-dropdown>
 
 		<view class="u7">
-			<image src="/static/home1.png" mode="aspectFill" class="u7-img"></image>
+			<image src="/static/home1.jpg" mode="aspectFill" class="u7-img"></image>
 		</view>
 
 		<view class="u24-list">

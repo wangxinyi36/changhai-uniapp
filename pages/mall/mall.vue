@@ -2,7 +2,6 @@
 	<view class="mall">
 		<common-tree-select :leftList="leftList" @changeLeft="changeLeft">
 			<view class="mall-right">
-				<!-- <image src="/static/home1.png" mode="aspectFill" class="u23-img"></image> -->
 				<uni-row :gutter="20">
 					<view class="goods">
 						<uni-col :span="12" v-for="item,index in goods" :key="index">
@@ -11,7 +10,7 @@
 									@click="openPage(item,index)"></image>
 								<view class="goods-title">{{item.name}}</view>
 								<view class="u27">
-									<text class="goods-pay">￥{{item.retailPrice}}/{{item.unit}}</text>
+									<text class="goods-pay">￥{{item.wholesalePrice}}/{{item.unit}}</text>
 									<image src="../../static/mall2.svg" mode="aspectFill"
 										class="goods-add animate__animated"
 										:class="[{'animate__heartBeat':times > 0 && addIndex === index}]"

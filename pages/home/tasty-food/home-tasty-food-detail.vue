@@ -17,7 +17,7 @@
 		</view>
 		<view class="u25">
 			<view class="u25-top">
-				<image src="/static/home1.png" mode="aspectFill" class="u25-top-img"></image>
+				<image src="/static/home1.jpg" mode="aspectFill" class="u25-top-img"></image>
 				<view class="u25-top-box">
 					<view class="u25-top-box-name">新鲜海鲜</view>
 					<view class="u31">

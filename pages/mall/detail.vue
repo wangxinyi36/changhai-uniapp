@@ -1,42 +1,46 @@
 <template>
 	<page-meta :page-style="'overflow:'+(show?'hidden':'visible')"></page-meta>
 	<view class="mall-detail">
-		<image :src="detail.picUrl" mode="aspectFill" class="u20-img"></image>
+		<image :src="goodsDetail.picUrl" mode="aspectFill" class="u20-img"></image>
 		<view class="u3">
 			<view class="u22">
-				<view class="u22-title">{{detail.name}}</view>
-				<!-- <view class="u22-num">累计销售：77</view> -->
+				<view class="u22-title">{{goodsDetail.name}}</view>
+				<view class="u22-num">累计销售：{{goodsDetail.sales}}</view>
 			</view>
-			<view class="u21">￥{{detail.retailPrice}}/{{detail.unit}}</view>
-			<view class="u23 u22-num">{{detail.brief}}</view>
+			<view class="u21">￥{{goodsDetail.wholesalePrice}}/{{goodsDetail.unit}}</view>
+			<view class="u23 u22-num">{{goodsDetail.brief}}</view>
 		</view>
 
-		<!-- <view class="u24">
+		<view class="u24">
 			<view class="u24-title">服务</view>
 			<view class="u24-tags">
-				<text class="u24-tags-text">7天退还</text>
-				<text class="u24-tags-text">748小时内容发货</text>
+				<view class="u24-tags-text" v-for="item,index in dealKeys(goodsDetail.keywords)" :key="index">{{item}}
+				</view>
 			</view>
-		</view> -->
+		</view>
 
-		<!-- <view class="u29">
+		<view class="u29">
 			<view class="u29-title">关于运费</view>
-			<view class="u29-text">包邮</view>
-		</view> -->
+			<view class="u29-text">{{goodsDetail.freight}}</view>
+		</view>
 
-		<!-- <view class="u1">
+		<view class="u1">
 			<view class="u31">
-				<view class="u31-title">用户评论（888）</view>
-				<view class="u31-num" @click="openPage">查看全部</view>
+				<view class="u31-title">用户评论</view>
+				<navigator :url="`/pages/mall/comments?id=${goodsDetail.id}`" hover-class="none">
+					<view class="u31-num">查看全部</view>
+				</navigator>
+
 			</view>
 			<view class="comment-list">
-				<common-comment v-for="item,index in comments" :key="index" :comment="item"></common-comment>
+				<common-comment v-for="item,index in comments" :key="index" :comment="item" from="mall">
+				</common-comment>
 			</view>
-		</view> -->
+		</view>
 
 		<view class="u42">
 			<view class="u42-title">商品详情</view>
-			<image :src="detail.picUrl" class="u42-img" mode="aspectFill"></image>
+			<rich-text :nodes="goodsDetail.detail" class="u42-img"></rich-text>
 		</view>
 
 		<view class="u43">
@@ -47,10 +51,11 @@
 			<view class="u120">
 				<view class="u128">
 					<view class="u128-title">加入购物车</view>
-					<view class="u128-title">清空</view>
+					<view class="u128-title" @click="clear">清空</view>
 				</view>
 				<view class="cart-list">
-					<common-cart-goods v-for="item,index in goods" :key="index" :goods="item"></common-cart-goods>
+					<common-cart-goods v-for="item,index in goods" :key="index" :goods="item" @addOrSub="addOrSub">
+					</common-cart-goods>
 				</view>
 			</view>
 		</uni-popup>
@@ -68,60 +73,8 @@
 			return {
 				show: false, //滚动穿透禁止
 				id: '',
-				goods: [{
-					name: '海参',
-					url: '/static/mall4.png',
-					weight: 555,
-					count: 1,
-					pay: 155
-				}, {
-					name: '海参',
-					url: '/static/mall4.png',
-					weight: 555,
-					count: 1,
-					pay: 155
-				}, {
-					name: '海参',
-					url: '/static/mall4.png',
-					weight: 555,
-					count: 1,
-					pay: 155
-				}, {
-					name: '海参',
-					url: '/static/mall4.png',
-					weight: 555,
-					count: 1,
-					pay: 155
-				}, {
-					name: '海参',
-					url: '/static/mall4.png',
-					weight: 555,
-					count: 1,
-					pay: 155
-				}, {
-					name: '海参',
-					url: '/static/mall4.png',
-					weight: 555,
-					count: 1,
-					pay: 155
-				}, {
-					name: '海参',
-					url: '/static/mall4.png',
-					weight: 555,
-					count: 1,
-					pay: 155
-				}],
-				comments: [{
-					avatar: '/static/mall8.png',
-					name: '张三',
-					content: '很新鲜，口感滑嫩，下饭的好菜、鲜艳非常诱人分量足，性价比高',
-					pics: ['/static/mall8.png', '/static/mall8.png', '/static/mall8.png']
-				}, {
-					avatar: '/static/mall8.png',
-					name: '李四',
-					content: '很新鲜，口感滑嫩，下饭的好菜、鲜艳非常诱人分量足，性价比高',
-					pics: []
-				}],
+				goods: [],
+				comments: [],
 				options: [{
 					icon: 'cart',
 					text: '购物车',
@@ -138,7 +91,7 @@
 						color: '#fff'
 					}
 				],
-				detail: {}
+				goodsDetail: {}
 			};
 		},
 		onLoad(options) {
@@ -146,28 +99,61 @@
 			this.getDetail()
 		},
 		methods: {
-			openPage() {
-				OpenPage('/pages/mall/comments')
-			},
 			clickLeft(params) {
 				this.$refs.popup.open('bottom');
 			},
 			change(e) {
 				this.show = e.show
 			},
-			clickBtn(i, content) {
+			clear() {
+				this.goods = []
+			},
+			addOrSub(params) {
+				console.log(params)
+			},
+			clickBtn(e) {
+				let {
+					index,
+					content
+				} = e;
+				let {
+					goods
+				} = this.$data;
+				let obj = {
+					picUrl: this.goodsDetail.picUrl,
+					name: this.goodsDetail.name,
+					wholesalePrice: this.goodsDetail.wholesalePrice,
+					id: this.goodsDetail.id,
+					count: 1,
+				}
+				if (index === 0) {
+					if (goods.length === 0) {
+						this.goods.push(obj)
+					} else {
+						let index = goods.findIndex((item) => item.id == obj.id);
+						if (index >= 0) {
+							Object.assign(this.goods[index], 'count', this.goods[index].count++)
+						}else{
+							this.goods.push(obj)
+						}
+					}
+				} else {
 
+				}
+			},
+			dealKeys(val) {
+				if (val) {
+					return val.split(',')
+				}
 			},
 			async getDetail() {
 				let {
 					id
 				} = this.$data;
 				try {
-					const res = await this.$http(
-						`${this.$API.getGoodsDetail}?id=${id}`);
-					this.detail = res.data.goods;
-					// this.total = res.data.total;
-					// this.goods = this.goods.concat(res.data.items);
+					const res = await this.$http(`${this.$API.getGoodsDetail}/${id}`);
+					this.goodsDetail = res.data.goods;
+					this.comments = res.data.comments;
 				} catch (e) {
 					//TODO handle the exception
 				}
@@ -191,13 +177,14 @@
 			padding: 20rpx;
 
 			.u22 {
-				@extend .default-flex;
+				display: flex;
 				justify-content: space-between;
 
 				&-title {
 					font-weight: 700;
 					color: #000000;
 					font-size: 32rpx;
+					flex: 1;
 				}
 
 				&-num {
@@ -214,7 +201,7 @@
 		}
 
 		.u24 {
-			@extend .default-flex;
+			display: flex;
 			background-color: #fff;
 			margin-top: 20rpx;
 			padding: 20rpx;
@@ -226,14 +213,18 @@
 
 			&-tags {
 				margin-left: 16rpx;
+				flex: 1;
+				@extend .default-flex;
+				flex-wrap: wrap;
 
 				&-text {
-					font: 400 normal 24rpx;
+					font: normal 400 24rpx/normal '微软雅黑', sans-serif;
 					font-style: normal;
 					color: rgba(248, 113, 113, 0.690196078431373);
 					background-color: rgba(248, 113, 113, 0.231372549019608);
 					margin-right: 20rpx;
 					padding: 0 20rpx;
+					margin-bottom: 16rpx;
 				}
 			}
 
@@ -292,6 +283,10 @@
 			&-img {
 				height: 636rpx;
 				width: 100%;
+
+				img {
+					width: 100%;
+				}
 			}
 		}
 

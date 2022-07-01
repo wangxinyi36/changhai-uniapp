@@ -18,4 +18,8 @@
   box-sizing: border-box;
   margin-right: 20rpx;
 }
+.comments .u48 .u48-text-active.data-v-341de734 {
+  background: #31d0e6;
+  color: #fff;
+}
 

@@ -15,7 +15,7 @@ page {
   height: 255rpx;
 }
 .u8.data-v-73493478 {
-  padding: 0 20rpx;
+  padding: 20rpx;
 }
 .u8-text.data-v-73493478 {
   font: normal 400 28rpx/32rpx 'Arial Normal', 'Arial', sans-serif;

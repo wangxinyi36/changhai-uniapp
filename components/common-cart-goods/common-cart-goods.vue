@@ -1,15 +1,16 @@
 <template>
 	<view class="common-cart-goods">
-		<image :src="goods.url" mode="aspectFill" class="goods-img"></image>
+		<image :src="goods.picUrl" mode="aspectFill" class="goods-img"></image>
 		<view class="u122">
 			<view class="u122-name">{{goods.name}}</view>
-			<view class="u122-weight">{{`${goods.weight}克`}}</view>
+			<!-- <view class="u122-weight">{{`${goods.weight}克`}}</view> -->
 			<view class="u122-pay">
-				<view>{{`￥${goods.pay}`}}</view>
+				<view>{{`￥${goods.wholesalePrice}`}}</view>
 				<view class="u122-count">
-					<image src="/static/mall11.svg" mode="aspectFill" class="u122-count-left"></image>
-					<text class="u122-count-text">1</text>
-					<image src="/static/mall2.svg" mode="aspectFill" class="u122-count-left"></image>
+					<image :src="goods.count === 1 ? reduceOneIcon : reduceIcon" mode="aspectFill"
+						class="u122-count-left" @click="sub"></image>
+					<text class="u122-count-text">{{goods.count}}</text>
+					<image src="/static/mall2.svg" mode="aspectFill" class="u122-count-left" @click="add"></image>
 				</view>
 			</view>
 		</view>
@@ -24,8 +25,22 @@
 		},
 		data() {
 			return {
-
+				reduceIcon: '/static/mall11.svg', // >1时候
+				reduceOneIcon: '/static/del.svg', // =1时候
 			};
+		},
+		methods: {
+			sub() {
+				if (this.goods.count <= 1) {
+					return;
+				}
+				this.goods.count--;
+				this.$emit('addOrSub', this.goods)
+			},
+			add() {
+				this.goods.count++;
+				this.$emit('addOrSub', this.goods)
+			}
 		}
 	}
 </script>

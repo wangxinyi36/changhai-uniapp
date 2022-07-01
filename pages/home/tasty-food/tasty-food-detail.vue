@@ -13,7 +13,7 @@
 			<view class="u24-box">
 				<view class="u25">
 					<view class="u25-top">
-						<image src="/static/home1.png" mode="aspectFill" class="u25-top-img"></image>
+						<image src="/static/home1.jpg" mode="aspectFill" class="u25-top-img"></image>
 						<view class="u25-top-box">
 							<view class="u25-top-box-name">新鲜海鲜</view>
 							<view class="u31">
@@ -115,19 +115,19 @@
 				backgroundColor: '#ffffff00',
 				color: '#fff',
 				tabIndex: 0,
-				bgImg: '/static/home1.png',
+				bgImg: '/static/home1.jpg',
 				tabs: ['优惠券', '套餐', '评价'],
 				evaluate: [{
 					name: '赵丽丽',
 					grade: 4,
-					avatar: '/static/home1.png',
+					avatar: '/static/home1.jpg',
 					content: '感谢店家，接到的食物很干净，没有洒漏出来，八爪鱼味道真的是好吃，汁水鲜美，肉质紧实，劲道，触手认口，鲜味十足，色香味俱全，有嚼劲，味道好极了，正适合我的口味，很新鲜，口感滑嫩，下饭的好菜，鲜艳非常诱人分量足',
 					url: ['/static/home3.png', '/static/home3.png'],
 					reply: '欢迎再次光临'
 				}, {
 					name: '赵丽',
 					grade: 4,
-					avatar: '/static/home1.png',
+					avatar: '/static/home1.jpg',
 					content: '感谢店家，接到的食物很干净，没有洒漏出来，八爪鱼味道真的是好吃，汁水鲜美，肉质紧实，劲道，触手认口，鲜味十足，色香味俱全，有嚼劲，味道好极了，正适合我的口味，很新鲜，口感滑嫩，下饭的好菜，鲜艳非常诱人分量足',
 					url: [],
 					reply: '欢迎再次光临'

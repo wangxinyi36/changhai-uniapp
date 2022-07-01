@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<image src="/static/home1.png" mode="aspectFill" class="bg"></image>
+		<image src="/static/home1.jpg" mode="aspectFill" class="bg"></image>
 		<view class="u1">
 			<view class="u1-title">{{detail.UUtitle}}</view>
 			<view class="u1-tags">
@@ -59,7 +59,7 @@
 					name: '精品单人间',
 					dec: '1张单人床 · 32㎡',
 					tip: '15分钟内可免费取消',
-					url: '/static/home1.png',
+					url: '/static/home1.jpg',
 					pay: 196.00
 				}],
 				detail: {},

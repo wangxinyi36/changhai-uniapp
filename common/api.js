@@ -3,7 +3,7 @@ const API = {
 
 	getCarList: 'dev/xcx/car/list', // 查询租车列表
 
-	// getAirportDetail: 'admin/airport/detail', // 查看订机票内容
+	getAirportDetail: 'dev/xcx/airport/detail', // 查看订机票内容
 
 	getTralList: 'dev/xcx/tral/list', // 查询精品路线列表
 	getTralDetail: 'dev/xcx/tral/detail', // 查询精品路线详情
@@ -24,6 +24,7 @@ const API = {
 	getCategoryList: 'dev/xcx/category/l1', // 商品类型列表
 	getGoodsList: 'dev/xcx/goods/list', // 查询商品列表
 	getGoodsDetail: 'dev/xcx/goods/detail', // 查询商品详情
+	getCommentList: 'dev/xcx/comment/list', // 查询商品评论列表
 
 	getNewsList: 'dev/xcx/article/list', // 查询新闻列表
 	getNewsDetail: 'dev/xcx/article/detail', // 查询新闻详情
@@ -41,6 +42,7 @@ const API = {
 	getAddressList: 'dev/xcx/address/list', // 查询收货地址
 	postAddressSave: 'dev/xcx/address/save', // 更新或新增收货地址
 	getAddressDetail: 'dev/xcx/address/detail', // 查询收货地址详情
+	postSelectAddress: 'dev/xcx/address/selectAddress', // 查询地址下拉框
 
 	getMyPhoneNumber: 'dev/xcx/my/phoneNumber', // 查询联系我们手机号
 
