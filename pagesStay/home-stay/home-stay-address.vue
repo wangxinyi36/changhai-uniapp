@@ -42,13 +42,15 @@
 		</uni-forms>
 		<view class="bottom">
 			<view class="bottom-btn" @click="save">完成</view>
+			<view class="bottom-btn bottom-btn-del" v-if="id" @click="del">删除</view>
 		</view>
 	</view>
 </template>
 
 <script>
 	import {
-		getStorage
+		getStorage,
+		showToast
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -85,6 +87,8 @@
 						}]
 					},
 				},
+				id: '', //地址id
+				goodsId: '', //商品id
 				formData: {
 					name: '',
 					cardType: '身份证',
@@ -107,16 +111,38 @@
 		},
 		onLoad(option) {
 			this.formData.userId = getStorage('wechat_userInfo').userId;
+			this.getProvince()
 			if (option.id) {
 				this.formData.id = option.id;
+				this.id = option.id;
 				this.getDetail();
 				return;
 			}
-			this.getProvince()
 		},
 		methods: {
 			open() {
 				this.$refs.popup.open('bottom');
+			},
+			async del() {
+				try {
+					const {
+						formData
+					} = this.$data;
+					let _this = this;
+					const result = await this.$http(`${this.$API.postAddressDelete}?userId=${this.formData.userId}`,
+						this.formData, 'POST');
+					showToast('删除成功~');
+					setTimeout(() => {
+						uni.navigateBack()
+						const eventChannel = _this.getOpenerEventChannel();
+						eventChannel.emit('getParams', {
+							isReload: true
+						})
+					}, 1500)
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+				}
 			},
 			confirm() {
 				this.formData.provinceId = this.provinceList[this.region[0]].id;
@@ -150,10 +176,22 @@
 					try {
 						let form = JSON.parse(JSON.stringify(_this.formData));
 						delete form.showRegion;
-						const result = await _this.$http(`${_this.$API.postAddressSave}?userId=${form.userId}`, form,
+						const result = await _this.$http(`${_this.$API.postAddressSave}`, form,
 							'POST');
-						console.log(result)
+						uni.showToast({
+							title: '添加成功~'
+						});
+						setTimeout(() => {
+							uni.navigateBack()
+							const eventChannel = _this.getOpenerEventChannel();
+							eventChannel.emit('getParams', {
+								isReload: true
+							})
+						}, 1500)
 					} catch (e) {
+						uni.showToast({
+							title: e.errmsg
+						});
 						//TODO handle the exception
 					}
 				}).catch(err => {
@@ -166,8 +204,11 @@
 						id,
 						userId
 					} = this.formData;
-					const result = await this.$http(`${this.$API.getAddressDetail}?id=${id}&useId=${userId}`);
-					console.log(result)
+					const result = await this.$http(`${this.$API.getAddressDetail}?useId=${userId}`, this.formData);
+					this.formData = result.data;
+					this.formData.showRegion =
+						`${this.formData.province}-${this.formData.city}-${this.formData.area}`
+					this.showRegion = this.formData.showRegion;
 				} catch (e) {
 					//TODO handle the exception
 				}
@@ -177,7 +218,6 @@
 					const {
 						provinceId,
 					} = this.formData;
-
 					const resultProvince = await this.$http(
 						`${this.$API.postSelectAddress}?parentId=${provinceId}`, {},
 						'POST');
@@ -186,6 +226,7 @@
 
 					this.getCity()
 				} catch (e) {
+					console.log(e)
 					//TODO handle the exception
 				}
 			},
@@ -305,8 +346,16 @@
 				font: normal 400 32rpx/66rpx 'Arial Normal', 'Arial', sans-serif;
 				text-align: center
 			}
+
+			&-btn-del {
+				@extend .bottom-btn;
+				margin-top: 10px;
+				border: 1px solid #D9001B;
+				background: #fff;
+				color: #D9001B;
+			}
 		}
 
-		;
+
 	}
 </style>

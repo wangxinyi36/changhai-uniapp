@@ -3,7 +3,7 @@
 		<scroll-view scroll-y="true" class="left" :style="{ height: scrollHeight + 'px' }">
 			<view class="left-list">
 				<view class="left-item" :class="[{'left-item-active':activeIndex == index}]"
-					v-for="item,index in leftList" :key="item.value" @click="changeLeft(item,index)">{{item.name || item.label}}
+					v-for="item,index in leftList" :key="item.value" @click="changeLeft(index)">{{item.name || item.label}}
 				</view>
 			</view>
 		</scroll-view>
@@ -34,9 +34,9 @@
 			})
 		},
 		methods: {
-			changeLeft(item,index) {
+			changeLeft(index) {
 				this.activeIndex = index;
-				this.$emit('changeLeft', item)
+				this.$emit('changeLeft', this.leftList[index])
 			}
 		}
 	};

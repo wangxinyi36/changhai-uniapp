@@ -4,10 +4,6 @@ import App from './App'
 import store from './store/index'
 import API from '@/common/api.js';
 import {
-	create,
-	all
-} from '@/common/math.js'
-import {
 	http
 } from '@/common/http.js'
 
@@ -21,7 +17,6 @@ const MATH_CONFIG = {
 	predictable: false,
 	randomSeed: null
 }
-const math = create(all, MATH_CONFIG);
 
 App.mpType = 'app'
 
@@ -29,15 +24,14 @@ Vue.prototype.$store = store;
 
 Vue.prototype.$API = API;
 Vue.prototype.$http = http;
-Vue.prototype.$math = math;
 
 
 
 
 
 const app = new Vue({
+	...App,
 	store,
-	...App
 })
 app.$mount()
 // #endif

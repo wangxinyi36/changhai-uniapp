@@ -13,13 +13,15 @@
 		<uni-list :border="false">
 			<uni-list-item title="我的订单" link="navigateTo" thumb="/static/my1.svg" :clickable="true"
 				@click="clickItem('/pages/my/order')"></uni-list-item>
+			<uni-list-item title="立即投诉" link="navigateTo" thumb="/static/my1.svg" :clickable="true"
+				@click="clickItem('/pages/my/complaint-now')"></uni-list-item>
 			<uni-list-item title="我的投诉" link="navigateTo" thumb="/static/my2.svg" thumbSize="sm" :clickable="true"
 				@click="clickItem('/pages/my/complaint')"></uni-list-item>
 			<uni-list-item title="帮助中心" link="navigateTo" thumb="/static/my3.svg" thumbSize="sm" :clickable="true"
 				@click="clickItem('/pages/my/help')">
 			</uni-list-item>
 			<uni-list-item title="优惠券" link="navigateTo" thumb="/static/my4.svg" thumbSize="sm" :clickable="true"
-				@click="clickItem('/pages/my/order')"></uni-list-item>
+				@click="clickItem('/pages/my/coupon')"></uni-list-item>
 			<uni-list-item title="联系我们" link="navigateTo" thumb="/static/my5.svg" thumbSize="sm"
 				:rightText="phoneNumber" :clickable="true" @click="call"></uni-list-item>
 			<uni-list-item title="设置" link="navigateTo" thumb="/static/setting.svg" class="my-setting" :clickable="true"
@@ -46,9 +48,7 @@
 		},
 		onLoad() {
 			this.wechat_userInfo = getStorage('wechat_userInfo')
-			if (this.wechat_userInfo) {
-				this.getPhoneNumber()
-			}
+			this.getPhoneNumber()
 		},
 		methods: {
 			clickItem(url) {

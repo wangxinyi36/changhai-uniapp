@@ -7,7 +7,9 @@ import {
 
 const state = {
 	mallSelectList: [], //购物车列表
-	isSelectAll: false, //全选
+	isSelectAll: false, //全选,
+	sellectCount: 0, //选择的个数
+	totalMoney: 0, //总钱数
 }
 const mutations = {
 	ADD_MALL_CART(state, payload) {
@@ -31,20 +33,34 @@ const mutations = {
 		setStorage('mallSelectList', state.mallSelectList)
 	},
 	REDUCE_MALL_CART(state, payload) {
+		let i = -1;
 		state.mallSelectList = state.mallSelectList.map((item, index) => {
 			if (item.id === payload.id) {
 				item.count--;
+				if (item.count == 0) {
+					i = index;
+				}
 			}
 			return item;
 		})
+		if (i != -1) {
+			state.mallSelectList.splice(i, 1)
+		}
 		setStorage('mallSelectList', state.mallSelectList)
 	},
 	CLEAR_MALL_CART(state) {
 		state.mallSelectList = [];
-		removeStorage('mallSelectList')
+		setStorage('mallSelectList', state.mallSelectList)
 	},
 	GET_MALL_CART(state) {
-		state.mallSelectList = getStorage('mallSelectList')
+		state.mallSelectList = getStorage('mallSelectList') || []
+	},
+	CANCEL_ACTIVE(state) {
+		state.mallSelectList.map(item => {
+			item.isAcitve = false;
+			return item;
+		})
+		setStorage('mallSelectList', state.mallSelectList)
 	},
 	SELECTALL_MALL_CART(state) {
 		state.isSelectAll = !state.isSelectAll;
@@ -52,18 +68,43 @@ const mutations = {
 			item.isAcitve = state.isSelectAll;
 			return item;
 		})
+
+		if (state.isSelectAll) {
+			state.sellectCount = state.mallSelectList.length;
+		} else {
+			state.sellectCount = 0;
+			state.totalMoney = 0;
+		}
 	},
 	SELECT_MALL_CART(state, payload) {
 		state.mallSelectList.map(item => {
 			if (item.id === payload.id) {
-				item.isAcitve = item.isAcitve ? false : true
+				item.isAcitve = item.isAcitve ? false : true;
+				item.isAcitve ? state.sellectCount++ : state.sellectCount--;
 			}
-			console.log(item.isAcitve)
 			return item;
 		})
+
+		if (state.sellectCount == state.mallSelectList.length) {
+			state.isSelectAll = true;
+		} else {
+			state.isSelectAll = false
+		}
 	}
 }
-const getters = {}
+const getters = {
+	getMoney(state) {
+		if (state.sellectCount == 0) {
+			state.totalMoney = 0;
+		}
+		if (state.sellectCount == state.mallSelectList.length) {
+			state.mallSelectList.forEach(item => {
+				state.totalMoney += item.count * item.retailPrice;
+			})
+		}
+		return state.totalMoney;
+	},
+}
 const actions = {
 	ADD_MALL_CART({
 		commit,

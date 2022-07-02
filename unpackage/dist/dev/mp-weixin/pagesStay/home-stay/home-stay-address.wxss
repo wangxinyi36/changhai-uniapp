@@ -62,12 +62,18 @@
 .u99 .bottom.data-v-681663b6 {
   margin-top: 40rpx;
 }
-.u99 .bottom-btn.data-v-681663b6 {
+.u99 .bottom-btn.data-v-681663b6, .u99 .bottom-btn-del.data-v-681663b6 {
   height: 66rpx;
   background-color: #f59a23;
   border-radius: 20rpx;
   color: #FFFFFF;
   font: normal 400 32rpx/66rpx 'Arial Normal', 'Arial', sans-serif;
   text-align: center;
+}
+.u99 .bottom-btn-del.data-v-681663b6 {
+  margin-top: 10px;
+  border: 1px solid #D9001B;
+  background: #fff;
+  color: #D9001B;
 }
 

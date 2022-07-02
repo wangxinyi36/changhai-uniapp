@@ -12,7 +12,6 @@ export const OpenPage = (url, params) => {
 			events: {
 				// 获取被打开页面传送到当前页面的数据
 				getParams: function(data) {
-					console.log(data)
 					resolve(data)
 				}
 			},
@@ -242,4 +241,23 @@ export function addZero(number) {
 	} else {
 		return number
 	}
+}
+
+/**
+ * @description 富文本返回的图片宽度100%
+ * @param {string} str 富文本内容
+ */
+export function regContent(str) {
+	const regex = new RegExp('<img', 'gi');
+	let richtext = str.replace(regex, `<img style="width: 100%;"`);
+	return richtext
+}
+
+/**
+ * @description 替换身份证中间为星号
+ * @param {string} str 内容
+ */
+export function replaceStar(str) {
+	let test = str.replace(str.substring(4,12), '**********')
+	return test;
 }

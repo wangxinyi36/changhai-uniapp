@@ -15,10 +15,43 @@
 			<view class="u243-title">{{detail.name}}</view>
 			<view class="u243-text">{{detail.brief}}</view>
 		</view>
+
 		<view class="u244">
-			<view class="u244-tabs">
+			<scroll-view scroll-y="true" :style="{height:scrollHeight + 'px'}" :scroll-into-view="scrollViewId">
+				<view class="u244-tabs">
+					<view class="u244-tab" :class="[{'u244-tab-active':tabIndex == index}]" v-for="item,index in tab"
+						:key="index" @click="change(index)">{{item}}</view>
+				</view>
+				<view class="u264" id="u264-0">
+					<view class="u264-title">路线特色</view>
+					<view class="u264-text">
+						<rich-text :nodes="detail.detail"></rich-text>
+					</view>
+				</view>
+				<view class="u264" id="u264-1">
+					<view class="u264-title">行程安排</view>
+					<view class="u264-box">
+						<view class="u264-item" v-for="item,index in specifications" :key="index">
+							<view class="u264-item-title">
+								<view class="u274">D{{index+1}}</view>
+								<view class="u275">{{item.specification}}</view>
+							</view>
+							<view class="u264-item-text">{{item.value}}</view>
+						</view>
+					</view>
+				</view>
+				<view class="u264" id="u264-2">
+					<view class="u264-title">地图</view>
+					<view class="u264-map">
+						<map class="u264-map-box" :latitude="latitude" :longitude="longitude">
+						</map>
+					</view>
+				</view>
+				<view class="" :style="{height:showHeight + 'px'}"></view>
+			</scroll-view>
+			<!-- <view class="u244-tabs">
 				<view class="u244-tab" :class="[{'u244-tab-active':tabIndex == index}]" v-for="item,index in tab"
-					:key="index">{{item}}</view>
+					:key="index" @click="change(index)">{{item}}</view>
 			</view>
 			<view class="u264">
 				<view class="u264-title">路线特色</view>
@@ -37,7 +70,7 @@
 						<view class="u264-item-text">{{item.value}}</view>
 					</view>
 				</view>
-			</view>
+			</view> -->
 			<!-- <view class="u264">
 				<view class="u264-title">地图</view>
 				<view class="u264-map">
@@ -58,9 +91,14 @@
 		data() {
 			return {
 				safeTop: '',
+				screenHeight: '',
+				scrollHeight: '',
+				scrollViewId: '',
+				showHeight:'',
+
 				backgroundColor: '#ffffff00',
 				color: '#fff',
-				bgImg: '/static/home1.jpg',
+				bgImg: '',
 				tab: ['路线特色', '行程安排', '地图'],
 				tabIndex: 0,
 				latitude: 39.909,
@@ -72,12 +110,17 @@
 		},
 		created() {
 			this.safeTop = GetSystemInfo().safeArea.top;
+			this.screenHeight = GetSystemInfo().screenHeight
 		},
 		onLoad(options) {
 			this.id = options.id;
 			this.getTralDetail()
 		},
 		methods: {
+			change(index) {
+				this.tabIndex = index;
+				this.scrollViewId = `u264-${index}`
+			},
 			back() {
 				uni.navigateBack()
 			},
@@ -86,6 +129,13 @@
 					const res = await this.$http(`${this.$API.getTralDetail}?id=${this.id}`);
 					this.detail = res.data.goods;
 					this.specifications = res.data.specifications;
+					this.bgImg = this.detail.picUrl;
+					let _this = this;
+					uni.createSelectorQuery().select('.u244').boundingClientRect(rec => {
+						let top = rec.top;
+						_this.scrollHeight = _this.screenHeight - top + 8;
+						_this.showHeight = top;
+					}).exec()
 				} catch (e) {
 					//TODO handle the exception
 				}
@@ -164,28 +214,33 @@
 	}
 
 	.u244 {
-		padding: 10rpx 30rpx;
-
-
 		&-tabs {
 			@extend .default-flex;
 			margin-bottom: 40rpx;
+			position: sticky;
+			width: 100%;
+			top: 0;
+			background: #fff;
+			padding: 10rpx 30rpx;
+			z-index: 2;
 		}
 
 		&-tab {
 			margin-right: 30rpx;
 			font: normal 400 32rpx/normal '微软雅黑', sans-serif;
 			color: #333;
+		}
 
-			&-active {
-				color: #31D0E6;
-				font-family: '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
-				font-weight: 700;
-			}
+		.u244-tab-active {
+			color: #31D0E6;
+			font-family: '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
+			font-weight: 700;
 		}
 	}
 
 	.u264 {
+		padding: 0 30rpx;
+
 		&-title {
 			font: normal 700 32rpx/normal '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
 			color: #333;

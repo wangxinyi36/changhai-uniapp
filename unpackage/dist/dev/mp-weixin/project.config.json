@@ -29,7 +29,8 @@
             "outputPath": ""
         },
         "disableUseStrict": false,
-        "useCompilerPlugins": false
+        "useCompilerPlugins": false,
+        "ignoreUploadUnusedFiles": true
     },
     "compileType": "miniprogram",
     "libVersion": "",

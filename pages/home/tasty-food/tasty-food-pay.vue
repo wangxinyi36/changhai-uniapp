@@ -56,9 +56,6 @@
 				payList: [{
 					name: '微信支付',
 					url: '/static/icon-wechat.svg',
-				}, {
-					name: '支付宝支付',
-					url: '/static/icon-zhi.svg',
 				}]
 			};
 		},

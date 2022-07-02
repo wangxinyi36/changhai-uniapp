@@ -33,17 +33,20 @@
 <script>
 	import {
 		OpenPage,
-		addZero
+		addZero,
+		getStorage
 	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
 				list: [], //0待审核1已同意2审核失败
 				total: 0,
-				page: 1
+				page: 1,
+				wechat_userInfo: {}
 			};
 		},
 		onLoad() {
+			this.wechat_userInfo = getStorage('wechat_userInfo')
 			this.getHealth()
 		},
 		methods: {
@@ -58,19 +61,26 @@
 				})
 			},
 			dealUptime(time) {
-				return `${time[0]}-${addZero(time[1])}-${addZero(time[2])}`;
+				if (time) {
+					return `${time[0]}-${addZero(time[1])}-${addZero(time[2])}`;
+				} else {
+					return '-'
+				}
 			},
 			async getHealth() {
-				let {
-					page,
-					list,
-					total
-				} = this.$data;
 				try {
+					let {
+						page,
+						list,
+						total,
+						wechat_userInfo
+					} = this.$data;
 					if (total > 0 && total == list.length) {
 						return;
 					}
-					const res = await this.$http(`${this.$API.getHealthList}?limit=10&page=${page}`);
+
+					const res = await this.$http(
+						`${this.$API.getHealthList}?limit=10&page=${page}&userId=${wechat_userInfo.userId}`);
 					this.total = res.data.total;
 					this.list = this.list.concat(res.data.items);
 				} catch (e) {

@@ -2,7 +2,7 @@
 	<view>
 		<view class="u93" @click="add">
 			<image src="/static/icon4.svg" mode="scaleToFill" class="u93-add"></image>
-			<view class="u93-text">新增住客</view>
+			<view class="u93-text">{{addText}}</view>
 		</view>
 		<view class="u71-list">
 			<view class="u71" v-for="item,index in people" :key="index">
@@ -11,17 +11,15 @@
 						class="u71-left-img"></image>
 					<view class="u71-left-box">
 						<view class="u71-left-box-name">{{item.name}}</view>
-						<view class="u71-left-box-card">{{item.mobile}}</view>
+						<view class="u71-left-box-card">{{dealCard(item.idCard)}}</view>
 					</view>
 				</view>
-				<navigator url="/pagesStay/home-stay/home-stay-address" hover-class="none">
-					<image src="/static/icon5.svg" mode="aspectFill" class="u71-img"></image>
-				</navigator>
+				<image src="/static/icon5.svg" mode="aspectFill" class="u71-img" @click="edit(item.id)"></image>
 			</view>
 		</view>
 
 		<view class="bottom">
-			<view class="bottom-btn">完成</view>
+			<view class="bottom-btn" @click="finish">完成</view>
 		</view>
 	</view>
 </template>
@@ -29,27 +27,80 @@
 <script>
 	import {
 		getStorage,
-		OpenPage
+		OpenPage,
+		replaceStar,
+		showToast
 	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
 				people: [],
-				active: 2,
+				active: -1,
 				chooseIcon: '/static/icon-choose-no.svg',
 				chooseActiveIcon: '/static/icon-choose-blue.svg',
 				page: 1,
 				total: 0,
-				userId: ''
+				userId: '',
+				from: '', // mallOrder 商城商品
+				goodsId: '',
+				addText: ''
 			};
 		},
-		onLoad() {
-			this.userId = getStorage('wechat_userInfo').userId
+		onLoad(options) {
+			this.userId = getStorage('wechat_userInfo').userId;
+			this.from = options.from;
+			if (this.from == 'mallOrder') {
+				uni.setNavigationBarTitle({
+					title: '收货地址'
+				})
+				this.addText = '新增收货地址'
+			}
+			this.goodsId = options.goodsId;
 			this.getAddress()
 		},
 		methods: {
 			add() {
-				OpenPage('/pagesStay/home-stay/home-stay-address')
+				OpenPage(`/pagesStay/home-stay/home-stay-address`).then((res) => {
+					if (res.isReload) {
+						_this.page = 1;
+						_this.people = [];
+						_this.total = 0;
+						_this.getAddress()
+					}
+				})
+			},
+			finish() {
+				let {
+					people,
+					active
+				} = this.$data
+				if (active === -1) {
+					showToast('请选择地址~');
+					return;
+				}
+				let _this = this;
+				uni.navigateBack({
+					success() {
+						const eventChannel = _this.getOpenerEventChannel();
+						eventChannel.emit('getParams', {
+							address: people[active]
+						})
+					}
+				})
+			},
+			edit(id) {
+				let _this = this;
+				OpenPage(`/pagesStay/home-stay/home-stay-address?goodsId=${this.goodsId}&id=${id}`).then(res => {
+					if (res.isReload) {
+						_this.page = 1;
+						_this.people = [];
+						_this.total = 0;
+						_this.getAddress()
+					}
+				})
+			},
+			dealCard(val) {
+				return replaceStar(val);
 			},
 			async getAddress() {
 				try {

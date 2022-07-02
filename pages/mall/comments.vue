@@ -1,8 +1,7 @@
 <template>
 	<view class="comments">
 		<view class="u48">
-			<view class="u48-text" v-for="item,index in tabs" :key="index" :class="{'u48-text-active': tabIndex == index }"
-				@click="change(index)">
+			<view class="u48-text u48-text-active" v-for="item,index in tabs" :key="index" @click="change(index)">
 				{{item.name}}
 			</view>
 		</view>
@@ -19,11 +18,9 @@
 	export default {
 		data() {
 			return {
-				tabIndex: -1,
+				tabIndex: 0,
 				tabs: [{
 					name: '全部'
-				}, {
-					name: '最新'
 				}],
 				comments: [],
 				id: '',

@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<image src="/static/home1.jpg" mode="aspectFill" class="bg"></image>
+		<image :src="detail.UUimgpath" mode="aspectFill" class="bg"></image>
 		<view class="u1">
 			<view class="u1-title">{{detail.UUtitle}}</view>
 			<view class="u1-tags">

@@ -34,19 +34,7 @@
 				address: [],
 				markers: [], //标记点
 				icons: ['', '/static/icon-wc.svg', '/static/icon-hospital.svg', '/static/icon-serve.svg'],
-				typeList: [{
-					type: '',
-					typeName: '全部'
-				}, {
-					type: 1,
-					typeName: '厕所'
-				}, {
-					type: 2,
-					typeName: '游客服务中心'
-				}, {
-					type: 3,
-					typeName: '医院'
-				}],
+				typeList: [],
 				polyline: [],
 				distance: 0,
 				markItem: {}
@@ -62,14 +50,20 @@
 				this.getAbj();
 			},
 			async clickMark(e) {
-				let {
-					markerId
-				} = e.detail;
-				let mark = this.markers.find(item => item.id == markerId)
-				this.markItem = mark;
-				let result = await getDrivingRoute(mark.longitude, mark.latitude);
-				this.polyline = result.polyline;
-				this.distance = result.distance;
+				try {
+					let {
+						markerId
+					} = e.detail;
+					let mark = this.markers.find(item => item.id == markerId)
+					this.markItem = mark;
+					let result = await getDrivingRoute(parseFloat(mark.longitude), parseFloat(mark.latitude));
+					this.polyline = result.polyline;
+					this.distance = result.distance;
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+				}
+
 			},
 			async leave() {
 				let {
@@ -106,9 +100,9 @@
 							latitude: item.pointLat,
 							longitude: item.pointLng,
 							title: item.point,
-							iconPath: icons[item.type],
-							width: 45,
-							height: 45
+							// iconPath: icons[item.type],
+							width: 20,
+							height: 40
 						}
 					})
 				} catch (e) {

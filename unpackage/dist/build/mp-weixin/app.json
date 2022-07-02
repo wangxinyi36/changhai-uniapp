@@ -33,7 +33,10 @@
     "pages/home/news/detail",
     "pages/home/activity/detail",
     "pages/home/tasty-food/home-tasty-food-detail",
-    "pages/home/landing/land-code"
+    "pages/home/landing/land-code",
+    "pages/my/coupon",
+    "pages/my/complaint-now",
+    "pages/mall/order"
   ],
   "subPackages": [
     {

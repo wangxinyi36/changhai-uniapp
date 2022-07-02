@@ -6,13 +6,15 @@ import {
 const myAmapFun = new amapFile.AMapWX({
 	key: '657b6547097bc5677048d4ec1c630c70'
 });
-const currentPoint = getStorage('currentPoint')
+var currentPoint = getStorage('currentPoint')
 
 export function getDrivingRoute(lng, lat) {
 	return new Promise((resolve, reject) => {
+		let destination = `${lng},${lat}`;
+		let origin = `${getStorage('currentPoint').longitude},${getStorage('currentPoint').latitude}`
 		myAmapFun.getDrivingRoute({
-			origin: `${currentPoint.longitude},${currentPoint.latitude}`,
-			destination: `${lng},${lat}`,
+			origin: decodeURIComponent(origin),
+			destination: decodeURIComponent(destination),
 			success: function(data) {
 				let points = [];
 				if (data.paths && data.paths[0] && data.paths[0].steps) {

@@ -12,7 +12,6 @@ const API = {
 	getAdRead: 'dev/xcx/ad/read', // 查询活动详情
 
 	getHomeList: 'dev/xcx/ad/homelist', // 查询首页列表
-	getHomeDetail: 'dev/xcx/ad/home', // 查询首页列表详情
 
 	getAbjList: 'dev/xcx/abj/list', // 查询公共服务列表
 	getAbjTypes: 'dev/xcx/abjType/dtsAbjAllEnble', // 查询公共服务类型
@@ -43,6 +42,7 @@ const API = {
 	postAddressSave: 'dev/xcx/address/save', // 更新或新增收货地址
 	getAddressDetail: 'dev/xcx/address/detail', // 查询收货地址详情
 	postSelectAddress: 'dev/xcx/address/selectAddress', // 查询地址下拉框
+	postAddressDelete: 'dev/xcx/address/delete', // 删除收货地址
 
 	getMyPhoneNumber: 'dev/xcx/my/phoneNumber', // 查询联系我们手机号
 

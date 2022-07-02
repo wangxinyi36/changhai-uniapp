@@ -10,7 +10,7 @@
 									@click="openPage(item,index)"></image>
 								<view class="goods-title">{{item.name}}</view>
 								<view class="u27">
-									<text class="goods-pay">￥{{item.wholesalePrice}}/{{item.unit}}</text>
+									<text class="goods-pay">￥{{item.retailPrice}}/{{item.unit}}</text>
 									<image src="../../static/mall2.svg" mode="aspectFill"
 										class="goods-add animate__animated"
 										:class="[{'animate__heartBeat':times > 0 && addIndex === index}]"
@@ -23,17 +23,23 @@
 				</uni-row>
 			</view>
 		</common-tree-select>
-		<navigator url="/pages/mall/mall-cart" hover-class="navigator-hover">
+		<!-- <navigator url="/pages/mall/mall-cart" hover-class="none">
 			<view class="btn-cart">
 				<image src="/static/mall9.svg" mode="aspectFill" class="u58-img"></image>
 			</view>
-		</navigator>
+		</navigator> -->
+		<view class="btn-cart" @click="pageToCart">
+			<image src="/static/mall9.svg" mode="aspectFill" class="u58-img"></image>
+		</view>
 	</view>
 </template>
 
 <script>
 	import {
-		OpenPage
+		OpenPage,
+		showToast,
+		getStorage,
+		setStorage
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -44,12 +50,59 @@
 				goods: [],
 				page: 1,
 				total: 0,
+				wechat_userInfo: {}
 			};
 		},
 		onLoad() {
 			this.getCategory()
+			this.wechat_userInfo = getStorage('wechat_userInfo')
+		},
+		onShow() {
+			this.wechat_userInfo = getStorage('wechat_userInfo')
 		},
 		methods: {
+			pageToCart() {
+				let _this = this;
+				if (this.wechat_userInfo) {
+					OpenPage('/pages/mall/mall-cart').then(res => {
+						this.wechat_userInfo = getStorage('wechat_userInfo')
+					})
+					return;
+				}
+				uni.getUserProfile({
+					desc: '需要获取您的个人信息',
+					success(res) {
+						uni.login({
+							provider: 'weixin',
+							success: async function(loginRes) {
+								let data = {
+									code: loginRes.code,
+									shareUserId: 0,
+									userInfo: {
+										phone: "",
+										registerDate: "",
+										status: 0,
+										userId: 0,
+										userLevel: 0,
+										userLevelDesc: "",
+										...res.userInfo
+									}
+								}
+								const result = await _this.$http(_this.$API.postLoginByWeixin, data,
+									'POST');
+								_this.wechat_userInfo = result.data.userInfo;
+								setStorage('wechat_userInfo', result.data.userInfo)
+							},
+							fail(err) {
+								console.log(err)
+							}
+						});
+					},
+					fail(err) {
+						console.log(err)
+					}
+				})
+			},
 			changeLeft(val) {
 				this.goods = [];
 				this.page = 1;
@@ -60,12 +113,51 @@
 				OpenPage(`/pages/mall/detail?id=${item.id}`)
 			},
 			add(item, index) {
-				this.times++;
-				this.addIndex = index;
-				this.$store.dispatch('ADD_MALL_CART', item)
-				setTimeout(() => {
-					this.times = 0;
-				}, 1000)
+				let _this = this;
+				if (this.wechat_userInfo) {
+					this.times++;
+					this.addIndex = index;
+					showToast('加入购物车成功~')
+					this.$store.dispatch('ADD_MALL_CART', item)
+					setTimeout(() => {
+						this.times = 0;
+					}, 1000)
+					return;
+				}
+				uni.getUserProfile({
+					desc: '需要获取您的个人信息',
+					success(res) {
+						uni.login({
+							provider: 'weixin',
+							success: async function(loginRes) {
+								let data = {
+									code: loginRes.code,
+									shareUserId: 0,
+									userInfo: {
+										phone: "",
+										registerDate: "",
+										status: 0,
+										userId: 0,
+										userLevel: 0,
+										userLevelDesc: "",
+										...res.userInfo
+									}
+								}
+								const result = await _this.$http(_this.$API.postLoginByWeixin, data,
+									'POST');
+								_this.wechat_userInfo = result.data.userInfo;
+								setStorage('wechat_userInfo', result.data.userInfo)
+							},
+							fail(err) {
+								console.log(err)
+							}
+						});
+					},
+					fail(err) {
+						console.log(err)
+					}
+				})
+
 			},
 			async getCategory() {
 				try {

@@ -15,7 +15,7 @@
 						</view>
 						<view class="u12-text">{{`地址：${item.address}`}}</view>
 						<view class="u13">
-							<text class="u13-text">{{item.price}}</text>
+							<text class="u13-text">{{item.price || ''}}</text>
 							<image src="/static/home9.svg" class="u13-img" mode="aspectFill" @click="Call(item.mobile)">
 							</image>
 						</view>
@@ -35,7 +35,7 @@
 				cityCode: '',
 				carList: [],
 				page: 1,
-				carTotal:0,
+				carTotal: 0,
 			};
 		},
 		onLoad(options) {
@@ -43,6 +43,7 @@
 		},
 		methods: {
 			changeLeft(val) {
+				console.log(val)
 				this.cityCode = val.code;
 				this.page = 1;
 				this.carList = []
@@ -66,11 +67,11 @@
 				}
 			},
 			async getCar() {
-				let {
-					page,
-					cityCode
-				} = this.$data;
 				try {
+					let {
+						page,
+						cityCode
+					} = this.$data;
 					const res = await this.$http(
 						`${this.$API.getCarList}?cityCode=${cityCode}&limit=10&page=${page}`);
 					this.carTotal = res.data.total;

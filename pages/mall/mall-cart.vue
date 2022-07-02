@@ -1,6 +1,7 @@
 <template>
 	<view>
 		<view class="u113">
+			<view class="" :style="{ height: safeArea.top + 'px' }"></view>
 			<uni-nav-bar class="u113-nav" title="购物车" left-icon="left" right-text="清空" fixed :border="false"
 				@clickLeft="clickLeft" @clickRight="clickRight">
 			</uni-nav-bar>
@@ -15,10 +16,9 @@
 						<view class="u71-box-name">{{item.name}}</view>
 						<!-- <view class="u71-box-weight">{{item.count}}{{item.unit}}</view> -->
 						<view class="u71-box-three">
-							<view class="u71-box-three-pay">￥{{mathResult(item.retailPrice,item.count)}}</view>
+							<view class="u71-box-three-pay">￥{{item.retailPrice}}</view>
 							<view class="u72">
-								<image :src="item.count === 1 ? reduceOneIcon : reduceIcon" mode="aspectFill"
-									class="u72-img" @click="reduce(item)">
+								<image :src="reduceIcon" mode="aspectFill" class="u72-img" @click="reduce(item)">
 								</image>
 								<view class="u72-text">{{item.count}}</view>
 								<image src="/static/add.svg" mode="aspectFill" class="u72-img" @click="add(item)">
@@ -38,13 +38,11 @@
 				</view>
 				<view class="bottom-right">
 					<view class="bottom-right-box">
-						<view class="bottom-right-box-name">已选择2项</view>
-						<view class="bottom-right-box-text"><text style="font-size: 24rpx;">共计</text>500元</view>
+						<view class="bottom-right-box-name">已选择{{sellectCount}}项</view>
+						<view class="bottom-right-box-text"><text style="font-size: 24rpx;">共计</text>{{getMoney}}元
+						</view>
 					</view>
-					<navigator url="/pages/home/tasty-food/tasty-food-pay" hover-class="none">
-						<view class="bottom-right-btn">一键付款</view>
-					</navigator>
-
+					<view class="bottom-right-btn" @click="pay">一键付款</view>
 				</view>
 			</view>
 		</view>
@@ -54,12 +52,14 @@
 <script>
 	import {
 		mapState,
-		mapMutations
+		mapMutations,
+		mapGetters
 	} from 'vuex';
 	import {
-		create,
-		all
-	} from '@/common/math.js'
+		GetSystemInfo,
+		OpenPage,
+		showToast
+	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
@@ -68,17 +68,26 @@
 
 				reduceIcon: '/static/mall11.svg', // >1时候
 				reduceOneIcon: '/static/del.svg', // =1时候
+
+				safeArea: {}
 			};
 		},
 		onLoad() {
-			this.GET_MALL_CART()
+			this.GET_MALL_CART();
+			this.safeArea = GetSystemInfo().safeArea;
 		},
-		computed: mapState({
-			list: state => state.mallCart.mallSelectList,
-			isSelectAll: state => state.mallCart.isSelectAll,
-		}),
+		computed: {
+			...mapState({
+				list: state => state.mallCart.mallSelectList,
+				isSelectAll: state => state.mallCart.isSelectAll,
+				sellectCount: state => state.mallCart.sellectCount,
+			}),
+			...mapGetters([
+				'getMoney'
+			])
+		},
 		methods: {
-			...mapMutations(['GET_MALL_CART']),
+			...mapMutations(['GET_MALL_CART', 'CANCEL_ACTIVE']),
 			clickLeft() {
 				uni.navigateBack()
 			},
@@ -87,15 +96,9 @@
 			},
 			mathResult(price, count) {
 				const result = price * count;
-				const ans = this.$math.evaluate(`${result}`)
-				return this.$math.format(ans, {
-					precision: 14
-				})
+				return result;
 			},
 			reduce(item) {
-				if (item.count === 1) {
-					return;
-				}
 				this.$store.dispatch('REDUCE_MALL_CART', item)
 			},
 			add(item) {
@@ -106,7 +109,17 @@
 			},
 			check(item) {
 				this.$store.dispatch('SELECT_MALL_CART', item)
+			},
+			pay() {
+				if (this.sellectCount == 0) {
+					showToast('请选择商品~')
+					return;
+				}
+				OpenPage('/pagesStay/home-stay/pay-suc');
 			}
+		},
+		onUnload() {
+			this.CANCEL_ACTIVE();
 		}
 	}
 </script>
@@ -180,6 +193,7 @@
 							&-pay {
 								@extend .u71-box-name;
 								color: #D9001B;
+								flex: 1;
 							}
 
 							.u72 {

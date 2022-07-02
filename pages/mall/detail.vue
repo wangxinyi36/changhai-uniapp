@@ -7,7 +7,7 @@
 				<view class="u22-title">{{goodsDetail.name}}</view>
 				<view class="u22-num">累计销售：{{goodsDetail.sales}}</view>
 			</view>
-			<view class="u21">￥{{goodsDetail.wholesalePrice}}/{{goodsDetail.unit}}</view>
+			<view class="u21">￥{{goodsDetail.retailPrice}}/{{goodsDetail.unit}}</view>
 			<view class="u23 u22-num">{{goodsDetail.brief}}</view>
 		</view>
 
@@ -26,7 +26,7 @@
 
 		<view class="u1">
 			<view class="u31">
-				<view class="u31-title">用户评论</view>
+				<view class="u31-title">用户评论({{comments_size}})</view>
 				<navigator :url="`/pages/mall/comments?id=${goodsDetail.id}`" hover-class="none">
 					<view class="u31-num">查看全部</view>
 				</navigator>
@@ -40,7 +40,7 @@
 
 		<view class="u42">
 			<view class="u42-title">商品详情</view>
-			<rich-text :nodes="goodsDetail.detail" class="u42-img"></rich-text>
+			<rich-text :nodes="goodsDetailContent" class="u42-img"></rich-text>
 		</view>
 
 		<view class="u43">
@@ -54,7 +54,7 @@
 					<view class="u128-title" @click="clear">清空</view>
 				</view>
 				<view class="cart-list">
-					<common-cart-goods v-for="item,index in goods" :key="index" :goods="item" @addOrSub="addOrSub">
+					<common-cart-goods v-for="item,index in goods" :key="index" :goods="item" @add="add" @sub="sub">
 					</common-cart-goods>
 				</view>
 			</view>
@@ -66,15 +66,25 @@
 
 <script>
 	import {
-		OpenPage
+		OpenPage,
+		regContent,
+		getStorage,
+		setStorage,
+		showToast
 	} from '@/common/fun.js';
+	import {
+		mapMutations,
+		mapState,
+		mapGetters
+	} from 'vuex'
 	export default {
 		data() {
 			return {
 				show: false, //滚动穿透禁止
+				wechat_userInfo: {},
 				id: '',
-				goods: [],
 				comments: [],
+				comments_size: 0,
 				options: [{
 					icon: 'cart',
 					text: '购物车',
@@ -91,16 +101,62 @@
 						color: '#fff'
 					}
 				],
-				goodsDetail: {}
+				goodsDetail: {},
+				goodsDetailContent: ''
 			};
 		},
 		onLoad(options) {
 			this.id = options.id;
 			this.getDetail()
+			this.wechat_userInfo = getStorage('wechat_userInfo');
+			this.GET_MALL_CART()
+		},
+		computed: {
+			...mapState({
+				goods: (state) => state.mallCart.mallSelectList
+			})
 		},
 		methods: {
+			...mapMutations(['GET_MALL_CART']),
 			clickLeft(params) {
-				this.$refs.popup.open('bottom');
+				let _this = this;
+				if (this.wechat_userInfo) {
+					this.$refs.popup.open('bottom');
+					return;
+				}
+				uni.getUserProfile({
+					desc: '需要获取您的个人信息',
+					success(res) {
+						uni.login({
+							provider: 'weixin',
+							success: async function(loginRes) {
+								let data = {
+									code: loginRes.code,
+									shareUserId: 0,
+									userInfo: {
+										phone: "",
+										registerDate: "",
+										status: 0,
+										userId: 0,
+										userLevel: 0,
+										userLevelDesc: "",
+										...res.userInfo
+									}
+								}
+								const result = await _this.$http(_this.$API.postLoginByWeixin, data,
+									'POST');
+								_this.wechat_userInfo = result.data.userInfo;
+								setStorage('wechat_userInfo', result.data.userInfo)
+							},
+							fail(err) {
+								console.log(err)
+							}
+						});
+					},
+					fail(err) {
+						console.log(err)
+					}
+				})
 			},
 			change(e) {
 				this.show = e.show
@@ -108,38 +164,61 @@
 			clear() {
 				this.goods = []
 			},
-			addOrSub(params) {
-				console.log(params)
+			add(item) {
+				this.$store.dispatch('ADD_MALL_CART', item)
+			},
+			sub(item) {
+				this.$store.dispatch('REDUCE_MALL_CART', item)
 			},
 			clickBtn(e) {
-				let {
-					index,
-					content
-				} = e;
-				let {
-					goods
-				} = this.$data;
-				let obj = {
-					picUrl: this.goodsDetail.picUrl,
-					name: this.goodsDetail.name,
-					wholesalePrice: this.goodsDetail.wholesalePrice,
-					id: this.goodsDetail.id,
-					count: 1,
-				}
-				if (index === 0) {
-					if (goods.length === 0) {
-						this.goods.push(obj)
+				let _this = this;
+				if (this.wechat_userInfo) {
+					let {
+						index,
+						content
+					} = e;
+					if (index === 0) {
+						this.$store.dispatch('ADD_MALL_CART', this.goodsDetail)
 					} else {
-						let index = goods.findIndex((item) => item.id == obj.id);
-						if (index >= 0) {
-							Object.assign(this.goods[index], 'count', this.goods[index].count++)
-						}else{
-							this.goods.push(obj)
-						}
+						OpenPage(`/pages/mall/order`, {
+							goodsDetail: this.goodsDetail
+						})
 					}
-				} else {
-
+					return;
 				}
+				uni.getUserProfile({
+					desc: '需要获取您的个人信息',
+					success(res) {
+						uni.login({
+							provider: 'weixin',
+							success: async function(loginRes) {
+								let data = {
+									code: loginRes.code,
+									shareUserId: 0,
+									userInfo: {
+										phone: "",
+										registerDate: "",
+										status: 0,
+										userId: 0,
+										userLevel: 0,
+										userLevelDesc: "",
+										...res.userInfo
+									}
+								}
+								const result = await _this.$http(_this.$API.postLoginByWeixin, data,
+									'POST');
+								_this.wechat_userInfo = result.data.userInfo;
+								setStorage('wechat_userInfo', result.data.userInfo)
+							},
+							fail(err) {
+								console.log(err)
+							}
+						});
+					},
+					fail(err) {
+						console.log(err)
+					}
+				})
 			},
 			dealKeys(val) {
 				if (val) {
@@ -154,6 +233,9 @@
 					const res = await this.$http(`${this.$API.getGoodsDetail}/${id}`);
 					this.goodsDetail = res.data.goods;
 					this.comments = res.data.comments;
+					this.comments_size = res.data.comments_size;
+
+					this.goodsDetailContent = regContent(res.data.goods.detail)
 				} catch (e) {
 					//TODO handle the exception
 				}

@@ -40,7 +40,7 @@
 				</view>
 			</view>
 			<view class="u25">
-				<view class="u25-box">立即投诉</view>
+				<!-- <view class="u25-box">立即投诉</view> -->
 			</view>
 		</view>
 		<view class="bottom">
@@ -65,9 +65,6 @@
 				payList: [{
 					name: '微信支付',
 					url: '/static/icon-wechat.svg',
-				}, {
-					name: '支付宝支付',
-					url: '/static/icon-zhi.svg',
 				}]
 			};
 		},

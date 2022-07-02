@@ -5,10 +5,9 @@
 			<view class="u122-name">{{goods.name}}</view>
 			<!-- <view class="u122-weight">{{`${goods.weight}克`}}</view> -->
 			<view class="u122-pay">
-				<view>{{`￥${goods.wholesalePrice}`}}</view>
+				<view>{{`￥${goods.retailPrice}`}}</view>
 				<view class="u122-count">
-					<image :src="goods.count === 1 ? reduceOneIcon : reduceIcon" mode="aspectFill"
-						class="u122-count-left" @click="sub"></image>
+					<image :src="reduceIcon" mode="aspectFill" class="u122-count-left" @click="sub"></image>
 					<text class="u122-count-text">{{goods.count}}</text>
 					<image src="/static/mall2.svg" mode="aspectFill" class="u122-count-left" @click="add"></image>
 				</view>
@@ -31,15 +30,10 @@
 		},
 		methods: {
 			sub() {
-				if (this.goods.count <= 1) {
-					return;
-				}
-				this.goods.count--;
-				this.$emit('addOrSub', this.goods)
+				this.$emit('sub', this.goods)
 			},
 			add() {
-				this.goods.count++;
-				this.$emit('addOrSub', this.goods)
+				this.$emit('add', this.goods)
 			}
 		}
 	}

@@ -11,7 +11,7 @@
 				<uni-data-checkbox v-model="landFormData.sex" :localdata="sexs" />
 			</uni-forms-item>
 			<uni-forms-item label="身份证号" label-position="top" name="idcard">
-				<uni-easyinput v-model="landFormData.idcard" type="idcard" :clearable="false" placeholder="请输入身份证号" />
+				<uni-easyinput v-model="landFormData.idcard" type="idcard" :clearable="false" placeholder="请输入身份证号" maxlength="18" />
 			</uni-forms-item>
 			<uni-forms-item label="手机号" label-position="top" name="mobile">
 				<uni-easyinput v-model="landFormData.mobile" type="number" maxlength="11" :clearable="false"
@@ -111,7 +111,8 @@
 	import {
 		getRegionList,
 		showToast,
-		sendEvent
+		sendEvent,
+		getStorage
 	} from '@/common/fun.js'
 	import {
 		upload
@@ -253,6 +254,7 @@
 					unit: '',
 					profession: '',
 					ifHealth: '',
+					userId: '',
 				},
 				owns: [{
 					text: '本人',
@@ -281,10 +283,12 @@
 				form_upAddress: [0, 0, 0],
 				land_address: COMMON_ADDRESS,
 				land_downAddress: [0],
+				wechat_userInfo: {}
 			};
 		},
 		onLoad() {
 			this.getProvince()
+			this.wechat_userInfo = getStorage('wechat_userInfo')
 		},
 		methods: {
 			open(name) {
@@ -334,7 +338,8 @@
 						return item.url;
 					})
 					formData.url = formData.url.join(',')
-					formData.uptime = new Date(formData.uptime)
+					formData.uptime = new Date(formData.uptime);
+					formData.userId = _this.wechat_userInfo.userId;
 					const result = await _this.$http(_this.$API.postHealth, formData, 'POST');
 					if (result.errno != 0) {
 						showToast(result.errmsg)

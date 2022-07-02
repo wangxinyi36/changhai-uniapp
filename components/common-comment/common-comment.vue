@@ -2,7 +2,7 @@
 	<view>
 		<view class="common-comment" v-if="from && from == 'mall'">
 			<view class="u33">
-				<image :src="comment.avatar" mode="aspectFill" class="u33-avatar"></image>
+				<image :src="comment.headimage" mode="aspectFill" class="u33-avatar"></image>
 				<view class="u33-name">{{comment.nickname}}</view>
 			</view>
 			<view class="content">{{comment.content}}</view>

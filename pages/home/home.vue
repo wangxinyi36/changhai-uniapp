@@ -12,13 +12,13 @@
 			<view class="u49">
 				<uni-row :gutter="5">
 					<uni-col :span="16">
-						<view class="u49-box">
+						<view class="u49-box" @click="homeDetail(1)">
 							<image :src="homeList[1].url" mode="scaleToFill" class="u49-img"></image>
 							<text class="intro-text u49-intro">{{homeList[1].name}}</text>
 						</view>
 					</uni-col>
 					<uni-col :span="8">
-						<view class="u49-box u50-box">
+						<view class="u49-box u50-box" @click="homeDetail(2)">
 							<image :src="homeList[2].url" mode="scaleToFill" class="u49-img"></image>
 							<text class="intro-text u49-intro">{{homeList[2].name}}</text>
 						</view>
@@ -27,19 +27,19 @@
 				<uni-row :gutter="5">
 					<view class="u49-row">
 						<uni-col :span="8">
-							<view class="u49-box u50-box">
+							<view class="u49-box u50-box" @click="homeDetail(3)">
 								<image :src="homeList[3].url" mode="scaleToFill" class="u49-img"></image>
 								<text class="intro-text u49-intro">{{homeList[3].name}}</text>
 							</view>
 						</uni-col>
 						<uni-col :span="8">
-							<view class="u49-box u50-box">
+							<view class="u49-box u50-box" @click="homeDetail(4)">
 								<image :src="homeList[4].url" mode="scaleToFill" class="u49-img"></image>
 								<text class="intro-text u49-intro">{{homeList[4].name}}</text>
 							</view>
 						</uni-col>
 						<uni-col :span="8">
-							<view class="u49-box u50-box">
+							<view class="u49-box u50-box" @click="homeDetail(5)">
 								<image :src="homeList[5].url" mode="scaleToFill" class="u49-img"></image>
 								<text class="intro-text u49-intro">{{homeList[5].name}}</text>
 							</view>
@@ -159,6 +159,7 @@
 <script>
 	import {
 		OpenPage,
+		setStorage,getStorage,
 		getAddressAuthorize
 	} from '@/common/fun.js';
 	export default {
@@ -252,25 +253,73 @@
 					start: 0,
 					// uuType: "", //A景点 B路线 C酒店 F套票 G美食 H演出
 					uuid: ""
-				}
+				},
+				wechat_userInfo: {}
 			};
 		},
 		onLoad() {
+			this.wechat_userInfo = getStorage('wechat_userInfo')
 			this.getTral();
 			this.getHomeList()
 			this.postProduct()
 		},
 		methods: {
 			async openType(item, index) {
+				console.log(item, index)
+				if (item.open.includes('/pages/home/landing/landing')) {
+					let _this = this;
+					if (this.wechat_userInfo) {
+						OpenPage(item.open)
+						return;
+					}
+					uni.getUserProfile({
+						desc: '需要获取您的个人信息',
+						success(res) {
+							uni.login({
+								provider: 'weixin',
+								success: async function(loginRes) {
+									let data = {
+										code: loginRes.code,
+										shareUserId: 0,
+										userInfo: {
+											phone: "",
+											registerDate: "",
+											status: 0,
+											userId: 0,
+											userLevel: 0,
+											userLevelDesc: "",
+											...res.userInfo
+										}
+									}
+									const result = await _this.$http(_this.$API.postLoginByWeixin,
+										data,
+										'POST');
+									_this.wechat_userInfo = result.data.userInfo;
+									setStorage('wechat_userInfo', result.data.userInfo)
+								},
+								fail(err) {
+									console.log(err)
+								}
+							});
+						},
+						fail(err) {
+							console.log(err)
+						}
+					})
+					return;
+				}
+
 				if (item.open == '/pages/mall/mall') {
 					uni.switchTab({
 						url: item.open
 					});
 					return;
 				}
+
 				if (item.open.includes('public-toilet')) {
 					let currentPoint = await getAddressAuthorize();
 				}
+
 				OpenPage(item.open)
 			},
 			openPage(item, url) {
@@ -279,12 +328,9 @@
 			openRoute(item) {
 				OpenPage(`/pages/home/special-route/special-route-detail?id=${item.id}`)
 			},
-			homeDetail(value) {
-				let {
-					homeList
-				} = this.$data;
+			homeDetail(index) {
 				this.$nextTick(() => {
-					OpenPage(`/pages/home/home-detail?title=${homeList[value].name}&id=${homeList[value].id}`)
+					OpenPage(`/pages/home/home-detail?index=${index}`)
 				})
 			},
 			async getTral() {
