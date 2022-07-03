@@ -13,16 +13,24 @@
 						<view class="u11-box-tip">15分钟内可免费取消</view>
 					</view>
 					<view class="u17">
-						<view class="u17-sub">-</view>
-						<view class="u17-num">1</view>
-						<view class="u17-add">+</view>
+						<view class="u17-sub" @click="sub">
+							<image src="/static/u18.svg" mode="aspectFill" class="u17-add-img"></image>
+						</view>
+						<view class="u17-num">{{count}}</view>
+						<view class="u17-add" @click="add">
+							<image src="/static/add-blue.svg" mode="aspectFill" class="u17-add-img"></image>
+						</view>
 					</view>
 				</view>
 			</view>
 			<view class="u63">
-				<navigator url="/pagesStay/home-stay/home-stay-people" hover-class="none">
-					<view class="u63-box">添加入住人</view>
-				</navigator>
+				<view class="u63-box" @click="pageToAddress" v-if="!address.id">添加入住人</view>
+				<view class="u22" v-else @click="pageToAddress">
+					<view class="u22-name">{{address.name}}</view>
+					<view class="u22-address">
+						{{address.province}}{{address.city}}{{address.area}}{{address.address}}
+					</view>
+				</view>
 			</view>
 			<view class="u25">
 				<view class="u25-box">发票</view>
@@ -39,9 +47,6 @@
 					</image>
 				</view>
 			</view>
-			<view class="u25">
-				<!-- <view class="u25-box">立即投诉</view> -->
-			</view>
 		</view>
 		<view class="bottom">
 			<view class="bottom-left">
@@ -56,6 +61,9 @@
 </template>
 
 <script>
+	import {
+		OpenPage
+	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
@@ -65,12 +73,31 @@
 				payList: [{
 					name: '微信支付',
 					url: '/static/icon-wechat.svg',
-				}]
+				}],
+				count: 1,
+				address: {}
 			};
 		},
 		methods: {
 			choose(value) {
 				this.payIndex = value;
+			},
+			pageToAddress() {
+				let _this = this;
+				OpenPage(`/pagesStay/home-stay/home-stay-people?from=homeStay`).then(res => {
+					if (res.address) {
+						_this.address = res.address;
+					}
+				})
+			},
+			add() {
+				this.count++;
+			},
+			sub() {
+				if (this.count == 1) {
+					return;
+				}
+				this.count--;
 			}
 		}
 	}
@@ -139,11 +166,24 @@
 						text-align: center;
 					}
 
-					&-sub,
-					&-add {
+					&-sub {
 						width: 40rpx;
 						@extend .default-flex;
 						justify-content: center;
+
+						&-img {
+							width: 40rpx;
+							height: 40rpx;
+						}
+					}
+
+					&-add {
+						@extend .u17-sub;
+
+						&-img {
+							width: 40rpx;
+							height: 40rpx;
+						}
 					}
 				}
 			}
@@ -162,6 +202,19 @@
 				font: normal 400 24rpx/normal 'Arial Normal', 'Arial', sans-serif;
 				text-align: center;
 				padding: 15rpx 0;
+			}
+
+			.u22 {
+				&-name {
+					font: normal 700 32rpx/normal '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
+					color: #000;
+				}
+
+				&-address {
+					font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+					color: #aaa;
+					margin-top: 10rpx;
+				}
 			}
 		}
 

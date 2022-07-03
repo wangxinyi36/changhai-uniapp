@@ -1,9 +1,9 @@
 <template>
-	<view class="common-dropdown">
+	<view class="common-food-dropdown">
 		<view class="u34">
 			<view class="u33">
 				<view class="u34-box" @click="open(1)">
-					<view class="u34-box-text" :style="{color:tabIndex == 1 ? color : ''}">位置区域</view>
+					<view class="u34-box-text" :style="{color:tabIndex == 1 ? color : ''}">位置</view>
 					<uni-icons :type="tabIndex == 1 ? 'top' : 'bottom'" size="16"
 						:color="tabIndex == 1 ? color : '#333'"></uni-icons>
 				</view>
@@ -22,6 +22,7 @@
 
 		<uni-popup ref="popup" type="top" @close="cancel" @maskClick="cancel">
 			<view class="condition" v-if="tabIndex == 1">
+				<view class="u75">我的附近</view>
 				<view class="u76">
 					<view class="u76-box" v-for="item,index in regions" :key="index">
 						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 1 && index == tagIndex}"
@@ -37,7 +38,7 @@
 			</view>
 
 			<view class="condition" v-if="tabIndex == 2">
-				<view class="u75">价格区间</view>
+				<view class="u75">人均价格</view>
 				<view class="u76 u77">
 					<view class="u76-box" v-for="item,index in price" :key="index">
 						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 2 && index == tagIndex}"
@@ -53,15 +54,8 @@
 			</view>
 
 			<view class="condition" v-if="tabIndex == 3">
-				<view class="u75">人数</view>
-				<view class="u76 u78">
-					<view class="u76-box" v-for="item,index in person" :key="index">
-						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 3 && index == tagIndex}"
-							@click="select(index)">{{item}}</view>
-					</view>
-				</view>
-				<view class="u75">房型</view>
-				<view class="u76 u78">
+				<view class="u75">地区</view>
+				<view class="u76">
 					<view class="u76-box" v-for="item,index in room" :key="index">
 						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 3 && index == tagIndex2}"
 							@click="select2(index)">{{item}}</view>
@@ -81,17 +75,16 @@
 
 <script>
 	export default {
-		name: "common-dropdown",
+		name: "common-food-dropdown",
 		props: ['color', 'background'],
 		data() {
 			return {
 				tabIndex: 0, //条件
 				tagIndex: -1, //条件下面的tag
 				tagIndex2: -1, //条件下面的tag
-				regions: ['大长山岛', '小长山岛', '獐子岛', '广鹿岛', '海洋岛镇'],
-				price: ['￥150以下', '￥150-￥200', '￥200-￥300', '￥300-￥400', '￥400-￥500'],
-				person: ['1人', '2人', '3人', '4人'],
-				room: ['单人', '大床房', '双床房', '多床房']
+				regions: ['附近', '500m', '1km', '3km', '5km', '10km'],
+				price: ['100', '200', '300', '400'],
+				room: ['大长山岛', '小长山岛', '獐子岛', '广鹿岛', '海洋岛镇']
 			};
 		},
 		mounted() {},
@@ -122,7 +115,7 @@
 </script>
 
 <style lang="scss" scoped>
-	.common-dropdown {
+	.common-food-dropdown {
 		background-color: #fff;
 		width: 100%;
 		position: sticky;
@@ -202,9 +195,8 @@
 				}
 
 				&-tag {
-					background-color: rgba(255, 255, 255, 0);
-					border: 1rpx solid rgba(215, 215, 215, 1);
-					border-radius: 36rpx;
+					background-color: #edf0f7;
+					border-radius: 12rpx;
 					font: normal 400 28rpx/48rpx '微软雅黑', sans-serif;
 					color: #333;
 					width: 128rpx;
@@ -214,16 +206,7 @@
 				}
 
 				&-tag-active {
-					border-color: rgba(49, 208, 230, 1);
-					background-color: rgba(49, 208, 230, 0.17);
-				}
-			}
-
-			.u77 {
-				.u76-tag {
-					width: unset;
-					height: unset;
-					padding: 8rpx 16rpx;
+					background-color: rgba(255, 113, 0, 0.17);
 				}
 			}
 

@@ -17,7 +17,7 @@
 				<map class="u8" :longitude="position[0]" :latitude="position[1]" :markers="marker" scale="10"
 					@markertap="clickMark"></map>
 			</view>
-			<!-- <view class="u17">
+			<view class="u17">
 				<view class="u17-title">入住日期/离开日期</view>
 				<uni-datetime-picker v-model="single">
 					<view class="u81">
@@ -25,7 +25,7 @@
 						<image src="/static/icon2.svg" mode="aspectFill" class="u81-img"></image>
 					</view>
 				</uni-datetime-picker>
-			</view> -->
+			</view>
 			<view class="u20-list">
 				<view class="u20" v-for="item,index in list" :key="index">
 					<image :src="item.url" mode="aspectFill" class="u20-img"></image>
@@ -47,7 +47,9 @@
 
 <script>
 	import {
-		OpenPage
+		OpenPage,
+		getStorage,
+		setStorage
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -65,16 +67,55 @@
 				detail: {},
 				id: '',
 				position: [],
-				marker: []
+				marker: [],
+				userInfo: {}
 			};
 		},
 		onLoad(options) {
+			this.wechat_userInfo = getStorage('wechat_userInfo')
 			this.id = options.id;
 			this.getDetail()
 		},
 		methods: {
 			openPage(url) {
-				OpenPage(url)
+				let _this = this;
+				if (this.wechat_userInfo) {
+					OpenPage(url)
+					return;
+				}
+				uni.getUserProfile({
+					desc: '需要获取您的个人信息',
+					success(res) {
+						uni.login({
+							provider: 'weixin',
+							success: async function(loginRes) {
+								let data = {
+									code: loginRes.code,
+									shareUserId: 0,
+									userInfo: {
+										phone: "",
+										registerDate: "",
+										status: 0,
+										userId: 0,
+										userLevel: 0,
+										userLevelDesc: "",
+										...res.userInfo
+									}
+								}
+								const result = await _this.$http(_this.$API.postLoginByWeixin, data,
+									'POST');
+								_this.wechat_userInfo = result.data.userInfo;
+								setStorage('wechat_userInfo', result.data.userInfo)
+							},
+							fail(err) {
+								console.log(err)
+							}
+						});
+					},
+					fail(err) {
+						console.log(err)
+					}
+				})
 			},
 			async clickMark(e) {
 				let markItem = this.marker[0];

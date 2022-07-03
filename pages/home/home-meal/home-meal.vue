@@ -50,7 +50,7 @@
 				background: '-webkit-linear-gradient(0.23deg, rgba(255, 255, 255, 1) 0%, rgba(255, 113, 0, 1) 100%)',
 				goods: [{
 					name: '海参',
-					url: '/static/mall4.png',
+					url: '/static/mall8.png',
 					weight: 555,
 					count: 1,
 					pay: 155

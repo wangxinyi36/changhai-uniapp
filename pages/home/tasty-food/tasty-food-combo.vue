@@ -4,7 +4,7 @@
 			<view class="u240">螃蟹大锅烩</view>
 			<view class="u202">
 				<view class="u202-title">螃蟹大锅烩</view>
-				<image src="/static/food2.png" mode="aspectFill" class="u202-img"></image>
+				<image src="/static/mall8.png" mode="aspectFill" class="u202-img"></image>
 				<view class="u202-pay"><text class="u202-pay-text">￥</text>155</view>
 				<view class="u207" @click="open">
 					<view class="u207-box">省</view>

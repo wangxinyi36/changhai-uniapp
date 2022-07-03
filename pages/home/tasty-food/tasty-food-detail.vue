@@ -35,8 +35,8 @@
 				</view>
 				<view class="u57">
 					<view class="u57-tabs">
-						<view class="u57-tab" :class="[{'u57-tab-active':tabIndex == index}]" v-for="item,index in tabs"
-							:key="index">{{item}}</view>
+						<view class="u57-tab" v-for="item,index in tabs" :key="index"
+							:class="{'u57-tab-active':tabIndex == index}" @click="change(index)">{{item}}</view>
 					</view>
 					<view class="u50">
 						<view class="u50-title">100 元优惠卷</view>
@@ -88,7 +88,7 @@
 								</view>
 								<view class="u67">{{item.content}}</view>
 								<view class="u58-item-imgs" v-if="item.url.length > 0">
-									<image :src="pic" mode="aspectFill" v-for="pic,i in item.url" :key="index"
+									<image :src="pic" mode="aspectFill" v-for="pic,i in item.url" :key="i"
 										class="u58-item-imgs-pic"></image>
 								</view>
 								<view class="u69">商家回复：{{item.reply}}</view>
@@ -148,6 +148,9 @@
 		methods: {
 			back() {
 				uni.navigateBack()
+			},
+			change(index) {
+				this.tabIndex = index;
 			}
 		},
 		onLoad() {},
@@ -298,12 +301,12 @@
 						font: normal 400 32rpx/normal '微软雅黑', sans-serif;
 						color: #333;
 						margin-right: 30rpx;
+					}
 
-						&-active {
-							color: #FD7A21;
-							font-weight: 700;
-							font-family: '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
-						}
+					&-tab-active {
+						color: #FD7A21;
+						font-weight: 700;
+						font-family: '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
 					}
 
 					.u50 {

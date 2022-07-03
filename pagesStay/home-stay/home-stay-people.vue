@@ -49,13 +49,17 @@
 		onLoad(options) {
 			this.userId = getStorage('wechat_userInfo').userId;
 			this.from = options.from;
+			console.log(options)
 			if (this.from == 'mallOrder') {
 				uni.setNavigationBarTitle({
 					title: '收货地址'
 				})
 				this.addText = '新增收货地址'
 			}
-			this.goodsId = options.goodsId;
+			if (this.from == 'homeStay') {
+				this.addText = '新增住客'
+			}
+			this.goodsId = options.goodsId || '';
 			this.getAddress()
 		},
 		methods: {
