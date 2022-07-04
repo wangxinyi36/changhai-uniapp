@@ -159,7 +159,8 @@
 <script>
 	import {
 		OpenPage,
-		setStorage,getStorage,
+		setStorage,
+		getStorage,
 		getAddressAuthorize
 	} from '@/common/fun.js';
 	export default {
@@ -175,7 +176,8 @@
 						url: '/static/home-ship.svg',
 						name: '船票',
 						width: '54rpx',
-						height: '45rpx'
+						height: '45rpx',
+						open: '/pagesShip/ship-list'
 					},
 					{
 						url: '/static/home-hotel.svg',
@@ -265,8 +267,8 @@
 		},
 		methods: {
 			async openType(item, index) {
-				console.log(item, index)
-				if (item.open.includes('/pages/home/landing/landing')) {
+				console.log(item)
+				if (item.open == '/pages/home/landing/landing') {
 					let _this = this;
 					if (this.wechat_userInfo) {
 						OpenPage(item.open)

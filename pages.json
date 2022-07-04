@@ -240,34 +240,28 @@
 			"enablePullDownRefresh": false
 		}
 
-	}    ,{
-            "path" : "pages/my/coupon",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "优惠券",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/my/complaint-now",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "立即投诉",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-        ,{
-            "path" : "pages/mall/order",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "提交订单",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	}, {
+		"path": "pages/my/coupon",
+		"style": {
+			"navigationBarTitleText": "优惠券",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/my/complaint-now",
+		"style": {
+			"navigationBarTitleText": "立即投诉",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/mall/order",
+		"style": {
+			"navigationBarTitleText": "提交订单",
+			"enablePullDownRefresh": false
+		}
+
+	}],
 	"subPackages": [{
 		"root": "pagesStay",
 		"pages": [{
@@ -321,6 +315,23 @@
 				"navigationBarTitleText": "",
 				"enablePullDownRefresh": false,
 				"navigationStyle": "custom"
+			}
+
+		}]
+	}, {
+		"root": "pagesShip",
+		"pages": [{
+			"path": "ship-list",
+			"style": {
+				"navigationBarTitleText": "订票信息",
+				"enablePullDownRefresh": false
+			}
+
+		}, {
+			"path": "ship-pay",
+			"style": {
+				"navigationBarTitleText": "",
+				"enablePullDownRefresh": false
 			}
 
 		}]
