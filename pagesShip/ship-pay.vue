@@ -41,16 +41,17 @@
 			</view>
 			<view class="u2-list">
 				<view class="u2-item" v-for="item,index in list" :key="index"
-					:class="[{'u2-item-border':index != list.length - 1}]" @click="select(item,index)">
-					<view class="u2-item-left">
-						<image :src="selectIndex == index ? selectActiveIcon : selectIcon" mode="aspectFill"
+					:class="[{'u2-item-border':index != list.length - 1}]">
+					<view class="u2-item-left" @click="select(item,index)">
+						<image :src="item.isActive ? selectActiveIcon : selectIcon" mode="aspectFill"
 							class="u2-item-left-img"></image>
 						<view class="u2-item-left-name">{{item.name}}</view>
 						<view class="u2-item-left-card">{{item.idCard}}</view>
 					</view>
-					<image src="/static/ship-icon7.png" mode="aspectFill" class="u2-item-right-img"></image>
+					<image src="/static/ship-icon7.png" mode="aspectFill" class="u2-item-right-img" @click="edit(item)">
+					</image>
 				</view>
-				<view class="u2-btn">
+				<view class="u2-btn" @click="add">
 					<image src="/static/ship-icon9.png" mode="aspectFill" class="u2-btn-img"></image>
 					<view class="u2-btn-name">添加乘客</view>
 				</view>
@@ -68,11 +69,13 @@
 </template>
 
 <script>
+	import {
+		OpenPage
+	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
 				title: '',
-				selectIndex: 0,
 				selectIcon: '/static/ship-icon8.png',
 				selectActiveIcon: '/static/ship-icon8-active.png',
 				list: [{
@@ -91,7 +94,16 @@
 		},
 		methods: {
 			select(item, index) {
-				this.selectIndex = index;
+				this.$set(item, 'isActive', !item.isActive)
+			},
+			add() {
+				let _this = this;
+				OpenPage('/pagesShip/passenger').then(res => {
+					_this.list.push(res.personal)
+				})
+			},
+			edit(item) {
+				OpenPage('/pagesShip/passenger')
 			}
 		}
 	}
@@ -277,7 +289,7 @@
 			width: 100%;
 			height: 74rpx;
 			background: #FFF8F2;
-			font:normal 400 25rpx/74rpx PingFangSC-Regular, PingFang SC;
+			font: normal 400 25rpx/74rpx PingFangSC-Regular, PingFang SC;
 			color: #6E6A61;
 			padding-left: 31rpx;
 		}

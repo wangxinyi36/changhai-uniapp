@@ -334,7 +334,16 @@
 				"enablePullDownRefresh": false
 			}
 
-		}]
+		}    ,{
+                    "path" : "passenger",
+                    "style" :                                                                                    
+                {
+                    "navigationBarTitleText": "乘客信息",
+                    "enablePullDownRefresh": false
+                }
+                
+                }
+            ]
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",
