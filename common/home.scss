@@ -36,6 +36,8 @@
 	.u49-box{
 		position: relative;
 		height: 210rpx;
+		flex: 1;
+		margin-right: 8rpx;
 		.u49-img{
 			width: 100%;
 			height: 100%;
@@ -48,8 +50,28 @@
 		}
 	}
 	.u49-row{
-		margin-top: 5rpx;
+		margin-bottom: 6rpx;
+		@extend .default-flex;
 	}
+}
+.u50-box{
+	height: 210rpx;
+	width: 244rpx;
+	.u49-img{
+		width: 100%;
+		height: 100%;
+	}
+}
+.u51-box{
+	flex:1;
+	height: 210rpx;
+	.u49-img{
+		width: 100%;
+		height: 100%;
+	}
+}
+.u52-box{
+	margin: 0 6rpx;
 }
 
 .u4{

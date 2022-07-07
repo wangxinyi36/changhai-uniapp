@@ -1,8 +1,9 @@
 <template>
 	<view>
 		<view class="u8">
-			<rich-text class="u8-text" :nodes="detail.content"></rich-text>
+			<rich-text class="u8-text" :nodes="content"></rich-text>
 		</view>
+		<view class="u9"></view>
 		<view class="bottom">
 			<view class="bottom-btn">
 				<view class="bottom-btn-left">
@@ -16,20 +17,30 @@
 </template>
 
 <script>
+	import {
+		regContent,
+		GetSystemInfo
+	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
-				detail: {}
+				detail: {},
+				content: '',
+				safeArea: {}
 			};
 		},
 		onLoad() {
-			this.getAirportDetail()
+			this.getAirportDetail();
+			this.safeArea = GetSystemInfo().safeArea;
+			console.log(GetSystemInfo())
 		},
 		methods: {
 			async getAirportDetail() {
 				try {
 					const res = await this.$http(this.$API.getAirportDetail);
 					this.detail = res.data;
+
+					this.content = regContent(res.data.content)
 				} catch (e) {
 					//TODO handle the exception
 				}
@@ -63,6 +74,10 @@
 		}
 	}
 
+	.u9 {
+		height: 100rpx;
+	}
+
 	.bottom {
 		position: fixed;
 		bottom: 0;
@@ -71,6 +86,8 @@
 		height: 86rpx;
 		border-radius: 12rpx 12rpx 0 0;
 		@extend .default-flex;
+		padding-bottom: constant(safe-area-inset-bottom);
+		padding-bottom: env(safe-area-inset-bottom);
 
 		&-btn {
 			width: 100%;

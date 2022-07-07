@@ -5,7 +5,7 @@
 				<view class="car-list">
 					<view class="car-item" v-for="item,index in carList" :key="item.id">
 						<view class="u14">
-							<image :src="item.url" mode="aspectFill" class="u14-img"></image>
+							<image :src="item.url" mode="aspectFit" class="u14-img"></image>
 							<view class="u14-box">
 								<view class="u9-text">{{item.vin}}</view>
 								<span class="u10-text">{{item.detail}}</span>
@@ -114,6 +114,7 @@
 
 					.u14-box {
 						margin-left: 20rpx;
+						flex:1;
 
 						.u9-text {
 							font-weight: 400;

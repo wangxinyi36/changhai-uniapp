@@ -5,7 +5,7 @@
 			<view class="u17-box">
 				<view class="u17-box-title">{{item.title}}</view>
 				<view class="u17-box-text">
-					<rich-text :nodes="item.content"></rich-text>
+					<rich-text :nodes="dealContent(item.content)"></rich-text>
 				</view>
 			</view>
 		</view>
@@ -14,7 +14,7 @@
 
 <script>
 	import {
-		OpenPage
+		OpenPage,regContent
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -30,6 +30,9 @@
 		methods: {
 			openPage(id) {
 				OpenPage(`/pages/home/news/detail?id=${id}`)
+			},
+			dealContent(val) {
+				return regContent(val)
 			},
 			async getNews() {
 				try {

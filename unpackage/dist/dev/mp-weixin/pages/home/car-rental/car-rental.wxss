@@ -26,6 +26,7 @@
 }
 .car-rental .car-list .car-item .u14 .u14-box.data-v-0a2c0050 {
   margin-left: 20rpx;
+  flex: 1;
 }
 .car-rental .car-list .car-item .u14 .u14-box .u9-text.data-v-0a2c0050 {
   font-weight: 400;

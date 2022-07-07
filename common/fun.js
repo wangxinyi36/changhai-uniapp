@@ -249,7 +249,7 @@ export function addZero(number) {
  */
 export function regContent(str) {
 	const regex = new RegExp('<img', 'gi');
-	let richtext = str.replace(regex, `<img style="width: 100%;"`);
+	let richtext = str.replace(regex, `<img style="width: 100%;height:100%"`);
 	return richtext
 }
 

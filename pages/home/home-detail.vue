@@ -28,7 +28,6 @@
 				try {
 					const res = await this.$http(this.$API.getHomeList);
 					this.detail = res.data[this.index];
-					console.log(this.detail)
 					uni.setNavigationBarTitle({
 						title: this.detail.name
 					})
@@ -58,8 +57,8 @@
 			}
 
 			&-text {
-				font: 400 20rpx/30rpx 'Arial Normal', 'Arial', sans-serif;
-				color: #333;
+				// font: 400 20rpx/30rpx 'Arial Normal', 'Arial', sans-serif;
+				// color: #333;
 			}
 		}
 	}

@@ -10,42 +10,30 @@
 
 		<uni-row>
 			<view class="u49">
-				<uni-row :gutter="5">
-					<uni-col :span="16">
-						<view class="u49-box" @click="homeDetail(1)">
-							<image :src="homeList[1].url" mode="scaleToFill" class="u49-img"></image>
-							<text class="intro-text u49-intro">{{homeList[1].name}}</text>
-						</view>
-					</uni-col>
-					<uni-col :span="8">
-						<view class="u49-box u50-box" @click="homeDetail(2)">
-							<image :src="homeList[2].url" mode="scaleToFill" class="u49-img"></image>
-							<text class="intro-text u49-intro">{{homeList[2].name}}</text>
-						</view>
-					</uni-col>
-				</uni-row>
-				<uni-row :gutter="5">
-					<view class="u49-row">
-						<uni-col :span="8">
-							<view class="u49-box u50-box" @click="homeDetail(3)">
-								<image :src="homeList[3].url" mode="scaleToFill" class="u49-img"></image>
-								<text class="intro-text u49-intro">{{homeList[3].name}}</text>
-							</view>
-						</uni-col>
-						<uni-col :span="8">
-							<view class="u49-box u50-box" @click="homeDetail(4)">
-								<image :src="homeList[4].url" mode="scaleToFill" class="u49-img"></image>
-								<text class="intro-text u49-intro">{{homeList[4].name}}</text>
-							</view>
-						</uni-col>
-						<uni-col :span="8">
-							<view class="u49-box u50-box" @click="homeDetail(5)">
-								<image :src="homeList[5].url" mode="scaleToFill" class="u49-img"></image>
-								<text class="intro-text u49-intro">{{homeList[5].name}}</text>
-							</view>
-						</uni-col>
+				<view class="u49-row">
+					<view class="u49-box" @click="homeDetail(1)">
+						<image :src="homeList[1].url" mode="scaleToFill" class="u49-img"></image>
+						<text class="intro-text u49-intro">{{homeList[1].name}}</text>
 					</view>
-				</uni-row>
+					<view class="u50-box" @click="homeDetail(2)">
+						<image :src="homeList[2].url" mode="scaleToFill" class="u49-img"></image>
+						<text class="intro-text u49-intro">{{homeList[2].name}}</text>
+					</view>
+				</view>
+				<view class="u49-row">
+					<view class="u51-box" @click="homeDetail(3)">
+						<image :src="homeList[3].url" mode="scaleToFill" class="u49-img"></image>
+						<text class="intro-text u49-intro">{{homeList[3].name}}</text>
+					</view>
+					<view class="u51-box u52-box" @click="homeDetail(4)">
+						<image :src="homeList[4].url" mode="scaleToFill" class="u49-img"></image>
+						<text class="intro-text u49-intro">{{homeList[4].name}}</text>
+					</view>
+					<view class="u51-box" @click="homeDetail(5)">
+						<image :src="homeList[5].url" mode="scaleToFill" class="u49-img"></image>
+						<text class="intro-text u49-intro">{{homeList[5].name}}</text>
+					</view>
+				</view>
 			</view>
 		</uni-row>
 

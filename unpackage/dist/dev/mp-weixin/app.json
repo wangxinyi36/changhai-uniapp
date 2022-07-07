@@ -50,6 +50,14 @@
         "home-stay/home-stay-address",
         "home-stay/pay-suc"
       ]
+    },
+    {
+      "root": "pagesShip",
+      "pages": [
+        "ship-list",
+        "ship-pay",
+        "passenger"
+      ]
     }
   ],
   "window": {
