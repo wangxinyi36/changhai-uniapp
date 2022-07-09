@@ -1,14 +1,14 @@
 <template>
 	<view class="u24-item" @click="openPage">
-		<image :src="info.uuimgPath" mode="aspectFill" class="u24-item-img"></image>
+		<image :src="info.uuImg" mode="aspectFill" class="u24-item-img"></image>
 		<view class="u24-item-box">
 			<view class="u24-item-box-name">{{info.uutitle}}</view>
-			<view class="u24-item-box-address">{{info.uuarea}}</view>
+			<view class="u24-item-box-address">{{info.regionName}}</view>
 			<view class="u24-item-box-tags">
-				<view class="u24-item-box-tag" v-for="tag,i in info.tags" :key="i">{{tag}}</view>
+				<!-- <view class="u24-item-box-tag" v-for="tag,i in info.tags" :key="i">{{tag}}</view> -->
 			</view>
-			<!-- <view class="u24-item-box-pay"><text style="font-size: 20rpx;">￥</text>{{info.pay}}<text
-					style="font-size: 24rpx;">起</text></view> -->
+			<view class="u24-item-box-pay"><text style="font-size: 20rpx;">￥</text>{{info.minPrice}}<text
+					style="font-size: 24rpx;">起</text></view>
 		</view>
 	</view>
 </template>
@@ -46,6 +46,9 @@
 		&-box {
 			border-bottom: 1px solid rgba(215, 215, 215, 1);
 			flex: 1;
+			display: flex;
+			flex-direction: column;
+			justify-content: space-between;
 
 			&-name {
 				font: normal 400 30rpx/normal '微软雅黑', sans-serif;

@@ -4,9 +4,9 @@
 			<!-- <image :src="item.url" mode="aspectFill" class="u17-img"></image> -->
 			<view class="u17-box">
 				<view class="u17-box-title">{{item.title}}</view>
-				<view class="u17-box-text">
+				<!-- <view class="u17-box-text">
 					<rich-text :nodes="dealContent(item.content)"></rich-text>
-				</view>
+				</view> -->
 			</view>
 		</view>
 	</view>

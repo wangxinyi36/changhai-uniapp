@@ -73,6 +73,7 @@
 		},
 		onLoad(options) {
 			this.wechat_userInfo = getStorage('wechat_userInfo')
+			console.log(options)
 			this.id = options.id;
 			this.getDetail()
 		},
@@ -133,7 +134,9 @@
 					const {
 						id
 					} = this.$data;
-					const res = await this.$http(`${this.$API.getProductDetail}?spotId=${id}`);
+					const res = await this.$http(this.$API.getProductShopDetail, {
+						uulid: id
+					});
 					this.detail = res.data.Data.Rec;
 					this.position = this.detail.UUlng_lat_pos.split(',')
 					this.marker = [{

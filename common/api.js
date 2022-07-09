@@ -33,8 +33,11 @@ const API = {
 	postLoginByWeixin: 'wxapi/wx/auth/login_by_weixin', // 微信登录
 	postAuthUpdate: 'dev/xcx/auth/update', // 更新用户信息
 
-	postProductList: 'dev/xcx/product/getList', // 票付通产品列表
-	getProductDetail: 'dev/xcx/product/detail', // 票付通产品详情
+	postProductShopList: 'dev/xcx/product/queryBShopList', // 查询民宿列表
+	getProductRegionList: 'dev/xcx/product/getRegionList', // 获取区域列表
+	getProductShopDetail: 'dev/xcx/product/getBSDetail', // 查询民宿详情
+	
+	postProductFoodList: 'dev/xcx/product/getFoodList', // 获取美食列表
 
 	postCommentList: 'dev/xcx/comment/getCommentList', // 评论评分接口
 

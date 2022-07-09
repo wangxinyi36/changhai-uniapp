@@ -68,7 +68,7 @@
 							<navigator :url="`/pagesStay/home-stay/home-stay-detail?id=${item.uuid}`"
 								hover-class="none">
 								<view class="u82-box">
-									<image class="u82-img" :src="item.uuimgPath" mode="scaleToFill"></image>
+									<image class="u82-img" :src="item.uuImg" mode="scaleToFill"></image>
 									<view class="u71">热门</view>
 								</view>
 								<view class="u82-text">{{ item.uutitle }}</view>
@@ -236,14 +236,6 @@
 				foods: [],
 				speLine: [],
 				homeList: [],
-				productForm: {
-					area: "",
-					name: "",
-					pageNum: 4,
-					start: 0,
-					// uuType: "", //A景点 B路线 C酒店 F套票 G美食 H演出
-					uuid: ""
-				},
 				wechat_userInfo: {}
 			};
 		},
@@ -251,9 +243,32 @@
 			this.wechat_userInfo = getStorage('wechat_userInfo')
 			this.getTral();
 			this.getHomeList()
-			this.postProduct()
+			this.getFoods()
+			this.getHotel()
 		},
 		methods: {
+			async getFoods() {
+				try {
+					const resultFoods = await this.$http(this.$API.postProductFoodList, {
+						current: 0,
+						size: 4,
+					}, 'POST');
+					this.foods = resultFoods.data;
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
+			async getHotel() {
+				try {
+					const resultHotel = await this.$http(this.$API.postProductShopList, {
+						current: 0,
+						size: 4,
+					}, 'POST');
+					this.homeStay = resultHotel.data.list;
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
 			async openType(item, index) {
 				console.log(item)
 				if (item.open == '/pages/home/landing/landing') {
@@ -339,22 +354,6 @@
 					//TODO handle the exception
 				}
 			},
-			async postProduct() {
-				try {
-					const resultFoods = await this.$http(this.$API.postProductList, {
-						...this.productForm,
-						uuType: 'G'
-					}, 'POST');
-					const resultHotel = await this.$http(this.$API.postProductList, {
-						...this.productForm,
-						uuType: 'C'
-					}, 'POST');
-					this.foods = resultFoods.data.list;
-					this.homeStay = resultHotel.data.list;
-				} catch (e) {
-					//TODO handle the exception
-				}
-			}
 		}
 	};
 </script>

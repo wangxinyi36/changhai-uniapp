@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="u22" :style="{height: 150 + safeTop + 'px',backgroundImage: `url(${bgImg})`}">
+		<view class="u22" :style="{height: 212 + safeTop + 'px',backgroundImage: `url(${bgImg})`}">
 			<view class="u21" :style="{background:backgroundColor}">
 				<view :style="{height:safeTop + 'px'}"></view>
 				<view class="u22-nav">
@@ -161,7 +161,7 @@
 <style lang="scss" scoped>
 	.u22 {
 		width: 100%;
-		background-size: 100% 100%;
+		background-size: cover;
 		background-position: center;
 
 		.u21 {

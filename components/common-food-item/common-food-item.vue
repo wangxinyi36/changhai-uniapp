@@ -4,26 +4,26 @@
 			<image :src="info.uuimgPath" mode="aspectFill" class="u24-item-top-img"></image>
 			<view class="u166">
 				<view class="u166-name">{{info.uutitle}}</view>
-				<!-- <view class="u167">
-					<uni-rate v-model="info.grade" :readonly="true" :size="13" />
-					<view class="u167-pay">￥20/人</view>
-				</view> -->
-				<!-- <view class="u168">
-					<view class="u168-address">{{info.address}}</view>
+				<view class="u167">
+					<uni-rate v-model="info.star" :readonly="true" :size="13" />
+					<view class="u167-pay">￥{{item.uuPrice}}/人</view>
+				</view>
+				<view class="u168">
+					<view class="u168-address">{{info.uuarea}}</view>
 					<view class="u168-distance">{{info.distance}}</view>
-				</view> -->
-			</view>
-		</view>
-		<!-- <view class="u24-item-bottom">
-			<view class="u269"></view>
-			<view class="u270">
-				<view class="u270-item" v-for="food,i in info.foods" :key="i">
-					<image :src="food.url" mode="aspectFill" class="u270-item-img"></image>
-					<view class="u270-item-name">{{food.name}}</view>
-					<view class="u270-item-money">￥{{food.money}}</view>
 				</view>
 			</view>
-		</view> -->
+		</view>
+		<view class="u24-item-bottom">
+			<view class="u269"></view>
+			<view class="u270">
+				<view class="u270-item" v-for="food,i in info.list" :key="i">
+					<image :src="food.uuticketPic" mode="aspectFill" class="u270-item-img"></image>
+					<view class="u270-item-name">{{food.uutitle}}</view>
+					<view class="u270-item-money">￥{{food.uutprice}}</view>
+				</view>
+			</view>
+		</view>
 	</view>
 </template>
 

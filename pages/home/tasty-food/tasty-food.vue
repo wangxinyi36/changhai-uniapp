@@ -13,7 +13,7 @@
 		</view>
 
 		<view class="u24-list">
-			<common-food-item v-for="item,index in list" :key="index" :info="item">
+			<common-food-item v-for="item,index in list" :key="item.uuid" :info="item">
 			</common-food-item>
 		</view>
 	</view>
@@ -28,40 +28,42 @@
 			return {
 				background: '-webkit-linear-gradient(0.23deg, rgba(255, 255, 255, 1) 0%, rgba(255, 113, 0, 1) 100%)',
 				list: [],
-				productForm: {
-					area: "",
-					name: "",
-					pageNum: 10,
-					start: 0,
-					uuType: "G", //A景点 B路线 C酒店 F套票 G美食 H演出
-					uuid: ""
-				},
 				total: 0,
+				foodForm: {
+					current: 0,
+					distance: "",
+					lat: "",
+					lng: "",
+					price: "",
+					region: "",
+					size: 10,
+					title: ""
+				},
 			};
 		},
 		onLoad() {
-			this.postProduct()
+			this.getFoods()
 		},
 		methods: {
-			openSearch() {
-				OpenPage(`/pages/home/search/search?from=tasty_food`)
-			},
-			async postProduct() {
+			async getFoods() {
 				try {
 					const {
 						total,
 						list
 					} = this.$data;
-					if (total > 0 && list.length == total) {
-						return;
-					}
-					const resultFoods = await this.$http(this.$API.postProductList, this.productForm, 'POST');
-					this.list = list.concat(resultFoods.data.list);
-					this.total = resultFoods.data.total;
+					// if (total > 0 && list.length == total) {
+					// 	return;
+					// }
+					const resultFoods = await this.$http(this.$API.postProductFoodList, this.foodForm, 'POST');
+					this.list = list.concat(resultFoods.data);
+					// this.total = resultFoods.data.total;
 				} catch (e) {
 					//TODO handle the exception
 				}
-			}
+			},
+			openSearch() {
+				OpenPage(`/pages/home/search/search?from=tasty_food`)
+			},
 		},
 		onReachBottom() {
 			this.productForm.start += 10;

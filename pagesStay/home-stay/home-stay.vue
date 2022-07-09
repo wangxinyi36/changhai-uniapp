@@ -6,7 +6,7 @@
 				<view class="u182-text">搜索</view>
 			</view>
 		</view>
-		<common-dropdown color="#4FD7EA"></common-dropdown>
+		<common-dropdown :hotelForm="hotelForm" @searchQuery="searchQuery"></common-dropdown>
 
 		<view class="u24-list">
 			<common-home-item v-for="item,index in list" :key="index" :info="item">
@@ -23,40 +23,55 @@
 		data() {
 			return {
 				list: [],
-				productForm: {
-					area: "",
-					name: "",
-					pageNum: 10,
-					start: 0,
-					uuType: "C", //A景点 B路线 C酒店 F套票 G美食 H演出
-					uuid: ""
+				total: 0,
+				hotelForm: {
+					current: 0,
+					hourseType: '',
+					maxPrice: '',
+					minPrice: '',
+					peopleNum: '',
+					regionId: '',
+					size: 10,
+					title: ""
 				}
 			};
 		},
 		onLoad() {
-			this.postProduct()
+			this.postProductHotel()
 		},
 		methods: {
+			async postProductHotel() {
+				try {
+					const {
+						list,
+						total
+					} = this.$data;
+					if (total > 0 && list.length == total) {
+						return;
+					}
+					const resultHotel = await this.$http(this.$API.postProductShopList, this.hotelForm, 'POST');
+					this.list = list.concat(resultHotel.data.list);
+					this.total = resultHotel.data.total;
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
 			openSearch() {
 				OpenPage(`/pages/home/search/search?from=home_stay`)
 			},
-			input() {
-
+			searchQuery(val) {
+				this.hotelForm = Object.assign(this.hotelForm, val)
+				this.list = [];
+				this.total = 0;
+				this.postProductHotel()
 			},
 			openPage(item) {
 				OpenPage(`/pagesStay/home-stay/home-stay-detail?title=${item.uuid}`)
 			},
-			async postProduct() {
-				try {
-					const resultHotel = await this.$http(this.$API.postProductList, this.productForm, 'POST');
-					this.list = resultHotel.data.list;
-				} catch (e) {
-					//TODO handle the exception
-				}
-			}
 		},
 		onReachBottom() {
-			console.log(1)
+			this.hotelForm.current += 10;
+			this.postProductHotel()
 		}
 	}
 </script>

@@ -18,6 +18,9 @@
 .u24-item-box.data-v-edab8a38 {
   border-bottom: 1px solid #d7d7d7;
   flex: 1;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 }
 .u24-item-box-name.data-v-edab8a38 {
   font: normal 400 30rpx/normal '微软雅黑', sans-serif;

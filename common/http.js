@@ -12,10 +12,10 @@ export const http = (url, data, method = 'GET', type) => {
 	});
 	return new Promise((resolve, reject) => {
 		let header = {
-			'custom-type': 'application/json'
+			'content-type': 'application/json'
 		}
 		if (type && type == 'form') {
-			header['custom-type'] = 'application/x-www-form-urlencoded'
+			header['content-type'] = 'application/x-www-form-urlencoded'
 		}
 		let newUrl = `${REQUEST_URL}${url}`
 		console.log('请求地址：', url)

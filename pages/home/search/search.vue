@@ -4,16 +4,17 @@
 			<uni-search-bar v-model="keyword" @confirm="search" placeholder="搜索" :radius="58" bgColor="#edf0f7">
 			</uni-search-bar>
 		</view>
-		<view class="u121" v-show="isShow">
+		<view class="u121" v-show="isShow && history.length > 0">
 			<view class="u121-title">搜索历史</view>
 			<view class="u121-tags">
-				<view class="u121-tag" v-for="tag,index in history" :key="index">{{tag}}</view>
+				<view class="u121-tag" v-for="tag,index in history" :key="index" @click="postProductHotel(tag)">{{tag}}
+				</view>
 			</view>
 		</view>
 		<view class="list" v-show="!isShow">
 
 			<template v-if="from == 'home_stay'">
-				<common-home-item v-for="item,index in listStay" :key="index" @click="openPage(item)" :info="item">
+				<common-home-item v-for="item,index in list" :key="index" @click="openPage(item)" :info="item">
 				</common-home-item>
 			</template>
 
@@ -27,15 +28,16 @@
 
 <script>
 	import {
-		OpenPage
+		OpenPage,
+		getStorage,
+		setStorage
 	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
 				keyword: '',
-				history: ['船票', '民宿', '美食', '活动', '大长山岛', '大长山岛住宿'],
+				history: [], //历史记录
 				isShow: true, //true展示历史记录  false不展示
-				searchList: [],
 				listFood: [{
 					avatar: '/static/home1.jpg',
 					name: '新鲜海鲜',
@@ -57,26 +59,65 @@
 						money: 130
 					}]
 				}],
-				listStay: [{
-					name: '杏树镇民宿',
-					address: '大长山岛镇',
-					pay: 1168,
-					tags: ['24小时客房服务', '公共区域WIFI'],
-					url: '/static/home1.jpg'
-				}],
+				list: [],
+				total: 0,
+				formData: {
+					current: 0,
+					size: 10,
+					title: ""
+				},
 				from: '', //home_stay酒店  tasty_food美食   home_meal外卖
 			};
 		},
 		onLoad(options) {
 			this.from = options.from;
+			this.historyList(`${this.from}_list`)
 		},
 		methods: {
-			search(val) {
-				this.isShow = false;
+			search(e) {
+				this.list = [];
+				this.total = 0;
+
+				if (e.value) {
+					this.history.push(e.value);
+					this.history = this.history.slice(-10)
+					setStorage(`${this.from}_list`, this.history)
+				}
+
+				this.postProductHotel(e.value)
+			},
+			historyList(key) {
+				let history = getStorage(key);
+				if (!history) {
+					setStorage(key, [])
+				}
+				this.history = history;
+			},
+			async postProductHotel(keyword) {
+				try {
+					this.isShow = false;
+					const {
+						list,
+						total
+					} = this.$data;
+					if (total > 0 && list.length == total) {
+						return;
+					}
+					this.formData.title = keyword || '';
+					const resultHotel = await this.$http(this.$API.postProductShopList, this.formData, 'POST');
+					this.list = list.concat(resultHotel.data.list);
+					this.total = resultHotel.data.total;
+				} catch (e) {
+					//TODO handle the exception
+				}
 			},
 			openPage(item) {
 				OpenPage(`/pagesStay/home-stay/home-stay-detail?title=${item.name}`)
 			}
+		},
+		onReachBottom() {
+			this.formData.current += 10;
+			this.postProductHotel()
 		}
 	}
 </script>
