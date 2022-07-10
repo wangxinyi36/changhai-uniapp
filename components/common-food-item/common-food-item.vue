@@ -1,23 +1,23 @@
 <template>
-	<view class="u24-item" @click="openPage">
-		<view class="u24-item-top">
-			<image :src="info.uuimgPath" mode="aspectFill" class="u24-item-top-img"></image>
+	<view class="u24-item">
+		<view class="u24-item-top" @click="openPage">
+			<image :src="info.uuimgPath || ''" mode="aspectFill" class="u24-item-top-img"></image>
 			<view class="u166">
 				<view class="u166-name">{{info.uutitle}}</view>
 				<view class="u167">
 					<uni-rate v-model="info.star" :readonly="true" :size="13" />
-					<view class="u167-pay">￥{{item.uuPrice}}/人</view>
+					<view class="u167-pay">￥{{info.uuPrice}}/人</view>
 				</view>
 				<view class="u168">
 					<view class="u168-address">{{info.uuarea}}</view>
-					<view class="u168-distance">{{info.distance}}</view>
+					<view class="u168-distance">{{info.distance}}m</view>
 				</view>
 			</view>
 		</view>
 		<view class="u24-item-bottom">
 			<view class="u269"></view>
 			<view class="u270">
-				<view class="u270-item" v-for="food,i in info.list" :key="i">
+				<view class="u270-item" v-for="food,i in info.list" :key="food.uuaid" @click="openFoodDetail(food)">
 					<image :src="food.uuticketPic" mode="aspectFill" class="u270-item-img"></image>
 					<view class="u270-item-name">{{food.uutitle}}</view>
 					<view class="u270-item-money">￥{{food.uutprice}}</view>
@@ -35,13 +35,14 @@
 		name: "common-food-item",
 		props: ["info"],
 		data() {
-			return {
-
-			};
+			return {};
 		},
 		methods: {
 			openPage() {
 				OpenPage(`/pages/home/tasty-food/tasty-food-detail`)
+			},
+			openFoodDetail(food) {
+				OpenPage(`/pages/home/tasty-food/home-tasty-food-detail?id=${food.uuaid}`)
 			}
 		}
 	}

@@ -1,20 +1,20 @@
 <template>
 	<view>
 		<view class="u17" v-for="item,index in list" :key="item.id" @click="openPage(item.id)">
-			<!-- <image :src="item.url" mode="aspectFill" class="u17-img"></image> -->
 			<view class="u17-box">
 				<view class="u17-box-title">{{item.title}}</view>
-				<!-- <view class="u17-box-text">
-					<rich-text :nodes="dealContent(item.content)"></rich-text>
-				</view> -->
+				<view class="u17-time">这里是内容</view>
 			</view>
+			<image src="/static/home1.jpg" mode="aspectFill" class="u17-img"></image>
+			<view class="u17-time">{{dealTime(item.updateTime)}}</view>
 		</view>
 	</view>
 </template>
 
 <script>
 	import {
-		OpenPage,regContent
+		OpenPage,
+		regContent
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -33,6 +33,9 @@
 			},
 			dealContent(val) {
 				return regContent(val)
+			},
+			dealTime(val) {
+				return `${val[0]}-${val[1]}-${val[2]} ${val[3]}:${val[4]}`;
 			},
 			async getNews() {
 				try {
@@ -61,19 +64,27 @@
 
 <style lang="scss" scoped>
 	.u17 {
+		padding: 30rpx;
+		border-bottom: 1px solid #f2f2f2;
+
 		&-img {
-			height: 428rpx;
+			height: 350rpx;
 			width: 100%;
+			border-radius: 12rpx;
 		}
 
 		&-box {
-			padding: 0 30rpx;
-			margin-bottom: 20px;
+			margin-bottom: 20rpx;
 
 			&-title {
-				font: 700 32rpx/30rpx '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
+				font: 700 32rpx/40rpx '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
 				color: #333;
-				margin: 20rpx 0;
+				word-break: break-all;
+				text-overflow: ellipsis;
+				display: -webkit-box;
+				-webkit-box-orient: vertical;
+				-webkit-line-clamp: 2;
+				overflow: hidden;
 			}
 
 			&-text {
@@ -84,6 +95,11 @@
 					width: 100%;
 				}
 			}
+		}
+
+		&-time {
+			font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+			color: #b8b8b8;
 		}
 	}
 </style>

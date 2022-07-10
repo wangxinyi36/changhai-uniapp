@@ -17,7 +17,7 @@
 		</view>
 
 		<view class="bottom">
-			<view class="btn">立即投诉</view>
+			<view class="btn" @click="submit">立即投诉</view>
 		</view>
 	</view>
 </template>

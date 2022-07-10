@@ -3,19 +3,19 @@
 		<view class="u34">
 			<view class="u33">
 				<view class="u34-box" @click="open(1)">
-					<view class="u34-box-text" :style="{color:tabIndex == 1 ? color : ''}">位置</view>
+					<view class="u34-box-text" :class="{'u34-box-text-active':tabIndex == 1}">位置</view>
 					<uni-icons :type="tabIndex == 1 ? 'top' : 'bottom'" size="16"
-						:color="tabIndex == 1 ? color : '#333'"></uni-icons>
+						:color="tabIndex == 1 ? '#ff7100' : '#333'"></uni-icons>
 				</view>
 				<view class="u34-box" @click="open(2)">
-					<view class="u34-box-text" :style="{color:tabIndex == 2 ? color : ''}">价格范围</view>
+					<view class="u34-box-text" :class="{'u34-box-text-active':tabIndex == 2}">价格范围</view>
 					<uni-icons :type="tabIndex == 2 ? 'top' : 'bottom'" size="16"
-						:color="tabIndex == 2 ? color : '#333'"></uni-icons>
+						:color="tabIndex == 2 ? '#ff7100' : '#333'"></uni-icons>
 				</view>
 				<view class="u34-box" @click="open(3)">
-					<view class="u34-box-text" :style="{color:tabIndex == 3 ? color : ''}">筛选条件</view>
+					<view class="u34-box-text" :class="{'u34-box-text-active':tabIndex == 3}">筛选条件</view>
 					<uni-icons :type="tabIndex == 3 ? 'top' : 'bottom'" size="16"
-						:color="tabIndex == 3 ? color : '#333'"></uni-icons>
+						:color="tabIndex == 3 ? '#ff7100' : '#333'"></uni-icons>
 				</view>
 			</view>
 		</view>
@@ -32,7 +32,7 @@
 				<view class="bottom">
 					<view class="btn-box">
 						<view class="btn-box-cancel" @click="cancel">取消</view>
-						<view class="btn-box-confirm" :style="{background:background}" @click="confirm">确定</view>
+						<view class="btn-box-confirm" @click="confirm">确定</view>
 					</view>
 				</view>
 			</view>
@@ -40,15 +40,15 @@
 			<view class="condition" v-if="tabIndex == 2">
 				<view class="u75">人均价格</view>
 				<view class="u76 u77">
-					<view class="u76-box" v-for="item,index in price" :key="index">
-						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 2 && index == tagIndex}"
-							@click="select(index)">{{item}}</view>
+					<view class="u76-box" v-for="item,index in price" :key="item.name">
+						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 2 && item.isActive}"
+							@click="select(item)">{{item.name}}</view>
 					</view>
 				</view>
 				<view class="bottom">
 					<view class="btn-box">
 						<view class="btn-box-cancel" @click="cancel">取消</view>
-						<view class="btn-box-confirm" :style="{background:background}" @click="confirm">确定</view>
+						<view class="btn-box-confirm" @click="confirm">确定</view>
 					</view>
 				</view>
 			</view>
@@ -64,7 +64,7 @@
 				<view class="bottom">
 					<view class="btn-box">
 						<view class="btn-box-cancel" @click="cancel">取消</view>
-						<view class="btn-box-confirm" :style="{background:background}" @click="confirm">确定</view>
+						<view class="btn-box-confirm" @click="confirm">确定</view>
 					</view>
 				</view>
 			</view>
@@ -74,42 +74,54 @@
 </template>
 
 <script>
+	import {
+		FOOD_PRICE
+	} from '@/common/common.js'
 	export default {
 		name: "common-food-dropdown",
-		props: ['color', 'background'],
+		props: ['foodForm'],
 		data() {
 			return {
 				tabIndex: 0, //条件
-				tagIndex: -1, //条件下面的tag
-				tagIndex2: -1, //条件下面的tag
 				regions: ['附近', '500m', '1km', '3km', '5km', '10km'],
-				price: ['100', '200', '300', '400'],
+				price: FOOD_PRICE,
 				room: ['大长山岛', '小长山岛', '獐子岛', '广鹿岛', '海洋岛镇']
 			};
 		},
-		mounted() {},
 		methods: {
+			select(item) {
+				switch (this.tabIndex) {
+					case 1:
+					case 2:
+						this.price = this.single(this.price, item, 2)
+					case 3:
+				}
+			},
 			open(val) {
 				this.tabIndex = val;
-				this.tagIndex = -1;
-				this.tagIndex2 = -1;
 				this.$refs.popup.open('top')
 			},
 			cancel() {
 				this.tabIndex = 0;
-				this.tagIndex = -1;
-				this.tagIndex2 = -1;
 				this.$refs.popup.close()
 			},
 			confirm() {
 				this.cancel()
 			},
-			select(index) {
-				this.tagIndex = index;
+			// 选中条件
+			single(list, item, num) {
+				let newList = list.map(li => {
+					if (num === 1) {
+						li.isActive = li.regionId == item.regionId && !li.isActive ? true : false;
+						return li;
+					}
+					if (num === 2) {
+						li.isActive = li.name == item.name && !li.isActive ? true : false;
+						return li;
+					}
+				})
+				return newList;
 			},
-			select2(index) {
-				this.tagIndex2 = index;
-			}
 		},
 	}
 </script>
@@ -152,10 +164,10 @@
 					font: normal 400 30rpx/normal '微软雅黑', sans-serif;
 					color: #333;
 					margin-right: 10rpx;
+				}
 
-					&-active {
-						color: #4FD7EA;
-					}
+				&-text-active {
+					color: #ff7100;
 				}
 			}
 		}
@@ -241,7 +253,7 @@
 					&-confirm {
 						@extend .btn-box-cancel;
 						border-radius: 0 253rpx 253rpx 0;
-						background: -webkit-linear-gradient(0.23deg, rgba(255, 255, 255, 1) 0%, rgba(49, 208, 230, 1) 100%);
+						background: -webkit-linear-gradient(0.23deg, rgba(255, 255, 255, 1) 0%, rgba(255, 113, 0, 1) 100%);
 						color: #fff
 					}
 				}

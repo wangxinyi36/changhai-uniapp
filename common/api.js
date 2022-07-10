@@ -33,13 +33,14 @@ const API = {
 	postLoginByWeixin: 'wxapi/wx/auth/login_by_weixin', // 微信登录
 	postAuthUpdate: 'dev/xcx/auth/update', // 更新用户信息
 
-	postProductShopList: 'dev/xcx/product/queryBShopList', // 查询民宿列表
 	getProductRegionList: 'dev/xcx/product/getRegionList', // 获取区域列表
-	getProductShopDetail: 'dev/xcx/product/getBSDetail', // 查询民宿详情
+	postProductShopList: 'dev/xcx/product/queryBShopList', // 查询民宿列表
+	postProductShopDetail: 'dev/xcx/product/getBSDetail', // 查询民宿详情
 	
 	postProductFoodList: 'dev/xcx/product/getFoodList', // 获取美食列表
+	getProductFoodDetail: 'dev/xcx/product/getFoodDetail', // 获取美食详情
 
-	postCommentList: 'dev/xcx/comment/getCommentList', // 评论评分接口
+	postCommentList: 'dev/xcx/comment/getCommentList', // 评论评分
 
 	getAddressList: 'dev/xcx/address/list', // 查询收货地址
 	postAddressSave: 'dev/xcx/address/save', // 更新或新增收货地址
@@ -50,6 +51,9 @@ const API = {
 	getMyPhoneNumber: 'dev/xcx/my/phoneNumber', // 查询联系我们手机号
 
 	getMyAboutMini: 'dev/xcx/my/aboutMini', // 关于小程序或帮助中心(传0是关于小程序，其它是返回值的pid)
+	
+	getComplaintList: 'dev/xcx/complaint/list', // 获取投诉信息列表
+	postComplaintCreate: 'dev/xcx/complaint/create', // 投诉添加
 
 
 

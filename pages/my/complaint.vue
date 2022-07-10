@@ -7,13 +7,13 @@
 			<view v-show="current === 0">
 				<view class="complaint-item" v-for="item,index in list" :key="index">
 					<view class="u109">
-						<view class="u109-name">{{item.name}}</view>
-						<view class="u109-status" :class="[{'u109-finish':item.status === 2}]">
-							{{`${item.status === 1 ? '进行中':'已完成'}`}}
+						<!-- <view class="u109-name">{{item.name}}</view> -->
+						<view class="u109-status" :class="[{'u109-finish':item.cptStatus == 20}]">
+							{{item.cptStatus == 10 ? '进行中':'已完成'}}
 						</view>
 					</view>
 					<view class="u110">
-						<view class="u110-text">{{item.content}}</view>
+						<view class="u110-text">{{item.cptContent}}</view>
 					</view>
 				</view>
 
@@ -35,17 +35,39 @@
 			return {
 				current: 0,
 				tabs: ['全部', '进行中', '已完成'],
-				list: []
-				// list: [{
-				// 	name: '张三',
-				// 	status: 1, //1进行中 2已完成
-				// 	content: '根据您的风景和高度较高的监管力度还敢打人固然减肥的根据您的风景和高度较高的监管力度还敢打人固然减肥的'
-				// }, {
-				// 	name: '张三',
-				// 	status: 2,
-				// 	content: '根据您的风景和高度较高的监管力度还敢打人固然减肥的根据您的风景和高度较高的监管力度还敢打人固然减肥的'
-				// }]
+				list: [],
+				total: 0,
+				formData: {
+					cptStatus: '', //10进行中20已完成
+					page: 1,
+					limit: 10
+				}
 			};
+		},
+		onLoad() {
+			// this.getComplaints()
+		},
+		methods: {
+			async getComplaints() {
+				try {
+					const {
+						list,
+						total
+					} = this.$data;
+					if (total > 0 && total == list.length) {
+						return;
+					}
+					const result = await this.$http(this.$API.getComplaintList, this.formData);
+					this.list = list.concat(result.data.items);
+					this.total = result.data.total;
+				} catch (e) {
+					//TODO handle the exception
+				}
+			}
+		},
+		onReachBottom() {
+			this.formData.page++;
+			this.getComplaints()
 		}
 	}
 </script>

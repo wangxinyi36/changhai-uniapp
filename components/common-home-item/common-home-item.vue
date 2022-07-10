@@ -5,9 +5,9 @@
 			<view class="u24-item-box-name">{{info.uutitle}}</view>
 			<view class="u24-item-box-address">{{info.regionName}}</view>
 			<view class="u24-item-box-tags">
-				<!-- <view class="u24-item-box-tag" v-for="tag,i in info.tags" :key="i">{{tag}}</view> -->
+				<view class="u24-item-box-tag" v-for="tag,i in info.keyWords" :key="i">{{tag}}</view>
 			</view>
-			<view class="u24-item-box-pay"><text style="font-size: 20rpx;">￥</text>{{info.minPrice}}<text
+			<view class="u24-item-box-pay"><text style="font-size: 20rpx;">￥</text>{{info.minPrice/100}}<text
 					style="font-size: 24rpx;">起</text></view>
 		</view>
 	</view>
@@ -58,6 +58,7 @@
 			&-address {
 				font: normal 400 24rpx/normal '微软雅黑', sans-serif;
 				color: #c2c2c2;
+				margin: 4rpx 0;
 			}
 
 			&-tags {
@@ -69,6 +70,7 @@
 				color: #F59A23;
 				border: 2rpx solid rgba(245, 154, 35, 1);
 				margin-right: 10rpx;
+				padding:0 4rpx;
 			}
 
 			&-pay {

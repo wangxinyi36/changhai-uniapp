@@ -78,6 +78,33 @@
 			this.getDetail()
 		},
 		methods: {
+			async getDetail() {
+				try {
+					const {
+						id
+					} = this.$data;
+					const res = await this.$http(this.$API.postProductShopDetail, {
+						uulid: id,
+						size: 100
+					}, 'POST');
+					this.detail = res.data.Data.Rec;
+					this.position = this.detail.UUlng_lat_pos.split(',')
+					this.marker = [{
+						id,
+						latitude: this.position[1],
+						longitude: this.position[0],
+						title: this.detail.UUtitle,
+						iconPath: '/static/u115.svg',
+						width: 15,
+						height: 20
+					}]
+					uni.setNavigationBarTitle({
+						title: this.detail.UUtitle
+					})
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
 			openPage(url) {
 				let _this = this;
 				if (this.wechat_userInfo) {
@@ -129,32 +156,7 @@
 					}
 				})
 			},
-			async getDetail() {
-				try {
-					const {
-						id
-					} = this.$data;
-					const res = await this.$http(this.$API.getProductShopDetail, {
-						uulid: id
-					});
-					this.detail = res.data.Data.Rec;
-					this.position = this.detail.UUlng_lat_pos.split(',')
-					this.marker = [{
-						id,
-						latitude: this.position[1],
-						longitude: this.position[0],
-						title: this.detail.UUtitle,
-						iconPath: '/static/u115.svg',
-						width: 15,
-						height: 20
-					}]
-					uni.setNavigationBarTitle({
-						title: this.detail.UUtitle
-					})
-				} catch (e) {
-					//TODO handle the exception
-				}
-			},
+
 		}
 	}
 </script>

@@ -92,3 +92,20 @@ export const HOUSE_TYPE = [{
 	type: 4,
 	isActive: false
 }]
+
+/**
+ * @description 美食-价格范围
+ */
+export const FOOD_PRICE = [{
+	name: 100,
+	isActive: false
+}, {
+	name: 200,
+	isActive: false
+}, {
+	name: 300,
+	isActive: false
+}, {
+	name: 400,
+	isActive: false
+}]

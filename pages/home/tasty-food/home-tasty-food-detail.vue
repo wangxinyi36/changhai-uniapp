@@ -60,7 +60,7 @@
 	export default {
 		data() {
 			return {
-				id: '',
+				id: '',//美食id
 				detail: {},
 				commentParams: {
 					pageNum: 1,
@@ -72,7 +72,6 @@
 				score: 0,
 			};
 		},
-		created() {},
 		methods: {
 			back() {
 				uni.navigateBack()
@@ -82,7 +81,10 @@
 					const {
 						id
 					} = this.$data;
-					const res = await this.$http(`${this.$API.getProductDetail}?spotId=${id}`);
+					const res = await this.$http(this.$API.getProductFoodDetail, {
+						id
+					});
+					console.log(res)
 					this.detail = res.data.Data.Rec;
 					uni.setNavigationBarTitle({
 						title: this.detail.UUtitle

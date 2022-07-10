@@ -111,7 +111,6 @@
 				} catch (e) {
 					//TODO handle the exception
 				}
-
 			},
 			open(val) {
 				this.tabIndex = val;

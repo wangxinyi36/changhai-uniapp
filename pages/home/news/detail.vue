@@ -1,23 +1,25 @@
 <template>
 	<view>
 		<view class="u17">
-			<image :src="detail.url" mode="aspectFill" class="u17-img"></image>
 			<view class="u17-box">
 				<view class="u17-box-title">{{detail.title}}</view>
-				<view class="u17-box-text">
-					<rich-text :nodes="detail.content"></rich-text>
-				</view>
 			</view>
+			<!-- <image :src="detail.url" mode="aspectFill" class="u17-img"></image> -->
+			<rich-text :nodes="content"></rich-text>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		regContent
+	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
 				detail: {},
 				id: '',
+				content: ''
 			};
 		},
 		onLoad(options) {
@@ -32,7 +34,7 @@
 					} = this.$data;
 					const res = await this.$http(`${this.$API.getNewsDetail}?id=${id}`);
 					this.detail = res.data;
-					console.log(res)
+					this.content = regContent(res.data.content)
 				} catch (e) {
 					//TODO handle the exception
 				}
@@ -43,13 +45,14 @@
 
 <style lang="scss" scoped>
 	.u17 {
+		padding: 30rpx;
+
 		&-img {
 			height: 428rpx;
 			width: 100%;
 		}
 
 		&-box {
-			padding: 0 30rpx;
 			margin-bottom: 20px;
 
 			&-title {

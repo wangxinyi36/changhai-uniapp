@@ -6,10 +6,10 @@
 				<view class="u182-text">搜索</view>
 			</view>
 		</view>
-		<common-food-dropdown color="#ff7100" :background="background"></common-food-dropdown>
+		<common-food-dropdown :foodForm="foodForm"></common-food-dropdown>
 
 		<view class="u7">
-			<image src="/static/home1.jpg" mode="aspectFill" class="u7-img"></image>
+			<!-- <image src="/static/home1.jpg" mode="aspectFill" class="u7-img"></image> -->
 		</view>
 
 		<view class="u24-list">
@@ -26,7 +26,6 @@
 	export default {
 		data() {
 			return {
-				background: '-webkit-linear-gradient(0.23deg, rgba(255, 255, 255, 1) 0%, rgba(255, 113, 0, 1) 100%)',
 				list: [],
 				total: 0,
 				foodForm: {
@@ -66,8 +65,8 @@
 			},
 		},
 		onReachBottom() {
-			this.productForm.start += 10;
-			this.postProduct()
+			this.foodForm.current += 10;
+			this.getFoods()
 		}
 	}
 </script>
