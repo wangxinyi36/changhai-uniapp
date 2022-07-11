@@ -11,11 +11,16 @@ export const http = (url, data, method = 'GET', type) => {
 		title: '加载中...'
 	});
 	return new Promise((resolve, reject) => {
+		let wechat_userInfo = uni.getStorageSync('wechat_userInfo')
 		let header = {
 			'content-type': 'application/json'
 		}
 		if (type && type == 'form') {
 			header['content-type'] = 'application/x-www-form-urlencoded'
+		}
+		if(wechat_userInfo){
+			header.userId = wechat_userInfo.userId;
+			header.userName = wechat_userInfo.nickName;
 		}
 		let newUrl = `${REQUEST_URL}${url}`
 		console.log('请求地址：', url)
@@ -41,7 +46,7 @@ export const upload = (url, file) => {
 		let newUrl = `${REQUEST_URL}${url}`
 		uni.uploadFile({
 			url: newUrl, //仅为示例，非真实的接口地址
-			filePath:file,
+			filePath: file,
 			name: 'file',
 			success: (res) => {
 				let result = JSON.parse(res.data)

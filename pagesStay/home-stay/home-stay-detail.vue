@@ -28,9 +28,9 @@
 			</view>
 			<view class="u20-list">
 				<view class="u20" v-for="item,index in list" :key="index">
-					<image :src="item.url" mode="aspectFill" class="u20-img"></image>
+					<image :src="item.uuticketPic" mode="aspectFill" class="u20-img"></image>
 					<view class="u20-box">
-						<view class="u20-box-name">{{item.name}}</view>
+						<view class="u20-box-name">{{item.uutitle}}</view>
 						<view class="u20-box-dec">{{item.dec}}</view>
 						<view class="u20-box-tip">{{item.tip}}</view>
 						<text class="u20-box-btn" @click="openPage('/pagesStay/home-stay/pay')">立即确定</text>
@@ -57,13 +57,8 @@
 				tags: ['2019年装修', '免费停车场', '24小时客服服务'],
 				single: '',
 				title: '',
-				list: [{
-					name: '精品单人间',
-					dec: '1张单人床 · 32㎡',
-					tip: '15分钟内可免费取消',
-					url: '/static/home1.jpg',
-					pay: 196.00
-				}],
+				list: [],
+				total:0,
 				detail: {},
 				id: '',
 				position: [],
@@ -73,12 +68,11 @@
 		},
 		onLoad(options) {
 			this.wechat_userInfo = getStorage('wechat_userInfo')
-			console.log(options)
 			this.id = options.id;
-			this.getDetail()
+			this.getDetailList()
 		},
 		methods: {
-			async getDetail() {
+			async getDetailList() {
 				try {
 					const {
 						id
@@ -87,20 +81,22 @@
 						uulid: id,
 						size: 100
 					}, 'POST');
-					this.detail = res.data.Data.Rec;
-					this.position = this.detail.UUlng_lat_pos.split(',')
-					this.marker = [{
-						id,
-						latitude: this.position[1],
-						longitude: this.position[0],
-						title: this.detail.UUtitle,
-						iconPath: '/static/u115.svg',
-						width: 15,
-						height: 20
-					}]
-					uni.setNavigationBarTitle({
-						title: this.detail.UUtitle
-					})
+					this.list = res.data.list;
+					this.total = res.data.total;
+					// // this.detail = res.data.Data.Rec;
+					// // this.position = this.detail.UUlng_lat_pos.split(',')
+					// // this.marker = [{
+					// // 	id,
+					// // 	latitude: this.position[1],
+					// // 	longitude: this.position[0],
+					// // 	title: this.detail.UUtitle,
+					// // 	iconPath: '/static/u115.svg',
+					// // 	width: 15,
+					// // 	height: 20
+					// // }]
+					// uni.setNavigationBarTitle({
+					// 	title: this.detail.UUtitle
+					// })
 				} catch (e) {
 					//TODO handle the exception
 				}

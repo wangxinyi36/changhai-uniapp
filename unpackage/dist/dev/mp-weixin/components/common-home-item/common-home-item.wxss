@@ -29,12 +29,14 @@
 .u24-item-box-address.data-v-edab8a38 {
   font: normal 400 24rpx/normal '微软雅黑', sans-serif;
   color: #c2c2c2;
+  margin: 4rpx 0;
 }
 .u24-item-box-tag.data-v-edab8a38 {
   font: normal 400 18rpx/normal '微软雅黑', sans-serif;
   color: #F59A23;
   border: 2rpx solid #f59a23;
   margin-right: 10rpx;
+  padding: 0 4rpx;
 }
 .u24-item-box-pay.data-v-edab8a38 {
   font: normal 400 32rpx/normal '微软雅黑', sans-serif;

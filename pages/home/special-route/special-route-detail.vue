@@ -43,42 +43,12 @@
 				<view class="u264" id="u264-2">
 					<view class="u264-title">地图</view>
 					<view class="u264-map">
-						<map class="u264-map-box" :latitude="latitude" :longitude="longitude">
+						<map class="u264-map-box" :latitude="latitude" :longitude="longitude" :markers="markers">
 						</map>
 					</view>
 				</view>
 				<view class="" :style="{height:showHeight + 'px'}"></view>
 			</scroll-view>
-			<!-- <view class="u244-tabs">
-				<view class="u244-tab" :class="[{'u244-tab-active':tabIndex == index}]" v-for="item,index in tab"
-					:key="index" @click="change(index)">{{item}}</view>
-			</view>
-			<view class="u264">
-				<view class="u264-title">路线特色</view>
-				<view class="u264-text">
-					<rich-text :nodes="detail.detail"></rich-text>
-				</view>
-			</view>
-			<view class="u264">
-				<view class="u264-title">行程安排</view>
-				<view class="u264-box">
-					<view class="u264-item" v-for="item,index in specifications" :key="index">
-						<view class="u264-item-title">
-							<view class="u274">D{{index+1}}</view>
-							<view class="u275">{{item.specification}}</view>
-						</view>
-						<view class="u264-item-text">{{item.value}}</view>
-					</view>
-				</view>
-			</view> -->
-			<!-- <view class="u264">
-				<view class="u264-title">地图</view>
-				<view class="u264-map">
-					<map class="u264-map-box" :latitude="latitude" :longitude="longitude">
-					</map>
-				</view>
-			</view> -->
-
 		</view>
 	</view>
 </template>
@@ -94,15 +64,16 @@
 				screenHeight: '',
 				scrollHeight: '',
 				scrollViewId: '',
-				showHeight:'',
+				showHeight: '',
 
 				backgroundColor: '#ffffff00',
 				color: '#fff',
 				bgImg: '',
 				tab: ['路线特色', '行程安排', '地图'],
 				tabIndex: 0,
-				latitude: 39.909,
-				longitude: 116.39742,
+				latitude: '',
+				longitude: '',
+				markers: [],
 				id: '',
 				detail: {},
 				specifications: []
@@ -130,6 +101,16 @@
 					this.detail = res.data.goods;
 					this.specifications = res.data.specifications;
 					this.bgImg = this.detail.picUrl;
+					this.latitude = parseFloat(this.detail.pointLat);
+					this.longitude = parseFloat(this.detail.pointLng);
+					this.markers = [{
+						id: this.detail.id,
+						latitude: this.latitude,
+						longitude: this.longitude,
+						iconPath: '/static/u115.svg',
+						width: 20,
+						height: 28
+					}]
 					let _this = this;
 					uni.createSelectorQuery().select('.u244').boundingClientRect(rec => {
 						let top = rec.top;

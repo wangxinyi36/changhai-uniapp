@@ -17,7 +17,6 @@ export const OpenPage = (url, params) => {
 			},
 			success: (res) => {
 				// 通过eventChannel向被打开页面传送数据
-				console.log(res)
 				res.eventChannel.emit('sendParams', params)
 			}
 		});
