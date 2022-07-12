@@ -261,7 +261,16 @@
 			"enablePullDownRefresh": false
 		}
 
-	}],
+	}    ,{
+            "path" : "pages/my/help-detail",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "详情",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"subPackages": [{
 		"root": "pagesStay",
 		"pages": [{

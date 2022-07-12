@@ -270,7 +270,6 @@
 				}
 			},
 			async openType(item, index) {
-				console.log(item)
 				if (item.open == '/pages/home/landing/landing') {
 					let _this = this;
 					if (this.wechat_userInfo) {
@@ -334,8 +333,8 @@
 				OpenPage(`/pages/home/special-route/special-route-detail?id=${item.id}`)
 			},
 			homeDetail(index) {
-				this.$nextTick(() => {
-					OpenPage(`/pages/home/home-detail?index=${index}`)
+				OpenPage(`/pages/home/home-detail`, {
+					item: this.homeList[index]
 				})
 			},
 			async getTral() {

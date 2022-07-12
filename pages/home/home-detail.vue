@@ -4,38 +4,35 @@
 			<image :src="detail.url" mode="aspectFill" class="u17-img"></image>
 			<view class="u17-box">
 				<view class="u17-box-title">{{detail.name}}</view>
-				<rich-text :nodes="detail.content" class="u17-box-text"></rich-text>
+				<rich-text :nodes="content"></rich-text>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import { regContent } from '@/common/fun.js'
 	export default {
 		data() {
 			return {
 				title: '',
 				detail: {},
-				index: ''
+				content: ''
 			};
 		},
 		onLoad(options) {
-			this.index = options.index;
-			this.getHomeList()
+			const _this = this;
+			const eventChannel = this.getOpenerEventChannel();
+			eventChannel.on('sendParams', data => {
+				_this.detail = data.item;
+				_this.content = regContent(data.item.content)
+				uni.setNavigationBarTitle({
+					title: data.item.name
+				})
+			})
+
 		},
-		methods: {
-			async getHomeList() {
-				try {
-					const res = await this.$http(this.$API.getHomeList);
-					this.detail = res.data[this.index];
-					uni.setNavigationBarTitle({
-						title: this.detail.name
-					})
-				} catch (e) {
-					//TODO handle the exception
-				}
-			},
-		}
+
 	}
 </script>
 

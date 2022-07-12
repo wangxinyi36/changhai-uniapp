@@ -25,7 +25,7 @@
 				<view class="u264" id="u264-0">
 					<view class="u264-title">路线特色</view>
 					<view class="u264-text">
-						<rich-text :nodes="detail.detail"></rich-text>
+						<rich-text :nodes="content"></rich-text>
 					</view>
 				</view>
 				<view class="u264" id="u264-1">
@@ -55,7 +55,7 @@
 
 <script>
 	import {
-		GetSystemInfo
+		GetSystemInfo,regContent
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -76,6 +76,7 @@
 				markers: [],
 				id: '',
 				detail: {},
+				content: '',
 				specifications: []
 			};
 		},
@@ -101,6 +102,7 @@
 					this.detail = res.data.goods;
 					this.specifications = res.data.specifications;
 					this.bgImg = this.detail.picUrl;
+					this.content = regContent(this.detail.detail);
 					this.latitude = parseFloat(this.detail.pointLat);
 					this.longitude = parseFloat(this.detail.pointLng);
 					this.markers = [{

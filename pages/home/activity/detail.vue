@@ -4,9 +4,7 @@
 			<image :src="detail.url" mode="aspectFill" class="u17-img"></image>
 			<view class="u17-box">
 				<view class="u17-box-title">{{detail.name}}</view>
-				<view class="u17-box-text">
-					<rich-text :nodes="detail.content"></rich-text>
-				</view>
+				<rich-text :nodes="detail.content"></rich-text>
 			</view>
 		</view>
 	</view>
@@ -52,14 +50,9 @@
 			margin-bottom: 20px;
 
 			&-title {
-				font: 700 32rpx/30rpx '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
+				font: 700 32rpx/40rpx '微软雅黑 Bold', '微软雅黑 Regular', '微软雅黑', sans-serif;
 				color: #333;
 				margin: 20rpx 0;
-			}
-
-			&-text {
-				font: 400 20rpx/30rpx 'Arial Normal', 'Arial', sans-serif;
-				color: #333;
 			}
 		}
 	}
