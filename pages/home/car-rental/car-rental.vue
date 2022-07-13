@@ -114,7 +114,7 @@
 
 					.u14-box {
 						margin-left: 20rpx;
-						flex:1;
+						flex: 1;
 
 						.u9-text {
 							font-weight: 400;
@@ -126,6 +126,7 @@
 							font-size: 24rpx;
 							color: #B2B2B2;
 							margin-right: 10rpx;
+							word-break: break-all;
 						}
 
 						.u12-text {

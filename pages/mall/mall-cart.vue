@@ -223,6 +223,8 @@
 		height: 100rpx;
 		background-color: #fff;
 		bottom: 0;
+		padding-bottom: constant(safe-area-inset-bottom);
+		padding-bottom: env(safe-area-inset-bottom);
 
 		&-box {
 			margin: 0 20rpx;

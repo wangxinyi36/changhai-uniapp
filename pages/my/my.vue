@@ -20,12 +20,11 @@
 			<uni-list-item title="帮助中心" link="navigateTo" thumb="/static/my3.svg" thumbSize="sm" :clickable="true"
 				@click="clickItem('/pages/my/help')">
 			</uni-list-item>
-			<uni-list-item title="优惠券" link="navigateTo" thumb="/static/my4.svg" thumbSize="sm" :clickable="true"
-				@click="clickItem('/pages/my/coupon')"></uni-list-item>
 			<uni-list-item title="联系我们" link="navigateTo" thumb="/static/my5.svg" thumbSize="sm"
 				:rightText="phoneNumber" :clickable="true" @click="call"></uni-list-item>
-			<uni-list-item title="设置" link="navigateTo" thumb="/static/setting.svg" class="my-setting" :clickable="true"
-				@click="clickItem('/pages/my/setting')"></uni-list-item>
+			<uni-list-item title="退出" link="navigateTo" thumb="/static/my6.svg" class="my-setting" @click="exist"
+				v-if="wechat_userInfo.userId">
+			</uni-list-item>
 		</uni-list>
 
 	</view>
@@ -36,7 +35,8 @@
 		OpenPage,
 		getStorage,
 		setStorage,
-		showToast
+		showToast,
+		clearStorage
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -52,7 +52,45 @@
 		},
 		methods: {
 			clickItem(url) {
-				this.openPage(url)
+				let _this = this;
+				if (this.wechat_userInfo) {
+					this.openPage(url)
+					return;
+				}
+				uni.getUserProfile({
+					desc: '需要获取您的个人信息',
+					success(res) {
+						uni.login({
+							provider: 'weixin',
+							success: async function(loginRes) {
+								let data = {
+									code: loginRes.code,
+									shareUserId: 0,
+									userInfo: {
+										phone: "",
+										registerDate: "",
+										status: 0,
+										userId: 0,
+										userLevel: 0,
+										userLevelDesc: "",
+										...res.userInfo
+									}
+								}
+								const result = await _this.$http(_this.$API.postLoginByWeixin, data,
+									'POST');
+								_this.wechat_userInfo = result.data.userInfo;
+								setStorage('wechat_userInfo', result.data.userInfo)
+							},
+							fail(err) {
+								console.log(err)
+							}
+						});
+					},
+					fail(err) {
+						console.log(err)
+					}
+				})
+
 			},
 			async openPage(url) {
 				if (this.wechat_userInfo) {
@@ -60,6 +98,10 @@
 				} else {
 					showToast('请登录！')
 				}
+			},
+			exist(e) {
+				clearStorage();
+				this.wechat_userInfo = ''
 			},
 			call() {
 				uni.makePhoneCall({

@@ -128,10 +128,8 @@
 					<view class="u54-item" v-for="(item, index) in speLine" :key="item.id" @click="openRoute(item)">
 						<image :src="item.picUrl" mode="scaleToFill" class="u54-img"></image>
 						<view class="u54-box">
-							<uni-row>
-								<text class="u54-title">{{ item.name }}</text>
-								<text class="u54-time">{{ item.brief }}</text>
-							</uni-row>
+							<view class="u54-title">{{ item.name }}</view>
+							<text class="u54-time">{{ item.brief }}</text>
 							<uni-row>
 								<text class="u54-tag" v-for="(tag, i) in item.tags" :key="i">{{ tag }}</text>
 							</uni-row>
@@ -245,6 +243,9 @@
 			this.getHomeList()
 			this.getFoods()
 			this.getHotel()
+		},
+		onShow() {
+			this.wechat_userInfo = getStorage('wechat_userInfo')
 		},
 		methods: {
 			async getFoods() {

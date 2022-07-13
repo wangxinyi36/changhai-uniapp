@@ -57,6 +57,8 @@ page {
   bottom: 0;
   height: 112rpx;
   background-color: #f59a23;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 .bottom-btn.data-v-214f6d86 {
   width: 100%;

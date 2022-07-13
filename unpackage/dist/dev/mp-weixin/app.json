@@ -36,7 +36,8 @@
     "pages/home/landing/land-code",
     "pages/my/coupon",
     "pages/my/complaint-now",
-    "pages/mall/order"
+    "pages/mall/order",
+    "pages/my/help-detail"
   ],
   "subPackages": [
     {

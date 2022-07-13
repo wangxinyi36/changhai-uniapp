@@ -52,6 +52,7 @@
 			background-color: #fff;
 
 			.left-list {
+				width: 100%;
 				.left-item {
 					width: 100%;
 					height: 110rpx;

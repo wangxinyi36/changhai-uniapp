@@ -33,7 +33,7 @@
 				</view>
 				<view class="u33-item">
 					<view class="u33-title">订单备注</view>
-					<input class="u33-text" placeholder-class="u33-placeholder" placeholder="请和商家协商一致" />
+					<input class="u33-text" v-model="orderForm.message" placeholder-class="u33-placeholder" placeholder="请和商家协商一致" />
 				</view>
 				<view class="u33-item">
 					<view class="u33-title">商品合计</view>
@@ -65,7 +65,8 @@
 <script>
 	import {
 		OpenPage,
-		showToast
+		showToast,
+		getStorage
 	} from '@/common/fun.js';
 	export default {
 		data() {
@@ -78,29 +79,62 @@
 				chooseIcon: '/static/icon-choose-no.svg',
 				chooseActiveIcon: '/static/icon-choose.svg',
 				goodsDetail: {},
-				address: {}
+				address: {},
+				orderForm: {
+					addrId: "",
+					goodsId: "",
+					goodsImage: "",
+					goodsName: "",
+					message: "",
+					num: 1,
+					openId: "",
+					payMoney: "",
+					payType: 0,
+					price: "",
+					userId: ''
+				},
+
 			}
 		},
 		onLoad() {
 			const _this = this;
+			let wechat_userInfo = getStorage('wechat_userInfo')
+			this.orderForm.userId = wechat_userInfo.userId;
+
 			const eventChannel = this.getOpenerEventChannel();
 			eventChannel.on('sendParams', function(data) {
-				_this.goodsDetail = data.goodsDetail
+				_this.goodsDetail = data.goodsDetail;
+				
+				_this.orderForm.goodsId = data.goodsDetail.id;
+				_this.orderForm.goodsImage = data.goodsDetail.picUrl;
+				_this.orderForm.goodsName = data.goodsDetail.name;
+				_this.orderForm.payMoney = data.goodsDetail.retailPrice;
+				_this.orderForm.price = data.goodsDetail.retailPrice;
 			})
 		},
 		methods: {
-			buy() {
+			async buy() {
 				if (!this.address.id) {
 					showToast('请选择地址~');
 					return;
 				}
-				OpenPage('/pagesStay/home-stay/pay-suc')
+				try {
+					let {
+						orderForm
+					} = this.$data;
+					console.log(orderForm)
+					// const result = await this.$http(this.$API.getOrderSave, orderForm, 'POST');
+				} catch (e) {
+					//TODO handle the exception
+				}
+				// OpenPage('/pagesStay/home-stay/pay-suc')
 			},
 			add() {
 				let _this = this;
 				OpenPage(`/pagesStay/home-stay/home-stay-people?goodsId=${this.goodsDetail.id}&from=mallOrder`).then(
 					res => {
 						_this.address = res.address;
+						_this.orderForm.addrId = res.address.id;
 					})
 			}
 		}
@@ -254,6 +288,8 @@
 		@extend .default-flex;
 		width: 100%;
 		justify-content: space-between;
+		padding-bottom: constant(safe-area-inset-bottom);
+		padding-bottom: env(safe-area-inset-bottom);
 
 		&-left {
 			margin-left: 30rpx;

@@ -1,105 +1,105 @@
 {
-    "pages": [
-        "pages/home/home",
-        "pages/mall/mall",
-        "pages/my/my",
-        "pages/home/car-rental/car-rental",
-        "pages/mall/detail",
-        "pages/mall/comments",
-        "pages/my/userInfo",
-        "pages/my/order",
-        "pages/my/evaluate",
-        "pages/my/complaint",
-        "pages/my/help",
-        "pages/my/setting",
-        "pages/my/about",
-        "pages/home/landing/landing",
-        "pages/home/landing/land-form",
-        "pages/home/activity/activity",
-        "pages/home/airplane/airplane",
-        "pages/home/search/search",
-        "pages/home/tasty-food/tasty-food",
-        "pages/home/tasty-food/tasty-food-detail",
-        "pages/home/special-route/special-route",
-        "pages/home/special-route/special-route-detail",
-        "pages/home/public-toilet/public-toilet",
-        "pages/home/home-meal/home-meal",
-        "pages/home/tasty-food/shop-map",
-        "pages/home/tasty-food/tasty-food-pay",
-        "pages/home/tasty-food/tasty-food-combo",
-        "pages/mall/mall-cart",
-        "pages/home/home-detail",
-        "pages/home/news/news",
-        "pages/home/news/detail",
-        "pages/home/activity/detail",
-        "pages/home/tasty-food/home-tasty-food-detail",
-        "pages/home/landing/land-code",
-        "pages/my/coupon",
-        "pages/my/complaint-now",
-        "pages/mall/order"
-    ],
-    "subPackages": [
-        {
-            "root": "pagesStay",
-            "pages": [
-                "home-stay/home-stay",
-                "home-stay/home-stay-detail",
-                "home-stay/home-stay-info",
-                "home-stay/pay",
-                "home-stay/home-stay-people",
-                "home-stay/home-stay-address",
-                "home-stay/pay-suc"
-            ]
-        },
-        {
-            "root": "pagesShip",
-            "pages": [
-                "ship-list",
-                "ship-pay",
-                "passenger"
-            ]
-        }
-    ],
-    "window": {
-        "navigationBarTextStyle": "black",
-        "navigationBarBackgroundColor": "#fff",
-        "backgroundColor": "#fff"
+  "pages": [
+    "pages/home/home",
+    "pages/mall/mall",
+    "pages/my/my",
+    "pages/home/car-rental/car-rental",
+    "pages/mall/detail",
+    "pages/mall/comments",
+    "pages/my/userInfo",
+    "pages/my/order",
+    "pages/my/evaluate",
+    "pages/my/complaint",
+    "pages/my/help",
+    "pages/my/setting",
+    "pages/my/about",
+    "pages/home/landing/landing",
+    "pages/home/landing/land-form",
+    "pages/home/activity/activity",
+    "pages/home/airplane/airplane",
+    "pages/home/search/search",
+    "pages/home/tasty-food/tasty-food",
+    "pages/home/tasty-food/tasty-food-detail",
+    "pages/home/special-route/special-route",
+    "pages/home/special-route/special-route-detail",
+    "pages/home/public-toilet/public-toilet",
+    "pages/home/home-meal/home-meal",
+    "pages/home/tasty-food/shop-map",
+    "pages/home/tasty-food/tasty-food-pay",
+    "pages/home/tasty-food/tasty-food-combo",
+    "pages/mall/mall-cart",
+    "pages/home/home-detail",
+    "pages/home/news/news",
+    "pages/home/news/detail",
+    "pages/home/activity/detail",
+    "pages/home/tasty-food/home-tasty-food-detail",
+    "pages/home/landing/land-code",
+    "pages/my/coupon",
+    "pages/my/complaint-now",
+    "pages/mall/order",
+    "pages/my/help-detail"
+  ],
+  "subPackages": [
+    {
+      "root": "pagesStay",
+      "pages": [
+        "home-stay/home-stay",
+        "home-stay/home-stay-detail",
+        "home-stay/home-stay-info",
+        "home-stay/pay",
+        "home-stay/home-stay-people",
+        "home-stay/home-stay-address",
+        "home-stay/pay-suc"
+      ]
     },
-    "tabBar": {
-        "color": "#D7D7D7",
-        "selectedColor": "#31D0E6",
-        "borderStyle": "white",
-        "backgroundColor": "#ffffff",
-        "list": [
-            {
-                "pagePath": "pages/home/home",
-                "iconPath": "static/tab1.png",
-                "selectedIconPath": "static/tab1-active.png",
-                "text": "首页"
-            },
-            {
-                "pagePath": "pages/mall/mall",
-                "iconPath": "static/tab2.png",
-                "selectedIconPath": "static/tab2-active.png",
-                "text": "长海礼物"
-            },
-            {
-                "pagePath": "pages/my/my",
-                "iconPath": "static/tab3.png",
-                "selectedIconPath": "static/tab3-active.png",
-                "text": "我的"
-            }
-        ]
-    },
-    "uniStatistics": {
-        "enable": false
-    },
-    "permission": {
-        "scope.userLocation": {
-            "desc": "需要获取您的地理位置"
-        }
-    },
-    "lazyCodeLoading": "requiredComponents",
-    "usingComponents": {},
-    "sitemapLocation": "sitemap.json"
+    {
+      "root": "pagesShip",
+      "pages": [
+        "ship-list",
+        "ship-pay",
+        "passenger"
+      ]
+    }
+  ],
+  "window": {
+    "navigationBarTextStyle": "black",
+    "navigationBarBackgroundColor": "#fff",
+    "backgroundColor": "#fff"
+  },
+  "tabBar": {
+    "color": "#D7D7D7",
+    "selectedColor": "#31D0E6",
+    "borderStyle": "white",
+    "backgroundColor": "#ffffff",
+    "list": [
+      {
+        "pagePath": "pages/home/home",
+        "iconPath": "static/tab1.png",
+        "selectedIconPath": "static/tab1-active.png",
+        "text": "首页"
+      },
+      {
+        "pagePath": "pages/mall/mall",
+        "iconPath": "static/tab2.png",
+        "selectedIconPath": "static/tab2-active.png",
+        "text": "长海礼物"
+      },
+      {
+        "pagePath": "pages/my/my",
+        "iconPath": "static/tab3.png",
+        "selectedIconPath": "static/tab3-active.png",
+        "text": "我的"
+      }
+    ]
+  },
+  "uniStatistics": {
+    "enable": false
+  },
+  "permission": {
+    "scope.userLocation": {
+      "desc": "需要获取您的地理位置"
+    }
+  },
+  "lazyCodeLoading": "requiredComponents",
+  "usingComponents": {}
 }

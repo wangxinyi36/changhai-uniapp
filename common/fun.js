@@ -243,6 +243,29 @@ export function addZero(number) {
 }
 
 /**
+ * @description 星期数字转换成中文
+ * @param {number} num 星期几 
+ */
+export function transChinese(num) {
+	switch (num) {
+		case 1:
+			return '一';
+		case 2:
+			return '二';
+		case 3:
+			return '三';
+		case 4:
+			return '四';
+		case 5:
+			return '五';
+		case 6:
+			return '六';
+		case 7:
+			return '日'
+	}
+}
+
+/**
  * @description 富文本返回的图片宽度100%
  * @param {string} str 富文本内容
  */
@@ -257,6 +280,6 @@ export function regContent(str) {
  * @param {string} str 内容
  */
 export function replaceStar(str) {
-	let test = str.replace(str.substring(4,12), '**********')
+	let test = str.replace(str.substring(4, 12), '**********')
 	return test;
 }

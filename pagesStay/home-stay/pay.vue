@@ -4,13 +4,13 @@
 			<view class="u8">
 				<view class="u9">
 					<view class="u9-label">入住日期</view>
-					<view class="u9-time">2022.5.18(周五) — 2022.6.1(周六)</view>
+					<view class="u9-time">{{time}}(周{{day}})</view>
 				</view>
 				<view class="u11">
 					<view class="u11-box">
-						<view class="u11-box-name">精品单人间</view>
-						<view class="u11-box-dec">1张单人床 · 32㎡</view>
-						<view class="u11-box-tip">15分钟内可免费取消</view>
+						<view class="u11-box-name">{{detail.uutitle}}</view>
+						<view class="u11-box-dec">{{detail.uuticketDesc}}</view>
+						<view class="u11-box-tip">{{detail.freeCancelMin}}分钟内可免费取消</view>
 					</view>
 					<view class="u17">
 						<view class="u17-sub" @click="sub">
@@ -50,7 +50,7 @@
 		</view>
 		<view class="bottom">
 			<view class="bottom-left">
-				您需支付<text class="bottom-left-text">￥196</text>
+				您需支付<text class="bottom-left-text">￥{{detail.uutprice*count}}</text>
 			</view>
 			<navigator url="/pagesStay/home-stay/pay-suc" hover-class="none">
 				<view class="bottom-btn">去支付</view>
@@ -62,7 +62,8 @@
 
 <script>
 	import {
-		OpenPage
+		OpenPage,
+		transChinese
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -75,8 +76,21 @@
 					url: '/static/icon-wechat.svg',
 				}],
 				count: 1,
-				address: {}
+				address: {},
+
+				detail: {},
+				time: '',
+				day: '', //星期几
 			};
+		},
+		onLoad() {
+			const _this = this;
+			const eventChannel = this.getOpenerEventChannel();
+			eventChannel.on('sendParams', data => {
+				_this.detail = data.item;
+				_this.time = data.time;
+				_this.day = transChinese(new Date(data.time).getDay())
+			})
 		},
 		methods: {
 			choose(value) {

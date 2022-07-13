@@ -37,6 +37,7 @@
   font-size: 24rpx;
   color: #B2B2B2;
   margin-right: 10rpx;
+  word-break: break-all;
 }
 .car-rental .car-list .car-item .u14 .u14-box .u12-text.data-v-0a2c0050 {
   font-weight: 400;

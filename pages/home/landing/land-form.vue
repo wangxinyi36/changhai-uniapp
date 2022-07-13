@@ -290,6 +290,9 @@
 			this.getProvince()
 			this.wechat_userInfo = getStorage('wechat_userInfo')
 		},
+		onShow() {
+			this.wechat_userInfo = getStorage('wechat_userInfo')
+		},
 		methods: {
 			open(name) {
 				this.$refs[name].open('bottom')

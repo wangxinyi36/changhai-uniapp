@@ -4,7 +4,7 @@
 			<navigator :url="`/pages/home/activity/detail?id=${item.id}`" hover-class="none">
 				<view class="u17-box">
 					<view class="u17-box-title">{{item.name}}</view>
-					<view class="u17-time">这里是内容</view>
+					<view class="u17-time">{{item.makeSummary}}</view>
 				</view>
 				<image :src="item.url" mode="aspectFill" class="u17-img"></image>
 				<view class="u17-time">{{dealTime(item.updateTime)}}</view>
@@ -88,6 +88,7 @@
 		&-time {
 			font: normal 400 24rpx/normal '微软雅黑', sans-serif;
 			color: #b8b8b8;
+			margin-top: 10rpx;
 		}
 	}
 </style>

@@ -204,6 +204,8 @@
 		bottom: 0;
 		height: 112rpx;
 		background-color: rgba(245, 154, 35, 1);
+		padding-bottom: constant(safe-area-inset-bottom);
+		padding-bottom: env(safe-area-inset-bottom);
 
 		&-btn {
 			width: 100%;

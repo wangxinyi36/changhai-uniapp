@@ -21,7 +21,7 @@
 
 		<view class="u29">
 			<view class="u29-title">关于运费</view>
-			<view class="u29-text">{{goodsDetail.freight}}</view>
+			<view class="u29-text">包邮</view>
 		</view>
 
 		<view class="u1">
@@ -110,6 +110,9 @@
 			this.getDetail()
 			this.wechat_userInfo = getStorage('wechat_userInfo');
 			this.GET_MALL_CART()
+		},
+		onShow() {
+			this.wechat_userInfo = getStorage('wechat_userInfo')
 		},
 		computed: {
 			...mapState({

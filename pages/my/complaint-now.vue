@@ -10,7 +10,8 @@
 		<view class="u210">
 			<view class="u210-title">上传图片</view>
 			<view class="u244">
-				<uni-file-picker v-model="url" file-mediatype="image" @select="select" @delete="deletePic">
+				<uni-file-picker v-model="url" file-mediatype="image" @select="select" @delete="deletePic"
+					:readonly="detail.id ?true :false">
 				</uni-file-picker>
 			</view>
 		</view>

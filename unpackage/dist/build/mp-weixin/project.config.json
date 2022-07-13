@@ -33,7 +33,7 @@
         "useCompilerPlugins": false
     },
     "compileType": "miniprogram",
-    "libVersion": "2.24.6",
+    "libVersion": "2.25.0",
     "appid": "wx8b22cc619bd5dba2",
     "projectname": "长海一码游鸣亿开发",
     "condition": {},

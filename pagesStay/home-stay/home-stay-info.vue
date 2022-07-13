@@ -7,21 +7,23 @@
 		<view class="u58">
 			<view class="u58-title">民宿信息</view>
 			<view class="u58-box">
-				<view class="u58-box-title">{{detail.UUtitle}}</view>
-				<rich-text class="u58-box-text" :nodes="detail.UUbhjq"></rich-text>
-				<rich-text class="u58-box-text" :nodes="detail.UUjtzn"></rich-text>
+				<view class="u58-box-title">{{detail.uutitle}}</view>
+				<rich-text class="u58-box-text" :nodes="detail.uuBhjq"></rich-text>
 			</view>
 		</view>
 		<view class="u58">
 			<view class="u58-title">民宿要求</view>
 			<view class="u58-box">
-				<rich-text class="u58-box-text" :nodes="detail.UUjqts"></rich-text>
+				<rich-text class="u58-box-text" :nodes="detail.uuJqts"></rich-text>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		regContent
+	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
@@ -32,22 +34,14 @@
 			};
 		},
 		onLoad(options) {
-			this.id = options.id;
-			this.getDetail()
+			const _this = this;
+			const eventChannel = this.getOpenerEventChannel();
+			eventChannel.on('sendParams', data => {
+				_this.detail = data;
+				_this.detail.uuBhjq = regContent(_this.detail.uuBhjq)
+				_this.detail.uuJqts = regContent(_this.detail.uuJqts)
+			})
 		},
-		methods: {
-			async getDetail() {
-				try {
-					const {
-						id
-					} = this.$data;
-					const res = await this.$http(`${this.$API.getProductDetail}?spotId=${id}`);
-					this.detail = res.data.Data.Rec;
-				} catch (e) {
-					//TODO handle the exception
-				}
-			},
-		}
 	}
 </script>
 

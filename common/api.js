@@ -24,6 +24,7 @@ const API = {
 	getGoodsList: 'dev/xcx/goods/list', // 查询商品列表
 	getGoodsDetail: 'dev/xcx/goods/detail', // 查询商品详情
 	getCommentList: 'dev/xcx/comment/list', // 查询商品评论列表
+	getOrderSave: 'dev/xcx/order/saveOrder', // 商城下订单
 
 	getNewsList: 'dev/xcx/article/list', // 查询新闻列表
 	getNewsDetail: 'dev/xcx/article/detail', // 查询新闻详情
@@ -36,6 +37,7 @@ const API = {
 	getProductRegionList: 'dev/xcx/product/getRegionList', // 获取区域列表
 	postProductShopList: 'dev/xcx/product/queryBShopList', // 查询民宿列表
 	postProductShopDetail: 'dev/xcx/product/getBSDetail', // 查询民宿详情的列表
+	postProductShopInfo: 'dev/xcx/product/getBSInfo', // 获取民宿详情
 	
 	postProductFoodList: 'dev/xcx/product/getFoodList', // 获取美食列表
 	getProductFoodDetail: 'dev/xcx/product/getFoodDetail', // 获取美食详情

@@ -49,6 +49,9 @@
 			this.wechat_userInfo = getStorage('wechat_userInfo')
 			this.getHealth()
 		},
+		onShow() {
+			this.wechat_userInfo = getStorage('wechat_userInfo')
+		},
 		methods: {
 			openPage(url) {
 				OpenPage(url).then(res => {

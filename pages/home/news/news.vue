@@ -3,9 +3,9 @@
 		<view class="u17" v-for="item,index in list" :key="item.id" @click="openPage(item.id)">
 			<view class="u17-box">
 				<view class="u17-box-title">{{item.title}}</view>
-				<view class="u17-time">这里是内容</view>
+				<view class="u17-time">{{item.makeSummary}}</view>
 			</view>
-			<image src="/static/home1.jpg" mode="aspectFill" class="u17-img"></image>
+			<image :src="item.picUrl" mode="aspectFill" class="u17-img"></image>
 			<view class="u17-time">{{dealTime(item.updateTime)}}</view>
 		</view>
 	</view>
@@ -100,6 +100,7 @@
 		&-time {
 			font: normal 400 24rpx/normal '微软雅黑', sans-serif;
 			color: #b8b8b8;
+			margin-top: 10rpx;
 		}
 	}
 </style>

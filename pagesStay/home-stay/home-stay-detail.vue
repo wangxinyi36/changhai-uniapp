@@ -1,27 +1,24 @@
 <template>
 	<view>
-		<image :src="detail.UUimgpath" mode="aspectFill" class="bg"></image>
+		<image :src="detail.coverImg" mode="aspectFill" class="bg"></image>
 		<view class="u1">
-			<view class="u1-title">{{detail.UUtitle}}</view>
+			<view class="u1-title">{{detail.uutitle}}</view>
 			<view class="u1-tags">
-				<rich-text class="u1-tag" :nodes="detail.UUbhjq"></rich-text>
-				<navigator :url="`/pagesStay/home-stay/home-stay-info?id=${id}`" hover-class="none">
-					<view class="u1-detail">
-						<text>详情</text>
-						<image src="/static/icon1.svg" mode="aspectFill" class="u1-detail-icon"></image>
-					</view>
-				</navigator>
-
+				<text class="u1-tag" v-for="tag,i in detail.keyWords">{{tag}}</text>
+				<view class="u1-detail" @click="pageToDetail">
+					<text>详情</text>
+					<image src="/static/icon1.svg" mode="aspectFill" class="u1-detail-icon"></image>
+				</view>
 			</view>
 			<view class="u8">
-				<map class="u8" :longitude="position[0]" :latitude="position[1]" :markers="marker" scale="10"
+				<map class="u8" :longitude="detail.lng" :latitude="detail.lat" :markers="marker" scale="10"
 					@markertap="clickMark"></map>
 			</view>
 			<view class="u17">
-				<view class="u17-title">入住日期/离开日期</view>
-				<uni-datetime-picker v-model="single">
+				<view class="u17-title">入住日期</view>
+				<uni-datetime-picker v-model="time" type="date" :start="start" @change="changeDate">
 					<view class="u81">
-						<view class="u17-title">选择日期</view>
+						<view class="u17-title">{{time || '选择日期'}}</view>
 						<image src="/static/icon2.svg" mode="aspectFill" class="u81-img"></image>
 					</view>
 				</uni-datetime-picker>
@@ -31,12 +28,12 @@
 					<image :src="item.uuticketPic" mode="aspectFill" class="u20-img"></image>
 					<view class="u20-box">
 						<view class="u20-box-name">{{item.uutitle}}</view>
-						<view class="u20-box-dec">{{item.dec}}</view>
-						<view class="u20-box-tip">{{item.tip}}</view>
-						<text class="u20-box-btn" @click="openPage('/pagesStay/home-stay/pay')">立即确定</text>
+						<view class="u20-box-dec">{{item.uuticketDesc}}</view>
+						<view class="u20-box-tip">{{item.freeCancelMin}}分钟内可免费取消</view>
+						<text class="u20-box-btn" @click="openPage('/pagesStay/home-stay/pay',item)">立即确定</text>
 					</view>
 					<view class="u20-pay">
-						<view class="u20-pay-num"><text style="font-size: 24rpx;">￥</text>{{item.pay}}</view>
+						<view class="u20-pay-num"><text style="font-size: 24rpx;">￥</text>{{item.uutprice}}</view>
 						<view class="u27">定</view>
 					</view>
 				</view>
@@ -49,62 +46,97 @@
 	import {
 		OpenPage,
 		getStorage,
-		setStorage
+		setStorage,
+		showToast
 	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
-				tags: ['2019年装修', '免费停车场', '24小时客服服务'],
-				single: '',
+				start: `${new Date().getFullYear()}-${new Date().getMonth()+1}-${new Date().getDate()}`,
+				time: '', //入住时间
 				title: '',
 				list: [],
-				total:0,
+				total: 0,
 				detail: {},
 				id: '',
-				position: [],
 				marker: [],
-				userInfo: {}
+				wechat_userInfo: {},
 			};
 		},
 		onLoad(options) {
 			this.wechat_userInfo = getStorage('wechat_userInfo')
 			this.id = options.id;
-			this.getDetailList()
+			this.getDetailList();
+			this.getDetailInfo();
+		},
+		onShow() {
+			this.wechat_userInfo = getStorage('wechat_userInfo')
 		},
 		methods: {
-			async getDetailList() {
+			async getDetailInfo() {
 				try {
 					const {
 						id
 					} = this.$data;
-					const res = await this.$http(this.$API.postProductShopDetail, {
+					const result = await this.$http(this.$API.postProductShopInfo, {
 						uulid: id,
-						size: 100
 					}, 'POST');
-					this.list = res.data.list;
-					this.total = res.data.total;
-					// // this.detail = res.data.Data.Rec;
-					// // this.position = this.detail.UUlng_lat_pos.split(',')
-					// // this.marker = [{
-					// // 	id,
-					// // 	latitude: this.position[1],
-					// // 	longitude: this.position[0],
-					// // 	title: this.detail.UUtitle,
-					// // 	iconPath: '/static/u115.svg',
-					// // 	width: 15,
-					// // 	height: 20
-					// // }]
-					// uni.setNavigationBarTitle({
-					// 	title: this.detail.UUtitle
-					// })
+					this.detail = result.data;
+					this.marker = [{
+						id,
+						latitude: parseFloat(result.data.lat),
+						longitude: parseFloat(result.data.lng),
+						title: this.detail.uutitle,
+						iconPath: '/static/u115.svg',
+						width: 20,
+						height: 28
+					}]
+					uni.setNavigationBarTitle({
+						title: this.detail.uutitle
+					})
 				} catch (e) {
 					//TODO handle the exception
 				}
 			},
-			openPage(url) {
+			async getDetailList() {
+				try {
+					const {
+						id,
+						time
+					} = this.$data;
+					const res = await this.$http(this.$API.postProductShopDetail, {
+						uulid: id,
+						startDate: time,
+						size: 100
+					}, 'POST');
+					this.list = res.data.list;
+					this.total = res.data.total;
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
+			pageToDetail() {
+				OpenPage('/pagesStay/home-stay/home-stay-info', {
+					uuBhjq: this.detail.uuBhjq,
+					uuJqts: this.detail.uuJqts,
+					uutitle: this.detail.uutitle
+				})
+			},
+			changeDate(e) {
+				this.time = e;
+				this.getDetailList()
+			},
+			openPage(url, item) {
 				let _this = this;
 				if (this.wechat_userInfo) {
-					OpenPage(url)
+					if (!this.time) {
+						showToast('请选择入住时间~')
+						return;
+					}
+					OpenPage(url, {
+						item,
+						time: this.time
+					})
 					return;
 				}
 				uni.getUserProfile({
@@ -305,5 +337,13 @@
 
 
 
+	}
+
+	/deep/ .uni-datetime-picker--btn {
+		background-color: #f59a23;
+	}
+
+	/deep/ .uni-calendar-item--checked {
+		background-color: #f59a23 !important;
 	}
 </style>
