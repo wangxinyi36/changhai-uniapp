@@ -12,8 +12,8 @@
 							{{order.status === 2 ? '已完成' : order.status === 3 ? '已取消': order.status === 4 ? '已完成' : ''}}
 						</view>
 					</view>
-					<view class="u178-name">{{`下单时间：${order.time}`}}</view>
-					<view class="u178-pay">{{`￥${order.pay}`}}</view>
+					<view class="u178-name">单时间：{{dealTime(order.addTime)}}</view>
+					<view class="u178-pay">{{`￥${order.goodsPrice}`}}</view>
 				</view>
 			</view>
 			<view class="u81-bottom">
@@ -42,6 +42,9 @@
 			};
 		},
 		methods: {
+			dealTime(val) {
+				return `${val[0]}-${val[1]}-${val[2]} ${val[3]}:${val[4]}:${val[5]}`
+			},
 			operate() {
 				if (this.order.status !== 1) {
 					OpenPage(`/pages/my/evaluate`)

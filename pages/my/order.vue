@@ -8,61 +8,65 @@
 				<common-order v-for="item,index in orders" :order="item" :key="index"></common-order>
 			</view>
 			<view v-show="current === 1">
-				<!-- 选项卡2的内容 -->
+				<common-order v-for="item,index in orders" :order="item" :key="index"></common-order>
 			</view>
 			<view v-show="current === 2">
-				<!-- 选项卡3的内容 -->
+				<common-order v-for="item,index in orders" :order="item" :key="index"></common-order>
 			</view>
 		</view>
 	</view>
 </template>
 
 <script>
+	import {
+		getStorage
+	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
 				current: 0,
 				tabs: ['全部', '待支付', '已完成'],
-				orders: []
-				// orders: [{
-				// 	type: 2, // 1船票 2民宿 3美食 4商城
-				// 	url: '/static/home7.png',
-				// 	name: '精品双人间',
-				// 	time: '2022-04-11',
-				// 	pay: 188,
-				// 	status: 2, //1待支付 2已完成 3已取消 4已评价
-				// 	leftTime: '00:10:00'
-				// }, {
-				// 	type: 2, // 1船票 2民宿 3美食 4商城
-				// 	url: '/static/home7.png',
-				// 	name: '精品双人间',
-				// 	time: '2022-04-11',
-				// 	pay: 188,
-				// 	status: 4, //1待支付 2已完成 3已取消 4已评价
-				// 	leftTime: '00:10:00'
-				// }, {
-				// 	type: 3, // 1船票 2民宿 3美食 4商城
-				// 	url: '/static/home7.png',
-				// 	name: '精品双人间',
-				// 	time: '2022-04-11',
-				// 	pay: 188,
-				// 	status: 3, //1待支付 2已完成 3已取消
-				// 	leftTime: '00:10:00'
-				// }, {
-				// 	type: 4, // 1船票 2民宿 3美食 4商城
-				// 	url: '/static/home7.png',
-				// 	name: '精品双人间',
-				// 	time: '2022-04-11',
-				// 	pay: 188,
-				// 	status: 1, //1待支付 2已完成 3已取消
-				// 	leftTime: '00:10:00'
-				// }]
+				wechat_userInfo: {},
+				orders: [],
+				total: 0,
+				page: 1,
 			};
 		},
+		onLoad(options) {
+			this.wechat_userInfo = getStorage('wechat_userInfo');
+			this.getOrderList()
+		},
 		methods: {
+			async getOrderList() {
+				try {
+					let {
+						page,
+						orders,
+						total,
+						wechat_userInfo
+					} = this.$data;
+					if (total > 0 && total == orders.length) {
+						return;
+					}
+					const result = await this.$http(this.$API.getOrderList, {
+						limit: 10,
+						page,
+						userId: wechat_userInfo.userId,
+					});
+					this.orders = this.orders.concat(result.data.items);
+					this.total = result.data.total;
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+				}
+			},
 			changeTab(val) {
 				console.log(val)
 			}
+		},
+		onReachBottom() {
+			this.page++;
+			this.getOrderList()
 		}
 	}
 </script>

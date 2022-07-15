@@ -297,6 +297,8 @@
 		@extend .default-flex;
 		justify-content: space-between;
 		height: 108rpx;
+		padding-bottom: constant(safe-area-inset-bottom);
+		padding-bottom: env(safe-area-inset-bottom);
 
 		&-left {
 			font: normal 400 24rpx/normal '微软雅黑', sans-serif;

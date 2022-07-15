@@ -36,7 +36,7 @@
 		getStorage,
 		setStorage,
 		showToast,
-		clearStorage
+		removeStorage
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -100,7 +100,7 @@
 				}
 			},
 			exist(e) {
-				clearStorage();
+				removeStorage('wechat_userInfo');
 				this.wechat_userInfo = ''
 			},
 			call() {
@@ -130,23 +130,30 @@
 						uni.login({
 							provider: 'weixin',
 							success: async function(loginRes) {
-								let data = {
-									code: loginRes.code,
-									shareUserId: 0,
-									userInfo: {
-										phone: "",
-										registerDate: "",
-										status: 0,
-										userId: 0,
-										userLevel: 0,
-										userLevelDesc: "",
-										...res.userInfo
+								try {
+									let data = {
+										code: loginRes.code,
+										shareUserId: 0,
+										userInfo: {
+											phone: "",
+											registerDate: "",
+											status: 0,
+											userId: 0,
+											userLevel: 0,
+											userLevelDesc: "",
+											...res.userInfo
+										}
 									}
+									const result = await _this.$http(_this.$API.postLoginByWeixin,
+										data,
+										'POST');
+									console.log(result)
+									_this.wechat_userInfo = result.data.userInfo;
+									setStorage('wechat_userInfo', result.data.userInfo)
+								} catch (e) {
+									console.log(e)
+									//TODO handle the exception
 								}
-								const result = await _this.$http(_this.$API.postLoginByWeixin, data,
-									'POST');
-								_this.wechat_userInfo = result.data.userInfo;
-								setStorage('wechat_userInfo', result.data.userInfo)
 							},
 							fail(err) {
 								console.log(err)

@@ -107,6 +107,7 @@
 					const res = await this.$http(this.$API.postProductShopDetail, {
 						uulid: id,
 						startDate: time,
+						endDate: time,
 						size: 100
 					}, 'POST');
 					this.list = res.data.list;

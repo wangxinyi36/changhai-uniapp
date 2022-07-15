@@ -5,7 +5,7 @@
 			<view class="u55-text">支付成功</view>
 		</view>
 		<view class="bottom">
-			<view class="bottom-btn" @click="back">返回商家</view>
+			<view class="bottom-btn" @click="back">返回</view>
 		</view>
 	</view>
 </template>
@@ -17,9 +17,11 @@
 
 			};
 		},
-		methods:{
-			back(){
-				uni.navigateBack()
+		methods: {
+			back() {
+				uni.switchTab({
+					url: '/pages/mall/mall'
+				});
 			}
 		}
 	}

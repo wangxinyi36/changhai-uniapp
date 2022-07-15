@@ -42,7 +42,6 @@ export const http = (url, data, method = 'GET', type) => {
 
 export const upload = (url, file) => {
 	return new Promise((resolve, reject) => {
-		console.log(file)
 		let newUrl = `${REQUEST_URL}${url}`
 		uni.uploadFile({
 			url: newUrl, //仅为示例，非真实的接口地址

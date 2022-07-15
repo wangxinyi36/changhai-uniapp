@@ -33,7 +33,8 @@
 				</view>
 				<view class="u33-item">
 					<view class="u33-title">订单备注</view>
-					<input class="u33-text" v-model="orderForm.message" placeholder-class="u33-placeholder" placeholder="请和商家协商一致" />
+					<input class="u33-text" v-model="orderForm.message" placeholder-class="u33-placeholder"
+						placeholder="请和商家协商一致" />
 				</view>
 				<view class="u33-item">
 					<view class="u33-title">商品合计</view>
@@ -66,7 +67,7 @@
 	import {
 		OpenPage,
 		showToast,
-		getStorage
+		getStorage,
 	} from '@/common/fun.js';
 	export default {
 		data() {
@@ -80,17 +81,14 @@
 				chooseActiveIcon: '/static/icon-choose.svg',
 				goodsDetail: {},
 				address: {},
+				goodsList: [], //{ id: 0, name: "", num: 1, picUrl: "", retailPrice: 0 }
+
 				orderForm: {
 					addrId: "",
-					goodsId: "",
-					goodsImage: "",
-					goodsName: "",
+					goodsList: [],
 					message: "",
-					num: 1,
-					openId: "",
-					payMoney: "",
-					payType: 0,
-					price: "",
+					openId: "o4f7l4lTm7eC6COtVKo1PwiDiVQo",
+					payType: 1,
 					userId: ''
 				},
 
@@ -104,12 +102,6 @@
 			const eventChannel = this.getOpenerEventChannel();
 			eventChannel.on('sendParams', function(data) {
 				_this.goodsDetail = data.goodsDetail;
-				
-				_this.orderForm.goodsId = data.goodsDetail.id;
-				_this.orderForm.goodsImage = data.goodsDetail.picUrl;
-				_this.orderForm.goodsName = data.goodsDetail.name;
-				_this.orderForm.payMoney = data.goodsDetail.retailPrice;
-				_this.orderForm.price = data.goodsDetail.retailPrice;
 			})
 		},
 		methods: {
@@ -120,14 +112,32 @@
 				}
 				try {
 					let {
-						orderForm
+						orderForm,
+						goodsDetail
 					} = this.$data;
-					console.log(orderForm)
-					// const result = await this.$http(this.$API.getOrderSave, orderForm, 'POST');
+					this.goodsList.push({
+						id: goodsDetail.id,
+						name: goodsDetail.name,
+						num: 1,
+						picUrl: goodsDetail.picUrl,
+						retailPrice: goodsDetail.retailPrice
+					})
+					this.orderForm.goodsList = this.goodsList;
+					const result = await this.$http(this.$API.postOrderSave, orderForm, 'POST');
+					uni.requestPayment({
+						provider: "wxpay",
+						...result.data,
+						success(res) {
+							OpenPage('/pagesStay/home-stay/pay-suc')
+						},
+						fail(e) {
+							console.log(e)
+						}
+					})
 				} catch (e) {
+					console.log(e)
 					//TODO handle the exception
 				}
-				// OpenPage('/pagesStay/home-stay/pay-suc')
 			},
 			add() {
 				let _this = this;

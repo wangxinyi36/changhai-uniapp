@@ -63,10 +63,35 @@
 					pay: 54,
 					tags: ['精选好店', '近期100人下单'],
 					url: '/static/stay1.jpg'
-				}]
+				}],
+				mealForm: {
+					current: 0,
+					distance: 0,
+					lat: "",
+					lng: "",
+					price: 0,
+					region: "",
+					size: 10,
+					title: ""
+				}
 			};
 		},
+		onLoad() {
+			this.getWMList()
+		},
 		methods: {
+			async getWMList() {
+				try {
+					let {
+						mealForm
+					} = this.$data;
+					const result = await this.$http(this.$API.postProductWMList, mealForm, 'POST');
+					console.log(result)
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+				}
+			},
 			open() {
 				this.$refs.popup.open('bottom')
 			},

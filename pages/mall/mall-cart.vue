@@ -14,7 +14,6 @@
 					<image :src="item.picUrl" mode="aspectFill" class="u71-img"></image>
 					<view class="u71-box">
 						<view class="u71-box-name">{{item.name}}</view>
-						<!-- <view class="u71-box-weight">{{item.count}}{{item.unit}}</view> -->
 						<view class="u71-box-three">
 							<view class="u71-box-three-pay">￥{{item.retailPrice}}</view>
 							<view class="u72">

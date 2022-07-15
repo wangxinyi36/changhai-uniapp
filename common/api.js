@@ -7,6 +7,7 @@ const API = {
 
 	getTralList: 'dev/xcx/tral/list', // 查询精品路线列表
 	getTralDetail: 'dev/xcx/tral/detail', // 查询精品路线详情
+	getTralRotationList: 'dev/xcx/tral/rotationlist', // 查询精品路线轮播列表
 
 	getAdList: 'dev/xcx/ad/list', // 查询活动列表
 	getAdRead: 'dev/xcx/ad/read', // 查询活动详情
@@ -24,7 +25,8 @@ const API = {
 	getGoodsList: 'dev/xcx/goods/list', // 查询商品列表
 	getGoodsDetail: 'dev/xcx/goods/detail', // 查询商品详情
 	getCommentList: 'dev/xcx/comment/list', // 查询商品评论列表
-	getOrderSave: 'dev/xcx/order/saveOrder', // 商城下订单
+	postOrderSave: 'dev/xcx/order/saveOrder', // 商城下订单
+	getOrderList: 'dev/xcx/order/list', // 查询商品订单列表
 
 	getNewsList: 'dev/xcx/article/list', // 查询新闻列表
 	getNewsDetail: 'dev/xcx/article/detail', // 查询新闻详情
@@ -41,6 +43,8 @@ const API = {
 	
 	postProductFoodList: 'dev/xcx/product/getFoodList', // 获取美食列表
 	getProductFoodDetail: 'dev/xcx/product/getFoodDetail', // 获取美食详情
+	
+	postProductWMList: 'dev/xcx/product/getWMList', // 获取外卖列表
 
 	postCommentList: 'dev/xcx/comment/getCommentList', // 评论评分
 

@@ -60,6 +60,9 @@ const mutations = {
 			item.isAcitve = false;
 			return item;
 		})
+		state.isSelectAll = false;
+		state.sellectCount = 0;
+		state.totalMoney = 0;
 		setStorage('mallSelectList', state.mallSelectList)
 	},
 	SELECTALL_MALL_CART(state) {
@@ -93,15 +96,19 @@ const mutations = {
 	}
 }
 const getters = {
+	// 计算总金额
 	getMoney(state) {
 		if (state.sellectCount == 0) {
 			state.totalMoney = 0;
 		}
-		if (state.sellectCount == state.mallSelectList.length) {
-			state.mallSelectList.forEach(item => {
-				state.totalMoney += item.count * item.retailPrice;
-			})
-		}
+		let money = 0;
+		state.mallSelectList.forEach(item => {
+			if (item.isAcitve) {
+				let fen = item.retailPrice * 100; //价格单位是分
+				money += item.count * fen / 100;
+			}
+		})
+		state.totalMoney = money;
 		return state.totalMoney;
 	},
 }

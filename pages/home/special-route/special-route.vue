@@ -5,7 +5,8 @@
 				:interval="5000" :duration="1000">
 				<swiper-item v-for="item,index in swipers" :key="index">
 					<view class="swiper-item">
-						<image :src="item" mode="aspectFill" class="swiper-item-img"></image>
+						<image :src="item.picUrl" mode="aspectFill" class="swiper-item-img" @click="openPage(item)">
+						</image>
 					</view>
 				</swiper-item>
 			</swiper>
@@ -32,14 +33,15 @@
 	export default {
 		data() {
 			return {
-				swipers: ['/static/home1.jpg', '/static/home1.jpg', '/static/home1.jpg'],
+				swipers: [],
 				list: [],
 				page: 1,
 				total: 0,
 			};
 		},
 		onLoad() {
-			this.getTral()
+			this.getTral();
+			this.getSwipers()
 		},
 		methods: {
 			openPage(item) {
@@ -58,6 +60,14 @@
 					//TODO handle the exception
 				}
 			},
+			async getSwipers() {
+				try {
+					const res = await this.$http(`${this.$API.getTralList}?limit=4&page=1`);
+					this.swipers = res.data.items;
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
 		},
 		onReachBottom() {
 			if (this.total > 0 && this.total == this.list.length) {
@@ -70,13 +80,21 @@
 </script>
 
 <style lang="scss" scoped>
-	.swiper-item {
+	.u221 {
 		height: 424rpx;
-		width: 100%;
 
-		&-img {
+		/deep/ .uni-swiper-wrapper {
+			height: 424rpx;
+		}
+
+		.swiper-item {
+			height: 424rpx;
 			width: 100%;
-			height: 100%;
+
+			&-img {
+				width: 100%;
+				height: 100%;
+			}
 		}
 	}
 
