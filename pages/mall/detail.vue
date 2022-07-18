@@ -54,7 +54,8 @@
 					<view class="u128-title" @click="clear">清空</view>
 				</view>
 				<view class="cart-list">
-					<common-cart-goods v-for="item,index in goods" :key="index" :goods="item" @add="add" @sub="sub">
+					<common-cart-goods v-for="item,index in goods" :key="index" :goods="item" @add="add" @sub="sub"
+						@check="check">
 					</common-cart-goods>
 				</view>
 			</view>
@@ -70,7 +71,8 @@
 		regContent,
 		getStorage,
 		setStorage,
-		showToast
+		showToast,
+		WxLogin
 	} from '@/common/fun.js';
 	import {
 		mapMutations,
@@ -120,58 +122,23 @@
 			})
 		},
 		methods: {
-			...mapMutations(['GET_MALL_CART']),
+			...mapMutations(['GET_MALL_CART', 'CANCEL_ACTIVE']),
 			clickLeft(params) {
 				let _this = this;
 				if (this.wechat_userInfo) {
 					this.$refs.popup.open('bottom');
 					return;
 				}
-				uni.getUserProfile({
-					desc: '需要获取您的个人信息',
-					success(res) {
-						uni.login({
-							provider: 'weixin',
-							success: async function(loginRes) {
-								let data = {
-									code: loginRes.code,
-									shareUserId: 0,
-									userInfo: {
-										phone: "",
-										registerDate: "",
-										status: 0,
-										userId: 0,
-										userLevel: 0,
-										userLevelDesc: "",
-										...res.userInfo
-									}
-								}
-								const result = await _this.$http(_this.$API.postLoginByWeixin, data,
-									'POST');
-								_this.wechat_userInfo = result.data.userInfo;
-								setStorage('wechat_userInfo', result.data.userInfo)
-							},
-							fail(err) {
-								console.log(err)
-							}
-						});
-					},
-					fail(err) {
-						console.log(err)
-					}
-				})
+				WxLogin(this)
 			},
 			change(e) {
-				this.show = e.show
+				this.show = e.show;
+				if (!this.show) {
+					this.CANCEL_ACTIVE()
+				}
 			},
 			clear() {
-				this.goods = []
-			},
-			add(item) {
-				this.$store.dispatch('ADD_MALL_CART', item)
-			},
-			sub(item) {
-				this.$store.dispatch('REDUCE_MALL_CART', item)
+				this.$store.dispatch('CLEAR_MALL_CART')
 			},
 			clickBtn(e) {
 				let _this = this;
@@ -181,47 +148,25 @@
 						content
 					} = e;
 					if (index === 0) {
+						showToast('加入购物车成功~')
 						this.$store.dispatch('ADD_MALL_CART', this.goodsDetail)
 					} else {
-						OpenPage(`/pages/mall/order`, {
-							goodsDetail: this.goodsDetail
-						})
+						if (this.show) {
+							let list = this.goods.filter(item => item.isAcitve)
+							OpenPage(`/pages/mall/order`, {
+								goodsList: list,
+								type: 'list'
+							})
+						} else {
+							OpenPage(`/pages/mall/order`, {
+								goodsList: [this.goodsDetail],
+								type: 'detail'
+							})
+						}
 					}
 					return;
 				}
-				uni.getUserProfile({
-					desc: '需要获取您的个人信息',
-					success(res) {
-						uni.login({
-							provider: 'weixin',
-							success: async function(loginRes) {
-								let data = {
-									code: loginRes.code,
-									shareUserId: 0,
-									userInfo: {
-										phone: "",
-										registerDate: "",
-										status: 0,
-										userId: 0,
-										userLevel: 0,
-										userLevelDesc: "",
-										...res.userInfo
-									}
-								}
-								const result = await _this.$http(_this.$API.postLoginByWeixin, data,
-									'POST');
-								_this.wechat_userInfo = result.data.userInfo;
-								setStorage('wechat_userInfo', result.data.userInfo)
-							},
-							fail(err) {
-								console.log(err)
-							}
-						});
-					},
-					fail(err) {
-						console.log(err)
-					}
-				})
+				WxLogin(this)
 			},
 			dealKeys(val) {
 				if (val) {
@@ -242,7 +187,16 @@
 				} catch (e) {
 					//TODO handle the exception
 				}
-			}
+			},
+			add(item) {
+				this.$store.dispatch('ADD_MALL_CART', item)
+			},
+			sub(item) {
+				this.$store.dispatch('REDUCE_MALL_CART', item)
+			},
+			check(item) {
+				this.$store.dispatch('SELECT_MALL_CART', item)
+			},
 		}
 	}
 </script>

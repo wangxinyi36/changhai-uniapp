@@ -5,13 +5,16 @@
 		</uni-segmented-control>
 		<view class="content">
 			<view v-show="current === 0">
-				<common-order v-for="item,index in orders" :order="item" :key="index"></common-order>
+				<common-order v-for="item,index in orders" :order="item" :key="index" @cancel="cancel" @reload="reload">
+				</common-order>
 			</view>
 			<view v-show="current === 1">
-				<common-order v-for="item,index in orders" :order="item" :key="index"></common-order>
+				<common-order v-for="item,index in orders" :order="item" :key="index" @cancel="cancel" @reload="reload">
+				</common-order>
 			</view>
 			<view v-show="current === 2">
-				<common-order v-for="item,index in orders" :order="item" :key="index"></common-order>
+				<common-order v-for="item,index in orders" :order="item" :key="index" @cancel="cancel" @reload="reload">
+				</common-order>
 			</view>
 		</view>
 	</view>
@@ -19,7 +22,8 @@
 
 <script>
 	import {
-		getStorage
+		getStorage,
+		showToast
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -29,7 +33,12 @@
 				wechat_userInfo: {},
 				orders: [],
 				total: 0,
-				page: 1,
+				orderForm: {
+					limit: 10,
+					page: 1,
+					orderStatusArray: '',
+					userId: '',
+				}
 			};
 		},
 		onLoad(options) {
@@ -40,19 +49,16 @@
 			async getOrderList() {
 				try {
 					let {
-						page,
 						orders,
 						total,
-						wechat_userInfo
+						wechat_userInfo,
+						orderForm
 					} = this.$data;
 					if (total > 0 && total == orders.length) {
 						return;
 					}
-					const result = await this.$http(this.$API.getOrderList, {
-						limit: 10,
-						page,
-						userId: wechat_userInfo.userId,
-					});
+					orderForm.userId = wechat_userInfo.userId;
+					const result = await this.$http(this.$API.getOrderList, orderForm);
 					this.orders = this.orders.concat(result.data.items);
 					this.total = result.data.total;
 				} catch (e) {
@@ -60,12 +66,48 @@
 					//TODO handle the exception
 				}
 			},
+			async cancel(item) {
+				try {
+					const _this = this;
+					const result = await this.$http(`${this.$API.putOrderCancel}/${item.id}`, {}, 'PUT');
+					showToast('取消成功~');
+					setTimeout(() => {
+						_this.orderForm.page = 1;
+						_this.total = 0;
+						_this.orders = [];
+						_this.getOrderList()
+					}, 1500)
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+				}
+			},
+			reload() {
+				this.orderForm.page = 1;
+				this.orders = [];
+				this.total = 0;
+				this.getOrderList()
+			},
 			changeTab(val) {
-				console.log(val)
+				switch (val.currentIndex) {
+					case 0:
+						this.orderForm.orderStatusArray = '';
+						break;
+					case 1:
+						this.orderForm.orderStatusArray = 101;
+						break;
+					case 2:
+						this.orderForm.orderStatusArray = 201;
+						break;
+				}
+				this.orderForm.page = 1;
+				this.orders = [];
+				this.total = 0;
+				this.getOrderList()
 			}
 		},
 		onReachBottom() {
-			this.page++;
+			this.orderForm.page++;
 			this.getOrderList()
 		}
 	}

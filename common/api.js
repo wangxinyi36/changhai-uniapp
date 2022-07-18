@@ -9,6 +9,8 @@ const API = {
 	getTralDetail: 'dev/xcx/tral/detail', // 查询精品路线详情
 	getTralRotationList: 'dev/xcx/tral/rotationlist', // 查询精品路线轮播列表
 
+	getSteamerTicketList: 'dev/xcx/product/getSteamerTicketList', // 获取船票列表
+
 	getAdList: 'dev/xcx/ad/list', // 查询活动列表
 	getAdRead: 'dev/xcx/ad/read', // 查询活动详情
 
@@ -25,8 +27,12 @@ const API = {
 	getGoodsList: 'dev/xcx/goods/list', // 查询商品列表
 	getGoodsDetail: 'dev/xcx/goods/detail', // 查询商品详情
 	getCommentList: 'dev/xcx/comment/list', // 查询商品评论列表
-	postOrderSave: 'dev/xcx/order/saveOrder', // 商城下订单
+
+	postOrderSave: 'dev/xcx/order/saveOrder', // 商城下单
 	getOrderList: 'dev/xcx/order/list', // 查询商品订单列表
+	putOrderCancel: 'dev/xcx/order/cancel', // 取消商城订单
+	getOrderDetail: 'dev/xcx/order/detail', // 商城订单详情
+	postComment: 'dev/xcx/comment/comment', // 商城商品发布评论
 
 	getNewsList: 'dev/xcx/article/list', // 查询新闻列表
 	getNewsDetail: 'dev/xcx/article/detail', // 查询新闻详情
@@ -36,17 +42,20 @@ const API = {
 	postLoginByWeixin: 'wxapi/wx/auth/login_by_weixin', // 微信登录
 	postAuthUpdate: 'dev/xcx/auth/update', // 更新用户信息
 
+	getHotSjList: 'dev/xcx/product/getHotSjList', // 精选美食
+
 	getProductRegionList: 'dev/xcx/product/getRegionList', // 获取区域列表
 	postProductShopList: 'dev/xcx/product/queryBShopList', // 查询民宿列表
 	postProductShopDetail: 'dev/xcx/product/getBSDetail', // 查询民宿详情的列表
 	postProductShopInfo: 'dev/xcx/product/getBSInfo', // 获取民宿详情
-	
+
 	postProductFoodList: 'dev/xcx/product/getFoodList', // 获取美食列表
 	getProductFoodDetail: 'dev/xcx/product/getFoodDetail', // 获取美食详情
-	
+
 	postProductWMList: 'dev/xcx/product/getWMList', // 获取外卖列表
 
-	postCommentList: 'dev/xcx/comment/getCommentList', // 评论评分
+	postCommentList: 'dev/xcx/comment/getCommentList', // 查询评论
+	postCommentSave: 'dev/xcx/comment/saveComment', // 添加评论
 
 	getAddressList: 'dev/xcx/address/list', // 查询收货地址
 	postAddressSave: 'dev/xcx/address/save', // 更新或新增收货地址
@@ -57,7 +66,7 @@ const API = {
 	getMyPhoneNumber: 'dev/xcx/my/phoneNumber', // 查询联系我们手机号
 
 	getMyAboutMini: 'dev/xcx/my/aboutMini', // 关于小程序或帮助中心(传0是关于小程序，其它是返回值的pid)
-	
+
 	getComplaintList: 'dev/xcx/complaint/list', // 获取投诉信息列表
 	postComplaintCreate: 'dev/xcx/complaint/create', // 投诉添加
 

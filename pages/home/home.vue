@@ -147,7 +147,8 @@
 		OpenPage,
 		setStorage,
 		getStorage,
-		getAddressAuthorize
+		getAddressAuthorize,
+		WxLogin
 	} from '@/common/fun.js';
 	export default {
 		data() {
@@ -250,11 +251,8 @@
 		methods: {
 			async getFoods() {
 				try {
-					const resultFoods = await this.$http(this.$API.postProductFoodList, {
-						current: 0,
-						size: 4,
-					}, 'POST');
-					this.foods = resultFoods.data;
+					const resultFoods = await this.$http(this.$API.getHotSjList);
+					this.foods = resultFoods.data.list;
 				} catch (e) {
 					//TODO handle the exception
 				}
@@ -271,46 +269,13 @@
 				}
 			},
 			async openType(item, index) {
-				if (item.open == '/pages/home/landing/landing') {
+				if (item.open == '/pages/home/landing/landing' || item.open == '/pagesShip/ship-list') {
 					let _this = this;
 					if (this.wechat_userInfo) {
 						OpenPage(item.open)
 						return;
 					}
-					uni.getUserProfile({
-						desc: '需要获取您的个人信息',
-						success(res) {
-							uni.login({
-								provider: 'weixin',
-								success: async function(loginRes) {
-									let data = {
-										code: loginRes.code,
-										shareUserId: 0,
-										userInfo: {
-											phone: "",
-											registerDate: "",
-											status: 0,
-											userId: 0,
-											userLevel: 0,
-											userLevelDesc: "",
-											...res.userInfo
-										}
-									}
-									const result = await _this.$http(_this.$API.postLoginByWeixin,
-										data,
-										'POST');
-									_this.wechat_userInfo = result.data.userInfo;
-									setStorage('wechat_userInfo', result.data.userInfo)
-								},
-								fail(err) {
-									console.log(err)
-								}
-							});
-						},
-						fail(err) {
-							console.log(err)
-						}
-					})
+					WxLogin(this)
 					return;
 				}
 

@@ -15,11 +15,13 @@ const mutations = {
 	ADD_MALL_CART(state, payload) {
 		if (state.mallSelectList.length === 0) {
 			payload.count = 1;
+			payload.isAcitve = false
 			state.mallSelectList.push(payload)
 		} else {
 			let findIndex = state.mallSelectList.findIndex(item => item.id === payload.id)
 			if (findIndex < 0) {
 				payload.count = 1;
+				payload.isAcitve = false
 				state.mallSelectList.push(payload)
 			} else {
 				state.mallSelectList = state.mallSelectList.map((item, index) => {
@@ -81,18 +83,26 @@ const mutations = {
 	},
 	SELECT_MALL_CART(state, payload) {
 		state.mallSelectList.map(item => {
-			if (item.id === payload.id) {
-				item.isAcitve = item.isAcitve ? false : true;
+			if (item.id == payload.id) {
+				item.isAcitve = payload.isAcitve ? false : true;
 				item.isAcitve ? state.sellectCount++ : state.sellectCount--;
 			}
 			return item;
 		})
-
 		if (state.sellectCount == state.mallSelectList.length) {
 			state.isSelectAll = true;
 		} else {
 			state.isSelectAll = false
 		}
+	},
+	PAY_MALL_CART(state, payload) {
+		let afterBuy = [];
+		state.mallSelectList.forEach(item => {
+			if (!item.isAcitve) {
+				afterBuy.push(item)
+			}
+		})
+		state.mallSelectList = afterBuy;
 	}
 }
 const getters = {
@@ -105,10 +115,10 @@ const getters = {
 		state.mallSelectList.forEach(item => {
 			if (item.isAcitve) {
 				let fen = item.retailPrice * 100; //价格单位是分
-				money += item.count * fen / 100;
+				money += item.count * fen;
 			}
 		})
-		state.totalMoney = money;
+		state.totalMoney = money / 100;
 		return state.totalMoney;
 	},
 }
@@ -142,6 +152,11 @@ const actions = {
 		} else {
 			commit('SELECT_MALL_CART', param)
 		}
+	},
+	PAY_MALL_CART({
+		commit,
+	}) {
+		commit('PAY_MALL_CART')
 	},
 }
 

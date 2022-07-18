@@ -149,7 +149,7 @@
 				this.formData.cityId = this.cityList[this.region[1]].id;
 				this.formData.areaId = this.areaList[this.region[2]].id;
 				this.showRegion =
-					`${this.provinceList[this.region[0]].name}-${this.cityList[this.region[0]].name}-${this.areaList[this.region[0]].name}`;
+					`${this.provinceList[this.region[0]].name}-${this.cityList[this.region[1]].name}-${this.areaList[this.region[2]].name}`;
 				this.formData.showRegion = this.showRegion;
 				this.cancel()
 			},

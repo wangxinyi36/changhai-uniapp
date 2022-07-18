@@ -1,37 +1,21 @@
 <template>
 	<view>
 		<view class="u1">
-			<view class="u1-top">
-				<view class="u1-top-title">流水班</view>
-				<view class="u1-top-box">
-					<image src="../static/ship-icon3.png" mode="aspectFill" class="u1-top-box-img"></image>
-					<view class="u1-top-title">18:10</view>
-				</view>
-				<view class="u1-top-box">
-					<image src="../static/ship-icon4.png" mode="aspectFill" class="u1-top-box-img"></image>
-					<view class="u1-top-title">23:20</view>
-				</view>
-			</view>
 			<view class="u1-middle">
 				<view class="u1-middle-left">
-					<view class="u1-top-title">7月04日</view>
-					<view class="u1-top-title">今天</view>
-					<view class="u1-top-title">周一</view>
-				</view>
-				<view class="u1-middle-right">
-					<image src="/static/ship-icon5.png" mode="aspectFill" class="u1-middle-right-img"></image>
-					<view class="u1-top-title">8分钟</view>
+					<view class="u1-top-title">{{dealTime(ticketForm.startDate)}}</view>
+					<view class="u1-top-title">{{detail.departuretime}}-{{detail.arrivaltime}}</view>
 				</view>
 			</view>
 			<view class="u1-bottom">
 				<view class="u1-bottom-left">
 					<image src="/static/ship-icon6.png" mode="aspectFill" class="u1-bottom-left-img"></image>
 					<view class="u1-bottom-left-box">
-						<view class="u1-bottom-left-box-text">厦门轮渡码头</view>
-						<view class="u1-bottom-left-box-text">三丘田码头</view>
+						<view class="u1-bottom-left-box-text">{{detail.pointoriginName}}</view>
+						<view class="u1-bottom-left-box-text">{{detail.todestinationName}}</view>
 					</view>
 				</view>
-				<view class="u1-bottom-right">普通舱往返票</view>
+				<view class="u1-bottom-right">{{detail.shiptype}}</view>
 			</view>
 		</view>
 		<view class="u2">
@@ -61,7 +45,7 @@
 		<view class="bottom">
 			<view class="bottom-tip">请添加所有乘船乘客信息，未录入信息的乘客不能登船</view>
 			<view class="bottom-box">
-				<view class="bottom-left">¥30</view>
+				<view class="bottom-left">¥{{detail.uutprice/100}}</view>
 				<view class="bottom-right">去支付</view>
 			</view>
 		</view>
@@ -84,15 +68,28 @@
 				}, {
 					name: '张三岁',
 					idCard: '2929********2829'
-				}]
+				}],
+				ticketForm: {},
+				detail: {}
 			};
 		},
 		onLoad(options) {
-			uni.setNavigationBarTitle({
-				title: '厦门-鼓浪屿'
+			const _this = this;
+			const eventChannel = this.getOpenerEventChannel();
+			eventChannel.on('sendParams', data => {
+				_this.ticketForm = data.ticketForm;
+				_this.detail = data.item;
+				uni.setNavigationBarTitle({
+					title: `${data.item.pointoriginName}-${data.item.todestinationName}`
+				})
+				console.log(data)
 			})
 		},
 		methods: {
+			dealTime(val) {
+				let time = val.split('-')
+				return `${time[0]}月${time[1]}日`;
+			},
 			select(item, index) {
 				this.$set(item, 'isActive', !item.isActive)
 			},
@@ -116,38 +113,12 @@
 </style>
 <style lang="scss" scoped>
 	.u1 {
-		padding: 38rpx 25rpx;
+		padding: 0 25rpx 38rpx 25rpx;
 		background-color: #fff;
-
-		&-top {
-			@extend .default-flex;
-
-			&-title {
-				font: normal 400 27rpx/38rpx PingFangSC-Regular, PingFang SC;
-				color: #343434;
-				margin-right: 33rpx;
-			}
-
-			&-box {
-				margin-right: 36rpx;
-				@extend .default-flex;
-
-				&-img {
-					width: 25rpx;
-					height: 25rpx;
-					margin-right: 9rpx;
-				}
-
-				.u1-top-title {
-					margin-right: unset;
-				}
-			}
-		}
 
 		&-middle {
 			@extend .default-flex;
 			justify-content: space-between;
-			margin-top: 18rpx;
 
 			&-left {
 				@extend .default-flex;
@@ -169,7 +140,7 @@
 		}
 
 		&-bottom {
-			margin-top: 45rpx;
+			margin-top: 20rpx;
 			display: flex;
 			justify-content: space-between;
 			align-items: flex-end;

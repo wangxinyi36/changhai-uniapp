@@ -1,57 +1,66 @@
 <template>
 	<view>
-		<view class="u63" @click="add">
-			<view class="u63-btn" v-if="!address.id">添加收货地址</view>
-			<view class="u22" v-else>
-				<view class="u22-name">{{address.name}}</view>
-				<view class="u22-address">{{address.address}}</view>
-				<!-- 				<view class="u22-address">{{address.province}}{{address.city}}{{address.area}}{{address.address}}</view> -->
+		<view class="u63">
+			<view class="u22">
+				<view class="u22-name">{{order.consignee}}</view>
+				<view class="u22-address">{{order.address}}</view>
 			</view>
 		</view>
 
 		<view class="u9">
 			<view class="u9-title">商品信息</view>
-			<view class="u27" v-for="item in goodsList" :key="item.id">
-				<image :src="item.picUrl" mode="aspectFill" class="u27-img"></image>
-				<view class="u27-right">
-					<view class="u29">{{item.name}}</view>
-					<view class="u31">
-						<view class="u31-money">￥{{item.retailPrice}}</view>
-						<view class="u31-count">×{{item.count || '1'}}</view>
+			<view class="u26" v-for="item in orderGoods" :key="item.id">
+				<view class="u27">
+					<image :src="item.picUrl" mode="aspectFill" class="u27-img"></image>
+					<view class="u27-right">
+						<view class="u29">{{item.goodsName}}</view>
+						<view class="u31">
+							<view class="u31-money">￥{{item.price}}</view>
+							<view class="u31-count">×{{item.number}}</view>
+						</view>
 					</view>
 				</view>
+				<view class="u26-btn">
+					<view class="u241" @click="evaluate(item.id)" v-if="order.orderStatus === 201">立即评价</view>
+				</view>
 			</view>
+
 			<view class="u33">
-				<view class="u33-item">
+				<view class="u33-item" v-if="order.message">
 					<view class="u33-title">订单备注</view>
-					<input class="u33-text" v-model="orderForm.message" placeholder-class="u33-placeholder"
-						placeholder="请和商家协商一致" />
+					<input class="u33-text" v-model="order.message" placeholder-class="u33-placeholder"
+						:disabled="true" />
 				</view>
 				<view class="u33-item">
 					<view class="u33-title">商品合计</view>
+					<view class="u33-text u33-text-money">￥{{order.orderPrice}}</view>
 				</view>
-				<view class="u33-item u33-pay">
-					<view class="u47-box" v-for="item,index in payList" :key="index" @click="choose(index)">
-						<view class="u47-box-left">
-							<image :src="item.url" mode="aspectFill" class="icon-wechat"></image>
-							<view class="u47-box-left-text">{{item.name}}</view>
-						</view>
-						<image :src="payIndex == index ? chooseActiveIcon: chooseIcon" mode="aspectFill"
-							class="u47-box-choose">
-						</image>
+				<view class="u33-item">
+					<view class="u33-title">下单时间</view>
+					<view class="u33-text">{{dealTime(order.addTime)}}</view>
+				</view>
+				<view class="u33-item">
+					<view class="u33-title">订单状态</view>
+					<view class="u33-text"
+						:class="[{'u178-cancel':order.orderStatus === 102 || order.orderStatus === 101},{'u178-done':order.orderStatus === 201}]">
+						{{order.orderStatus === 101 ? '待支付' : order.orderStatus === 102 ? '已取消': order.orderStatus === 201 ? '已完成' : ''}}
 					</view>
+				</view>
+				<view class="u33-item">
+					<view class="u33-title">订单编号</view>
+					<view class="u33-text">{{order.orderSn}}</view>
 				</view>
 			</view>
 		</view>
 
-		<view class="bottom">
+		<view class="bottom" v-if="order.orderStatus === 101">
 			<view class="bottom-left">
 				<view class="bottom-left-text" v-if="type == 'list'">实付金额：<text
 						style="color: #D9001B;">￥{{getMoney}}</text></view>
 				<view class="bottom-left-text" v-if="type == 'detail'">实付金额：<text
 						style="color: #D9001B;">￥{{goodsList[0].retailPrice}}</text></view>
 			</view>
-			<view class="bottom-right" @click="buy">立即购买</view>
+			<view class="bottom-right" @click="buy" v-if="order.orderStatus === 101">立即付款</view>
 		</view>
 	</view>
 </template>
@@ -70,6 +79,7 @@
 	export default {
 		data() {
 			return {
+				id: '', //订单详情
 				payList: [{
 					name: '微信支付',
 					url: '/static/icon-wechat.svg',
@@ -77,94 +87,56 @@
 				payIndex: 0,
 				chooseIcon: '/static/icon-choose-no.svg',
 				chooseActiveIcon: '/static/icon-choose.svg',
-				address: {},
 
-				goodsList: [], //{ id: 0, name: "", num: 1, picUrl: "", retailPrice: 0 }
-				type: '', //detail详情 list列表
+				order: {},
+				orderGoods: [],
+				user: {},
 
-				orderForm: {
-					addrId: "",
-					goodsList: [],
-					message: "",
-					openId: "",
-					payType: 1,
-					userId: ''
-				},
-
+				isReload: false,
 			}
 		},
-		onLoad() {
-			const _this = this;
-			let wechat_userInfo = getStorage('wechat_userInfo')
-			let wechat_openId = getStorage('wechat_openId')
-			this.orderForm.userId = wechat_userInfo.userId;
-			this.orderForm.openId = wechat_openId;
-
-			const eventChannel = this.getOpenerEventChannel();
-			eventChannel.on('sendParams', function(data) {
-				_this.goodsList = data.goodsList || [];
-				_this.type = data.type;
-			})
-		},
-		computed: {
-			...mapState({
-				mallList: state => state.mallCart.mallSelectList, //购物车列表
-			}),
-			...mapGetters(['getMoney'])
+		onLoad(options) {
+			this.id = options.id;
+			this.getDetail();
 		},
 		methods: {
-			async buy() {
-				if (!this.address.id) {
-					showToast('请选择地址~');
-					return;
-				}
+			async getDetail() {
 				try {
 					let {
-						orderForm,
-						goodsList
+						id
 					} = this.$data;
-
-					let list = goodsList.map(item => {
-						return {
-							id: item.id,
-							name: item.name,
-							num: item.count,
-							picUrl: item.picUrl,
-							retailPrice: item.retailPrice
-						}
-					})
-					orderForm.goodsList = list;
-					const result = await this.$http(this.$API.postOrderSave, orderForm, 'POST');
-					
-					this.$store.dispatch('PAY_MALL_CART')
-					
-					uni.requestPayment({
-						provider: "wxpay",
-						...result.data,
-						success(res) {
-							OpenPage('/pagesStay/home-stay/pay-suc')
-						},
-						fail(e) {
-							console.log(e)
-						}
-					})
+					const result = await this.$http(this.$API.getOrderDetail, {
+						id
+					});
+					this.order = result.data.order;
+					this.orderGoods = result.data.orderGoods;
+					this.user = result.data.user;
 				} catch (e) {
 					console.log(e)
 					//TODO handle the exception
 				}
 			},
-			add() {
-				let _this = this;
-				OpenPage(`/pagesStay/home-stay/home-stay-people?from=mallOrder`).then(
-					res => {
-						_this.address = res.address;
-						_this.orderForm.addrId = res.address.id;
-					})
-				// OpenPage(`/pagesStay/home-stay/home-stay-people?goodsId=${this.goodsDetail.id}&from=mallOrder`).then(
-				// 	res => {
-				// 		_this.address = res.address;
-				// 		_this.orderForm.addrId = res.address.id;
-				// 	})
+			dealTime(val) {
+				if (val) {
+					return `${val[0]}-${val[1]}-${val[2]} ${val[3]}:${val[4]}:${val[5]}`
+				}
+			},
+			evaluate(id) {
+				const _this = this;
+				OpenPage(`/pages/my/evaluate?id=${id}`).then(res => {
+					if (res.isReload) {
+						_this.isReload = res.isReload;
+						_this.getDetail()
+					}
+				})
+			}
+		},
+		onUnload() {
+			if (this.isReload) {
+				const eventChannel = this.getOpenerEventChannel();
+				eventChannel.emit('getParams', {
+					isReload: true
+				})
 			}
 		}
 	}
@@ -214,26 +186,49 @@
 		}
 	}
 
-	.u27 {
-		margin-top: 20rpx;
-		display: flex;
+	.u26 {
+		border-bottom: 2rpx solid #f2f2f2;
+		padding-bottom: 10rpx;
 
-		&-img {
-			width: 156rpx;
-			height: 156rpx;
-			margin-right: 30rpx;
+		&-btn {
+			@extend .default-flex;
+			align-items: center;
+			justify-content: flex-end;
+
+			.u241 {
+				width: 158rpx;
+				height: 46rpx;
+				background-color: rgba(255, 141, 61, 1);
+				border-radius: 120rpx;
+				font-size: 28rpx;
+				color: #FFFFFF;
+				text-align: center;
+				line-height: 46rpx;
+				margin: 10rpx;
+			}
 		}
 
-		&-right {
-			flex: 1;
+		.u27 {
+			margin-top: 20rpx;
 			display: flex;
-			justify-content: space-between;
 
-			.u31-money,
-			.u31-count {
-				font: normal 400 30rpx/normal '微软雅黑', sans-serif;
-				text-align: right;
-				color: #555;
+			&-img {
+				width: 156rpx;
+				height: 156rpx;
+				margin-right: 30rpx;
+			}
+
+			&-right {
+				flex: 1;
+				display: flex;
+				justify-content: space-between;
+
+				.u31-money,
+				.u31-count {
+					font: normal 400 30rpx/normal '微软雅黑', sans-serif;
+					text-align: right;
+					color: #555;
+				}
 			}
 		}
 	}
@@ -242,8 +237,8 @@
 		&-item {
 			@extend .default-flex;
 			justify-content: space-between;
-			border-bottom: 2rpx solid rgba(242, 242, 242, 1);
-			padding: 30rpx 0 4rpx 0;
+			border-top: 2rpx solid rgba(242, 242, 242, 1);
+			padding: 20rpx 0;
 		}
 
 		&-title {
@@ -254,6 +249,18 @@
 		&-text {
 			flex: 1;
 			text-align: right;
+		}
+
+		&-text-money {
+			color: #CD492C;
+		}
+
+		.u178-cancel {
+			color: #31D0E6;
+		}
+
+		.u178-done {
+			color: #FF8D3D;
 		}
 
 		&-pay {

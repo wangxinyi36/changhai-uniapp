@@ -2,28 +2,29 @@
 	<view class="common-order">
 		<!-- 民宿 美食 商城 -->
 		<view class="u81">
-			<view class="u81-top">
-				<image :src="order.url" mode="aspectFill" class="u81-top-img"></image>
+			<view class="u81-top" @click="pageDetail">
+				<image :src="order.goods[0].picUrl" mode="aspectFill" class="u81-top-img"></image>
 				<view class="u178">
 					<view class="u178-name">
-						<view>{{order.name}}</view>
-						<view class="u178-status" v-if="order.status !== 1"
-							:class="[{'u178-cancel':order.status === 3}]">
-							{{order.status === 2 ? '已完成' : order.status === 3 ? '已取消': order.status === 4 ? '已完成' : ''}}
+						<view class="u178-name-title">{{dealName()}}</view>
+						<view class="u178-status"
+							:class="[{'u178-cancel':order.orderStatus === 102 || order.orderStatus === 101}]">
+							{{order.orderStatus === 101 ? '待支付' : order.orderStatus === 102 ? '已取消': order.orderStatus === 201 ? '已完成' : ''}}
 						</view>
 					</view>
-					<view class="u178-name">单时间：{{dealTime(order.addTime)}}</view>
+					<view class="u178-name">下单时间：{{dealTime(order.addTime)}}</view>
 					<view class="u178-pay">{{`￥${order.goodsPrice}`}}</view>
 				</view>
 			</view>
 			<view class="u81-bottom">
-				<view class="u242">{{ order.status === 1 ? `剩余时间:${order.leftTime}` : ''}}</view>
-				<view class="u241" v-if="order.status !== 3 && order.status !== 4" @click="operate">
-					{{order.status === 1 ? '立即付款':'立即评价'}}
+				<view class="u242">{{ order.orderStatus === 1 ? `剩余时间:${order.leftTime}` : ''}}</view>
+				<view class="u240">
+					<view class="u241 u241-cancel" @click="cancel" v-if="order.orderStatus === 101">取消订单</view>
+					<view class="u241" @click="buy" v-if="order.orderStatus === 101">立即付款</view>
+					<view class="u241" @click="pageDetail" v-if="order.orderStatus === 201">立即评价</view>
 				</view>
 			</view>
 		</view>
-		<!-- 船票 -->
 	</view>
 </template>
 
@@ -45,10 +46,27 @@
 			dealTime(val) {
 				return `${val[0]}-${val[1]}-${val[2]} ${val[3]}:${val[4]}:${val[5]}`
 			},
-			operate() {
-				if (this.order.status !== 1) {
-					OpenPage(`/pages/my/evaluate`)
+			dealName() {
+				let name = this.order.goods[0].goodsName;
+				if (this.order.goods.length == 1) {
+					return name;
+				} else {
+					return `${name}等${this.order.goods.length}个商品`
 				}
+			},
+			buy() {
+
+			},
+			pageDetail() {
+				const _this = this;
+				OpenPage(`/pages/my/order-detail?id=${this.order.id}`).then(res => {
+					if (res.isReload) {
+						_this.$emit('reload')
+					}
+				})
+			},
+			cancel() {
+				this.$emit('cancel', this.order)
 			}
 		}
 	}
@@ -86,6 +104,10 @@
 						color: #000;
 						@extend .default-flex;
 						justify-content: space-between;
+
+						&-title {
+							flex: 1;
+						}
 					}
 
 					&-pay {
@@ -116,16 +138,28 @@
 					text-align: left;
 				}
 
-				.u241 {
-					width: 158rpx;
-					height: 46rpx;
-					background-color: rgba(255, 141, 61, 1);
-					border-radius: 120rpx;
-					font-size: 28rpx;
-					color: #FFFFFF;
-					text-align: center;
-					line-height: 46rpx;
+				.u240 {
+					@extend .default-flex;
+					justify-content: flex-end;
+
+					.u241 {
+						width: 158rpx;
+						height: 46rpx;
+						background-color: rgba(255, 141, 61, 1);
+						border-radius: 120rpx;
+						font-size: 28rpx;
+						color: #FFFFFF;
+						text-align: center;
+						line-height: 46rpx;
+						margin-left: 20rpx;
+					}
+
+					.u241-cancel {
+						background-color: #e2dedc;
+					}
 				}
+
+
 			}
 		}
 	}

@@ -140,39 +140,7 @@
 					})
 					return;
 				}
-				uni.getUserProfile({
-					desc: '需要获取您的个人信息',
-					success(res) {
-						uni.login({
-							provider: 'weixin',
-							success: async function(loginRes) {
-								let data = {
-									code: loginRes.code,
-									shareUserId: 0,
-									userInfo: {
-										phone: "",
-										registerDate: "",
-										status: 0,
-										userId: 0,
-										userLevel: 0,
-										userLevelDesc: "",
-										...res.userInfo
-									}
-								}
-								const result = await _this.$http(_this.$API.postLoginByWeixin, data,
-									'POST');
-								_this.wechat_userInfo = result.data.userInfo;
-								setStorage('wechat_userInfo', result.data.userInfo)
-							},
-							fail(err) {
-								console.log(err)
-							}
-						});
-					},
-					fail(err) {
-						console.log(err)
-					}
-				})
+				WxLogin(this)
 			},
 			async clickMark(e) {
 				let markItem = this.marker[0];

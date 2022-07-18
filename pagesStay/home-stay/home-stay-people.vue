@@ -49,7 +49,6 @@
 		onLoad(options) {
 			this.userId = getStorage('wechat_userInfo').userId;
 			this.from = options.from;
-			console.log(options)
 			if (this.from == 'mallOrder') {
 				uni.setNavigationBarTitle({
 					title: '收货地址'
@@ -64,6 +63,7 @@
 		},
 		methods: {
 			add() {
+				const _this = this;
 				OpenPage(`/pagesStay/home-stay/home-stay-address`).then((res) => {
 					if (res.isReload) {
 						_this.page = 1;

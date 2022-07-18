@@ -36,7 +36,8 @@
 		getStorage,
 		setStorage,
 		showToast,
-		removeStorage
+		removeStorage,
+		WxLogin
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -57,40 +58,7 @@
 					this.openPage(url)
 					return;
 				}
-				uni.getUserProfile({
-					desc: '需要获取您的个人信息',
-					success(res) {
-						uni.login({
-							provider: 'weixin',
-							success: async function(loginRes) {
-								let data = {
-									code: loginRes.code,
-									shareUserId: 0,
-									userInfo: {
-										phone: "",
-										registerDate: "",
-										status: 0,
-										userId: 0,
-										userLevel: 0,
-										userLevelDesc: "",
-										...res.userInfo
-									}
-								}
-								const result = await _this.$http(_this.$API.postLoginByWeixin, data,
-									'POST');
-								_this.wechat_userInfo = result.data.userInfo;
-								setStorage('wechat_userInfo', result.data.userInfo)
-							},
-							fail(err) {
-								console.log(err)
-							}
-						});
-					},
-					fail(err) {
-						console.log(err)
-					}
-				})
-
+				WxLogin(this)
 			},
 			async openPage(url) {
 				if (this.wechat_userInfo) {
@@ -101,6 +69,7 @@
 			},
 			exist(e) {
 				removeStorage('wechat_userInfo');
+				removeStorage('wechat_openId');
 				this.wechat_userInfo = ''
 			},
 			call() {
@@ -124,47 +93,7 @@
 					})
 					return;
 				}
-				uni.getUserProfile({
-					desc: '需要获取您的个人信息',
-					success(res) {
-						uni.login({
-							provider: 'weixin',
-							success: async function(loginRes) {
-								try {
-									let data = {
-										code: loginRes.code,
-										shareUserId: 0,
-										userInfo: {
-											phone: "",
-											registerDate: "",
-											status: 0,
-											userId: 0,
-											userLevel: 0,
-											userLevelDesc: "",
-											...res.userInfo
-										}
-									}
-									const result = await _this.$http(_this.$API.postLoginByWeixin,
-										data,
-										'POST');
-									console.log(result)
-									_this.wechat_userInfo = result.data.userInfo;
-									setStorage('wechat_userInfo', result.data.userInfo)
-								} catch (e) {
-									console.log(e)
-									//TODO handle the exception
-								}
-							},
-							fail(err) {
-								console.log(err)
-							}
-						});
-					},
-					fail(err) {
-						console.log(err)
-					}
-				})
-
+				WxLogin(this)
 			}
 		}
 	}

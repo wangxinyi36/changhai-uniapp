@@ -114,7 +114,11 @@
 					showToast('请选择商品~')
 					return;
 				}
-				OpenPage('/pagesStay/home-stay/pay-suc');
+				let goods = this.list.filter(item => item.isAcitve)
+				OpenPage(`/pages/mall/order`, {
+					goodsList: goods,
+					type: 'list'
+				})
 			}
 		},
 		onUnload() {

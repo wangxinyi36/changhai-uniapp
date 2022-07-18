@@ -261,16 +261,21 @@
 			"enablePullDownRefresh": false
 		}
 
-	}    ,{
-            "path" : "pages/my/help-detail",
-            "style" :                                                                                    
-            {
-                "navigationBarTitleText": "详情",
-                "enablePullDownRefresh": false
-            }
-            
-        }
-    ],
+	}, {
+		"path": "pages/my/help-detail",
+		"style": {
+			"navigationBarTitleText": "详情",
+			"enablePullDownRefresh": false
+		}
+
+	}, {
+		"path": "pages/my/order-detail",
+		"style": {
+			"navigationBarTitleText": "订单详情",
+			"enablePullDownRefresh": false
+		}
+
+	}],
 	"subPackages": [{
 		"root": "pagesStay",
 		"pages": [{
@@ -333,7 +338,7 @@
 			"path": "ship-list",
 			"style": {
 				"navigationBarTitleText": "订票信息",
-				"enablePullDownRefresh": false
+				"enablePullDownRefresh": true
 			}
 
 		}, {
@@ -343,16 +348,14 @@
 				"enablePullDownRefresh": false
 			}
 
-		}    ,{
-                    "path" : "passenger",
-                    "style" :                                                                                    
-                {
-                    "navigationBarTitleText": "乘客信息",
-                    "enablePullDownRefresh": false
-                }
-                
-                }
-            ]
+		}, {
+			"path": "passenger",
+			"style": {
+				"navigationBarTitleText": "乘客信息",
+				"enablePullDownRefresh": false
+			}
+
+		}]
 	}],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

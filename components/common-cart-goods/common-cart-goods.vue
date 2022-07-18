@@ -42,8 +42,8 @@
 			add() {
 				this.$emit('add', this.goods)
 			},
-			check(item) {
-				this.$store.dispatch('SELECT_MALL_CART', this.goods)
+			check() {
+				this.$emit('check', this.goods)
 			}
 		}
 	}
