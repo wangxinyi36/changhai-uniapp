@@ -24,8 +24,8 @@ const mutations = {
 				payload.isAcitve = false
 				state.mallSelectList.push(payload)
 			} else {
-				state.mallSelectList = state.mallSelectList.map((item, index) => {
-					if (index === findIndex) {
+				state.mallSelectList.map((item, index) => {
+					if (index == findIndex) {
 						item.count++;
 					}
 					return item;
@@ -103,6 +103,7 @@ const mutations = {
 			}
 		})
 		state.mallSelectList = afterBuy;
+		setStorage('mallSelectList', state.mallSelectList)
 	}
 }
 const getters = {

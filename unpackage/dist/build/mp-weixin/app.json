@@ -37,7 +37,8 @@
         "pages/my/coupon",
         "pages/my/complaint-now",
         "pages/mall/order",
-        "pages/my/help-detail"
+        "pages/my/help-detail",
+        "pages/my/order-detail"
     ],
     "subPackages": [
         {

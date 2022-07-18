@@ -152,7 +152,11 @@
 						this.$store.dispatch('ADD_MALL_CART', this.goodsDetail)
 					} else {
 						if (this.show) {
-							let list = this.goods.filter(item => item.isAcitve)
+							let list = this.goods.filter(item => item.isAcitve);
+							if (list.length <= 0) {
+								showToast('请选择商品~');
+								return;
+							}
 							OpenPage(`/pages/mall/order`, {
 								goodsList: list,
 								type: 'list'

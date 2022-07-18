@@ -23,9 +23,7 @@
 <script>
 	export default {
 		name: "common-cart-goods",
-		props: {
-			goods: Object
-		},
+		props: ['goods'],
 		data() {
 			return {
 				icon: '/static/u103.svg',
