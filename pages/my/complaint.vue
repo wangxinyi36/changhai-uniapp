@@ -8,7 +8,7 @@
 				<view class="complaint-item" v-for="item,index in list" :key="index" @click="openPage(item)">
 					<view class="u109">
 						<view class="u109-name">{{item.cptContent}}</view>
-						<view class="u109-text">回复内容：{{item.reply}}</view>
+						<view class="u109-text" v-if="item.reply">回复内容：{{item.reply}}</view>
 					</view>
 					<view class="u109">
 						<view class="u109-status" :class="[{'u109-finish':item.cptStatus == 20}]">

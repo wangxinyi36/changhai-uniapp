@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "民宿",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons",
-    "common-dropdown": "/components/common-dropdown/common-dropdown",
-    "common-home-item": "/components/common-home-item/common-home-item"
-  }
-}

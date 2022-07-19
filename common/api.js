@@ -10,6 +10,10 @@ const API = {
 	getTralRotationList: 'dev/xcx/tral/rotationlist', // 查询精品路线轮播列表
 
 	getSteamerTicketList: 'dev/xcx/product/getSteamerTicketList', // 获取船票列表
+	postPassengerCreate: 'dev/xcx/passenger/create', // 添加乘客信息
+	getPassengerList: 'dev/xcx/passenger/queryByUserId', // 获取乘客信息列表
+	postPassengerUpdate: 'dev/xcx/passenger/update', // 修改乘客信息
+	getPassengerDelete: 'dev/xcx/passenger/delete', // 删除乘客信息
 
 	getAdList: 'dev/xcx/ad/list', // 查询活动列表
 	getAdRead: 'dev/xcx/ad/read', // 查询活动详情

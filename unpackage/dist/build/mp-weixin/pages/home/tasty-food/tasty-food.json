@@ -1,9 +1,0 @@
-{
-  "navigationBarTitleText": "美食",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "uni-icons": "/uni_modules/uni-icons/components/uni-icons/uni-icons",
-    "common-food-dropdown": "/components/common-food-dropdown/common-food-dropdown",
-    "common-food-item": "/components/common-food-item/common-food-item"
-  }
-}

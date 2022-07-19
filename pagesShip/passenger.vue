@@ -2,13 +2,13 @@
 	<view>
 		<view class="u1">
 			<uni-forms ref="form" :rules="rules" :model="dataForm">
-				<uni-forms-item label="姓名" name="name">
-					<uni-easyinput v-model="dataForm.name" :inputBorder="false" :clearable="false"
+				<uni-forms-item label="姓名" name="passengerName">
+					<uni-easyinput v-model="dataForm.passengerName" :inputBorder="false" :clearable="false"
 						placeholder="请输入姓名" />
 				</uni-forms-item>
-				<uni-forms-item label="身份证号" name="idCard">
-					<uni-easyinput v-model="dataForm.idCard" :inputBorder="false" type="idcard" :clearable="false"
-						placeholder="请输入身份证号" maxlength="18" />
+				<uni-forms-item label="身份证号" name="passengerIdCard">
+					<uni-easyinput v-model="dataForm.passengerIdCard" :inputBorder="false" type="idcard"
+						:clearable="false" placeholder="请输入身份证号" maxlength="18" />
 				</uni-forms-item>
 			</uni-forms>
 			<view class="bottom">
@@ -20,17 +20,20 @@
 </template>
 
 <script>
+	import {
+		showToast
+	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
 				rules: {
-					name: {
+					passengerName: {
 						rules: [{
 							required: true,
 							errorMessage: '姓名不能为空'
 						}]
 					},
-					idCard: {
+					passengerIdCard: {
 						rules: [{
 							required: true,
 							errorMessage: '身份证号不能为空'
@@ -38,20 +41,47 @@
 					}
 				},
 				dataForm: {
-					name: '',
-					idCard: ''
+					passengerName: '',
+					passengerIdCard: '',
 				}
 			};
+		},
+		onLoad() {
+			const _this = this;
+			const eventChannel = this.getOpenerEventChannel();
+			eventChannel.on('sendParams', data => {
+				if (data) {
+					_this.dataForm = data;
+				}
+			})
 		},
 		methods: {
 			confirm(ref) {
 				let _this = this;
-				this.$refs[ref].validate().then(res => {
-					const eventChannel = _this.getOpenerEventChannel();
-					eventChannel.emit('getParams', {
-						personal:_this.dataForm
-					})
-					uni.navigateBack()
+				this.$refs[ref].validate().then(async res => {
+					try {
+						let {
+							dataForm
+						} = _this.$data;
+
+						if (dataForm.id) {
+							const result = await _this.$http(_this.$API.postPassengerUpdate, dataForm, 'POST');
+							showToast('编辑成功~');
+						} else {
+							const result = await _this.$http(_this.$API.postPassengerCreate, dataForm, 'POST');
+							showToast('添加成功~');
+						}
+						setTimeout(() => {
+							const eventChannel = _this.getOpenerEventChannel();
+							eventChannel.emit('getParams', {
+								isReload: true
+							})
+							uni.navigateBack()
+						}, 1500)
+						console.log(result)
+					} catch (e) {
+						//TODO handle the exception
+					}
 				}).catch(err => {
 					console.log('err', err);
 				})

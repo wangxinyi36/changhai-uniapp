@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "租车",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "common-tree-select": "/components/common-tree-select/common-tree-select"
-  }
-}

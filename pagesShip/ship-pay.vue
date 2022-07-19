@@ -21,19 +21,24 @@
 		<view class="u2">
 			<view class="u2-title">
 				<view class="u2-title-name">选择乘客</view>
-				<view class="u2-title-value">一单最多添加5人</view>
 			</view>
 			<view class="u2-list">
-				<view class="u2-item" v-for="item,index in list" :key="index"
+				<view class="u2-item" v-for="item,index in list" :key="item.id"
 					:class="[{'u2-item-border':index != list.length - 1}]">
 					<view class="u2-item-left" @click="select(item,index)">
 						<image :src="item.isActive ? selectActiveIcon : selectIcon" mode="aspectFill"
 							class="u2-item-left-img"></image>
-						<view class="u2-item-left-name">{{item.name}}</view>
-						<view class="u2-item-left-card">{{item.idCard}}</view>
+						<view class="u2-item-left-name">{{item.passengerName}}</view>
+						<view class="u2-item-left-card">{{item.passengerIdCard}}</view>
 					</view>
-					<image src="/static/ship-icon7.png" mode="aspectFill" class="u2-item-right-img" @click="edit(item)">
-					</image>
+					<view class="u2-item-right">
+						<image src="/static/ship-del.svg" mode="aspectFill" class="u2-item-right-del"
+							@click="del(item)">
+						</image>
+						<image src="/static/ship-icon7.png" mode="aspectFill" class="u2-item-right-img"
+							@click="edit(item)">
+						</image>
+					</view>
 				</view>
 				<view class="u2-btn" @click="add">
 					<image src="/static/ship-icon9.png" mode="aspectFill" class="u2-btn-img"></image>
@@ -46,7 +51,7 @@
 			<view class="bottom-tip">请添加所有乘船乘客信息，未录入信息的乘客不能登船</view>
 			<view class="bottom-box">
 				<view class="bottom-left">¥{{detail.uutprice/100}}</view>
-				<view class="bottom-right">去支付</view>
+				<view class="bottom-right" @click="pay">去支付</view>
 			</view>
 		</view>
 	</view>
@@ -54,7 +59,9 @@
 
 <script>
 	import {
-		OpenPage
+		OpenPage,
+		getStorage,
+		showToast
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -62,18 +69,16 @@
 				title: '',
 				selectIcon: '/static/ship-icon8.png',
 				selectActiveIcon: '/static/ship-icon8-active.png',
-				list: [{
-					name: '张三岁',
-					idCard: '2929********2829'
-				}, {
-					name: '张三岁',
-					idCard: '2929********2829'
-				}],
+				list: [],
 				ticketForm: {},
-				detail: {}
+				detail: {},
+				wechat_userInfo: {}
 			};
 		},
 		onLoad(options) {
+			this.wechat_userInfo = getStorage('wechat_userInfo');
+			this.getList();
+
 			const _this = this;
 			const eventChannel = this.getOpenerEventChannel();
 			eventChannel.on('sendParams', data => {
@@ -82,13 +87,29 @@
 				uni.setNavigationBarTitle({
 					title: `${data.item.pointoriginName}-${data.item.todestinationName}`
 				})
-				console.log(data)
 			})
 		},
 		methods: {
+			async getList() {
+				try {
+					const {
+						wechat_userInfo
+					} = this.$data;
+					const result = await this.$http(`${this.$API.getPassengerList}?userId=${wechat_userInfo.userId}`);
+					this.list = result.data.map(item => {
+						item.isActive = false;
+						return item;
+					})
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+				}
+			},
 			dealTime(val) {
-				let time = val.split('-')
-				return `${time[0]}月${time[1]}日`;
+				if (val) {
+					let time = val.split('-')
+					return `${time[0]}月${time[1]}日`;
+				}
 			},
 			select(item, index) {
 				this.$set(item, 'isActive', !item.isActive)
@@ -100,8 +121,32 @@
 				})
 			},
 			edit(item) {
-				OpenPage('/pagesShip/passenger')
-			}
+				const _this = this;
+				OpenPage('/pagesShip/passenger', item).then(res => {
+					if (res.isReload) {
+						_this.getList()
+					}
+				})
+			},
+			del(item) {
+				try {
+					const _this = this;
+					const result = await this.$http(`${this.$API.getPassengerDelete}?id=${item.id}`);
+					showToast('删除成功~');
+					setTimeout(() => {
+						_this.getList()
+					}, 1500)
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
+			pay() {
+				let index = this.list.findIndex(item => item.isActive);
+				if (index < 0) {
+					showToast('请选择乘客~');
+					return;
+				}
+			},
 		}
 	}
 </script>
@@ -199,6 +244,12 @@
 			padding: 36rpx 0;
 
 			&-right {
+				&-del {
+					width: 34rpx;
+					height: 27rpx;
+					margin-right: 20rpx;
+				}
+
 				&-img {
 					width: 29rpx;
 					height: 27rpx;

@@ -1,7 +1,0 @@
-{
-  "navigationBarTitleText": "用户评价",
-  "enablePullDownRefresh": false,
-  "usingComponents": {
-    "common-comment": "/components/common-comment/common-comment"
-  }
-}
