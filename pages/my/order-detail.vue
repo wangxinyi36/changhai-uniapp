@@ -21,7 +21,7 @@
 					</view>
 				</view>
 				<view class="u26-btn">
-					<view class="u241" @click="evaluate(item.id)" v-if="order.orderStatus === 201">立即评价</view>
+					<view class="u241" @click="evaluate(item.goodsId)" v-if="order.orderStatus === 201">立即评价</view>
 				</view>
 			</view>
 
@@ -38,6 +38,10 @@
 				<view class="u33-item">
 					<view class="u33-title">下单时间</view>
 					<view class="u33-text">{{dealTime(order.addTime)}}</view>
+				</view>
+				<view class="u33-item">
+					<view class="u33-title">支付时间</view>
+					<view class="u33-text">{{dealTime(order.payTime)}}</view>
 				</view>
 				<view class="u33-item">
 					<view class="u33-title">订单状态</view>

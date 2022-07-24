@@ -121,14 +121,15 @@
 				try {
 					let {
 						orderForm,
-						goodsList
+						goodsList,
+						type
 					} = this.$data;
 
 					let list = goodsList.map(item => {
 						return {
 							id: item.id,
 							name: item.name,
-							num: item.count,
+							num: item.count || 1,
 							picUrl: item.picUrl,
 							retailPrice: item.retailPrice
 						}
@@ -136,8 +137,10 @@
 					orderForm.goodsList = list;
 					const result = await this.$http(this.$API.postOrderSave, orderForm, 'POST');
 					
-					this.$store.dispatch('PAY_MALL_CART')
-					
+					if (type == 'list') {
+						this.$store.dispatch('PAY_MALL_CART')
+					}
+
 					uni.requestPayment({
 						provider: "wxpay",
 						...result.data,

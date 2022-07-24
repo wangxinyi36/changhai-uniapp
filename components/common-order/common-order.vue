@@ -30,7 +30,9 @@
 
 <script>
 	import {
-		OpenPage
+		OpenPage,
+		getStorage,
+		showToast
 	} from '@/common/fun.js'
 	export default {
 		name: "common-order",
@@ -38,9 +40,7 @@
 			order: Object
 		},
 		data() {
-			return {
-
-			};
+			return {};
 		},
 		methods: {
 			dealTime(val) {
@@ -54,8 +54,33 @@
 					return `${name}等${this.order.goods.length}个商品`
 				}
 			},
-			buy() {
-
+			async buy() {
+				try {
+					let payOrder = {
+						openId: getStorage('wechat_openId'),
+						orderNo: this.order.orderSn
+					}
+					const _this = this;
+					const result = await this.$http(this.$API.postPayOrder, payOrder, 'POST');
+					if (result.errno == 0) {
+						uni.requestPayment({
+							provider: "wxpay",
+							...result.data,
+							success(res) {
+								showToast('支付成功~')
+								setTimeout(() => {
+									_this.$emit('reload', this.order)
+								}, 1500)
+							},
+							fail(e) {
+								console.log(e)
+							}
+						})
+					}
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+				}
 			},
 			pageDetail() {
 				const _this = this;

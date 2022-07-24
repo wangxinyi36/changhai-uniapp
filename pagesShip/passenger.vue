@@ -66,9 +66,17 @@
 
 						if (dataForm.id) {
 							const result = await _this.$http(_this.$API.postPassengerUpdate, dataForm, 'POST');
+							if (result.errno != 0) {
+								showToast(result.errmsg);
+								return;
+							}
 							showToast('编辑成功~');
 						} else {
 							const result = await _this.$http(_this.$API.postPassengerCreate, dataForm, 'POST');
+							if (result.errno != 0) {
+								showToast(result.errmsg);
+								return;
+							}
 							showToast('添加成功~');
 						}
 						setTimeout(() => {

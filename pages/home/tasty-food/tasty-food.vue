@@ -6,7 +6,7 @@
 				<view class="u182-text">搜索</view>
 			</view>
 		</view>
-		<common-food-dropdown :foodForm="foodForm"></common-food-dropdown>
+		<common-food-dropdown :foodForm="foodForm" @searchQuery="searchQuery"></common-food-dropdown>
 
 		<view class="u7">
 			<!-- <image src="/static/home1.jpg" mode="aspectFill" class="u7-img"></image> -->
@@ -50,15 +50,22 @@
 						total,
 						list
 					} = this.$data;
-					// if (total > 0 && list.length == total) {
-					// 	return;
-					// }
+					if (total > 0 && list.length == total) {
+						return;
+					}
 					const resultFoods = await this.$http(this.$API.postProductFoodList, this.foodForm, 'POST');
-					this.list = list.concat(resultFoods.data);
-					// this.total = resultFoods.data.total;
+					this.list = list.concat(resultFoods.data.list);
+					this.total = resultFoods.data.total;
 				} catch (e) {
+					console.log(e)
 					//TODO handle the exception
 				}
+			},
+			searchQuery(val) {
+				this.foodForm = Object.assign(this.foodForm, val)
+				this.list = [];
+				this.total = 0;
+				this.getFoods()
 			},
 			openSearch() {
 				OpenPage(`/pages/home/search/search?from=tasty_food`)

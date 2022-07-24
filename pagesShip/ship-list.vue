@@ -134,7 +134,7 @@
 			payTo(item) {
 				OpenPage(`/pagesShip/ship-pay`, {
 					item,
-					ticketForm: this.ticketForm
+					ticketForm: this.ticketForm,
 				})
 			},
 			async getList() {
@@ -147,6 +147,8 @@
 					if (total > 0 && total == list.length) {
 						return;
 					}
+					let year = new Date().getFullYear()
+					ticketForm.startDate = `${year}-${ticketForm.startDate}`
 					const res = await this.$http(this.$API.getSteamerTicketList, ticketForm, 'POST');
 					this.total = res.data.total;
 					this.list = list.concat(res.data.list);

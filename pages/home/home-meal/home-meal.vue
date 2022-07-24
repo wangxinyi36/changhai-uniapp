@@ -6,7 +6,7 @@
 				<view class="u182-text">搜索</view>
 			</view>
 		</view>
-		<common-dropdown color="#ff7100" :background="background"></common-dropdown>
+		<common-meal-dropdown></common-meal-dropdown>
 
 		<view class="u24-list">
 			<common-meal-item v-for="item,index in list" :key="index" @click="openPage(item)" :info="item">
@@ -47,7 +47,6 @@
 	export default {
 		data() {
 			return {
-				background: '-webkit-linear-gradient(0.23deg, rgba(255, 255, 255, 1) 0%, rgba(255, 113, 0, 1) 100%)',
 				goods: [{
 					name: '海参',
 					url: '/static/mall8.png',
@@ -55,21 +54,14 @@
 					count: 1,
 					pay: 155
 				}],
-				list: [{
-					name: '新鲜海鲜',
-					count: 1155,
-					grade: 5.0,
-					send: 0,
-					pay: 54,
-					tags: ['精选好店', '近期100人下单'],
-					url: '/static/stay1.jpg'
-				}],
+				list: [],
+				total: 0,
 				mealForm: {
 					current: 0,
-					distance: 0,
+					distance: "",
 					lat: "",
 					lng: "",
-					price: 0,
+					price: "",
 					region: "",
 					size: 10,
 					title: ""
@@ -83,10 +75,16 @@
 			async getWMList() {
 				try {
 					let {
-						mealForm
+						mealForm,
+						total,
+						list
 					} = this.$data;
+					if (total > 0 && list.length == total) {
+						return;
+					}
 					const result = await this.$http(this.$API.postProductWMList, mealForm, 'POST');
-					console.log(result)
+					this.list = list.concat(result.data.list);
+					this.total = result.data.total;
 				} catch (e) {
 					console.log(e)
 					//TODO handle the exception

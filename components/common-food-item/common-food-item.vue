@@ -1,7 +1,7 @@
 <template>
 	<view class="u24-item">
 		<view class="u24-item-top" @click="openPage">
-			<image :src="info.uuimgPath || ''" mode="aspectFill" class="u24-item-top-img"></image>
+			<image :src="info.uuimgPath" mode="aspectFill" class="u24-item-top-img"></image>
 			<view class="u166">
 				<view class="u166-name">{{info.uutitle}}</view>
 				<view class="u167">
@@ -10,7 +10,7 @@
 				</view>
 				<view class="u168">
 					<view class="u168-address">{{info.uuarea}}</view>
-					<view class="u168-distance">{{info.distance}}m</view>
+					<view class="u168-distance">{{dealDistance(info.distance)}}</view>
 				</view>
 			</view>
 		</view>
@@ -37,9 +37,18 @@
 		data() {
 			return {};
 		},
+		created() {},
 		methods: {
+			dealDistance(val) {
+				if (val) {
+					if (val > 1000) {
+						return `${val/1000}km`
+					}
+					return `${val}m`;
+				}
+			},
 			openPage() {
-				OpenPage(`/pages/home/tasty-food/tasty-food-detail`)
+				OpenPage(`/pages/home/tasty-food/tasty-food-detail?id=${this.info.uuid}`)
 			},
 			openFoodDetail(food) {
 				OpenPage(`/pages/home/tasty-food/home-tasty-food-detail?id=${food.uuaid}`)

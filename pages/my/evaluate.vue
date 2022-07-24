@@ -78,19 +78,24 @@
 							}
 						})
 					}
+					console.log(formData)
 
 					const result = await this.$http(this.$API.postComment, formData, 'POST');
-					showToast('提交成功~');
+					if (result.errno == 0) {
+						showToast('提交成功~');
 
-					const eventChannel = this.getOpenerEventChannel();
-					eventChannel.emit('getParams', {
-						isReload: true
-					})
+						const eventChannel = this.getOpenerEventChannel();
+						eventChannel.emit('getParams', {
+							isReload: true
+						})
 
-					setTimeout(() => {
-						uni.navigateBack()
-					}, 1500)
+						setTimeout(() => {
+							uni.navigateBack()
+						}, 1500)
+					}
+
 				} catch (e) {
+					console.log(e)
 					//TODO handle the exception
 				}
 			},

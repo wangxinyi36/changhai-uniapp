@@ -130,11 +130,23 @@
 					.u229 {
 						font: normal 400 32rpx/normal '微软雅黑', sans-serif;
 						color: #333;
+						word-break: break-all;
+						text-overflow: ellipsis;
+						display: -webkit-box;
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 2;
+						overflow: hidden;
 					}
 
 					.u230 {
 						font: normal 400 28rpx/normal '微软雅黑', sans-serif;
 						color: #333;
+						word-break: break-all;
+						text-overflow: ellipsis;
+						display: -webkit-box;
+						-webkit-box-orient: vertical;
+						-webkit-line-clamp: 1;
+						overflow: hidden;
 					}
 				}
 			}

@@ -25,8 +25,8 @@
 				<view class="u75">我的附近</view>
 				<view class="u76">
 					<view class="u76-box" v-for="item,index in regions" :key="index">
-						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 1 && item.isActive}"
-							@click="select(item)">{{item.name}}</view>
+						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 1 && index == tagIndex}"
+							@click="select(index)">{{item}}</view>
 					</view>
 				</view>
 				<view class="bottom">
@@ -57,8 +57,8 @@
 				<view class="u75">地区</view>
 				<view class="u76">
 					<view class="u76-box" v-for="item,index in room" :key="index">
-						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 3 && item.isActive}"
-							@click="select(item)">{{item.name}}</view>
+						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 3 && index == tagIndex2}"
+							@click="select2(index)">{{item}}</view>
 					</view>
 				</view>
 				<view class="bottom">
@@ -75,40 +75,26 @@
 
 <script>
 	import {
-		FOOD_PRICE,
-		MEAL_DISTANCE,
-		COMMON_ADDRESS
-	} from '@/common/common.js';
-	import {
-		getStorage,
-		getAddressAuthorize
-	} from '@/common/fun.js'
+		FOOD_PRICE
+	} from '@/common/common.js'
 	export default {
-		name: "common-food-dropdown",
+		name: "common-meal-dropdown",
 		props: ['foodForm'],
 		data() {
 			return {
 				tabIndex: 0, //条件
-				regions: MEAL_DISTANCE,
+				regions: ['附近', '500m', '1km', '3km', '5km', '10km'],
 				price: FOOD_PRICE,
-				room: COMMON_ADDRESS
+				room: ['大长山岛', '小长山岛', '獐子岛', '广鹿岛', '海洋岛镇']
 			};
-		},
-		created() {
-			this.room.map(item => {
-				item.isActive = false;
-				return item;
-			})
 		},
 		methods: {
 			select(item) {
 				switch (this.tabIndex) {
 					case 1:
-						this.regions = this.single(this.regions, item, 1)
 					case 2:
 						this.price = this.single(this.price, item, 2)
 					case 3:
-						this.room = this.single(this.room, item, 3)
 				}
 			},
 			open(val) {
@@ -119,53 +105,17 @@
 				this.tabIndex = 0;
 				this.$refs.popup.close()
 			},
-			async confirm() {
-				let obj = this.foodForm;
-				await this.getFilter()
-				this.$emit('searchQuery', obj)
+			confirm() {
 				this.cancel()
-			},
-			// 获取筛选条件
-			async getFilter() {
-				let pay = this.price.find(item => item.isActive);
-				this.foodForm.price = pay ? pay.name : '';
-
-				let address = this.room.find(item => item.isActive)
-				this.foodForm.region = address ? address.name : '';
-
-				let region = this.regions.find(item => item.isActive)
-				if (!region) {
-					this.foodForm.distance = '';
-				}
-				if (region) {
-					if (region.value == '-') {
-						if (getStorage('currentPoint')) {
-							let currentPoint = getStorage('currentPoint');
-							this.foodForm.lat = currentPoint.latitude;
-							this.foodForm.lng = currentPoint.longitude;
-							return;
-						}
-
-						let currentPoint = await getAddressAuthorize();
-						this.foodForm.lat = currentPoint.latitude;
-						this.foodForm.lng = currentPoint.longitude;
-						return;
-					}
-					this.foodForm.distance = region.value;
-				}
 			},
 			// 选中条件
 			single(list, item, num) {
 				let newList = list.map(li => {
 					if (num === 1) {
-						li.isActive = li.value == item.value && !li.isActive ? true : false;
+						li.isActive = li.regionId == item.regionId && !li.isActive ? true : false;
 						return li;
 					}
 					if (num === 2) {
-						li.isActive = li.name == item.name && !li.isActive ? true : false;
-						return li;
-					}
-					if (num === 3) {
 						li.isActive = li.name == item.name && !li.isActive ? true : false;
 						return li;
 					}
@@ -261,7 +211,7 @@
 					border-radius: 12rpx;
 					font: normal 400 28rpx/48rpx '微软雅黑', sans-serif;
 					color: #333;
-					width: 160rpx;
+					width: 128rpx;
 					height: 48rpx;
 					text-align: center;
 					margin-top: 24rpx;

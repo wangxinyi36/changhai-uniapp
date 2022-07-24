@@ -1,18 +1,19 @@
 <template>
 	<view class="u24-item" @click="openPage">
-		<image :src="info.url" mode="aspectFill" class="u24-item-img"></image>
+		<image :src="info.uuimgPath" mode="aspectFill" class="u24-item-img"></image>
 		<view class="u24-item-box">
 			<view class="u24-item-box-name">
-				<view class="u38">{{info.name}}</view>
+				<view class="u38">{{info.uutitle}}</view>
 				<view class="u38-text">月售{{info.count}}</view>
 			</view>
 			<view class="u39">
-				<view class="u39-grade">{{info.grade}}分</view>
-				<view class="u39-pay">人均￥{{info.pay}}</view>
+				<view class="u39-grade">{{info.star}}分</view>
+				<view class="u39-pay">人均￥{{info.percapita}}</view>
 			</view>
-			<view class="u40">起送￥{{info.send}}</view>
+			<view class="u40">起送￥{{info.startDelivery}}</view>
 			<view class="u41">
-				<view class="u41-tag" v-for="tag,i in info.tags" :key="i">{{tag}}</view>
+				<view class="u41-tag">{{info.remark}}</view>
+				<!-- <view class="u41-tag" v-for="tag,i in info.tags" :key="i">{{tag}}</view> -->
 			</view>
 		</view>
 	</view>
@@ -26,13 +27,11 @@
 		name: "common-food-item",
 		props: ["info"],
 		data() {
-			return {
-
-			};
+			return {};
 		},
 		methods: {
 			openPage() {
-				OpenPage(`/pages/home/tasty-food/tasty-food-detail`)
+				// OpenPage(`/pages/home/home-meal/detail?id=${this.info.uuid}`)
 			}
 		}
 	}
@@ -102,6 +101,6 @@
 				}
 			}
 		}
-		
+
 	}
 </style>

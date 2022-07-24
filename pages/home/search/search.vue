@@ -18,8 +18,13 @@
 				</common-home-item>
 			</template>
 
-			<template v-if="from == 'tasty_food' || from == 'home_meal'">
-				<common-food-item v-for="item,index in listFood" :key="index" @click="openPage(item)" :info="item">
+			<template v-if="from == 'tasty_food'">
+				<common-food-item v-for="item,index in list" :key="index" @click="openPage(item)" :info="item">
+				</common-food-item>
+			</template>
+
+			<template v-if="from == 'home_meal'">
+				<common-food-item v-for="item,index in list" :key="index" @click="openPage(item)" :info="item">
 				</common-food-item>
 			</template>
 		</view>
@@ -38,27 +43,6 @@
 				keyword: '',
 				history: [], //历史记录
 				isShow: true, //true展示历史记录  false不展示
-				listFood: [{
-					avatar: '/static/home1.jpg',
-					name: '新鲜海鲜',
-					grade: 4,
-					pay: 20,
-					address: '大长山岛',
-					distance: '1.2km',
-					foods: [{
-						url: '/static/home1.jpg',
-						name: '海鲜杂烩',
-						money: 130
-					}, {
-						url: '/static/home1.jpg',
-						name: '海鲜杂烩',
-						money: 130
-					}, {
-						url: '/static/home1.jpg',
-						name: '海鲜杂烩',
-						money: 130
-					}]
-				}],
 				list: [],
 				total: 0,
 				formData: {
@@ -98,16 +82,20 @@
 					this.isShow = false;
 					const {
 						list,
-						total
+						total,
+						from
 					} = this.$data;
 					if (total > 0 && list.length == total) {
 						return;
 					}
 					this.formData.title = keyword || '';
-					const resultHotel = await this.$http(this.$API.postProductShopList, this.formData, 'POST');
+					let url = from == 'home_stay' ? this.$API.postProductShopList : from == 'tasty_food' ? this.$API
+						.postProductFoodList : this.$API.postProductWMList;
+					const resultHotel = await this.$http(url, this.formData, 'POST');
 					this.list = list.concat(resultHotel.data.list);
 					this.total = resultHotel.data.total;
 				} catch (e) {
+					console.log(e)
 					//TODO handle the exception
 				}
 			},

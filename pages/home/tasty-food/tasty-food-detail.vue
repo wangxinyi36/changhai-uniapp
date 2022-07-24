@@ -111,6 +111,7 @@
 				info: {
 					grade: 4,
 				},
+				id: '',
 				safeTop: '',
 				backgroundColor: '#ffffff00',
 				color: '#fff',
@@ -145,7 +146,23 @@
 		created() {
 			this.safeTop = GetSystemInfo().safeArea.top;
 		},
+		onLoad(options) {
+			this.id = options.id;
+			this.getDetail()
+		},
 		methods: {
+			async getDetail() {
+				try {
+					const {
+						id
+					} = this.$data;
+					const result = await this.$http(this.$API.getProductFoodDetail, {
+						id
+					});
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
 			back() {
 				uni.navigateBack()
 			},
@@ -153,7 +170,6 @@
 				this.tabIndex = index;
 			}
 		},
-		onLoad() {},
 		onPageScroll(e) {
 			if (e.scrollTop > 50) {
 				this.backgroundColor = '#fff'

@@ -19,7 +19,7 @@
 			</view>
 		</view>
 		<view class="u2">
-			<view class="u2-title">
+			<view class="u2-title" v-if="list.length > 0">
 				<view class="u2-title-name">选择乘客</view>
 			</view>
 			<view class="u2-list">
@@ -50,7 +50,7 @@
 		<view class="bottom">
 			<view class="bottom-tip">请添加所有乘船乘客信息，未录入信息的乘客不能登船</view>
 			<view class="bottom-box">
-				<view class="bottom-left">¥{{detail.uutprice/100}}</view>
+				<view class="bottom-left">¥{{detail.uutprice*count/100 || 0}}</view>
 				<view class="bottom-right" @click="pay">去支付</view>
 			</view>
 		</view>
@@ -72,7 +72,8 @@
 				list: [],
 				ticketForm: {},
 				detail: {},
-				wechat_userInfo: {}
+				wechat_userInfo: {},
+				count: 0
 			};
 		},
 		onLoad(options) {
@@ -113,11 +114,20 @@
 			},
 			select(item, index) {
 				this.$set(item, 'isActive', !item.isActive)
+				let count = 0;
+				this.list.forEach(item => {
+					if (item.isActive) {
+						count++
+					}
+				})
+				this.count = count;
 			},
 			add() {
 				let _this = this;
 				OpenPage('/pagesShip/passenger').then(res => {
-					_this.list.push(res.personal)
+					if (res.isReload) {
+						_this.getList()
+					}
 				})
 			},
 			edit(item) {
@@ -128,7 +138,7 @@
 					}
 				})
 			},
-			del(item) {
+			async del(item) {
 				try {
 					const _this = this;
 					const result = await this.$http(`${this.$API.getPassengerDelete}?id=${item.id}`);
@@ -140,11 +150,46 @@
 					//TODO handle the exception
 				}
 			},
-			pay() {
+			async pay() {
 				let index = this.list.findIndex(item => item.isActive);
 				if (index < 0) {
 					showToast('请选择乘客~');
 					return;
+				}
+				try {
+					let passengerIdList = []
+					this.list.forEach(item => {
+						if (item.isActive) {
+							passengerIdList.push(item.id)
+						}
+					})
+					let year = new Date().getFullYear();
+					let payForm = {
+						startDay: `${year}-${this.ticketForm.startDate}`,
+						endDay: `${year}-${this.ticketForm.startDate}`,
+						uuId: this.detail.uuid,
+						payType: 1,
+						passengerIdList,
+						userId: this.wechat_userInfo.userId
+					}
+					const result = await this.$http(this.$API.posProductTicketOrder, payForm, 'POST');
+					console.log(result)
+					uni.requestPayment({
+						provider: "wxpay",
+						...result.data,
+						success(res) {
+							showToast('支付成功~')
+							setTimeout(() => {
+								uni.navigateBack()
+							}, 1500)
+						},
+						fail(e) {
+							console.log(e)
+						}
+					})
+				} catch (e) {
+					console.log("错误：", e)
+					//TODO handle the exception
 				}
 			},
 		}
@@ -247,7 +292,7 @@
 				&-del {
 					width: 34rpx;
 					height: 27rpx;
-					margin-right: 20rpx;
+					margin-right: 30rpx;
 				}
 
 				&-img {

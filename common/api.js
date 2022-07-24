@@ -14,6 +14,7 @@ const API = {
 	getPassengerList: 'dev/xcx/passenger/queryByUserId', // 获取乘客信息列表
 	postPassengerUpdate: 'dev/xcx/passenger/update', // 修改乘客信息
 	getPassengerDelete: 'dev/xcx/passenger/delete', // 删除乘客信息
+	posProductTicketOrder: 'dev/xcx/product/saveSteamerTicketOrder', // 船票支付
 
 	getAdList: 'dev/xcx/ad/list', // 查询活动列表
 	getAdRead: 'dev/xcx/ad/read', // 查询活动详情
@@ -37,6 +38,7 @@ const API = {
 	putOrderCancel: 'dev/xcx/order/cancel', // 取消商城订单
 	getOrderDetail: 'dev/xcx/order/detail', // 商城订单详情
 	postComment: 'dev/xcx/comment/comment', // 商城商品发布评论
+	postPayOrder: 'dev/xcx/order/payOrder', // 商城待支付订单支付
 
 	getNewsList: 'dev/xcx/article/list', // 查询新闻列表
 	getNewsDetail: 'dev/xcx/article/detail', // 查询新闻详情
@@ -57,6 +59,7 @@ const API = {
 	getProductFoodDetail: 'dev/xcx/product/getFoodDetail', // 获取美食详情
 
 	postProductWMList: 'dev/xcx/product/getWMList', // 获取外卖列表
+	getProductWMDetail: 'dev/xcx/product/getWMDetail', // 获取外卖详情
 
 	postCommentList: 'dev/xcx/comment/getCommentList', // 查询评论
 	postCommentSave: 'dev/xcx/comment/saveComment', // 添加评论

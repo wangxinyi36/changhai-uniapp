@@ -109,3 +109,29 @@ export const FOOD_PRICE = [{
 	name: 400,
 	isActive: false
 }]
+
+export const MEAL_DISTANCE = [{
+	name: '附近',
+	value: '-',
+	isActive: false,
+}, {
+	name: '500m',
+	value: '500',
+	isActive: false,
+}, {
+	name: '1km',
+	value: '1000',
+	isActive: false,
+}, {
+	name: '3km',
+	value: '3000',
+	isActive: false,
+}, {
+	name: '5km',
+	value: '5000',
+	isActive: false,
+}, {
+	name: '10km',
+	value: '10000',
+	isActive: false,
+}]
