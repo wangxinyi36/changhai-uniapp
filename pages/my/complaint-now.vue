@@ -76,11 +76,16 @@
 						}
 					})
 					const result = await this.$http(this.$API.postComplaintCreate, formData, 'POST');
-					showToast('提交成功~')
-					setTimeout(() => {
-						uni.navigateBack()
-					}, 1500)
+					if (result.errno == 0) {
+						showToast('提交成功~')
+						setTimeout(() => {
+							uni.navigateBack()
+						}, 1500);
+						return;
+					}
+					showToast(result.errmsg)
 				} catch (e) {
+					console.log(e)
 					//TODO handle the exception
 				}
 			},

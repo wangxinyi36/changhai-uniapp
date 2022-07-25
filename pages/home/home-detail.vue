@@ -4,7 +4,7 @@
 			<image :src="detail.url" mode="aspectFill" class="u17-img"></image>
 			<view class="u17-box">
 				<view class="u17-box-title">{{detail.name}}</view>
-				<rich-text :nodes="content"></rich-text>
+				<mp-html :content="content"></mp-html>
 			</view>
 		</view>
 	</view>

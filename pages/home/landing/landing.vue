@@ -34,6 +34,7 @@
 	import {
 		OpenPage,
 		addZero,
+		showToast,
 		getStorage
 	} from '@/common/fun.js'
 	export default {
@@ -84,9 +85,14 @@
 
 					const res = await this.$http(
 						`${this.$API.getHealthList}?limit=10&page=${page}&userId=${wechat_userInfo.userId}`);
-					this.total = res.data.total;
-					this.list = this.list.concat(res.data.items);
+					if (res.errno == 0) {
+						this.total = res.data.total;
+						this.list = this.list.concat(res.data.items);
+						return;
+					}
+					showToast(res.errmsg)
 				} catch (e) {
+					console.log(e)
 					//TODO handle the exception
 				}
 			}

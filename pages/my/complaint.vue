@@ -6,7 +6,7 @@
 		<view class="content">
 			<view v-show="current === 0">
 				<view class="complaint-item" v-for="item,index in list" :key="index" @click="openPage(item)">
-					<view class="u109">
+					<view class="u109 u110">
 						<view class="u109-name">{{item.cptContent}}</view>
 						<view class="u109-text" v-if="item.reply">回复内容：{{item.reply}}</view>
 					</view>
@@ -113,6 +113,10 @@
 			@extend .default-flex;
 			justify-content: space-between;
 
+			.u110 {
+				flex: 1;
+			}
+
 			.u109 {
 				&-name {
 					font: 400 normal 32rpx normal;
@@ -142,6 +146,7 @@
 					color: #00976A;
 				}
 			}
+
 		}
 
 	}

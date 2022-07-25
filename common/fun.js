@@ -310,7 +310,7 @@ export function transChinese(num) {
 }
 
 /**
- * @description 富文本返回的图片宽度100%
+ * @description 富文本返回的图片宽度100%,表格边框
  * @param {string} str 富文本内容
  */
 export function regContent(str) {
