@@ -44,6 +44,8 @@
   position: fixed;
   width: 100%;
   bottom: 0;
+  padding-bottom: constant(safe-area-inset-bottom);
+  padding-bottom: env(safe-area-inset-bottom);
 }
 .u1 .u33-distance.data-v-605abbc8 {
   font: normal 400 30rpx/75rpx '微软雅黑', sans-serif;

@@ -8,6 +8,7 @@
 .mall-detail.data-v-11347ec3 {
   background-color: #edf0f7;
 }
+.mall-detail .u-swiper.data-v-11347ec3,
 .mall-detail .u20-img.data-v-11347ec3 {
   height: 290rpx;
   width: 100%;

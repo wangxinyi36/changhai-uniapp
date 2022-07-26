@@ -1,7 +1,8 @@
 <template>
 	<view class="toilet">
 		<view class="u0">
-			<map class="u0-map" :markers="markers" :polyline="polyline" :scale="10" @markertap="clickMark"></map>
+			<map class="u0-map" :longitude="longitude" :latitude="latitude" :markers="markers" :polyline="polyline"
+				:scale="10" @markertap="clickMark"></map>
 		</view>
 		<view class="u1">
 			<view class="u86">筛选</view>
@@ -21,6 +22,7 @@
 <script>
 	import {
 		showToast,
+		getStorage,
 		getAddressAuthorize
 	} from '@/common/fun.js'
 	import {
@@ -29,16 +31,24 @@
 	export default {
 		data() {
 			return {
+				currentPoint: {},
 				isShow: false,
 				type: 1, //1 公厕
 				address: [],
 				markers: [], //标记点
+				longitude: 0,
+				latitude: 0,
 				icons: ['', '/static/icon-wc.svg', '/static/icon-hospital.svg', '/static/icon-serve.svg'],
 				typeList: [],
 				polyline: [],
 				distance: 0,
 				markItem: {}
 			};
+		},
+		created() {
+			this.currentPoint = getStorage('currentPoint');
+			this.longitude = this.currentPoint.longitude;
+			this.latitude = this.currentPoint.latitude;
 		},
 		onLoad() {
 			this.getAbj()
@@ -105,6 +115,8 @@
 							height: 40
 						}
 					})
+					this.longitude = this.markers[0].longitude;
+					this.latitude = this.markers[0].latitude;
 				} catch (e) {
 					//TODO handle the exception
 				}
@@ -171,6 +183,8 @@
 			position: fixed;
 			width: 100%;
 			bottom: 0;
+			padding-bottom: constant(safe-area-inset-bottom);
+			padding-bottom: env(safe-area-inset-bottom);
 
 			&-distance {
 				font: normal 400 30rpx/75rpx '微软雅黑', sans-serif;

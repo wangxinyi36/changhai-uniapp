@@ -132,6 +132,7 @@
 						.u12-text {
 							font-weight: 400;
 							font-size: 28rpx;
+							word-break: break-all;
 
 							.u23-text {
 								color: #FF8D3D;

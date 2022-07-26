@@ -136,21 +136,26 @@
 					})
 					orderForm.goodsList = list;
 					const result = await this.$http(this.$API.postOrderSave, orderForm, 'POST');
-					
+
 					if (type == 'list') {
 						this.$store.dispatch('PAY_MALL_CART')
 					}
 
-					uni.requestPayment({
-						provider: "wxpay",
-						...result.data,
-						success(res) {
-							OpenPage('/pagesStay/home-stay/pay-suc')
-						},
-						fail(e) {
-							console.log(e)
-						}
-					})
+					if (result.errno == 0) {
+						uni.requestPayment({
+							provider: "wxpay",
+							...result.data,
+							success(res) {
+								OpenPage('/pagesStay/home-stay/pay-suc')
+							},
+							fail(e) {
+								console.log(e)
+							}
+						})
+						return;
+					}
+					showToast(result.errmsg)
+
 				} catch (e) {
 					console.log(e)
 					//TODO handle the exception

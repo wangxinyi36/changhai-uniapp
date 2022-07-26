@@ -42,6 +42,7 @@
 .car-rental .car-list .car-item .u14 .u14-box .u12-text.data-v-0a2c0050 {
   font-weight: 400;
   font-size: 28rpx;
+  word-break: break-all;
 }
 .car-rental .car-list .car-item .u14 .u14-box .u12-text .u23-text.data-v-0a2c0050 {
   color: #FF8D3D;

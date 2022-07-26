@@ -1,7 +1,11 @@
 <template>
 	<page-meta :page-style="'overflow:'+(show?'hidden':'visible')"></page-meta>
 	<view class="mall-detail">
-		<image :src="goodsDetail.picUrl" mode="aspectFill" class="u20-img"></image>
+		<swiper class="u-swiper" :indicator-dots="true" :autoplay="true">
+			<swiper-item v-for="item,index in goodsDetail.gallery" :key="index">
+				<image :src="item" mode="aspectFill" class="u20-img" @click="picPrew(item,index)"></image>
+			</swiper-item>
+		</swiper>
 		<view class="u3">
 			<view class="u22">
 				<view class="u22-title">{{goodsDetail.name}}</view>
@@ -177,6 +181,16 @@
 					return val.split(',')
 				}
 			},
+			picPrew(item, index) {
+				if (item) {
+					uni.previewImage({
+						current: index,
+						urls: this.goodsDetail.gallery,
+						indicator: 'default',
+						loop: true,
+					})
+				}
+			},
 			async getDetail() {
 				let {
 					id
@@ -209,6 +223,7 @@
 	.mall-detail {
 		background-color: rgba(237, 240, 247, 1);
 
+		.u-swiper,
 		.u20-img {
 			height: 290rpx;
 			width: 100%;

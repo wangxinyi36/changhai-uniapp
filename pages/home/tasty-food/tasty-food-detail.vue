@@ -38,16 +38,6 @@
 						<view class="u57-tab" v-for="item,index in tabs" :key="index"
 							:class="{'u57-tab-active':tabIndex == index}" @click="change(index)">{{item}}</view>
 					</view>
-					<view class="u50">
-						<view class="u50-title">100 元优惠卷</view>
-						<view class="u50-box">
-							<view class="u50-box-text">周一至周二部分时间段可用 · 不限张数</view>
-							<navigator url="/pages/home/tasty-food/tasty-food-pay" hover-class="none">
-								<view class="u50-box-btn">抢购</view>
-							</navigator>
-						</view>
-						<view class="u50-pay">￥89</view>
-					</view>
 					<view class="u56">
 						<view class="u56-title u50-title">套餐</view>
 						<view class="u56-list">
@@ -117,7 +107,7 @@
 				color: '#fff',
 				tabIndex: 0,
 				bgImg: '/static/home1.jpg',
-				tabs: ['优惠券', '套餐', '评价'],
+				tabs: ['套餐', '评价'],
 				evaluate: [{
 					name: '赵丽丽',
 					grade: 4,

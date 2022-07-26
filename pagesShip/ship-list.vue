@@ -101,6 +101,12 @@
 					let middle = this.pointOriginName;
 					this.pointOriginName = this.toDestinationName;
 					this.toDestinationName = middle;
+					
+					this.ticketForm.pointOriginCode = this.pointOriginCode;
+					this.ticketForm.toDestinationCode = this.toDestinationCode;
+					this.total = 0;
+					this.list = [];
+					this.getList();
 				}
 			},
 			bindChange(e) {
