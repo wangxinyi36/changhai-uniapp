@@ -66,7 +66,7 @@
 			}
 
 			&-tag {
-				font: normal 400 18rpx/normal '微软雅黑', sans-serif;
+				font: normal 400 20rpx/normal '微软雅黑', sans-serif;
 				color: #F59A23;
 				border: 2rpx solid rgba(245, 154, 35, 1);
 				margin-right: 10rpx;

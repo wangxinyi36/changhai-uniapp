@@ -3,6 +3,7 @@
   "enablePullDownRefresh": false,
   "usingComponents": {
     "uni-segmented-control": "/uni_modules/uni-segmented-control/components/uni-segmented-control/uni-segmented-control",
-    "common-order": "/components/common-order/common-order"
+    "common-order": "/components/common-order/common-order",
+    "common-empty": "/components/common-empty/common-empty"
   }
 }

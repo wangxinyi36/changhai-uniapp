@@ -11,6 +11,7 @@
 		<view class="u24-list">
 			<common-home-item v-for="item,index in list" :key="index" :info="item">
 			</common-home-item>
+			<common-empty index="2" v-if="list.length == 0"></common-empty>
 		</view>
 	</view>
 </template>
@@ -30,7 +31,7 @@
 					maxPrice: '',
 					minPrice: '',
 					peopleNum: '',
-					regionId: '',
+					cityCode: '',
 					size: 10,
 					title: ""
 				}

@@ -74,7 +74,7 @@
   border-radius: 36rpx;
   font: normal 400 28rpx/48rpx '微软雅黑', sans-serif;
   color: #333;
-  width: 128rpx;
+  width: 150rpx;
   height: 48rpx;
   text-align: center;
   margin-top: 24rpx;

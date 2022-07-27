@@ -4,6 +4,7 @@
   "usingComponents": {
     "uni-search-bar": "/uni_modules/uni-search-bar/components/uni-search-bar/uni-search-bar",
     "common-home-item": "/components/common-home-item/common-home-item",
-    "common-food-item": "/components/common-food-item/common-food-item"
+    "common-food-item": "/components/common-food-item/common-food-item",
+    "common-empty": "/components/common-empty/common-empty"
   }
 }

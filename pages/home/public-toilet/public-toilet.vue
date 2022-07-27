@@ -73,7 +73,6 @@
 					console.log(e)
 					//TODO handle the exception
 				}
-
 			},
 			async leave() {
 				let {
@@ -101,9 +100,13 @@
 							title: '暂无内容',
 							icon: 'none'
 						});
-						this.markers = []
+						this.markers = [];
+						this.markItem = {};
+						this.polyline = [];
+						this.distance = 0;
 						return;
 					}
+					showToast(`发现${res.data.total}个地点~`)
 					this.markers = this.address.map(item => {
 						return {
 							id: item.id,
@@ -112,7 +115,7 @@
 							title: item.point,
 							// iconPath: icons[item.type],
 							width: 20,
-							height: 40
+							height: 30
 						}
 					})
 					this.longitude = this.markers[0].longitude;

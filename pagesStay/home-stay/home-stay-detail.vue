@@ -255,22 +255,22 @@
 
 				&-box {
 					&-name {
-						font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+						font: normal 400 26rpx/normal '微软雅黑', sans-serif;
 						color: #000;
 					}
 
 					&-dec {
-						font: normal 400 18rpx/normal '微软雅黑', sans-serif;
+						font: normal 400 22rpx/normal '微软雅黑', sans-serif;
 						color: #AAAAAA;
 					}
 
 					&-tip {
-						font: normal 400 18rpx/normal '微软雅黑', sans-serif;
+						font: normal 400 20rpx/normal '微软雅黑', sans-serif;
 						color: #F59A23;
 					}
 
 					&-btn {
-						font: normal 400 18rpx/normal 'Arial Normal', 'Arial', sans-serif;
+						font: normal 400 20rpx/normal 'Arial Normal', 'Arial', sans-serif;
 						color: #555555;
 						border: 1rpx solid rgba(121, 121, 121, 1);
 					}

@@ -16,6 +16,7 @@
 				<common-order v-for="item,index in orders" :order="item" :key="index" @cancel="cancel" @reload="reload">
 				</common-order>
 			</view>
+			<common-empty index="2" v-if="orders.length == 0"></common-empty>
 		</view>
 	</view>
 </template>

@@ -1,17 +1,18 @@
 <template>
 	<view class="search">
 		<view class="sticky-head">
-			<uni-search-bar v-model="keyword" @confirm="search" placeholder="搜索" :radius="58" bgColor="#edf0f7">
+			<uni-search-bar v-model="keyword" @confirm="search" placeholder="搜索" :radius="58" bgColor="#edf0f7"
+				@cancel="cancel">
 			</uni-search-bar>
 		</view>
-		<view class="u121" v-show="isShow && history.length > 0">
+		<view class="u121" v-if="isShow && history.length > 0">
 			<view class="u121-title">搜索历史</view>
 			<view class="u121-tags">
 				<view class="u121-tag" v-for="tag,index in history" :key="index" @click="postProductHotel(tag)">{{tag}}
 				</view>
 			</view>
 		</view>
-		<view class="list" v-show="!isShow">
+		<view class="list" v-else="!isShow">
 
 			<template v-if="from == 'home_stay'">
 				<common-home-item v-for="item,index in list" :key="index" @click="openPage(item)" :info="item">
@@ -27,6 +28,7 @@
 				<common-food-item v-for="item,index in list" :key="index" @click="openPage(item)" :info="item">
 				</common-food-item>
 			</template>
+			<common-empty index="2" v-if="list.length == 0"></common-empty>
 		</view>
 	</view>
 </template>
@@ -63,6 +65,10 @@
 				this.total = 0;
 
 				if (e.value) {
+					if (this.history.length > 1) {
+						let index = this.history.includes(e.value);
+						if (index >= 0) return;
+					}
 					this.history.push(e.value);
 					this.history = this.history.slice(-10)
 					setStorage(`${this.from}_list`, this.history)
@@ -70,12 +76,15 @@
 
 				this.postProductHotel(e.value)
 			},
+			cancel(e) {
+				this.isShow = true;
+			},
 			historyList(key) {
 				let history = getStorage(key);
 				if (!history) {
 					setStorage(key, [])
 				}
-				this.history = history;
+				this.history = history || [];
 			},
 			async postProductHotel(keyword) {
 				try {

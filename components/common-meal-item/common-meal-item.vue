@@ -31,7 +31,7 @@
 		},
 		methods: {
 			openPage() {
-				// OpenPage(`/pages/home/home-meal/detail?id=${this.info.uuid}`)
+				OpenPage(`/pages/home/home-meal/detail?id=${this.info.uuid}`)
 			}
 		}
 	}

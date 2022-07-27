@@ -9,7 +9,7 @@
 		<common-meal-dropdown></common-meal-dropdown>
 
 		<view class="u24-list">
-			<common-meal-item v-for="item,index in list" :key="index" @click="openPage(item)" :info="item">
+			<common-meal-item v-for="item,index in list" :key="index" :info="item">
 			</common-meal-item>
 		</view>
 

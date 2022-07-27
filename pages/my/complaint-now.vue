@@ -1,9 +1,9 @@
 <template>
 	<view class="evaluate">
 		<view class="u210">
-			<view class="u210-title">投诉内容</view>
+			<view class="u210-title">投诉内容<text v-if="formData.cptContent">（{{formData.cptContent.length}}字）</text></view>
 			<view class="u210-textarea">
-				<textarea v-model="formData.cptContent" maxlength="-1" class="u209" placeholder="请输入投诉内容"
+				<textarea v-model="formData.cptContent" maxlength="200" class="u209" placeholder="请输入投诉内容,最多200字"
 					placeholder-class="placeholder-class" :disabled="detail.id ? true : false" />
 			</view>
 		</view>

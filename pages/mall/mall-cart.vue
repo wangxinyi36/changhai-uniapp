@@ -2,8 +2,8 @@
 	<view>
 		<view class="u113">
 			<view class="" :style="{ height: safeArea.top + 'px' }"></view>
-			<uni-nav-bar class="u113-nav" title="购物车" left-icon="left" right-text="清空" fixed :border="false"
-				@clickLeft="clickLeft" @clickRight="clickRight">
+			<uni-nav-bar class="u113-nav" title="购物车" left-icon="left" :right-text="list.length > 0 ? '清空' : ''" fixed
+				:border="false" @clickLeft="clickLeft" @clickRight="clickRight">
 			</uni-nav-bar>
 		</view>
 		<view class="u70">
@@ -27,6 +27,7 @@
 					</view>
 				</view>
 			</view>
+			<common-empty v-if="list.length == 0" index="1"></common-empty>
 		</view>
 		<view class="bottom" v-if="list.length > 0">
 			<view class="bottom-box">

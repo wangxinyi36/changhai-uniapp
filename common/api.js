@@ -50,7 +50,7 @@ const API = {
 
 	getHotSjList: 'dev/xcx/product/getHotSjList', // 精选美食
 
-	getProductRegionList: 'dev/xcx/product/getRegionList', // 获取区域列表
+	getProductRegionList: 'dev/xcx/region/list', // 获取区域列表
 	postProductShopList: 'dev/xcx/product/queryBShopList', // 查询民宿列表
 	postProductShopDetail: 'dev/xcx/product/getBSDetail', // 查询民宿详情的列表
 	postProductShopInfo: 'dev/xcx/product/getBSInfo', // 获取民宿详情

@@ -23,7 +23,7 @@
 		<uni-popup ref="popup" type="top" @close="cancel" @maskClick="cancel">
 			<view class="condition" v-if="tabIndex == 1">
 				<view class="u76">
-					<view class="u76-box" v-for="item in regions" :key="item.regionId">
+					<view class="u76-box" v-for="item in regions" :key="item.id">
 						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 1 && item.isActive}"
 							@click="select(item)">{{item.name}}</view>
 					</view>
@@ -104,7 +104,7 @@
 			async getRegions() {
 				try {
 					const result = await this.$http(this.$API.getProductRegionList);
-					this.regions = result.data.map(item => {
+					this.regions = result.data.items.map(item => {
 						item.isActive = false;
 						return item;
 					});
@@ -149,7 +149,7 @@
 			single(list, item, num) {
 				let newList = list.map(li => {
 					if (num === 1) {
-						li.isActive = li.regionId == item.regionId && !li.isActive ? true : false;
+						li.isActive = li.id == item.id && !li.isActive ? true : false;
 						return li;
 					}
 					if (num === 2 || num === 3 || num === 4) {
@@ -164,7 +164,7 @@
 				switch (index) {
 					case 1:
 						this.regions = this.regions.map(item => {
-							item.isActive = item.regionId == this.hotelForm.regionId ? true : false;
+							item.isActive = item.cityCode == this.hotelForm.cityCode ? true : false;
 							return item;
 						})
 						break;
@@ -173,18 +173,32 @@
 			// 获取筛选条件
 			getFilter() {
 				let region = this.regions.find(item => item.isActive)
-				this.hotelForm.regionId = region ? region.regionId : '';
+				this.hotelForm.cityCode = region ? region.code : '';
 
 				let pay = this.price.find(item => item.isActive);
-				this.hotelForm.maxPrice = pay ? pay.max : '';
-				this.hotelForm.minPrice = pay ? pay.min : '';
+				this.hotelForm.maxPrice = pay ? pay.max * 100 : '';
+				this.hotelForm.minPrice = pay ? pay.min * 100 : '';
 
 				let man = this.person.find(item => item.isActive)
 				this.hotelForm.peopleNum = man ? man.count : '';
 
 				let house = this.room.find(item => item.isActive)
 				this.hotelForm.hourseType = house ? house.type : '';
-			}
+			},
+		},
+		beforeDestroy() {
+			this.price.map(item => {
+				item.isActive = false;
+				return;
+			});
+			this.person.map(item => {
+				item.isActive = false;
+				return;
+			});
+			this.room.map(item => {
+				item.isActive = false;
+				return;
+			});
 		},
 	}
 </script>
@@ -275,7 +289,7 @@
 					border-radius: 36rpx;
 					font: normal 400 28rpx/48rpx '微软雅黑', sans-serif;
 					color: #333;
-					width: 128rpx;
+					width: 150rpx;
 					height: 48rpx;
 					text-align: center;
 					margin-top: 24rpx;

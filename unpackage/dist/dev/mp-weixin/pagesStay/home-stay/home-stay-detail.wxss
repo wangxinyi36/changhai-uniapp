@@ -78,19 +78,19 @@
   margin-right: 20rpx;
 }
 .u1 .u20-list .u20-box-name.data-v-65137dff {
-  font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+  font: normal 400 26rpx/normal '微软雅黑', sans-serif;
   color: #000;
 }
 .u1 .u20-list .u20-box-dec.data-v-65137dff {
-  font: normal 400 18rpx/normal '微软雅黑', sans-serif;
+  font: normal 400 22rpx/normal '微软雅黑', sans-serif;
   color: #AAAAAA;
 }
 .u1 .u20-list .u20-box-tip.data-v-65137dff {
-  font: normal 400 18rpx/normal '微软雅黑', sans-serif;
+  font: normal 400 20rpx/normal '微软雅黑', sans-serif;
   color: #F59A23;
 }
 .u1 .u20-list .u20-box-btn.data-v-65137dff {
-  font: normal 400 18rpx/normal 'Arial Normal', 'Arial', sans-serif;
+  font: normal 400 20rpx/normal 'Arial Normal', 'Arial', sans-serif;
   color: #555555;
   border: 1rpx solid #797979;
 }

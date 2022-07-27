@@ -19,7 +19,7 @@
 			</view>
 			<view v-show="current === 1">
 				<view class="complaint-item" v-for="item,index in list" :key="index" @click="openPage(item)">
-					<view class="u109">
+					<view class="u109 u110">
 						<view class="u109-name">{{item.cptContent}}</view>
 						<view class="u109-text">回复内容：{{item.reply}}</view>
 					</view>
@@ -30,7 +30,7 @@
 			</view>
 			<view v-show="current === 2">
 				<view class="complaint-item" v-for="item,index in list" :key="index" @click="openPage(item)">
-					<view class="u109">
+					<view class="u109 u110">
 						<view class="u109-name">{{item.cptContent}}</view>
 						<view class="u109-text">回复内容：{{item.reply}}</view>
 					</view>
@@ -39,8 +39,8 @@
 					</view>
 				</view>
 			</view>
+			<common-empty index="2" v-if="list.length == 0"></common-empty>
 		</view>
-
 	</view>
 </template>
 
