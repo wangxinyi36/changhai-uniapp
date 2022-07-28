@@ -41,7 +41,7 @@
 				page: 1,
 				total: 0,
 				userId: '',
-				from: '', // mallOrder 商城商品
+				from: '', // mallOrder 商城商品 homeStay 民宿
 				goodsId: '',
 				addText: ''
 			};
@@ -64,7 +64,7 @@
 		methods: {
 			add() {
 				const _this = this;
-				OpenPage(`/pagesStay/home-stay/home-stay-address`).then((res) => {
+				OpenPage(`/pagesStay/home-stay/home-stay-address?from=${this.from}`).then((res) => {
 					if (res.isReload) {
 						_this.page = 1;
 						_this.people = [];

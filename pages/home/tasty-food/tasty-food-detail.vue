@@ -1,11 +1,11 @@
 <template>
 	<view class="u23">
-		<view class="u22" :style="{height: 150 + safeTop + 'px',backgroundImage: `url(${bgImg})`}">
+		<view class="u22" :style="{height: 150 + safeTop + 'px',backgroundImage: `url(${detail.picurl})`}">
 			<view class="u21" :style="{background:backgroundColor}">
 				<view :style="{height:safeTop + 'px'}"></view>
 				<view class="u22-nav">
 					<uni-icons type="back" size="20" :color="color" @click="back"></uni-icons>
-					<view class="u22-nav-title" :style="{color:color}">美食</view>
+					<view class="u22-nav-title" :style="{color:color}">{{detail.shopName}}</view>
 				</view>
 			</view>
 		</view>
@@ -13,20 +13,21 @@
 			<view class="u24-box">
 				<view class="u25">
 					<view class="u25-top">
-						<image src="/static/home1.jpg" mode="aspectFill" class="u25-top-img"></image>
+						<image :src="detail.picurl" mode="aspectFill" class="u25-top-img"></image>
 						<view class="u25-top-box">
-							<view class="u25-top-box-name">新鲜海鲜</view>
+							<view class="u25-top-box-name">{{detail.shopName}}</view>
 							<view class="u31">
-								<uni-rate v-model="info.grade" readonly size="13" />
-								<view class="u31-text">￥20/人</view>
+								<uni-rate v-model="detail.star" readonly size="13" />
+								<view class="u31-text">￥{{detail.percapita}}/人</view>
 							</view>
-							<view class="u34">营业中 8：00-02:00</view>
+							<view class="u34">营业时间：{{detail.uuruntime}}</view>
 						</view>
 					</view>
 					<view class="u25-bottom">
-						<view class="u25-bottom-text">大长山岛开发路123号 — 12门</view>
+						<view class="u25-bottom-text">{{detail.address}}</view>
 						<view class="u25-bottom-box">
-							<image src="/static/icon7.svg" mode="scaleToFill" class="u25-bottom-img"></image>
+							<image src="/static/icon7.svg" mode="scaleToFill" class="u25-bottom-img" @click="call">
+							</image>
 						</view>
 					</view>
 				</view>
@@ -41,16 +42,18 @@
 					<view class="u56">
 						<view class="u56-title u50-title">套餐</view>
 						<view class="u56-list">
-							<view class="u56-list-item" v-for="item,index in list" :key="index">
-								<image :src="item.url" mode="aspectFill" class="u56-list-item-img"></image>
+							<view class="u56-list-item" v-for="item,index in detail.foodDetailList" :key="index">
+								<image :src="item.picurl" mode="aspectFill" class="u56-list-item-img"></image>
 								<view class="u42">
-									<view class="u42-name">{{item.name}}</view>
-									<view class="u42-tip">{{item.tip}}</view>
-									<view class="u42-summary">{{item.summary}}</view>
+									<view class="u42-name">{{item.foodname}}</view>
+									<view class="u42-tip">{{item.remark}}</view>
+									<view class="u42-summarys">
+										<view class="u42-summary" v-for="tag,i in item.ticketkeywordList">{{tag}}</view>
+									</view>
 									<view class="u42-box">
 										<view class="u42-box-left">
-											<view class="u42-box-left-pay">￥{{item.pay}}</view>
-											<view class="u42-box-left-discount">{{item.discount}}折</view>
+											<view class="u42-box-left-pay">￥{{item.uutprice}}</view>
+											<view class="u42-box-left-discount">{{item.rebate}}折</view>
 										</view>
 										<navigator url="/pages/home/tasty-food/tasty-food-combo" hover-class="none">
 											<view class="u42-box-btn">订购</view>
@@ -98,15 +101,11 @@
 	export default {
 		data() {
 			return {
-				info: {
-					grade: 4,
-				},
 				id: '',
 				safeTop: '',
 				backgroundColor: '#ffffff00',
 				color: '#fff',
 				tabIndex: 0,
-				bgImg: '/static/home1.jpg',
 				tabs: ['套餐', '评价'],
 				evaluate: [{
 					name: '赵丽丽',
@@ -123,14 +122,7 @@
 					url: [],
 					reply: '欢迎再次光临'
 				}],
-				list: [{
-					name: '螃蟹大锅烩',
-					url: '/static/gift1.png',
-					tip: '可团购 · 免预约 · 周一至周日',
-					pay: 155,
-					summary: '海鲜都很新鲜',
-					discount: 7.7
-				}]
+				detail: {}
 			};
 		},
 		created() {
@@ -149,9 +141,15 @@
 					const result = await this.$http(this.$API.getProductFoodDetail, {
 						id
 					});
+					this.detail = result.data;
 				} catch (e) {
 					//TODO handle the exception
 				}
+			},
+			call() {
+				uni.makePhoneCall({
+					phoneNumber: this.detail.uutel
+				});
 			},
 			back() {
 				uni.navigateBack()
@@ -389,9 +387,14 @@
 										font-size: 24rpx;
 									}
 
+									&-summarys {
+										@extend .default-flex;
+									}
+
 									&-summary {
 										@extend .u42-tip;
 										color: #FFBB03;
+										margin-right: 10rpx;
 									}
 
 									&-box {

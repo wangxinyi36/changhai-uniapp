@@ -15,7 +15,7 @@
 						</view>
 						<view class="u12-text">{{`地址：${item.address}`}}</view>
 						<view class="u13">
-							<text class="u13-text">{{item.price || ''}}</text>
+							<text class="u13-text">{{`￥${item.price}` || ''}}</text>
 							<image src="/static/home9.svg" class="u13-img" mode="aspectFill" @click="Call(item.mobile)">
 							</image>
 						</view>

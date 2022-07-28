@@ -2,7 +2,7 @@
 	<view>
 		<view class="u221">
 			<swiper :indicator-dots="true" indicator-color="#edf0f7fe" indicator-active-color="#fff" :autoplay="true"
-				:interval="5000" :duration="1000">
+				:interval="5000" :duration="1000" style="height: 424rpx;">
 				<swiper-item v-for="item,index in swipers" :key="index">
 					<view class="swiper-item">
 						<image :src="item.picUrl" mode="aspectFill" class="swiper-item-img" @click="openPage(item)">
@@ -62,7 +62,7 @@
 			},
 			async getSwipers() {
 				try {
-					const res = await this.$http(`${this.$API.getTralList}?limit=4&page=1`);
+					const res = await this.$http(`${this.$API.getTralRotationList}?limit=4&page=1`);
 					this.swipers = res.data.items;
 				} catch (e) {
 					//TODO handle the exception

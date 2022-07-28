@@ -173,7 +173,10 @@
 						userId: this.wechat_userInfo.userId
 					}
 					const result = await this.$http(this.$API.posProductTicketOrder, payForm, 'POST');
-					console.log(result)
+					if(result.errno != 0){
+						showToast(result.errmsg)
+						return;
+					}
 					uni.requestPayment({
 						provider: "wxpay",
 						...result.data,

@@ -53,6 +53,7 @@
 					<view class="u2-item-box-pay">¥{{item.uutprice/100}}</view>
 				</view>
 			</view>
+			<common-empty index="2" v-if="list.length == 0"></common-empty>
 		</view>
 	</view>
 </template>
@@ -79,31 +80,40 @@
 					pointOriginCode: '',
 					startDate: '',
 					toDestinationCode: ''
-				}
+				},
+				year: new Date().getFullYear()
 			};
 		},
 		onLoad() {
 			this.getTimeList()
 			this.getRegions();
+			this.ticketForm.startDate = `${this.year}-${this.ticketForm.startDate}`
 			this.getList();
 		},
 		methods: {
 			change(index, value) {
 				this.active = index;
-				this.ticketForm.startDate = value;
+				this.ticketForm.startDate = `${this.year}-${value}`
 				this.total = 0;
 				this.list = [];
 				this.ticketForm.current = 0;
 				this.getList();
 			},
 			exchange() {
-				if (this.pointOriginName && this.toDestinationName) {
-					let middle = this.pointOriginName;
-					this.pointOriginName = this.toDestinationName;
+				let {
+					pointOriginName,
+					toDestinationName,
+					ticketForm
+				} = this.$data;
+				if (pointOriginName && toDestinationName) {
+					let middle = pointOriginName;
+					this.pointOriginName = toDestinationName;
 					this.toDestinationName = middle;
 					
-					this.ticketForm.pointOriginCode = this.pointOriginCode;
-					this.ticketForm.toDestinationCode = this.toDestinationCode;
+					let formMiddle = ticketForm.pointOriginCode;
+					this.ticketForm.pointOriginCode = ticketForm.toDestinationCode;
+					this.ticketForm.toDestinationCode = formMiddle;
+					
 					this.total = 0;
 					this.list = [];
 					this.getList();
@@ -153,8 +163,6 @@
 					if (total > 0 && total == list.length) {
 						return;
 					}
-					let year = new Date().getFullYear()
-					ticketForm.startDate = `${year}-${ticketForm.startDate}`
 					const res = await this.$http(this.$API.getSteamerTicketList, ticketForm, 'POST');
 					this.total = res.data.total;
 					this.list = list.concat(res.data.list);

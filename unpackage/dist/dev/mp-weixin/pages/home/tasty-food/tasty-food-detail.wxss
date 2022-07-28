@@ -6,7 +6,7 @@ page {
 @charset "UTF-8";
 /* 水平间距 */
 /* 水平间距 */
-.default-flex.data-v-5d388cf6, .u23 .u22-nav.data-v-5d388cf6, .u23 .u24-box .u25-top.data-v-5d388cf6, .u23 .u24-box .u25-top-box .u31.data-v-5d388cf6, .u23 .u24-box .u25-bottom.data-v-5d388cf6, .u23 .u24-box .u25-bottom-box.data-v-5d388cf6, .u23 .u24-box .u57-tabs.data-v-5d388cf6, .u23 .u24-box .u57 .u50-box.data-v-5d388cf6, .u23 .u24-box .u57 .u56-list-item .u42-box.data-v-5d388cf6, .u23 .u24-box .u57 .u56-list-item .u42-box-left.data-v-5d388cf6, .u23 .u24-box .u57 .u70-title.data-v-5d388cf6 {
+.default-flex.data-v-5d388cf6, .u23 .u22-nav.data-v-5d388cf6, .u23 .u24-box .u25-top.data-v-5d388cf6, .u23 .u24-box .u25-top-box .u31.data-v-5d388cf6, .u23 .u24-box .u25-bottom.data-v-5d388cf6, .u23 .u24-box .u25-bottom-box.data-v-5d388cf6, .u23 .u24-box .u57-tabs.data-v-5d388cf6, .u23 .u24-box .u57 .u50-box.data-v-5d388cf6, .u23 .u24-box .u57 .u56-list-item .u42-summarys.data-v-5d388cf6, .u23 .u24-box .u57 .u56-list-item .u42-box.data-v-5d388cf6, .u23 .u24-box .u57 .u56-list-item .u42-box-left.data-v-5d388cf6, .u23 .u24-box .u57 .u70-title.data-v-5d388cf6 {
   display: flex;
   align-items: center;
 }
@@ -173,6 +173,7 @@ page {
 }
 .u23 .u24-box .u57 .u56-list-item .u42-summary.data-v-5d388cf6 {
   color: #FFBB03;
+  margin-right: 10rpx;
 }
 .u23 .u24-box .u57 .u56-list-item .u42-box.data-v-5d388cf6 {
   justify-content: space-between;

@@ -9,7 +9,6 @@
 			</view>
 		</button>
 
-
 		<uni-list :border="false">
 			<uni-list-item title="我的订单" link="navigateTo" thumb="/static/my1.svg" :clickable="true"
 				@click="clickItem('/pages/my/order')"></uni-list-item>
@@ -85,7 +84,7 @@
 					//TODO handle the exception
 				}
 			},
-			login() {
+			login(e) {
 				let _this = this;
 				if (this.wechat_userInfo) {
 					OpenPage('/pages/my/userInfo').then(res => {
@@ -94,7 +93,7 @@
 					return;
 				}
 				WxLogin(this)
-			}
+			},
 		}
 	}
 </script>
