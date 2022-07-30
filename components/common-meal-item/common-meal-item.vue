@@ -4,16 +4,14 @@
 		<view class="u24-item-box">
 			<view class="u24-item-box-name">
 				<view class="u38">{{info.uutitle}}</view>
-				<view class="u38-text">月售{{info.count}}</view>
 			</view>
 			<view class="u39">
 				<view class="u39-grade">{{info.star}}分</view>
-				<view class="u39-pay">人均￥{{info.percapita}}</view>
+				<view class="u39-pay">人均￥{{info.percapita/100}}</view>
 			</view>
-			<view class="u40">起送￥{{info.startDelivery}}</view>
+			<view class="u40">起送￥{{info.startDelivery/100}}</view>
 			<view class="u41">
-				<view class="u41-tag">{{info.remark}}</view>
-				<!-- <view class="u41-tag" v-for="tag,i in info.tags" :key="i">{{tag}}</view> -->
+				<view class="u41-tag" v-for="tag,i in info.ketKeywordList" :key="i">{{tag}}</view>
 			</view>
 		</view>
 	</view>

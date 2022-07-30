@@ -35,14 +35,14 @@
 					<map class="u94-map" scale="8"></map>
 				</view>
 				<view class="u57">
-					<view class="u57-tabs">
+					<!-- <view class="u57-tabs">
 						<view class="u57-tab" v-for="item,index in tabs" :key="index"
 							:class="{'u57-tab-active':tabIndex == index}" @click="change(index)">{{item}}</view>
-					</view>
+					</view> -->
 					<view class="u56">
 						<view class="u56-title u50-title">套餐</view>
 						<view class="u56-list">
-							<view class="u56-list-item" v-for="item,index in detail.foodDetailList" :key="index">
+							<view class="u56-list-item" v-for="item,index in detail.foodDetailList" :key="item.fuuid">
 								<image :src="item.picurl" mode="aspectFill" class="u56-list-item-img"></image>
 								<view class="u42">
 									<view class="u42-name">{{item.foodname}}</view>
@@ -52,39 +52,38 @@
 									</view>
 									<view class="u42-box">
 										<view class="u42-box-left">
-											<view class="u42-box-left-pay">￥{{item.uutprice}}</view>
+											<view class="u42-box-left-pay">￥{{item.uutprice/100}}</view>
 											<view class="u42-box-left-discount">{{item.rebate}}折</view>
 										</view>
-										<navigator url="/pages/home/tasty-food/tasty-food-combo" hover-class="none">
-											<view class="u42-box-btn">订购</view>
-										</navigator>
+										<view class="u42-box-btn" @click="buy(item)">订购</view>
 									</view>
 								</view>
 							</view>
 						</view>
 					</view>
-					<view class="u70">
+					<view class="u70" v-if="evaluate.length > 0">
 						<view class="u70-title u50-title">
 							<view class="u70-title-text">评价</view>
-							<navigator url="/pages/mall/comments" hover-class="none">
+							<navigator :url="`/pages/home/tasty-food/tasty-food-comments?id=${id}&from=tastyFood`"
+								hover-class="none">
 								<view class="u70-title-more">查看更多</view>
 							</navigator>
 						</view>
 						<view class="u58">
-							<view class="u58-item" v-for="item,index in evaluate" :key="index">
+							<view class="u58-item" v-for="item,index in evaluate" :key="item.id">
 								<view class="u59">
-									<image :src="item.avatar" mode="aspectFill" class="u59-img"></image>
+									<image :src="item.userHeadImage" mode="aspectFill" class="u59-img"></image>
 									<view class="u59-box">
-										<view class="u59-box-name">{{item.name}}</view>
-										<uni-rate v-model="item.grade" readonly :size="13" />
+										<view class="u59-box-name">{{item.userName}}</view>
+										<uni-rate v-model="item.score" readonly :size="13" />
 									</view>
 								</view>
-								<view class="u67">{{item.content}}</view>
-								<view class="u58-item-imgs" v-if="item.url.length > 0">
-									<image :src="pic" mode="aspectFill" v-for="pic,i in item.url" :key="i"
+								<view class="u67">{{item.comment}}</view>
+								<view class="u58-item-imgs" v-if="item.picurls.length > 0">
+									<image :src="pic" mode="aspectFill" v-for="pic,i in item.picurls" :key="i"
 										class="u58-item-imgs-pic"></image>
 								</view>
-								<view class="u69">商家回复：{{item.reply}}</view>
+								<!-- <view class="u69">商家回复：{{item.reply}}</view> -->
 							</view>
 						</view>
 					</view>
@@ -96,7 +95,8 @@
 
 <script>
 	import {
-		GetSystemInfo
+		GetSystemInfo,
+		OpenPage
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -107,21 +107,7 @@
 				color: '#fff',
 				tabIndex: 0,
 				tabs: ['套餐', '评价'],
-				evaluate: [{
-					name: '赵丽丽',
-					grade: 4,
-					avatar: '/static/home1.jpg',
-					content: '感谢店家，接到的食物很干净，没有洒漏出来，八爪鱼味道真的是好吃，汁水鲜美，肉质紧实，劲道，触手认口，鲜味十足，色香味俱全，有嚼劲，味道好极了，正适合我的口味，很新鲜，口感滑嫩，下饭的好菜，鲜艳非常诱人分量足',
-					url: ['/static/home3.png', '/static/home3.png'],
-					reply: '欢迎再次光临'
-				}, {
-					name: '赵丽',
-					grade: 4,
-					avatar: '/static/home1.jpg',
-					content: '感谢店家，接到的食物很干净，没有洒漏出来，八爪鱼味道真的是好吃，汁水鲜美，肉质紧实，劲道，触手认口，鲜味十足，色香味俱全，有嚼劲，味道好极了，正适合我的口味，很新鲜，口感滑嫩，下饭的好菜，鲜艳非常诱人分量足',
-					url: [],
-					reply: '欢迎再次光临'
-				}],
+				evaluate: [],
 				detail: {}
 			};
 		},
@@ -131,6 +117,7 @@
 		onLoad(options) {
 			this.id = options.id;
 			this.getDetail()
+			this.postComments()
 		},
 		methods: {
 			async getDetail() {
@@ -143,6 +130,23 @@
 					});
 					this.detail = result.data;
 				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+				}
+			},
+			async postComments() {
+				try {
+					const {
+						id
+					} = this.$data;
+					const result = await this.$http(this.$API.postCommentList, {
+						uuid: id,
+						start: 0,
+						pageNum: 2
+					}, 'POST');
+					this.evaluate = result.data.list;
+				} catch (e) {
+					console.log(e)
 					//TODO handle the exception
 				}
 			},
@@ -150,6 +154,12 @@
 				uni.makePhoneCall({
 					phoneNumber: this.detail.uutel
 				});
+			},
+			buy(item) {
+				OpenPage(`/pages/home/tasty-food/tasty-food-pay`, {
+					detail: this.detail,
+					item,
+				})
 			},
 			back() {
 				uni.navigateBack()

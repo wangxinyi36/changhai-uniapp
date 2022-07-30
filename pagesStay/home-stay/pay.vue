@@ -8,8 +8,8 @@
 				</view>
 				<view class="u11">
 					<view class="u11-box">
-						<view class="u11-box-name">{{detail.uutitle}}</view>
-						<view class="u11-box-dec">{{detail.uuticketDesc}}</view>
+						<view class="u11-box-name">{{detail.housingname}}</view>
+						<view class="u11-box-dec">{{detail.remark}}</view>
 						<view class="u11-box-tip">{{detail.freeCancelMin}}分钟内可免费取消</view>
 					</view>
 					<view class="u17">
@@ -50,7 +50,7 @@
 		</view>
 		<view class="bottom">
 			<view class="bottom-left">
-				您需支付<text class="bottom-left-text">￥{{detail.uutprice*count}}</text>
+				您需支付<text class="bottom-left-text">￥{{detail.uutprice*count/100}}</text>
 			</view>
 			<navigator url="/pagesStay/home-stay/pay-suc" hover-class="none">
 				<view class="bottom-btn">去支付</view>
@@ -87,6 +87,7 @@
 			const _this = this;
 			const eventChannel = this.getOpenerEventChannel();
 			eventChannel.on('sendParams', data => {
+				console.log(data)
 				_this.detail = data.item;
 				_this.time = data.time;
 				_this.day = transChinese(new Date(data.time).getDay())

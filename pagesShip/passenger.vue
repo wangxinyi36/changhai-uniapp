@@ -10,6 +10,10 @@
 					<uni-easyinput v-model="dataForm.passengerIdCard" :inputBorder="false" type="idcard"
 						:clearable="false" placeholder="请输入身份证号" maxlength="18" />
 				</uni-forms-item>
+				<uni-forms-item label="手机号" name="phone">
+					<uni-easyinput v-model="dataForm.phone" :inputBorder="false" type="number" :clearable="false"
+						placeholder="请输入手机号" maxlength="11" />
+				</uni-forms-item>
 			</uni-forms>
 			<view class="bottom">
 				<view class="bottom-clear" @click="clear('form')">清空</view>
@@ -38,11 +42,18 @@
 							required: true,
 							errorMessage: '身份证号不能为空'
 						}]
+					},
+					phone: {
+						rules: [{
+							required: true,
+							errorMessage: '手机号不能为空'
+						}]
 					}
 				},
 				dataForm: {
 					passengerName: '',
 					passengerIdCard: '',
+					phone: '',
 				}
 			};
 		},

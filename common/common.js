@@ -112,7 +112,7 @@ export const FOOD_PRICE = [{
 
 export const MEAL_DISTANCE = [{
 	name: '附近',
-	value: '-',
+	value: '',
 	isActive: false,
 }, {
 	name: '500m',

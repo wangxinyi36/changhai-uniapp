@@ -5,16 +5,9 @@
 				:key="index" @click="tabIndex = index">{{item}}</text>
 		</view>
 		<view class="u58">
-			<view class="u58-title">民宿信息</view>
 			<view class="u58-box">
-				<view class="u58-box-title">{{detail.uutitle}}</view>
-				<rich-text class="u58-box-text" :nodes="detail.uuBhjq"></rich-text>
-			</view>
-		</view>
-		<view class="u58">
-			<view class="u58-title">民宿要求</view>
-			<view class="u58-box">
-				<rich-text class="u58-box-text" :nodes="detail.uuJqts"></rich-text>
+				<view class="u58-box-title">{{detail.businessName}}</view>
+				<mp-html :content="detail.detailsContent"></mp-html>
 			</view>
 		</view>
 	</view>
@@ -27,21 +20,32 @@
 	export default {
 		data() {
 			return {
-				tab: ['民宿信息', '民宿要求'],
+				tab: ['民宿信息'],
 				tabIndex: 0,
 				detail: {},
 				id: ''
 			};
 		},
 		onLoad(options) {
-			const _this = this;
-			const eventChannel = this.getOpenerEventChannel();
-			eventChannel.on('sendParams', data => {
-				_this.detail = data;
-				_this.detail.uuBhjq = regContent(_this.detail.uuBhjq)
-				_this.detail.uuJqts = regContent(_this.detail.uuJqts)
-			})
+			this.id = options.id;
+			this.getDetailInfo()
 		},
+		methods: {
+			async getDetailInfo() {
+				try {
+					const {
+						id
+					} = this.$data;
+					const result = await this.$http(this.$API.postProductShopInfo, {
+						uulid: id,
+					}, 'POST');
+					this.detail = result.data;
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+				}
+			},
+		}
 	}
 </script>
 

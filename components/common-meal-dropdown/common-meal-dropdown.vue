@@ -25,8 +25,8 @@
 				<view class="u75">我的附近</view>
 				<view class="u76">
 					<view class="u76-box" v-for="item,index in regions" :key="index">
-						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 1 && index == tagIndex}"
-							@click="select(index)">{{item}}</view>
+						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 1 && item.isActive}"
+							@click="select(item)">{{item.name}}</view>
 					</view>
 				</view>
 				<view class="bottom">
@@ -57,8 +57,8 @@
 				<view class="u75">地区</view>
 				<view class="u76">
 					<view class="u76-box" v-for="item,index in room" :key="index">
-						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 3 && index == tagIndex2}"
-							@click="select2(index)">{{item}}</view>
+						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 3 && item.isActive}"
+							@click="select(item)">{{item.name}}</view>
 					</view>
 				</view>
 				<view class="bottom">
@@ -75,26 +75,47 @@
 
 <script>
 	import {
-		FOOD_PRICE
+		FOOD_PRICE,
+		MEAL_DISTANCE
 	} from '@/common/common.js'
 	export default {
 		name: "common-meal-dropdown",
-		props: ['foodForm'],
+		props: ['mealForm'],
 		data() {
 			return {
 				tabIndex: 0, //条件
-				regions: ['附近', '500m', '1km', '3km', '5km', '10km'],
+				regions: MEAL_DISTANCE,
 				price: FOOD_PRICE,
-				room: ['大长山岛', '小长山岛', '獐子岛', '广鹿岛', '海洋岛镇']
+				room: []
 			};
 		},
+		mounted() {
+			this.getRegions()
+		},
 		methods: {
+			async getRegions() {
+				try {
+					const result = await this.$http(this.$API.getProductRegionList);
+					this.room = result.data.items.map(item => {
+						item.isActive = false;
+						return item;
+					});
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+				}
+			},
 			select(item) {
 				switch (this.tabIndex) {
 					case 1:
+						this.regions = this.single(this.regions, item, 1);
+						break;
 					case 2:
-						this.price = this.single(this.price, item, 2)
+						this.price = this.single(this.price, item, 2);
+						break;
 					case 3:
+						this.room = this.single(this.room, item, 3);
+						break;
 				}
 			},
 			open(val) {
@@ -105,18 +126,32 @@
 				this.tabIndex = 0;
 				this.$refs.popup.close()
 			},
-			confirm() {
+			async confirm() {
+				let obj = this.mealForm;
+				await this.getFilter()
+				this.$emit('searchQuery', obj)
 				this.cancel()
+			},
+			// 获取筛选条件
+			getFilter() {
+				let region = this.regions.find(item => item.isActive)
+				this.mealForm.distance = region ? region.value : '';
+
+				let pay = this.price.find(item => item.isActive);
+				this.mealForm.price = pay ? pay.name : '';
+
+				let house = this.room.find(item => item.isActive)
+				this.mealForm.cityCode = house ? house.code : '';
 			},
 			// 选中条件
 			single(list, item, num) {
 				let newList = list.map(li => {
-					if (num === 1) {
-						li.isActive = li.regionId == item.regionId && !li.isActive ? true : false;
+					if (num === 1 || num === 2) {
+						li.isActive = li.name == item.name && !li.isActive ? true : false;
 						return li;
 					}
-					if (num === 2) {
-						li.isActive = li.name == item.name && !li.isActive ? true : false;
+					if (num === 3) {
+						li.isActive = li.id == item.id && !li.isActive ? true : false;
 						return li;
 					}
 				})
@@ -211,7 +246,7 @@
 					border-radius: 12rpx;
 					font: normal 400 28rpx/48rpx '微软雅黑', sans-serif;
 					color: #333;
-					width: 128rpx;
+					width: 160rpx;
 					height: 48rpx;
 					text-align: center;
 					margin-top: 24rpx;

@@ -13,7 +13,8 @@
 				pics: [
 					'',
 					'/static/empty/empty1.svg',
-					'/static/empty/empty2.svg'
+					'/static/empty/empty2.svg',
+					'/static/empty/empty3.svg',
 				]
 			};
 		},

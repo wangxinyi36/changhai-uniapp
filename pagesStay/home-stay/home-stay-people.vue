@@ -5,7 +5,18 @@
 			<view class="u93-text">{{addText}}</view>
 		</view>
 		<view class="u71-list">
-			<view class="u71" v-for="item,index in people" :key="index">
+			<view class="u71" v-for="item,index in people" :key="index" v-if="from == 'homeStay'">
+				<view class="u71-left" @click="active = index">
+					<image :src="index == active ? chooseActiveIcon : chooseIcon" mode="aspectFill"
+						class="u71-left-img"></image>
+					<view class="u71-left-box">
+						<view class="u71-left-box-name">{{item.passengerName}}</view>
+						<view class="u71-left-box-card">{{dealCard(item.passengerIdCard)}}</view>
+					</view>
+				</view>
+				<image src="/static/icon5.svg" mode="aspectFill" class="u71-img" @click="edit(item.id)"></image>
+			</view>
+			<view class="u71" v-for="item,index in people" :key="index" v-else>
 				<view class="u71-left" @click="active = index">
 					<image :src="index == active ? chooseActiveIcon : chooseIcon" mode="aspectFill"
 						class="u71-left-img"></image>
@@ -54,14 +65,31 @@
 					title: '收货地址'
 				})
 				this.addText = '新增收货地址'
+				this.getAddress()
 			}
 			if (this.from == 'homeStay') {
-				this.addText = '新增住客'
+				this.addText = '新增住客';
+				this.getList()
 			}
 			this.goodsId = options.goodsId || '';
-			this.getAddress()
 		},
 		methods: {
+			// 酒店入住信息列表
+			async getList() {
+				try {
+					const {
+						userId
+					} = this.$data;
+					const result = await this.$http(`${this.$API.getPassengerList}?userId=${userId}`);
+					this.people = result.data.map(item => {
+						item.isActive = false;
+						return item;
+					})
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+				}
+			},
 			add() {
 				const _this = this;
 				OpenPage(`/pagesStay/home-stay/home-stay-address?from=${this.from}`).then((res) => {
@@ -94,18 +122,20 @@
 			},
 			edit(id) {
 				let _this = this;
-				OpenPage(`/pagesStay/home-stay/home-stay-address?goodsId=${this.goodsId}&id=${id}`).then(res => {
-					if (res.isReload) {
-						_this.page = 1;
-						_this.people = [];
-						_this.total = 0;
-						_this.getAddress()
-					}
-				})
+				OpenPage(`/pagesStay/home-stay/home-stay-address?goodsId=${this.goodsId}&id=${id}&from=${this.from}`).then(
+					res => {
+						if (res.isReload) {
+							_this.page = 1;
+							_this.people = [];
+							_this.total = 0;
+							_this.getAddress()
+						}
+					})
 			},
 			dealCard(val) {
 				return replaceStar(val);
 			},
+			// 商城,外卖,美食地址列表
 			async getAddress() {
 				try {
 					const {
@@ -124,7 +154,6 @@
 				} catch (e) {
 					//TODO handle the exception
 				}
-
 			}
 		},
 		onReachBottom() {

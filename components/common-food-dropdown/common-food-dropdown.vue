@@ -56,7 +56,7 @@
 			<view class="condition" v-if="tabIndex == 3">
 				<view class="u75">地区</view>
 				<view class="u76">
-					<view class="u76-box" v-for="item,index in room" :key="index">
+					<view class="u76-box" v-for="item,index in room" :key="item.id">
 						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 3 && item.isActive}"
 							@click="select(item)">{{item.name}}</view>
 					</view>
@@ -91,16 +91,26 @@
 				tabIndex: 0, //条件
 				regions: MEAL_DISTANCE,
 				price: FOOD_PRICE,
-				room: COMMON_ADDRESS
+				room: [],
+				currentPoint: []
 			};
 		},
 		created() {
-			this.room.map(item => {
-				item.isActive = false;
-				return item;
-			})
+			this.getRegions()
 		},
 		methods: {
+			async getRegions() {
+				try {
+					const result = await this.$http(this.$API.getProductRegionList);
+					this.room = result.data.items.map(item => {
+						item.isActive = false;
+						return item;
+					});
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+				}
+			},
 			select(item) {
 				switch (this.tabIndex) {
 					case 1:
@@ -111,13 +121,49 @@
 						this.room = this.single(this.room, item, 3)
 				}
 			},
-			open(val) {
+			async open(val) {
 				this.tabIndex = val;
 				this.$refs.popup.open('top')
 			},
-			cancel() {
+			async cancel() {
+				await this.clear(this.tabIndex);
 				this.tabIndex = 0;
 				this.$refs.popup.close()
+			},
+			// 取消-重置条件
+			clear(index) {
+				switch (index) {
+					case 1:
+						this.regions = this.regions.map(item => {
+							if (!this.foodForm.distance) {
+								item.isActive = false;
+							} else {
+								item.isActive = this.foodForm.distance == item.value ? true : false;
+							}
+							return item;
+						})
+						break;
+					case 2:
+						this.price = this.price.map(item => {
+							if (!this.foodForm.price) {
+								item.isActive = false;
+							} else {
+								item.isActive = this.foodForm.price == item.name ? true : false;
+							}
+							return item;
+						})
+						break;
+					case 3:
+						this.room = this.room.map(item => {
+							if (!this.foodForm.cityCode) {
+								item.isActive = false;
+							} else {
+								item.isActive = this.foodForm.cityCode == item.code ? true : false;
+							}
+							return item;
+						})
+						break;
+				}
 			},
 			async confirm() {
 				let obj = this.foodForm;
@@ -131,26 +177,21 @@
 				this.foodForm.price = pay ? pay.name : '';
 
 				let address = this.room.find(item => item.isActive)
-				this.foodForm.region = address ? address.name : '';
+				this.foodForm.cityCode = address ? address.code : '';
 
 				let region = this.regions.find(item => item.isActive)
 				if (!region) {
 					this.foodForm.distance = '';
 				}
 				if (region) {
-					if (region.value == '-') {
-						if (getStorage('currentPoint')) {
-							let currentPoint = getStorage('currentPoint');
-							this.foodForm.lat = currentPoint.latitude;
-							this.foodForm.lng = currentPoint.longitude;
-							return;
-						}
-
+					if (!getStorage('currentPoint')) {
 						let currentPoint = await getAddressAuthorize();
-						this.foodForm.lat = currentPoint.latitude;
-						this.foodForm.lng = currentPoint.longitude;
-						return;
+						this.currentPoint = currentPoint;
+					} else {
+						this.currentPoint = getStorage('currentPoint');
 					}
+					this.foodForm.lat = this.currentPoint.latitude;
+					this.foodForm.lng = this.currentPoint.longitude;
 					this.foodForm.distance = region.value;
 				}
 			},
@@ -166,7 +207,7 @@
 						return li;
 					}
 					if (num === 3) {
-						li.isActive = li.name == item.name && !li.isActive ? true : false;
+						li.isActive = li.code == item.code && !li.isActive ? true : false;
 						return li;
 					}
 				})

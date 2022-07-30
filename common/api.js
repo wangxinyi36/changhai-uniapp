@@ -61,7 +61,7 @@ const API = {
 	postProductWMList: 'dev/xcx/product/getWMList', // 获取外卖列表
 	getProductWMDetail: 'dev/xcx/product/getWMDetail', // 获取外卖详情
 
-	postCommentList: 'dev/xcx/comment/getCommentList', // 查询评论
+	postCommentList: 'dev/xcx/comment/getCommentList', // 美食/外卖详情评论列表
 	postCommentSave: 'dev/xcx/comment/saveComment', // 添加评论
 
 	getAddressList: 'dev/xcx/address/list', // 查询收货地址

@@ -1,10 +1,10 @@
 <template>
 	<view>
-		<image :src="detail.coverImg" mode="aspectFill" class="bg"></image>
+		<image :src="detail.picurl" mode="aspectFill" class="bg"></image>
 		<view class="u1">
-			<view class="u1-title">{{detail.uutitle}}</view>
+			<view class="u1-title">{{detail.businessName}}</view>
 			<view class="u1-tags">
-				<text class="u1-tag" v-for="tag,i in detail.keyWords">{{tag}}</text>
+				<text class="u1-tag" v-for="tag,i in detail.keyWords" :key="i">{{tag}}</text>
 				<view class="u1-detail" @click="pageToDetail">
 					<text>详情</text>
 					<image src="/static/icon1.svg" mode="aspectFill" class="u1-detail-icon"></image>
@@ -24,16 +24,16 @@
 				</uni-datetime-picker>
 			</view>
 			<view class="u20-list">
-				<view class="u20" v-for="item,index in list" :key="index">
-					<image :src="item.uuticketPic" mode="aspectFill" class="u20-img"></image>
+				<view class="u20" v-for="item,index in list" :key="item.buuid">
+					<image :src="item.picurl" mode="aspectFill" class="u20-img"></image>
 					<view class="u20-box">
-						<view class="u20-box-name">{{item.uutitle}}</view>
-						<view class="u20-box-dec">{{item.uuticketDesc}}</view>
+						<view class="u20-box-name">{{item.housingname}}</view>
+						<view class="u20-box-dec">{{item.remark}}</view>
 						<view class="u20-box-tip">{{item.freeCancelMin}}分钟内可免费取消</view>
 						<text class="u20-box-btn" @click="openPage('/pagesStay/home-stay/pay',item)">立即确定</text>
 					</view>
 					<view class="u20-pay">
-						<view class="u20-pay-num"><text style="font-size: 24rpx;">￥</text>{{item.uutprice}}</view>
+						<view class="u20-pay-num"><text style="font-size: 24rpx;">￥</text>{{item.uutprice/100}}</view>
 						<view class="u27">定</view>
 					</view>
 				</view>
@@ -86,13 +86,13 @@
 						id,
 						latitude: parseFloat(result.data.lat),
 						longitude: parseFloat(result.data.lng),
-						title: this.detail.uutitle,
+						title: this.detail.businessName,
 						iconPath: '/static/u115.svg',
 						width: 20,
 						height: 28
 					}]
 					uni.setNavigationBarTitle({
-						title: this.detail.uutitle
+						title: this.detail.businessName
 					})
 				} catch (e) {
 					//TODO handle the exception
@@ -117,11 +117,7 @@
 				}
 			},
 			pageToDetail() {
-				OpenPage('/pagesStay/home-stay/home-stay-info', {
-					uuBhjq: this.detail.uuBhjq,
-					uuJqts: this.detail.uuJqts,
-					uutitle: this.detail.uutitle
-				})
+				OpenPage(`/pagesStay/home-stay/home-stay-info?id=${this.id}`)
 			},
 			changeDate(e) {
 				this.time = e;

@@ -2,11 +2,11 @@
 	<view class="u6">
 		<view class="u7">
 			<view class="u8">
-				<view class="u9">100 元优惠卷</view>
-				<view class="u10">周一至周二部分时间段可用 · 不限张数</view>
-				<view class="u11-box-dec">过期自动退</view>
+				<view class="u9">{{foodDetail.foodname}}</view>
+				<!-- <view class="u10">周一至周二部分时间段可用 · 不限张数</view> -->
+				<view class="u11-box-dec">{{foodDetail.remark}}</view>
 				<view class="u11">
-					<view class="u11-box"><text class="u11-box-text">￥</text>89</view>
+					<view class="u11-box"><text class="u11-box-text">￥</text>{{foodDetail.uutprice}}</view>
 					<view class="u17">
 						<image src="/static/del.svg" mode="aspectFill" class="u17-sub" @click="sub"></image>
 						<view class="u17-num">{{count}}</view>
@@ -30,11 +30,7 @@
 			<view class="bottom-left">
 				<view class="u184">
 					<view class="u184-title">合计：</view>
-					<view class="u184-text">￥100</view>
-				</view>
-				<view class="u185">
-					<view class="u185-title">共计1件</view>
-					<view class="u185-text">总优惠￥2</view>
+					<view class="u184-text">￥{{totalMoney}}</view>
 				</view>
 			</view>
 			<navigator url="/pagesStay/home-stay/pay-suc" hover-class="none">
@@ -56,8 +52,32 @@
 				payList: [{
 					name: '微信支付',
 					url: '/static/icon-wechat.svg',
-				}]
+				}],
+				foodDetail: {}
 			};
+		},
+		onLoad() {
+			const _this = this;
+			const eventChannel = this.getOpenerEventChannel();
+			eventChannel.on('sendParams', data => {
+				this.foodDetail = data.item;
+				console.log(data)
+				// _this.detail = data.item;
+				// _this.content = regContent(data.item.content)
+				// uni.setNavigationBarTitle({
+				// 	title: data.item.name
+				// })
+			})
+		},
+		computed: {
+			totalMoney() {
+				let {
+					uutprice,
+					rebate
+				} = this.foodDetail;
+				let money = this.count * parseFloat(uutprice) * parseFloat(rebate)
+				return money;
+			}
 		},
 		methods: {
 			add() {

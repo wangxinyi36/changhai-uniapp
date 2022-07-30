@@ -1,6 +1,20 @@
 <template>
 	<view class="u99">
-		<uni-forms ref="form" :rules="rules" :modelValue="formData">
+		<!-- 酒店 -->
+		<uni-forms ref="form" :rules="rules" :modelValue="formData" v-if="from == 'homeStay'" label-width="80">
+			<uni-forms-item label="姓名" name="name">
+				<uni-easyinput v-model="formData.name" :clearable="false" />
+			</uni-forms-item>
+			<uni-forms-item label="身份证号码" name="idCard" :clearable="false">
+				<uni-easyinput v-model="formData.idCard" type="idcard" maxlength="18" />
+			</uni-forms-item>
+			<uni-forms-item label="手机号码" name="mobile" :clearable="false">
+				<uni-easyinput v-model="formData.mobile" type="number" maxlength="11" />
+			</uni-forms-item>
+		</uni-forms>
+
+		<!-- 商城，美食，外卖 -->
+		<uni-forms ref="form" :rules="rules" :modelValue="formData" v-else>
 			<uni-forms-item label="姓名" name="name">
 				<uni-easyinput v-model="formData.name" :clearable="false" />
 			</uni-forms-item>
@@ -106,11 +120,17 @@
 				provinceList: [],
 				cityList: [],
 				areaList: [],
-				showRegion: ''
+				showRegion: '',
+
+				from: ''
 			};
 		},
 		onLoad(option) {
 			this.formData.userId = getStorage('wechat_userInfo').userId;
+			this.from = option.from;
+			uni.setNavigationBarTitle({
+				title: option.from == 'homeStay' ? '入住信息' : ''
+			})
 			this.getProvince()
 			if (option.id) {
 				this.formData.id = option.id;

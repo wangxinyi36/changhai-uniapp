@@ -6,11 +6,12 @@
 				<view class="u182-text">搜索</view>
 			</view>
 		</view>
-		<common-meal-dropdown></common-meal-dropdown>
+		<common-meal-dropdown :mealForm="mealForm" @searchQuery="searchQuery"></common-meal-dropdown>
 
 		<view class="u24-list">
 			<common-meal-item v-for="item,index in list" :key="index" :info="item">
 			</common-meal-item>
+			<common-empty index="2" v-if="list.length == 0"></common-empty>
 		</view>
 
 		<view class="u77" @click="open">
@@ -44,6 +45,9 @@
 </template>
 
 <script>
+	import {
+		OpenPage
+	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
@@ -62,7 +66,7 @@
 					lat: "",
 					lng: "",
 					price: "",
-					region: "",
+					cityCode: "",
 					size: 10,
 					title: ""
 				}
@@ -96,6 +100,12 @@
 			openSearch() {
 				OpenPage(`/pages/home/search/search?from=home_meal`)
 			},
+			searchQuery(val) {
+				this.mealForm = val;
+				this.list = []
+				this.total = []
+				this.getWMList()
+			}
 		}
 	}
 </script>

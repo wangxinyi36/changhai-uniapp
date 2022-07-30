@@ -117,10 +117,8 @@
 				this.$refs.popup.open('top')
 			},
 			async cancel(value) {
+				await this.clear(this.tabIndex);
 				this.tabIndex = 0;
-				if (value) {
-					await this.clear(value);
-				}
 				this.$refs.popup.close()
 			},
 			async confirm() {
@@ -161,10 +159,43 @@
 			},
 			// 取消-重置条件
 			clear(index) {
+				console.log(this.hotelForm)
 				switch (index) {
 					case 1:
 						this.regions = this.regions.map(item => {
-							item.isActive = item.cityCode == this.hotelForm.cityCode ? true : false;
+							if (!this.hotelForm.cityCode) {
+								item.isActive = false;
+							} else {
+								item.isActive = this.hotelForm.cityCode == item.code ? true : false;
+							}
+							return item;
+						})
+						break;
+					case 2:
+						this.price = this.price.map(item => {
+							if (!this.hotelForm.maxPrice) {
+								item.isActive = false;
+							} else {
+								item.isActive = this.hotelForm.maxPrice == item.max * 100 ? true : false;
+							}
+							return item;
+						})
+						break;
+					case 3:
+						this.person = this.person.map(item => {
+							if (!this.hotelForm.peopleNum) {
+								item.isActive = false;
+							} else {
+								item.isActive = this.hotelForm.peopleNum == item.count ? true : false;
+							}
+							return item;
+						});
+						this.room = this.room.map(item => {
+							if (!this.hotelForm.hourseType) {
+								item.isActive = false;
+							} else {
+								item.isActive = this.hotelForm.hourseType == item.name ? true : false;
+							}
 							return item;
 						})
 						break;
@@ -183,7 +214,7 @@
 				this.hotelForm.peopleNum = man ? man.count : '';
 
 				let house = this.room.find(item => item.isActive)
-				this.hotelForm.hourseType = house ? house.type : '';
+				this.hotelForm.hourseType = house ? house.name : '';
 			},
 		},
 		beforeDestroy() {

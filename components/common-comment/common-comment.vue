@@ -1,6 +1,6 @@
 <template>
 	<view>
-		<view class="common-comment" v-if="from && from == 'mall'">
+		<view class="common-comment" v-if="from == 'mall'">
 			<view class="u33">
 				<image :src="comment.headimage" mode="aspectFill" class="u33-avatar"></image>
 				<view class="u33-name">{{comment.nickname}}</view>
@@ -15,15 +15,18 @@
 				</uni-row>
 			</view>
 		</view>
-		<view class="common-comment" v-else>
+		<view class="common-comment" v-if="from == 'tastyFood'">
 			<view class="u33">
-				<image :src="comment.avatar" mode="aspectFill" class="u33-avatar"></image>
-				<view class="u33-name">{{comment.name}}</view>
+				<image :src="comment.userHeadImage" mode="aspectFill" class="u33-avatar"></image>
+				<view class="u33-right">
+					<view class="u33-name">{{comment.userName}}</view>
+					<uni-rate v-model="comment.score" readonly :size="13" />
+				</view>
 			</view>
-			<view class="content">{{comment.content}}</view>
-			<view class="pics" v-if="comment.pics.length > 0">
+			<view class="content">{{comment.comment}}</view>
+			<view class="pics" v-if="comment.picurls.length > 0">
 				<uni-row :gutter="10">
-					<uni-col :span="12" v-for="item,index in comment.pics" :key="index">
+					<uni-col :span="12" v-for="item,index in comment.picurls" :key="index">
 						<image :src="item" mode="aspectFill" class="pic">
 						</image>
 					</uni-col>
@@ -41,9 +44,7 @@
 			from: String,
 		},
 		data() {
-			return {
-
-			};
+			return {};
 		},
 		created() {}
 	}

@@ -1,6 +1,6 @@
 <template>
-	<view class="u24-item">
-		<view class="u24-item-top" @click="openPage">
+	<view class="u24-item" @click="openPage">
+		<view class="u24-item-top">
 			<image :src="info.uuimgPath" mode="aspectFill" class="u24-item-top-img"></image>
 			<view class="u166">
 				<view class="u166-name">{{info.uutitle}}</view>
@@ -17,10 +17,10 @@
 		<view class="u24-item-bottom">
 			<view class="u269"></view>
 			<view class="u270">
-				<view class="u270-item" v-for="food,i in info.list" :key="food.uuaid" @click="openFoodDetail(food)">
+				<view class="u270-item" v-for="food,i in info.list" :key="i">
 					<image :src="food.uuticketPic" mode="aspectFill" class="u270-item-img"></image>
 					<view class="u270-item-name">{{food.uutitle}}</view>
-					<view class="u270-item-money">￥{{food.uutprice}}</view>
+					<view class="u270-item-money">￥{{food.uutprice/100}}</view>
 				</view>
 			</view>
 		</view>
@@ -50,6 +50,7 @@
 			openPage() {
 				OpenPage(`/pages/home/tasty-food/tasty-food-detail?id=${this.info.uuid}`)
 			},
+			// 美食的食品详情
 			openFoodDetail(food) {
 				OpenPage(`/pages/home/tasty-food/home-tasty-food-detail?id=${food.uuaid}`)
 			}

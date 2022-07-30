@@ -282,7 +282,16 @@
 			"enablePullDownRefresh": false
 		}
 
-	}],
+	}    ,{
+            "path" : "pages/home/tasty-food/tasty-food-comments",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "用户评价",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"subPackages": [{
 		"root": "pagesStay",
 		"pages": [{

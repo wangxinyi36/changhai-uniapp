@@ -8,13 +8,12 @@
 		</view>
 		<common-food-dropdown :foodForm="foodForm" @searchQuery="searchQuery"></common-food-dropdown>
 
-		<view class="u7">
-			<!-- <image src="/static/home1.jpg" mode="aspectFill" class="u7-img"></image> -->
-		</view>
+		<view class="u7"></view>
 
 		<view class="u24-list">
 			<common-food-item v-for="item,index in list" :key="item.uuid" :info="item">
 			</common-food-item>
+			<common-empty index="2" v-if="list.length == 0"></common-empty>
 		</view>
 	</view>
 </template>
@@ -34,7 +33,7 @@
 					lat: "",
 					lng: "",
 					price: "",
-					region: "",
+					cityCode: "",
 					size: 10,
 					title: ""
 				},
