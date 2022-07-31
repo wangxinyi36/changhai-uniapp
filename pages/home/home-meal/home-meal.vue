@@ -13,34 +13,6 @@
 			</common-meal-item>
 			<common-empty index="2" v-if="list.length == 0"></common-empty>
 		</view>
-
-		<view class="u77" @click="open">
-			<image src="/static/mall9.svg" mode="aspectFill" class="u77-img"></image>
-		</view>
-		<uni-popup ref="popup" type="bottom" @change="change">
-			<view class="u120">
-				<view class="u128">
-					<view class="u128-title">加入购物车</view>
-					<view class="u128-title">清空</view>
-				</view>
-				<view class="cart-list">
-					<common-cart-goods v-for="item,index in goods" :key="index" :goods="item"></common-cart-goods>
-				</view>
-				<view class="u181">
-					<view class="u181-left">
-						<view class="u181-left-box">
-							<image src="/static/u183.svg" mode="aspectFill" class="u181-left-box-img"></image>
-							<view class="u181-left-box-count">1</view>
-						</view>
-						<view class="u185">
-							<view class="u185-pay">￥155</view>
-							<view class="u185-send">预估配送费 ￥0</view>
-						</view>
-					</view>
-					<view class="u181-right">去结算</view>
-				</view>
-			</view>
-		</uni-popup>
 	</view>
 </template>
 
@@ -51,18 +23,11 @@
 	export default {
 		data() {
 			return {
-				goods: [{
-					name: '海参',
-					url: '/static/mall8.png',
-					weight: 555,
-					count: 1,
-					pay: 155
-				}],
 				list: [],
 				total: 0,
 				mealForm: {
 					current: 0,
-					distance: "",
+					distance: "-",
 					lat: "",
 					lng: "",
 					price: "",
@@ -86,7 +51,12 @@
 					if (total > 0 && list.length == total) {
 						return;
 					}
-					const result = await this.$http(this.$API.postProductWMList, mealForm, 'POST');
+
+					let form = JSON.parse(JSON.stringify(mealForm))
+					if (form.distance == '-') {
+						form.distance = ''
+					}
+					const result = await this.$http(this.$API.postProductWMList, form, 'POST');
 					this.list = list.concat(result.data.list);
 					this.total = result.data.total;
 				} catch (e) {
@@ -94,18 +64,15 @@
 					//TODO handle the exception
 				}
 			},
-			open() {
-				this.$refs.popup.open('bottom')
-			},
 			openSearch() {
 				OpenPage(`/pages/home/search/search?from=home_meal`)
 			},
 			searchQuery(val) {
-				this.mealForm = val;
-				this.list = []
-				this.total = []
+				this.mealForm = Object.assign(this.mealForm, val)
+				this.list = [];
+				this.total = 0;
 				this.getWMList()
-			}
+			},
 		}
 	}
 </script>

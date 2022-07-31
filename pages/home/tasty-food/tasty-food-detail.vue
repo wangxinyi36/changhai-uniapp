@@ -83,7 +83,7 @@
 									<image :src="pic" mode="aspectFill" v-for="pic,i in item.picurls" :key="i"
 										class="u58-item-imgs-pic"></image>
 								</view>
-								<!-- <view class="u69">商家回复：{{item.reply}}</view> -->
+								<view class="u69" v-if="item.reply">商家回复：{{item.reply}}</view>
 							</view>
 						</view>
 					</view>
@@ -96,6 +96,7 @@
 <script>
 	import {
 		GetSystemInfo,
+		showToast,
 		OpenPage
 	} from '@/common/fun.js'
 	export default {
@@ -144,6 +145,10 @@
 						start: 0,
 						pageNum: 2
 					}, 'POST');
+					if (result.errno != 0) {
+						showToast(result.errmsg)
+						return;
+					}
 					this.evaluate = result.data.list;
 				} catch (e) {
 					console.log(e)

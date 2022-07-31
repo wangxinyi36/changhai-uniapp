@@ -40,7 +40,8 @@
     "pages/my/help-detail",
     "pages/my/order-detail",
     "pages/home/home-meal/detail",
-    "pages/home/tasty-food/tasty-food-comments"
+    "pages/home/tasty-food/tasty-food-comments",
+    "pages/home/home-meal/pay"
   ],
   "subPackages": [
     {

@@ -37,8 +37,9 @@ const API = {
 	getOrderList: 'dev/xcx/order/list', // 查询商品订单列表
 	putOrderCancel: 'dev/xcx/order/cancel', // 取消商城订单
 	getOrderDetail: 'dev/xcx/order/detail', // 商城订单详情
-	postComment: 'dev/xcx/comment/comment', // 商城商品发布评论
+	postComment: 'dev/xcx/comment/comment', // 商城订单发布评论
 	postPayOrder: 'dev/xcx/order/payOrder', // 商城待支付订单支付
+	postQueryMyOrder: 'dev/xcx/order/queryMyOrder', // 票付通订单列表
 
 	getNewsList: 'dev/xcx/article/list', // 查询新闻列表
 	getNewsDetail: 'dev/xcx/article/detail', // 查询新闻详情
@@ -60,6 +61,7 @@ const API = {
 
 	postProductWMList: 'dev/xcx/product/getWMList', // 获取外卖列表
 	getProductWMDetail: 'dev/xcx/product/getWMDetail', // 获取外卖详情
+	postProductSaveWMOrder: 'dev/xcx/product/saveWMOrder', // 外卖下单
 
 	postCommentList: 'dev/xcx/comment/getCommentList', // 美食/外卖详情评论列表
 	postCommentSave: 'dev/xcx/comment/saveComment', // 添加评论

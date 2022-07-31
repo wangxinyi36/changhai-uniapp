@@ -5,27 +5,29 @@
 			<view class="u93-text">{{addText}}</view>
 		</view>
 		<view class="u71-list">
+			<!-- 酒店 -->
 			<view class="u71" v-for="item,index in people" :key="index" v-if="from == 'homeStay'">
-				<view class="u71-left" @click="active = index">
-					<image :src="index == active ? chooseActiveIcon : chooseIcon" mode="aspectFill"
-						class="u71-left-img"></image>
+				<view class="u71-left" @click="select(item,index)">
+					<image :src="item.isActive ? chooseActiveIcon : chooseIcon" mode="aspectFill" class="u71-left-img">
+					</image>
 					<view class="u71-left-box">
 						<view class="u71-left-box-name">{{item.passengerName}}</view>
 						<view class="u71-left-box-card">{{dealCard(item.passengerIdCard)}}</view>
 					</view>
 				</view>
-				<image src="/static/icon5.svg" mode="aspectFill" class="u71-img" @click="edit(item.id)"></image>
+				<image src="/static/icon5.svg" mode="aspectFill" class="u71-img" @click="edit(item)"></image>
 			</view>
-			<view class="u71" v-for="item,index in people" :key="index" v-else>
+			<!-- 外卖 商城 -->
+			<view class="u71" v-for="item,index in people" :key="item.id" v-else>
 				<view class="u71-left" @click="active = index">
 					<image :src="index == active ? chooseActiveIcon : chooseIcon" mode="aspectFill"
 						class="u71-left-img"></image>
 					<view class="u71-left-box">
 						<view class="u71-left-box-name">{{item.name}}</view>
-						<view class="u71-left-box-card">{{dealCard(item.idCard)}}</view>
+						<view class="u71-left-box-card">{{dealPhone(item.mobile)}}</view>
 					</view>
 				</view>
-				<image src="/static/icon5.svg" mode="aspectFill" class="u71-img" @click="edit(item.id)"></image>
+				<image src="/static/icon5.svg" mode="aspectFill" class="u71-img" @click="edit(item)"></image>
 			</view>
 		</view>
 
@@ -52,7 +54,7 @@
 				page: 1,
 				total: 0,
 				userId: '',
-				from: '', // mallOrder 商城商品 homeStay 民宿
+				from: '', // homeStay民宿    mallOrder商城商品 homeMeal外卖
 				goodsId: '',
 				addText: ''
 			};
@@ -60,7 +62,7 @@
 		onLoad(options) {
 			this.userId = getStorage('wechat_userInfo').userId;
 			this.from = options.from;
-			if (this.from == 'mallOrder') {
+			if (this.from == 'mallOrder' || this.from == 'homeMeal') {
 				uni.setNavigationBarTitle({
 					title: '收货地址'
 				})
@@ -90,51 +92,6 @@
 					//TODO handle the exception
 				}
 			},
-			add() {
-				const _this = this;
-				OpenPage(`/pagesStay/home-stay/home-stay-address?from=${this.from}`).then((res) => {
-					if (res.isReload) {
-						_this.page = 1;
-						_this.people = [];
-						_this.total = 0;
-						_this.getAddress()
-					}
-				})
-			},
-			finish() {
-				let {
-					people,
-					active
-				} = this.$data
-				if (active === -1) {
-					showToast('请选择地址~');
-					return;
-				}
-				let _this = this;
-				uni.navigateBack({
-					success() {
-						const eventChannel = _this.getOpenerEventChannel();
-						eventChannel.emit('getParams', {
-							address: people[active]
-						})
-					}
-				})
-			},
-			edit(id) {
-				let _this = this;
-				OpenPage(`/pagesStay/home-stay/home-stay-address?goodsId=${this.goodsId}&id=${id}&from=${this.from}`).then(
-					res => {
-						if (res.isReload) {
-							_this.page = 1;
-							_this.people = [];
-							_this.total = 0;
-							_this.getAddress()
-						}
-					})
-			},
-			dealCard(val) {
-				return replaceStar(val);
-			},
 			// 商城,外卖,美食地址列表
 			async getAddress() {
 				try {
@@ -149,12 +106,103 @@
 					}
 					const result = await this.$http(
 						`${this.$API.getAddressList}?limit=10&page=${page}&userId=${userId}`);
-					this.people = this.people.concat(result.data.items);
+					this.$nextTick(() => {
+						this.people = this.people.concat(result.data.items);
+					})
 					this.total = result.data.total;
 				} catch (e) {
+					console.log(e)
 					//TODO handle the exception
 				}
-			}
+			},
+			select(item, index) {
+				this.$set(item, 'isActive', !item.isActive)
+			},
+			add() {
+				const _this = this;
+				OpenPage(`/pagesStay/home-stay/home-stay-address?from=${this.from}`).then((res) => {
+					if (res.isReload) {
+						_this.page = 1;
+						_this.people = [];
+						_this.total = 0;
+						_this.getAddress()
+					}
+				})
+			},
+			finish() {
+				let {
+					people,
+					active,
+					from
+				} = this.$data
+				let list = [];
+				if (from == 'homeStay') {
+					people.forEach(item => {
+						if (item.isActive) {
+							list.push(item)
+						}
+					})
+					if (list.length == 0) {
+						showToast('请选择地址~');
+						return;
+					}
+				} else {
+					if (active === -1) {
+						showToast('请选择地址~');
+						return;
+					}
+				}
+
+				let _this = this;
+				uni.navigateBack({
+					success() {
+						const eventChannel = _this.getOpenerEventChannel();
+						if (from == 'homeStay') {
+							eventChannel.emit('getParams', {
+								list
+							})
+						} else {
+							eventChannel.emit('getParams', {
+								address: people[active]
+							})
+						}
+
+					}
+				})
+			},
+			edit(item) {
+				let _this = this;
+				let {
+					goodsId,
+					from
+				} = this.$data;
+				OpenPage('/pagesStay/home-stay/home-stay-address', {
+						goodsId,
+						id: item.id,
+						from,
+						item,
+					})
+					.then(
+						res => {
+							if (res.isReload) {
+								_this.page = 1;
+								_this.people = [];
+								_this.total = 0;
+								from == 'homeStay' ? _this.getList() : _this.getAddress()
+							}
+						})
+			},
+			dealCard(val) {
+				if (val) {
+					return replaceStar(val);
+				}
+			},
+			dealPhone(val) {
+				if (val) {
+					return val;
+				}
+			},
+
 		},
 		onReachBottom() {
 			this.page++;

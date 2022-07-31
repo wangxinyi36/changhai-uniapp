@@ -1,7 +1,32 @@
 <template>
 	<view class="common-order">
-		<!-- 民宿 美食 商城 -->
-		<view class="u81">
+		<!-- 民宿 美食 外卖 -->
+		<view class="u81" v-if="type > 0">
+			<view class="u81-top" @click="pageDetail">
+				<image :src="order.picUrl" mode="aspectFill" class="u81-top-img"></image>
+				<view class="u178">
+					<view class="u178-name">
+						<view class="u178-name-title">{{order.title}}</view>
+						<view class="u178-status"
+							:class="[{'u178-cancel':order.orderStatus === 102 || order.orderStatus == 0}]">
+							{{order.orderStatusName}}
+						</view>
+					</view>
+					<view class="u178-name">下单时间：{{order.orderTm}}</view>
+					<view class="u178-pay">{{`￥${order.sumPrice/100}`}}</view>
+				</view>
+			</view>
+			<view class="u81-bottom">
+				<view class="u242">{{ order.orderStatus === 1 ? `剩余时间:${order.leftTime}` : ''}}</view>
+				<view class="u240">
+					<view class="u241 u241-cancel" @click="cancel" v-if="order.orderStatus === 101">取消订单</view>
+					<view class="u241" @click="buy" v-if="order.orderStatus === 101">立即付款</view>
+					<view class="u241" @click="pageDetail" v-if="order.orderStatus === 201">立即评价</view>
+				</view>
+			</view>
+		</view>
+		<!-- 商城 -->
+		<view class="u81" v-else>
 			<view class="u81-top" @click="pageDetail">
 				<image :src="order.goods[0].picUrl" mode="aspectFill" class="u81-top-img"></image>
 				<view class="u178">
@@ -36,22 +61,27 @@
 	} from '@/common/fun.js'
 	export default {
 		name: "common-order",
-		props: {
-			order: Object
-		},
+		props: ['order', 'type'],
 		data() {
 			return {};
 		},
+		created() {
+			console.log(this.type)
+		},
 		methods: {
 			dealTime(val) {
-				return `${val[0]}-${val[1]}-${val[2]} ${val[3]}:${val[4]}:${val[5]}`
+				if (val) {
+					return `${val[0]}-${val[1]}-${val[2]} ${val[3]}:${val[4]}:${val[5]}`
+				}
 			},
 			dealName() {
-				let name = this.order.goods[0].goodsName;
-				if (this.order.goods.length == 1) {
-					return name;
-				} else {
-					return `${name}等${this.order.goods.length}个商品`
+				if (this.order.goods) {
+					let name = this.order.goods[0].goodsName;
+					if (this.order.goods.length == 1) {
+						return name;
+					} else {
+						return `${name}等${this.order.goods.length}个商品`
+					}
 				}
 			},
 			async buy() {

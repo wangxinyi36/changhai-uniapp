@@ -168,6 +168,9 @@
 			async confirm() {
 				let obj = this.foodForm;
 				await this.getFilter()
+				if (obj.distance == '') {
+					obj.distance = ''
+				}
 				this.$emit('searchQuery', obj)
 				this.cancel()
 			},
@@ -213,6 +216,16 @@
 				})
 				return newList;
 			},
+		},
+		beforeDestroy() {
+			this.price.map(item => {
+				item.isActive = false;
+				return;
+			});
+			this.regions.map(item => {
+				item.isActive = false;
+				return;
+			});
 		},
 	}
 </script>

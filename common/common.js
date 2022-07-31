@@ -112,7 +112,7 @@ export const FOOD_PRICE = [{
 
 export const MEAL_DISTANCE = [{
 	name: '附近',
-	value: '',
+	value: '-',
 	isActive: false,
 }, {
 	name: '500m',
@@ -134,4 +134,44 @@ export const MEAL_DISTANCE = [{
 	name: '10km',
 	value: '10000',
 	isActive: false,
+}]
+
+// 订单类型
+export const ORDER_TYPE = [{
+	text: '商城',
+	value: '1',
+}, {
+	text: '民宿',
+	value: 'C',
+}, {
+	text: '美食',
+	value: 'G',
+}, {
+	text: '外卖',
+	value: 'W',
+}]
+
+
+// 订单状态-票付通
+export const ORDER_STATUS = [{
+	text: '全部',
+	value: '-1',
+}, {
+	text: '未支付',
+	value: '0',
+}, {
+	text: '已支付',
+	value: '1',
+}]
+
+// 订单状态-商城
+export const ORDER_STATUS2 = [{
+	text: '全部',
+	value: '-1',
+}, {
+	text: '待支付',
+	value: '101',
+}, {
+	text: '已完成',
+	value: '201',
 }]

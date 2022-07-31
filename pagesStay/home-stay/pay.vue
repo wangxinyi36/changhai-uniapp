@@ -24,12 +24,10 @@
 				</view>
 			</view>
 			<view class="u63">
-				<view class="u63-box" @click="pageToAddress" v-if="!address.id">添加入住人</view>
-				<view class="u22" v-else @click="pageToAddress">
-					<view class="u22-name">{{address.name}}</view>
-					<view class="u22-address">
-						{{address.province}}{{address.city}}{{address.area}}{{address.address}}
-					</view>
+				<view class="u63-box" @click="pageToAddress" v-if="address.length == 0">添加入住人</view>
+				<view class="u22" v-else @click="pageToAddress" v-for="ad,i in address" :key="ad.id">
+					<view class="u22-name">{{ad.passengerName}}</view>
+					<view class="u22-address">{{ad.phone}}</view>
 				</view>
 			</view>
 			<view class="u25">
@@ -76,7 +74,7 @@
 					url: '/static/icon-wechat.svg',
 				}],
 				count: 1,
-				address: {},
+				address: [],
 
 				detail: {},
 				time: '',
@@ -100,8 +98,8 @@
 			pageToAddress() {
 				let _this = this;
 				OpenPage(`/pagesStay/home-stay/home-stay-people?from=homeStay`).then(res => {
-					if (res.address) {
-						_this.address = res.address;
+					if (res.list) {
+						_this.address = res.list;
 					}
 				})
 			},

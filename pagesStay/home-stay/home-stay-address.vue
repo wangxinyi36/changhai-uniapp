@@ -1,28 +1,22 @@
 <template>
 	<view class="u99">
 		<!-- 酒店 -->
-		<uni-forms ref="form" :rules="rules" :modelValue="formData" v-if="from == 'homeStay'" label-width="80">
-			<uni-forms-item label="姓名" name="name">
-				<uni-easyinput v-model="formData.name" :clearable="false" />
+		<uni-forms ref="form" :rules="rules1" :modelValue="formData1" v-if="from == 'homeStay'" label-width="80">
+			<uni-forms-item label="姓名" name="passengerName">
+				<uni-easyinput v-model="formData1.passengerName" :clearable="false" />
 			</uni-forms-item>
-			<uni-forms-item label="身份证号码" name="idCard" :clearable="false">
-				<uni-easyinput v-model="formData.idCard" type="idcard" maxlength="18" />
+			<uni-forms-item label="身份证号码" name="passengerIdCard" :clearable="false">
+				<uni-easyinput v-model="formData1.passengerIdCard" type="idcard" maxlength="18" />
 			</uni-forms-item>
-			<uni-forms-item label="手机号码" name="mobile" :clearable="false">
-				<uni-easyinput v-model="formData.mobile" type="number" maxlength="11" />
+			<uni-forms-item label="手机号码" name="phone" :clearable="false">
+				<uni-easyinput v-model="formData1.phone" type="number" maxlength="11" />
 			</uni-forms-item>
 		</uni-forms>
 
 		<!-- 商城，美食，外卖 -->
-		<uni-forms ref="form" :rules="rules" :modelValue="formData" v-else>
+		<uni-forms ref="form" :rules="rules2" :modelValue="formData" v-else>
 			<uni-forms-item label="姓名" name="name">
 				<uni-easyinput v-model="formData.name" :clearable="false" />
-			</uni-forms-item>
-			<uni-forms-item label="证件类型" name="cardType">
-				<view class="cardType">{{formData.cardType}}</view>
-			</uni-forms-item>
-			<uni-forms-item label="证件号码" name="idCard" :clearable="false">
-				<uni-easyinput v-model="formData.idCard" type="idcard" />
 			</uni-forms-item>
 			<uni-forms-item label="手机号码" name="mobile" :clearable="false">
 				<uni-easyinput v-model="formData.mobile" type="number" maxlength="11" />
@@ -69,17 +63,31 @@
 	export default {
 		data() {
 			return {
-				rules: {
-					name: {
+				rules1: {
+					passengerName: {
 						rules: [{
 							required: true,
 							errorMessage: '请输入姓名',
 						}]
 					},
-					idCard: {
+					passengerIdCard: {
 						rules: [{
 							required: true,
 							errorMessage: '请输入身份证号',
+						}]
+					},
+					phone: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入手机号码',
+						}]
+					},
+				},
+				rules2: {
+					name: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入姓名',
 						}]
 					},
 					mobile: {
@@ -103,10 +111,14 @@
 				},
 				id: '', //地址id
 				goodsId: '', //商品id
+				formData1: {
+					passengerName: "",
+					passengerIdCard: "",
+					phone: "",
+					id: ''
+				},
 				formData: {
 					name: '',
-					cardType: '身份证',
-					idCard: '',
 					mobile: '',
 					address: '',
 					areaId: '',
@@ -127,17 +139,29 @@
 		},
 		onLoad(option) {
 			this.formData.userId = getStorage('wechat_userInfo').userId;
-			this.from = option.from;
-			uni.setNavigationBarTitle({
-				title: option.from == 'homeStay' ? '入住信息' : ''
+			const _this = this;
+			const eventChannel = this.getOpenerEventChannel();
+			eventChannel.on('sendParams', function(data) {
+				_this.from = data.from;
+				_this.goodsId = data.goodsId;
+
+				if (data.from == 'homeStay') {
+					uni.setNavigationBarTitle({
+						title: '入住信息'
+					})
+				} else {
+					_this.getProvince();
+				}
+
+				if (data.id) {
+					_this.id = data.id;
+					if (data.from == 'homeStay') {
+						_this.formData1 = data.item;
+					} else {
+						_this.getDetail();
+					}
+				}
 			})
-			this.getProvince()
-			if (option.id) {
-				this.formData.id = option.id;
-				this.id = option.id;
-				this.getDetail();
-				return;
-			}
 		},
 		methods: {
 			open() {
@@ -194,10 +218,24 @@
 				const _this = this;
 				this.$refs.form.validate().then(async res => {
 					try {
-						let form = JSON.parse(JSON.stringify(_this.formData));
+						let form = {}
 						delete form.showRegion;
-						const result = await _this.$http(`${_this.$API.postAddressSave}`, form,
-							'POST');
+						let {
+							formData,
+							formData1,
+							from,
+						} = _this.$data;
+
+						if (from == 'homeStay') {
+							form = JSON.parse(JSON.stringify(formData1))
+							const result = await _this.$http(`${_this.$API.postPassengerUpdate}`, form,
+								'POST');
+						} else {
+							const result = await _this.$http(`${_this.$API.postAddressSave}`, form,
+								'POST');
+						}
+
+
 						uni.showToast({
 							title: '添加成功~'
 						});
@@ -218,6 +256,7 @@
 					console.log('表单错误信息：', err);
 				})
 			},
+			// 商城 外卖 美食地址详情
 			async getDetail() {
 				try {
 					const {

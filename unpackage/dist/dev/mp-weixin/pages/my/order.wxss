@@ -1,11 +1,20 @@
 @charset "UTF-8";
 /* 水平间距 */
 /* 水平间距 */
-.default-flex.data-v-1c376db8 {
+.default-flex.data-v-1c376db8, .header-types.data-v-1c376db8 {
   display: flex;
   align-items: center;
 }
 .content.data-v-1c376db8 {
-  padding: 0 20rpx;
+  padding: 72px 20rpx 0 20rpx;
+}
+.header.data-v-1c376db8 {
+  position: fixed;
+  width: 100%;
+  background: #fff;
+  z-index: 1;
+}
+.header-types.data-v-1c376db8 {
+  justify-content: space-between;
 }
 

@@ -78,6 +78,10 @@
 		FOOD_PRICE,
 		MEAL_DISTANCE
 	} from '@/common/common.js'
+	import {
+		getAddressAuthorize,
+		getStorage
+	} from '@/common/fun.js'
 	export default {
 		name: "common-meal-dropdown",
 		props: ['mealForm'],
@@ -86,7 +90,8 @@
 				tabIndex: 0, //条件
 				regions: MEAL_DISTANCE,
 				price: FOOD_PRICE,
-				room: []
+				room: [],
+				currentPoint: []
 			};
 		},
 		mounted() {
@@ -122,7 +127,8 @@
 				this.tabIndex = val;
 				this.$refs.popup.open('top')
 			},
-			cancel() {
+			async cancel() {
+				await this.clear(this.tabIndex);
 				this.tabIndex = 0;
 				this.$refs.popup.close()
 			},
@@ -132,10 +138,58 @@
 				this.$emit('searchQuery', obj)
 				this.cancel()
 			},
+			// 取消-重置条件
+			clear(index) {
+				switch (index) {
+					case 1:
+						this.regions = this.regions.map(item => {
+							if (!this.mealForm.distance) {
+								item.isActive = false;
+							} else {
+								item.isActive = this.mealForm.distance == item.value ? true : false;
+							}
+							return item;
+						})
+						break;
+					case 2:
+						this.price = this.price.map(item => {
+							if (!this.mealForm.price) {
+								item.isActive = false;
+							} else {
+								item.isActive = this.mealForm.price == item.name ? true : false;
+							}
+							return item;
+						})
+						break;
+					case 3:
+						this.room = this.room.map(item => {
+							if (!this.mealForm.cityCode) {
+								item.isActive = false;
+							} else {
+								item.isActive = this.mealForm.cityCode == item.code ? true : false;
+							}
+							return item;
+						})
+						break;
+				}
+			},
 			// 获取筛选条件
-			getFilter() {
+			async getFilter() {
 				let region = this.regions.find(item => item.isActive)
-				this.mealForm.distance = region ? region.value : '';
+				if (!region) {
+					this.mealForm.distance = '';
+				}
+				if (region) {
+					if (!getStorage('currentPoint')) {
+						let currentPoint = await getAddressAuthorize();
+						this.currentPoint = currentPoint;
+					} else {
+						this.currentPoint = getStorage('currentPoint');
+					}
+					this.mealForm.lat = this.currentPoint.latitude;
+					this.mealForm.lng = this.currentPoint.longitude;
+					this.mealForm.distance = region.value;
+				}
 
 				let pay = this.price.find(item => item.isActive);
 				this.mealForm.price = pay ? pay.name : '';
@@ -157,6 +211,16 @@
 				})
 				return newList;
 			},
+		},
+		beforeDestroy() {
+			this.price.map(item => {
+				item.isActive = false;
+				return;
+			});
+			this.regions.map(item => {
+				item.isActive = false;
+				return;
+			});
 		},
 	}
 </script>

@@ -47,12 +47,18 @@
 				try {
 					const {
 						total,
-						list
+						list,
+						foodForm
 					} = this.$data;
 					if (total > 0 && list.length == total) {
 						return;
 					}
-					const resultFoods = await this.$http(this.$API.postProductFoodList, this.foodForm, 'POST');
+
+					let form = JSON.parse(JSON.stringify(foodForm))
+					if (form.distance == '-') {
+						form.distance = ''
+					}
+					const resultFoods = await this.$http(this.$API.postProductFoodList, form, 'POST');
 					this.list = list.concat(resultFoods.data.list);
 					this.total = resultFoods.data.total;
 				} catch (e) {
