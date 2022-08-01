@@ -35,10 +35,6 @@
 					<map class="u94-map" scale="8"></map>
 				</view>
 				<view class="u57">
-					<!-- <view class="u57-tabs">
-						<view class="u57-tab" v-for="item,index in tabs" :key="index"
-							:class="{'u57-tab-active':tabIndex == index}" @click="change(index)">{{item}}</view>
-					</view> -->
 					<view class="u56">
 						<view class="u56-title u50-title">套餐</view>
 						<view class="u56-list">
@@ -48,7 +44,9 @@
 									<view class="u42-name">{{item.foodname}}</view>
 									<view class="u42-tip">{{item.remark}}</view>
 									<view class="u42-summarys">
-										<view class="u42-summary" v-for="tag,i in item.ticketkeywordList">{{tag}}</view>
+										<view class="u42-summary" v-for="tag,i in item.ticketkeywordList" :key="i">
+											{{tag}}
+										</view>
 									</view>
 									<view class="u42-box">
 										<view class="u42-box-left">
@@ -97,7 +95,9 @@
 	import {
 		GetSystemInfo,
 		showToast,
-		OpenPage
+		OpenPage,
+		WxLogin,
+		getStorage
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -109,7 +109,8 @@
 				tabIndex: 0,
 				tabs: ['套餐', '评价'],
 				evaluate: [],
-				detail: {}
+				detail: {},
+				wechat_userInfo: {}
 			};
 		},
 		created() {
@@ -119,6 +120,9 @@
 			this.id = options.id;
 			this.getDetail()
 			this.postComments()
+		},
+		onShow() {
+			this.wechat_userInfo = getStorage('wechat_userInfo')
 		},
 		methods: {
 			async getDetail() {
@@ -161,10 +165,13 @@
 				});
 			},
 			buy(item) {
-				OpenPage(`/pages/home/tasty-food/tasty-food-pay`, {
-					detail: this.detail,
-					item,
-				})
+				if (this.wechat_userInfo) {
+					OpenPage(`/pages/home/tasty-food/tasty-food-pay`, {
+						item,
+					})
+					return;
+				}
+				WxLogin(this)
 			},
 			back() {
 				uni.navigateBack()

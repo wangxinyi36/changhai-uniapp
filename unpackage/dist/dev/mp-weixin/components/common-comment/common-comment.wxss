@@ -1,3 +1,8 @@
+
+page {
+	background-color: rgba(237, 240, 247, 1);
+}
+
 @charset "UTF-8";
 /* 水平间距 */
 /* 水平间距 */
@@ -5,7 +10,10 @@
   display: flex;
   align-items: center;
 }
-.common-comment .u33.data-v-5c6004b8 {
+.common-comment.data-v-5c6004b8 {
+  background-color: #fff;
+  border-radius: 20rpx;
+  padding: 20rpx;
   margin-top: 20rpx;
 }
 .common-comment .u33-avatar.data-v-5c6004b8 {
@@ -24,5 +32,12 @@
 .common-comment .pics .pic.data-v-5c6004b8 {
   height: 170rpx;
   width: 100%;
+}
+.common-comment .reply.data-v-5c6004b8 {
+  font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+  color: #aaa;
+  border-top: 1px solid #d7d7d7;
+  margin-top: 10rpx;
+  padding-top: 10rpx;
 }
 

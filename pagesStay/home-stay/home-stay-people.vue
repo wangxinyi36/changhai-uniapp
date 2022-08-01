@@ -17,8 +17,9 @@
 				</view>
 				<image src="/static/icon5.svg" mode="aspectFill" class="u71-img" @click="edit(item)"></image>
 			</view>
-			<!-- 外卖 商城 -->
-			<view class="u71" v-for="item,index in people" :key="item.id" v-else>
+			<!-- 外卖 商城 美食 -->
+			<view class="u71" v-for="item,index in people" :key="item.id"
+				v-if="from == 'mallOrder' || from == 'homeMeal' || from == 'tastyFood'">
 				<view class="u71-left" @click="active = index">
 					<image :src="index == active ? chooseActiveIcon : chooseIcon" mode="aspectFill"
 						class="u71-left-img"></image>
@@ -54,7 +55,7 @@
 				page: 1,
 				total: 0,
 				userId: '',
-				from: '', // homeStay民宿    mallOrder商城商品 homeMeal外卖
+				from: '', // homeStay民宿    mallOrder商城商品 homeMeal外卖 tastyFood美食
 				goodsId: '',
 				addText: '',
 
@@ -65,7 +66,7 @@
 		onLoad(options) {
 			this.userId = getStorage('wechat_userInfo').userId;
 			this.from = options.from;
-			if (this.from == 'mallOrder' || this.from == 'homeMeal') {
+			if (this.from == 'mallOrder' || this.from == 'homeMeal' || this.from == 'tastyFood') {
 				uni.setNavigationBarTitle({
 					title: '收货地址'
 				})
@@ -109,9 +110,7 @@
 					}
 					const result = await this.$http(
 						`${this.$API.getAddressList}?limit=10&page=${page}&userId=${userId}`);
-					this.$nextTick(() => {
-						this.people = this.people.concat(result.data.items);
-					})
+					this.people = this.people.concat(result.data.items);
 					this.total = result.data.total;
 				} catch (e) {
 					console.log(e)

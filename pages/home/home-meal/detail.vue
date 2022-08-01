@@ -142,7 +142,9 @@
 	import {
 		GetSystemInfo,
 		showToast,
-		OpenPage
+		OpenPage,
+		getStorage,
+		WxLogin,
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -158,12 +160,16 @@
 				cartList: [],
 				evaluate: [],
 				money: 0,
+				wechat_userInfo: {}
 			};
 		},
 		onLoad(options) {
 			this.id = options.id;
 			this.getDetail();
 			this.postComments()
+		},
+		onShow() {
+			this.wechat_userInfo = getStorage('wechat_userInfo')
 		},
 		computed: {
 			totalMoney() {
@@ -229,19 +235,24 @@
 					money,
 					id
 				} = this.$data;
-				if (cartList.length == 0) {
-					showToast('购物车为空~')
+				
+				if (this.wechat_userInfo) {
+					if (cartList.length == 0) {
+						showToast('购物车为空~')
+						return;
+					}
+					OpenPage(`/pages/home/home-meal/pay`, {
+						cartList,
+						money,
+						id
+					}).then(res => {
+						if (res.isReload) {
+							_this.cartList = []
+						}
+					})
 					return;
 				}
-				OpenPage(`/pages/home/home-meal/pay`, {
-					cartList,
-					money,
-					id
-				}).then(res => {
-					if (res.isReload) {
-						_this.cartList = []
-					}
-				})
+				WxLogin(this);
 			},
 			change(index) {
 				this.current = index;

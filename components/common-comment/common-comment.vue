@@ -1,5 +1,5 @@
 <template>
-	<view>
+	<view class="content">
 		<view class="common-comment" v-if="from == 'mall'">
 			<view class="u33">
 				<image :src="comment.headimage" mode="aspectFill" class="u33-avatar"></image>
@@ -14,6 +14,7 @@
 					</uni-col>
 				</uni-row>
 			</view>
+			<view class="reply" v-if="comment.reply">商家回复：{{comment.reply}}</view>
 		</view>
 		<view class="common-comment" v-if="from == 'tastyFood'">
 			<view class="u33">
@@ -49,12 +50,20 @@
 		created() {}
 	}
 </script>
-
+<style>
+	page {
+		background-color: rgba(237, 240, 247, 1);
+	}
+</style>
 <style lang="scss" scoped>
 	.common-comment {
+		background-color: #fff;
+		border-radius: 20rpx;
+		padding: 20rpx;
+		margin-top: 20rpx;
+
 		.u33 {
 			@extend .default-flex;
-			margin-top: 20rpx;
 
 			&-avatar {
 				width: 60rpx;
@@ -76,6 +85,14 @@
 				height: 170rpx;
 				width: 100%;
 			}
+		}
+
+		.reply {
+			font: normal 400 24rpx/normal '微软雅黑', sans-serif;
+			color: #aaa;
+			border-top: 1px solid rgba(215, 215, 215, 1);
+			margin-top: 10rpx;
+			padding-top: 10rpx;
 		}
 
 	}

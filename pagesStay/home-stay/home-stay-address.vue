@@ -144,6 +144,7 @@
 			const _this = this;
 			const eventChannel = this.getOpenerEventChannel();
 			eventChannel.on('sendParams', function(data) {
+				console.log(data)
 				_this.from = data.from;
 				_this.goodsId = data.goodsId || '';
 
@@ -160,6 +161,7 @@
 					if (data.from == 'homeStay') {
 						_this.formData1 = data.item;
 					} else {
+						_this.formData = data.item;
 						_this.getDetail();
 					}
 				}

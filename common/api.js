@@ -61,6 +61,7 @@ const API = {
 
 	postProductFoodList: 'dev/xcx/product/getFoodList', // 获取美食列表
 	getProductFoodDetail: 'dev/xcx/product/getFoodDetail', // 获取美食详情
+	postSaveFoodOrder: 'dev/xcx/product/saveFoodOrder', // 美食下单
 
 	postProductWMList: 'dev/xcx/product/getWMList', // 获取外卖列表
 	getProductWMDetail: 'dev/xcx/product/getWMDetail', // 获取外卖详情

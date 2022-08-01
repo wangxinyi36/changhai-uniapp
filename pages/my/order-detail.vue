@@ -56,8 +56,8 @@
 			</view>
 		</view>
 
-		<!-- 船票 民宿 -->
-		<view class="u9" v-if="type == 4 || type == 1">
+		<!-- 船票 民宿 美食 外卖 -->
+		<view class="u9" v-if="type > 0">
 			<view class="u9-title">商品信息</view>
 			<view class="u26" v-for="item in order.pftOrderDetailList" :key="item.tid">
 				<view class="u27">
@@ -100,15 +100,16 @@
 
 
 
-		<view class="bottom" v-if="order.orderStatus === 101 || order.orderStatus === 0">
+		<view class="bottom" v-if="order.orderStatus == 101 || order.orderStatus == 0">
 			<view class="bottom-left">
-				<view class="bottom-left-text" v-if="type == 'list'">实付金额：<text
-						style="color: #D9001B;">￥{{getMoney}}</text></view>
-				<view class="bottom-left-text" v-if="type == 'detail'">实付金额：<text
-						style="color: #D9001B;">￥{{goodsList[0].retailPrice}}</text></view>
+				<view class="bottom-left-text" v-if="type == '0'">合计：<text
+						style="color: #D9001B;">￥{{order.orderPrice}}</text></view>
+				<view class="bottom-left-text" v-else>合计：<text style="color: #D9001B;">￥{{order.sumPrice/100}}</text>
+				</view>
+				<view class="bottom-right" @click="buy">立即付款</view>
 			</view>
-			<view class="bottom-right" @click="buy" v-if="order.orderStatus === 101">立即付款</view>
 		</view>
+
 	</view>
 </template>
 
@@ -118,11 +119,6 @@
 		showToast,
 		getStorage,
 	} from '@/common/fun.js';
-	import {
-		mapMutations,
-		mapState,
-		mapGetters
-	} from 'vuex'
 	export default {
 		data() {
 			return {
@@ -191,7 +187,48 @@
 						_this.getDetail()
 					}
 				})
-			}
+			},
+			async buy() {
+				try {
+					const _this = this;
+					const {
+						type,
+						order
+					} = this.$data;
+
+					let payOrder = {
+						openId: getStorage('wechat_openId'),
+						orderNo: order.orderSn
+					}
+
+					let result = {};
+					if (type == 0) {
+						result = await this.$http(this.$API.postPayOrder, payOrder, 'POST');
+					} else {
+						result = await this.$http(this.$API.getProductPayOrder, {
+							orderCode: order.orderSn
+						});
+					}
+					if (result.errno == 0) {
+						uni.requestPayment({
+							provider: "wxpay",
+							...result.data,
+							success(res) {
+								showToast('支付成功~')
+								setTimeout(() => {
+									_this.$emit('reload', this.order)
+								}, 1500)
+							},
+							fail(e) {
+								console.log(e)
+							}
+						})
+					}
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+				}
+			},
 		},
 		onUnload() {
 			if (this.isReload) {
@@ -393,6 +430,9 @@
 			margin-left: 30rpx;
 			font: normal 400 24rpx/normal 'Arial Normal', 'Arial', sans-serif;
 			color: #333;
+			@extend .default-flex;
+			justify-content: space-between;
+			width: 100%;
 		}
 
 		&-right {
@@ -406,5 +446,6 @@
 			text-align: center;
 			line-height: 60rpx;
 		}
+
 	}
 </style>

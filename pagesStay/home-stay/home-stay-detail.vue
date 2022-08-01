@@ -24,13 +24,14 @@
 				</uni-datetime-picker>
 			</view>
 			<view class="u20-list">
-				<view class="u20" v-for="item,index in list" :key="item.buuid">
+				<view class="u20" v-for="item,index in list" :key="item.huuid"
+					@click="openPage('/pagesStay/home-stay/pay',item)">
 					<image :src="item.picurl" mode="aspectFill" class="u20-img"></image>
 					<view class="u20-box">
 						<view class="u20-box-name">{{item.housingname}}</view>
 						<view class="u20-box-dec">{{item.remark}}</view>
 						<view class="u20-box-tip">{{item.freeCancelMin}}分钟内可免费取消</view>
-						<text class="u20-box-btn" @click="openPage('/pagesStay/home-stay/pay',item)">立即确定</text>
+						<text class="u20-box-btn">立即确定</text>
 					</view>
 					<view class="u20-pay">
 						<view class="u20-pay-num"><text style="font-size: 24rpx;">￥</text>{{item.uutprice/100}}</view>
@@ -47,7 +48,8 @@
 		OpenPage,
 		getStorage,
 		setStorage,
-		showToast
+		showToast,
+		WxLogin
 	} from '@/common/fun.js'
 	export default {
 		data() {
