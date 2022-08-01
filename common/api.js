@@ -40,6 +40,8 @@ const API = {
 	postComment: 'dev/xcx/comment/comment', // 商城订单发布评论
 	postPayOrder: 'dev/xcx/order/payOrder', // 商城待支付订单支付
 	postQueryMyOrder: 'dev/xcx/order/queryMyOrder', // 票付通订单列表
+	getQueryOrderDetail: 'dev/xcx/order/queryOrderDetail', // 票付通订单详情
+	getProductPayOrder: 'dev/xcx/product/payOrder', // 票付通订单列表继续支付
 
 	getNewsList: 'dev/xcx/article/list', // 查询新闻列表
 	getNewsDetail: 'dev/xcx/article/detail', // 查询新闻详情
@@ -49,12 +51,13 @@ const API = {
 	postLoginByWeixin: 'wxapi/wx/auth/login_by_weixin', // 微信登录
 	postAuthUpdate: 'dev/xcx/auth/update', // 更新用户信息
 
-	getHotSjList: 'dev/xcx/product/getHotSjList', // 精选美食
+	getHotFoodList: 'dev/xcx/product/getHotFoodList', // 精选美食
 
 	getProductRegionList: 'dev/xcx/region/list', // 获取区域列表
 	postProductShopList: 'dev/xcx/product/queryBShopList', // 查询民宿列表
 	postProductShopDetail: 'dev/xcx/product/getBSDetail', // 查询民宿详情的列表
 	postProductShopInfo: 'dev/xcx/product/getBSInfo', // 获取民宿详情
+	postProductSaveMSOrder: 'dev/xcx/product/saveMSOrder', // 民宿下单
 
 	postProductFoodList: 'dev/xcx/product/getFoodList', // 获取美食列表
 	getProductFoodDetail: 'dev/xcx/product/getFoodDetail', // 获取美食详情

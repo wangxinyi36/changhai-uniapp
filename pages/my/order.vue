@@ -45,11 +45,11 @@
 	export default {
 		data() {
 			return {
-				current: 0,
+				current: 0, //状态
 				tabs: ['全部', '待支付', '已完成'],
 				tabs2: ['全部', '未支付', '已支付'],
-				type: 0,
-				types: ['商城', '民宿', '美食', '外卖'],
+				type: 0, //类型
+				types: ['商城', '民宿', '美食', '外卖', '船票'],
 				status: '',
 				statusList: [],
 				wechat_userInfo: {},
@@ -58,15 +58,15 @@
 				orderForm: {
 					limit: 10,
 					page: 1,
-					orderStatusArray: '',
+					orderStatusArray: '', //‘’ 全部 101待支付 102已取消 201已完成
 					userId: '',
 				},
 				pftForm: {
-					current: "1",
+					current: 0,
 					size: 10,
 					orderStatus: -1, //-1：全部 0：未支付 1：已支付
 					userId: '',
-					orderType: "", //C :民宿    G：美食 W：外卖
+					orderType: "", //C：民宿 G：美食 W：外卖 S：船票
 				}
 			};
 		},
@@ -117,25 +117,42 @@
 					//TODO handle the exception
 				}
 			},
+			// 类型切换
 			changeType(e) {
 				this.type = e.currentIndex;
 				this.total = 0;
 				this.orders = []
 				switch (e.currentIndex) {
 					case 0:
+						this.orderForm.page = 1;
 						this.getOrderList();
 						break;
 					case 1:
 					case 2:
 					case 3:
+					case 4:
 						this.pftForm.orderType = e.currentIndex == 1 ? 'C' : e.currentIndex == 2 ? 'G' : e.currentIndex ==
-							3 ? 'W' : ''
+							3 ? 'W' : e.currentIndex == 4 ? 'S' : ''
 						this.getOrders();
 						break;
 				}
 			},
+			// 状态切换
 			changeStatus(e) {
-				console.log(e)
+				this.current = e.currentIndex;
+				this.total = 0;
+				this.orders = []
+				if (this.type == 0) {
+					this.orderForm.orderStatusArray = e.currentIndex == 0 ? '' : e.currentIndex == 1 ? 101 : e
+						.currentIndex == 2 ? 201 : '';
+					this.orderForm.page = 1;
+					this.getOrderList();
+				} else {
+					this.pftForm.orderStatus = e.currentIndex == 0 ? -1 : e.currentIndex == 1 ? 0 : e
+						.currentIndex == 2 ? 1 : '';
+					this.pftForm.current = 0;
+					this.getOrders();
+				}
 			},
 			async cancel(item) {
 				try {

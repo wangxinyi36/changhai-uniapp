@@ -99,7 +99,7 @@
 							<navigator :url="`/pages/home/tasty-food/home-tasty-food-detail?id=${item.uuid}`"
 								hover-class="none">
 								<view class="u82-box">
-									<image class="u82-img" :src="item.uuimgPath" mode="scaleToFill"></image>
+									<image class="u82-img" :src="item.uuImg" mode="scaleToFill"></image>
 									<view class="u71">热门</view>
 								</view>
 								<view class="u82-text">{{ item.uutitle }}</view>
@@ -242,21 +242,13 @@
 			this.wechat_userInfo = getStorage('wechat_userInfo')
 			this.getTral();
 			this.getHomeList()
-			this.getFoods()
 			this.getHotel()
+			this.getHotFoodList()
 		},
 		onShow() {
 			this.wechat_userInfo = getStorage('wechat_userInfo')
 		},
 		methods: {
-			async getFoods() {
-				try {
-					const resultFoods = await this.$http(this.$API.getHotSjList);
-					this.foods = resultFoods.data.list;
-				} catch (e) {
-					//TODO handle the exception
-				}
-			},
 			async getHotel() {
 				try {
 					const resultHotel = await this.$http(this.$API.postProductShopList, {
@@ -264,6 +256,14 @@
 						size: 4,
 					}, 'POST');
 					this.homeStay = resultHotel.data.list;
+				} catch (e) {
+					//TODO handle the exception
+				}
+			},
+			async getHotFoodList() {
+				try {
+					const result = await this.$http(this.$API.getHotFoodList);
+					this.foods = result.data.list;
 				} catch (e) {
 					//TODO handle the exception
 				}

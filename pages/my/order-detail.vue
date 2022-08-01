@@ -1,13 +1,13 @@
 <template>
 	<view>
-		<view class="u63">
+		<!-- 商城 -->
+		<view class="u63" v-if="type == 0">
 			<view class="u22">
 				<view class="u22-name">{{order.consignee}}</view>
 				<view class="u22-address">{{order.address}}</view>
 			</view>
 		</view>
-
-		<view class="u9">
+		<view class="u9" v-if="type == 0">
 			<view class="u9-title">商品信息</view>
 			<view class="u26" v-for="item in orderGoods" :key="item.id">
 				<view class="u27">
@@ -24,7 +24,6 @@
 					<view class="u241" @click="evaluate(item.goodsId)" v-if="order.orderStatus === 201">立即评价</view>
 				</view>
 			</view>
-
 			<view class="u33">
 				<view class="u33-item" v-if="order.message">
 					<view class="u33-title">订单备注</view>
@@ -57,7 +56,51 @@
 			</view>
 		</view>
 
-		<view class="bottom" v-if="order.orderStatus === 101">
+		<!-- 船票 民宿 -->
+		<view class="u9" v-if="type == 4 || type == 1">
+			<view class="u9-title">商品信息</view>
+			<view class="u26" v-for="item in order.pftOrderDetailList" :key="item.tid">
+				<view class="u27">
+					<image :src="order.picurl" mode="aspectFill" class="u27-img"></image>
+					<view class="u27-right">
+						<view class="u29">{{order.shopName}}</view>
+						<view class="u31">
+							<view class="u31-money">￥{{item.tprice/100}}</view>
+							<view class="u31-count">×{{item.num}}</view>
+						</view>
+					</view>
+				</view>
+			</view>
+			<view class="u33">
+				<view class="u33-item">
+					<view class="u33-title">商品合计</view>
+					<view class="u33-text u33-text-money">￥{{order.sumPrice/100}}</view>
+				</view>
+				<view class="u33-item">
+					<view class="u33-title">下单时间</view>
+					<view class="u33-text">{{order.orderTm}}</view>
+				</view>
+				<view class="u33-item" v-if="order.payOrderTm">
+					<view class="u33-title">支付时间</view>
+					<view class="u33-text">{{order.payOrderTm}}</view>
+				</view>
+				<view class="u33-item">
+					<view class="u33-title">订单状态</view>
+					<view class="u33-text"
+						:class="[{'u178-cancel':order.orderStatus == 0},{'u178-done':order.orderStatus === 1}]">
+						{{order.orderStatusName}}
+					</view>
+				</view>
+				<view class="u33-item">
+					<view class="u33-title">订单编号</view>
+					<view class="u33-text">{{order.orderSn}}</view>
+				</view>
+			</view>
+		</view>
+
+
+
+		<view class="bottom" v-if="order.orderStatus === 101 || order.orderStatus === 0">
 			<view class="bottom-left">
 				<view class="bottom-left-text" v-if="type == 'list'">实付金额：<text
 						style="color: #D9001B;">￥{{getMoney}}</text></view>
@@ -83,7 +126,8 @@
 	export default {
 		data() {
 			return {
-				id: '', //订单详情
+				id: '', //商城订单id
+				orderSn: '', //票付通订单编号
 				payList: [{
 					name: '微信支付',
 					url: '/static/icon-wechat.svg',
@@ -95,26 +139,40 @@
 				order: {},
 				orderGoods: [],
 				user: {},
+				type: -1,
 
 				isReload: false,
 			}
 		},
 		onLoad(options) {
-			this.id = options.id;
+			this.id = options.id || '';
+			this.orderSn = options.orderSn || '';
+			this.type = options.type;
 			this.getDetail();
 		},
 		methods: {
 			async getDetail() {
 				try {
 					let {
-						id
+						id,
+						orderSn,
+						type
 					} = this.$data;
-					const result = await this.$http(this.$API.getOrderDetail, {
-						id
-					});
-					this.order = result.data.order;
-					this.orderGoods = result.data.orderGoods;
-					this.user = result.data.user;
+					if (type == 0) {
+						// 商城订单
+						const result = await this.$http(this.$API.getOrderDetail, {
+							id
+						});
+						this.order = result.data.order;
+						this.orderGoods = result.data.orderGoods;
+						this.user = result.data.user;
+					} else {
+						// 票付通订单
+						const result = await this.$http(this.$API.getQueryOrderDetail, {
+							orderSn
+						});
+						this.order = result.data;
+					}
 				} catch (e) {
 					console.log(e)
 					//TODO handle the exception

@@ -7,8 +7,7 @@
 				<view class="u178">
 					<view class="u178-name">
 						<view class="u178-name-title">{{order.title}}</view>
-						<view class="u178-status"
-							:class="[{'u178-cancel':order.orderStatus === 102 || order.orderStatus == 0}]">
+						<view class="u178-status" :class="[{'u178-cancel':order.orderStatus == 0}]">
 							{{order.orderStatusName}}
 						</view>
 					</view>
@@ -17,10 +16,9 @@
 				</view>
 			</view>
 			<view class="u81-bottom">
-				<view class="u242">{{ order.orderStatus === 1 ? `剩余时间:${order.leftTime}` : ''}}</view>
 				<view class="u240">
 					<view class="u241 u241-cancel" @click="cancel" v-if="order.orderStatus === 101">取消订单</view>
-					<view class="u241" @click="buy" v-if="order.orderStatus === 101">立即付款</view>
+					<view class="u241" @click="buy" v-if="order.orderStatus == 0">立即付款</view>
 					<view class="u241" @click="pageDetail" v-if="order.orderStatus === 201">立即评价</view>
 				</view>
 			</view>
@@ -65,9 +63,6 @@
 		data() {
 			return {};
 		},
-		created() {
-			console.log(this.type)
-		},
 		methods: {
 			dealTime(val) {
 				if (val) {
@@ -86,12 +81,20 @@
 			},
 			async buy() {
 				try {
+					const _this = this;
 					let payOrder = {
 						openId: getStorage('wechat_openId'),
 						orderNo: this.order.orderSn
 					}
-					const _this = this;
-					const result = await this.$http(this.$API.postPayOrder, payOrder, 'POST');
+
+					let result = {};
+					if (this.type == 0) {
+						result = await this.$http(this.$API.postPayOrder, payOrder, 'POST');
+					} else {
+						result = await this.$http(this.$API.getProductPayOrder, {
+							orderCode: this.order.orderSn
+						});
+					}
 					if (result.errno == 0) {
 						uni.requestPayment({
 							provider: "wxpay",
@@ -114,7 +117,16 @@
 			},
 			pageDetail() {
 				const _this = this;
-				OpenPage(`/pages/my/order-detail?id=${this.order.id}`).then(res => {
+				let order = this.order;
+				let type = this.type;
+				let url = '/pages/my/order-detail?'
+				if (type == 0) {
+					url = `${url}id=${order.id}&type=${type}`
+				} else {
+					url = `${url}orderSn=${order.orderSn}&type=${type}`
+				}
+
+				OpenPage(url).then(res => {
 					if (res.isReload) {
 						_this.$emit('reload')
 					}
@@ -184,7 +196,7 @@
 
 			&-bottom {
 				@extend .default-flex;
-				justify-content: space-between;
+				justify-content: flex-end;
 				margin-top: 10rpx;
 
 				.u242 {

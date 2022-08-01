@@ -48,6 +48,7 @@
 				<uni-easyinput v-model="formData.address" />
 			</uni-forms-item>
 		</uni-forms>
+
 		<view class="bottom">
 			<view class="bottom-btn" @click="save">完成</view>
 			<view class="bottom-btn bottom-btn-del" v-if="id" @click="del">删除</view>
@@ -139,11 +140,12 @@
 		},
 		onLoad(option) {
 			this.formData.userId = getStorage('wechat_userInfo').userId;
+
 			const _this = this;
 			const eventChannel = this.getOpenerEventChannel();
 			eventChannel.on('sendParams', function(data) {
 				_this.from = data.from;
-				_this.goodsId = data.goodsId;
+				_this.goodsId = data.goodsId || '';
 
 				if (data.from == 'homeStay') {
 					uni.setNavigationBarTitle({
@@ -169,13 +171,25 @@
 			},
 			async del() {
 				try {
+					const _this = this;
 					const {
-						formData
+						formData,
+						formData1,
+						from,
 					} = this.$data;
-					let _this = this;
-					const result = await this.$http(`${this.$API.postAddressDelete}?userId=${this.formData.userId}`,
-						this.formData, 'POST');
-					showToast('删除成功~');
+
+					if (from == 'homeStay') {
+						const result = await this.$http(this.$API.getPassengerDelete, {
+							id: formData1.id
+						});
+						showToast('删除成功~');
+					} else {
+						const result = await this.$http(
+							`${this.$API.postAddressDelete}?userId=${this.formData.userId}`,
+							this.formData, 'POST');
+						showToast('删除成功~');
+					}
+
 					setTimeout(() => {
 						uni.navigateBack()
 						const eventChannel = _this.getOpenerEventChannel();
@@ -218,27 +232,45 @@
 				const _this = this;
 				this.$refs.form.validate().then(async res => {
 					try {
-						let form = {}
-						delete form.showRegion;
 						let {
 							formData,
 							formData1,
 							from,
+							id
 						} = _this.$data;
 
+						let form = {}
 						if (from == 'homeStay') {
 							form = JSON.parse(JSON.stringify(formData1))
-							const result = await _this.$http(`${_this.$API.postPassengerUpdate}`, form,
-								'POST');
+							if (id) {
+								const result = await _this.$http(`${_this.$API.postPassengerUpdate}`, form,
+									'POST');
+								if (result.errno != 0) {
+									showToast(result.errmsg);
+									return;
+								}
+								showToast('添加成功~');
+							} else {
+								const result = await _this.$http(`${_this.$API.postPassengerCreate}`, form,
+									'POST');
+								if (result.errno != 0) {
+									showToast(result.errmsg);
+									return;
+								}
+								showToast('编辑成功~');
+							}
 						} else {
+							form = JSON.parse(JSON.stringify(formData))
+							delete form.showRegion;
 							const result = await _this.$http(`${_this.$API.postAddressSave}`, form,
 								'POST');
+							if (result.errno != 0) {
+								showToast(result.errmsg);
+								return;
+							}
+							showToast(id ? '编辑成功~' : '添加成功~');
 						}
 
-
-						uni.showToast({
-							title: '添加成功~'
-						});
 						setTimeout(() => {
 							uni.navigateBack()
 							const eventChannel = _this.getOpenerEventChannel();

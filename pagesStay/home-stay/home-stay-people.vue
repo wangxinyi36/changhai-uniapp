@@ -56,7 +56,10 @@
 				userId: '',
 				from: '', // homeStay民宿    mallOrder商城商品 homeMeal外卖
 				goodsId: '',
-				addText: ''
+				addText: '',
+
+				count: 0, //人数
+				homeList: [], //入住人选择
 			};
 		},
 		onLoad(options) {
@@ -116,11 +119,27 @@
 				}
 			},
 			select(item, index) {
+				let {
+					people,
+					homeList
+				} = this.$data;
 				this.$set(item, 'isActive', !item.isActive)
+				let count = 0;
+				homeList = [];
+				people.forEach(el => {
+					if (el.isActive) {
+						homeList.push(el)
+						count++;
+					}
+				})
+				this.count = count;
+				this.homeList = homeList;
 			},
 			add() {
 				const _this = this;
-				OpenPage(`/pagesStay/home-stay/home-stay-address?from=${this.from}`).then((res) => {
+				OpenPage('/pagesStay/home-stay/home-stay-address', {
+					from: this.from
+				}).then((res) => {
 					if (res.isReload) {
 						_this.page = 1;
 						_this.people = [];
@@ -133,17 +152,18 @@
 				let {
 					people,
 					active,
-					from
+					from,
+					count,
+					homeList
 				} = this.$data
-				let list = [];
+
 				if (from == 'homeStay') {
-					people.forEach(item => {
-						if (item.isActive) {
-							list.push(item)
-						}
-					})
-					if (list.length == 0) {
-						showToast('请选择地址~');
+					if (count <= 0) {
+						showToast('请选择入住人~');
+						return;
+					}
+					if (count > 5) {
+						showToast('最多选择5个人~');
 						return;
 					}
 				} else {
@@ -159,7 +179,7 @@
 						const eventChannel = _this.getOpenerEventChannel();
 						if (from == 'homeStay') {
 							eventChannel.emit('getParams', {
-								list
+								list: homeList
 							})
 						} else {
 							eventChannel.emit('getParams', {

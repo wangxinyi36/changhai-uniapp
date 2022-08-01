@@ -3,7 +3,7 @@
 		<view class="u1">
 			<view class="u1-middle">
 				<view class="u1-middle-left">
-					<view class="u1-top-title">{{dealTime(ticketForm.startDate)}}</view>
+					<view class="u1-top-title">{{ticketForm.startDate}}</view>
 					<view class="u1-top-title">{{detail.departuretime}}-{{detail.arrivaltime}}</view>
 				</view>
 			</view>
@@ -21,6 +21,7 @@
 		<view class="u2">
 			<view class="u2-title" v-if="list.length > 0">
 				<view class="u2-title-name">选择乘客</view>
+				<view class="u2-title-value">(最多选择5名乘客)</view>
 			</view>
 			<view class="u2-list">
 				<view class="u2-item" v-for="item,index in list" :key="item.id"
@@ -106,12 +107,6 @@
 					//TODO handle the exception
 				}
 			},
-			dealTime(val) {
-				if (val) {
-					let time = val.split('-')
-					return `${time[0]}月${time[1]}日`;
-				}
-			},
 			select(item, index) {
 				this.$set(item, 'isActive', !item.isActive)
 				let count = 0;
@@ -151,9 +146,15 @@
 				}
 			},
 			async pay() {
-				let index = this.list.findIndex(item => item.isActive);
-				if (index < 0) {
+				let {
+					count
+				} = this.$data;
+				if (count <= 0) {
 					showToast('请选择乘客~');
+					return;
+				}
+				if (count > 5) {
+					showToast('最多选择5名乘客~');
 					return;
 				}
 				try {
@@ -165,15 +166,15 @@
 					})
 					let year = new Date().getFullYear();
 					let payForm = {
-						startDay: `${year}-${this.ticketForm.startDate}`,
-						endDay: `${year}-${this.ticketForm.startDate}`,
+						startDay: this.ticketForm.startDate,
+						endDay: this.ticketForm.startDate,
 						uuId: this.detail.uuid,
 						payType: 1,
 						passengerIdList,
 						userId: this.wechat_userInfo.userId
 					}
 					const result = await this.$http(this.$API.posProductTicketOrder, payForm, 'POST');
-					if(result.errno != 0){
+					if (result.errno != 0) {
 						showToast(result.errmsg)
 						return;
 					}

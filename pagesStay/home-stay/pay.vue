@@ -50,9 +50,7 @@
 			<view class="bottom-left">
 				您需支付<text class="bottom-left-text">￥{{detail.uutprice*count/100}}</text>
 			</view>
-			<navigator url="/pagesStay/home-stay/pay-suc" hover-class="none">
-				<view class="bottom-btn">去支付</view>
-			</navigator>
+			<view class="bottom-btn" @click="pay">去支付</view>
 		</view>
 	</view>
 
@@ -61,7 +59,9 @@
 <script>
 	import {
 		OpenPage,
-		transChinese
+		getStorage,
+		transChinese,
+		showToast
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -75,6 +75,16 @@
 				}],
 				count: 1,
 				address: [],
+				homeForm: {
+					startDay: "",
+					endDay: "",
+					uuId: "",
+					payType: 1,
+					checkInIdList: [],
+					userId: '',
+					num: 1,
+				},
+				wechat_userInfo: {},
 
 				detail: {},
 				time: '',
@@ -82,12 +92,17 @@
 			};
 		},
 		onLoad() {
+			this.wechat_userInfo = getStorage('wechat_userInfo');
+			this.homeForm.userId = this.wechat_userInfo.userId;
+
 			const _this = this;
 			const eventChannel = this.getOpenerEventChannel();
 			eventChannel.on('sendParams', data => {
-				console.log(data)
 				_this.detail = data.item;
+				_this.homeForm.uuId = data.item.huuid;
 				_this.time = data.time;
+				_this.homeForm.startDay = data.time;
+				_this.homeForm.endDay = data.time;
 				_this.day = transChinese(new Date(data.time).getDay())
 			})
 		},
@@ -100,17 +115,55 @@
 				OpenPage(`/pagesStay/home-stay/home-stay-people?from=homeStay`).then(res => {
 					if (res.list) {
 						_this.address = res.list;
+						_this.homeForm.checkInIdList = res.list.map(item => {
+							return item.id
+						})
 					}
 				})
 			},
+			async pay() {
+				try {
+					const {
+						homeForm,
+						address
+					} = this.$data;
+					if (address.length == 0) {
+						showToast('请选择入住人~');
+						return;
+					}
+					const result = await this.$http(this.$API.postProductSaveMSOrder, homeForm, 'POST');
+					if (result.errno != 0) {
+						showToast(result.errmsg);
+						return;
+					}
+					uni.requestPayment({
+						provider: "wxpay",
+						...result.data,
+						success(res) {
+							showToast('支付成功~')
+							setTimeout(() => {
+								uni.navigateBack()
+							}, 1500)
+						},
+						fail(e) {
+							console.log(e)
+						}
+					})
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+				}
+			},
 			add() {
 				this.count++;
+				this.homeForm.num = this.count;
 			},
 			sub() {
 				if (this.count == 1) {
 					return;
 				}
 				this.count--;
+				this.homeForm.num = this.count;
 			}
 		}
 	}
