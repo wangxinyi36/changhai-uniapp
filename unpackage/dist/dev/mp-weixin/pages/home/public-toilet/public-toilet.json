@@ -1,5 +1,8 @@
 {
   "navigationBarTitleText": "公共厕所",
   "enablePullDownRefresh": false,
-  "usingComponents": {}
+  "usingComponents": {
+    "uni-section": "/components/uni-section/uni-section",
+    "uni-popup": "/uni_modules/uni-popup/components/uni-popup/uni-popup"
+  }
 }

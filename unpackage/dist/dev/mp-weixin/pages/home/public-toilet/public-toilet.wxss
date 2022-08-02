@@ -1,7 +1,12 @@
+
+page {
+	background-color: rgba(237, 240, 247, 1);
+}
+
 @charset "UTF-8";
 /* 水平间距 */
 /* 水平间距 */
-.default-flex.data-v-605abbc8, .u1 .u75.data-v-605abbc8, .u1 .u33.data-v-605abbc8 {
+.default-flex.data-v-605abbc8, .u-list.data-v-605abbc8, .u1 .u75.data-v-605abbc8, .u33.data-v-605abbc8, .u19-item.data-v-605abbc8 {
   display: flex;
   align-items: center;
 }
@@ -9,15 +14,34 @@
   width: 100%;
   height: 100vh;
 }
+.u-list.data-v-605abbc8 {
+  position: fixed;
+  right: 20rpx;
+  top: 40%;
+  background-color: #fff;
+  border-radius: 12rpx;
+  padding: 10rpx 20rpx;
+}
+.u-list .u-list-img.data-v-605abbc8 {
+  width: 40rpx;
+  margin-right: 4rpx;
+}
 .u0.data-v-605abbc8 {
-  height: 500px;
+  height: calc(100vh - 120px);
 }
 .u0-map.data-v-605abbc8 {
   height: 100%;
   width: 100%;
 }
 .u1.data-v-605abbc8 {
-  height: calc(100vh - 500px);
+  background-color: #fff;
+  border-top: 2rpx solid #f2f2f2;
+}
+.u1.data-v-605abbc8 .uni-section {
+  margin: 0;
+}
+.u1.data-v-605abbc8 .uni-section-header {
+  padding: 20rpx 20rpx 0 20rpx;
 }
 .u1 .u86.data-v-605abbc8 {
   padding-left: 20rpx;
@@ -37,22 +61,23 @@
 .u1 .u75-active.data-v-605abbc8 {
   color: #31d0e6;
 }
-.u1 .u33.data-v-605abbc8 {
+.u33.data-v-605abbc8 {
   height: 75rpx;
   justify-content: space-between;
   border-top: 2rpx solid #f2f2f2;
   position: fixed;
   width: 100%;
   bottom: 0;
+  background-color: #fff;
   padding-bottom: constant(safe-area-inset-bottom);
   padding-bottom: env(safe-area-inset-bottom);
 }
-.u1 .u33-distance.data-v-605abbc8 {
+.u33-distance.data-v-605abbc8 {
   font: normal 400 30rpx/75rpx '微软雅黑', sans-serif;
   color: #333;
   padding-left: 20rpx;
 }
-.u1 .u33-btn.data-v-605abbc8 {
+.u33-btn.data-v-605abbc8 {
   color: #fff;
   width: 197rpx;
   font: normal 400 24rpx/75rpx 'Arial Normal', 'Arial', sans-serif;
@@ -62,8 +87,29 @@
   border-radius: unset;
   margin: 0;
 }
-.u1 .u33-btn.data-v-605abbc8::after {
+.u33-btn.data-v-605abbc8::after {
   border: none;
   position: unset !important;
+}
+.u19.data-v-605abbc8 {
+  background-color: #fff;
+  height: 500rpx;
+  border-radius: 20rpx 20rpx 0 0;
+  padding: 20rpx;
+  overflow: auto;
+  box-sizing: border-box;
+}
+.u19-item.data-v-605abbc8 {
+  margin-bottom: 15rpx;
+}
+.u19-item-name.data-v-605abbc8 {
+  flex: 1;
+  word-break: break-all;
+  white-space: pre-wrap;
+}
+.u19-item-img.data-v-605abbc8 {
+  width: 40rpx;
+  height: 40rpx;
+  margin-left: 30rpx;
 }
 

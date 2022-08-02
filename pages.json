@@ -136,8 +136,7 @@
 		"path": "pages/home/tasty-food/tasty-food-detail",
 		"style": {
 			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false,
-			"navigationStyle": "custom"
+			"enablePullDownRefresh": false
 		}
 
 	}, {
@@ -151,8 +150,7 @@
 		"path": "pages/home/special-route/special-route-detail",
 		"style": {
 			"navigationBarTitleText": "",
-			"enablePullDownRefresh": false,
-			"navigationStyle": "custom"
+			"enablePullDownRefresh": false
 		}
 
 	}, {

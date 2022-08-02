@@ -1,15 +1,7 @@
 <template>
 	<view class="u23">
-		<view class="u22" :style="{height: 150 + safeTop + 'px',backgroundImage: `url(${detail.picurl})`}">
-			<view class="u21" :style="{background:backgroundColor}">
-				<view :style="{height:safeTop + 'px'}"></view>
-				<view class="u22-nav">
-					<uni-icons type="back" size="20" :color="color" @click="back"></uni-icons>
-					<view class="u22-nav-title" :style="{color:color}">{{detail.shopName}}</view>
-				</view>
-			</view>
-		</view>
-		<view class="u24" :style="{top:safeTop + 90 + 'px'}">
+		<image :src="detail.picurl" mode="aspectFill" class="u22"></image>
+		<view class="u24">
 			<view class="u24-box">
 				<view class="u25">
 					<view class="u25-top">
@@ -32,7 +24,8 @@
 					</view>
 				</view>
 				<view class="u94">
-					<map class="u94-map" scale="8"></map>
+					<map class="u94-map" scale="8" :markers="markers" :longitude="lng" :latitude="lat"
+						@markertap="leave"></map>
 				</view>
 				<view class="u57">
 					<view class="u56">
@@ -103,18 +96,15 @@
 		data() {
 			return {
 				id: '',
-				safeTop: '',
-				backgroundColor: '#ffffff00',
-				color: '#fff',
 				tabIndex: 0,
 				tabs: ['套餐', '评价'],
 				evaluate: [],
 				detail: {},
-				wechat_userInfo: {}
+				wechat_userInfo: {},
+				markers: [],
+				lat: 0,
+				lng: 0,
 			};
-		},
-		created() {
-			this.safeTop = GetSystemInfo().safeArea.top;
 		},
 		onLoad(options) {
 			this.id = options.id;
@@ -134,6 +124,17 @@
 						id
 					});
 					this.detail = result.data;
+					this.lat = parseFloat(result.data.lat)
+					this.lng = parseFloat(result.data.lng)
+					this.markers = [{
+						id: parseFloat(id),
+						latitude: this.lat,
+						longitude: this.lng,
+						title: result.data.address
+					}]
+					uni.setNavigationBarTitle({
+						title: this.detail.shopName
+					})
 				} catch (e) {
 					console.log(e)
 					//TODO handle the exception
@@ -178,21 +179,20 @@
 			},
 			change(index) {
 				this.tabIndex = index;
-			}
-		},
-		onPageScroll(e) {
-			if (e.scrollTop > 50) {
-				this.backgroundColor = '#fff'
-				this.color = '#000'
-			}
-			if (e.scrollTop > 0 && e.scrollTop <= 50) {
-				this.backgroundColor = '#ffffff' + parseInt(e.scrollTop)
-				this.color = '#000' + parseInt(e.scrollTop)
-			}
-			if (e.scrollTop == 0) {
-				this.backgroundColor = '#ffffff00'
-				this.color = '#fff'
-			}
+			},
+			leave(e) {
+				let {
+					markers
+				} = this.$data;
+				uni.openLocation({
+					latitude: parseFloat(markers[0].latitude),
+					longitude: parseFloat(markers[0].longitude),
+					scale: 10,
+					success(res) {
+						console.log(res)
+					}
+				})
+			},
 		},
 	}
 </script>
@@ -205,28 +205,7 @@
 	.u23 {
 		.u22 {
 			width: 100%;
-			background-size: 100% 100%;
-			background-position: center;
-
-			.u21 {
-				position: fixed;
-				width: 100%;
-				top: 0;
-				z-index: 1;
-			}
-
-			&-nav {
-				@extend .default-flex;
-				padding: 0 20rpx;
-				height: 44px;
-
-				&-title {
-					font-size: 30rpx;
-					text-align: center;
-					flex: 1;
-					margin-right: 20rpx;
-				}
-			}
+			height: 300rpx;
 		}
 
 		.u24 {
@@ -304,7 +283,7 @@
 				}
 
 				.u94 {
-					height: 130rpx;
+					height: 300rpx;
 					border-radius: 20rpx;
 					background-color: #fff;
 					margin-top: 20rpx;

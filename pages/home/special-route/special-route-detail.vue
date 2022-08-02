@@ -1,15 +1,6 @@
 <template>
 	<view>
-		<view class="u22" :style="{height: 212 + safeTop + 'px',backgroundImage: `url(${bgImg})`}">
-			<view class="u21" :style="{background:backgroundColor}">
-				<view :style="{height:safeTop + 'px'}"></view>
-				<view class="u22-nav">
-					<uni-icons type="back" size="20" :color="color" @click="back"></uni-icons>
-					<view class="u22-nav-title" :style="{color:color}">{{detail.name}}</view>
-				</view>
-			</view>
-		</view>
-
+		<image :src="detail.picUrl" mode="aspectFill" class="u22"></image>
 
 		<view class="u243">
 			<view class="u243-title">{{detail.name}}</view>
@@ -55,20 +46,17 @@
 
 <script>
 	import {
-		GetSystemInfo,regContent
+		GetSystemInfo,
+		regContent
 	} from '@/common/fun.js'
 	export default {
 		data() {
 			return {
-				safeTop: '',
 				screenHeight: '',
 				scrollHeight: '',
 				scrollViewId: '',
 				showHeight: '',
 
-				backgroundColor: '#ffffff00',
-				color: '#fff',
-				bgImg: '',
 				tab: ['路线特色', '行程安排', '地图'],
 				tabIndex: 0,
 				latitude: '',
@@ -81,7 +69,6 @@
 			};
 		},
 		created() {
-			this.safeTop = GetSystemInfo().safeArea.top;
 			this.screenHeight = GetSystemInfo().screenHeight
 		},
 		onLoad(options) {
@@ -101,7 +88,6 @@
 					const res = await this.$http(`${this.$API.getTralDetail}?id=${this.id}`);
 					this.detail = res.data.goods;
 					this.specifications = res.data.specifications;
-					this.bgImg = this.detail.picUrl;
 					this.content = regContent(this.detail.detail);
 					this.latitude = parseFloat(this.detail.pointLat);
 					this.longitude = parseFloat(this.detail.pointLng);
@@ -113,6 +99,10 @@
 						width: 20,
 						height: 28
 					}]
+					uni.setNavigationBarTitle({
+						title: this.detail.name
+					})
+
 					let _this = this;
 					uni.createSelectorQuery().select('.u244').boundingClientRect(rec => {
 						let top = rec.top;
@@ -124,48 +114,13 @@
 				}
 			},
 		},
-		onPageScroll(e) {
-			if (e.scrollTop > 50) {
-				this.backgroundColor = '#fff'
-				this.color = '#000'
-			}
-			if (e.scrollTop > 0 && e.scrollTop <= 50) {
-				this.backgroundColor = '#ffffff' + parseInt(e.scrollTop)
-				this.color = '#000' + parseInt(e.scrollTop)
-			}
-			if (e.scrollTop == 0) {
-				this.backgroundColor = '#ffffff00'
-				this.color = '#fff'
-			}
-		},
 	}
 </script>
 
 <style lang="scss" scoped>
 	.u22 {
 		width: 100%;
-		background-size: cover;
-		background-position: center;
-
-		.u21 {
-			position: fixed;
-			width: 100%;
-			top: 0;
-			z-index: 1;
-		}
-
-		&-nav {
-			@extend .default-flex;
-			padding: 0 20rpx;
-			height: 44px;
-
-			&-title {
-				font-size: 30rpx;
-				text-align: center;
-				flex: 1;
-				margin-right: 20rpx;
-			}
-		}
+		height: 420rpx;
 	}
 
 	.u242 {
