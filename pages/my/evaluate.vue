@@ -51,7 +51,7 @@
 					uuid: '',
 					tid: "",
 					ordersn: "",
-					comment: ""
+					comment: "",
 					score: 5,
 					picurls: []
 				},
