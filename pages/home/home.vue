@@ -96,7 +96,7 @@
 				<scroll-view scroll-x="true">
 					<view class="u4 u82-list">
 						<view class="u82-item" v-for="(item, index) in foods" :key="index" :id="`id-` + index">
-							<navigator :url="`/pages/home/tasty-food/home-tasty-food-detail?id=${item.uuid}`"
+							<navigator :url="`/pages/home/tasty-food/tasty-food-detail?id=${item.uuid}`"
 								hover-class="none">
 								<view class="u82-box">
 									<image class="u82-img" :src="item.uuImg" mode="scaleToFill"></image>
@@ -148,7 +148,8 @@
 		setStorage,
 		getStorage,
 		getAddressAuthorize,
-		WxLogin
+		WxLogin,
+		showToast
 	} from '@/common/fun.js';
 	export default {
 		data() {
@@ -287,7 +288,17 @@
 				}
 
 				if (item.open.includes('public-toilet')) {
-					let currentPoint = await getAddressAuthorize();
+					let currentPoint = '';
+					try {
+						currentPoint = await getAddressAuthorize();
+						console.log("currentPoint", currentPoint)
+					} catch (e) {
+						if (e == 1 || e == 2 || e == 4) {
+							showToast('请开启系统设置中的定位权限!');
+						}
+						return;
+						//TODO handle the exception
+					}
 				}
 
 				OpenPage(item.open)

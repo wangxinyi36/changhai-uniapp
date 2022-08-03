@@ -34,7 +34,8 @@
 				<view class="u264" id="u264-2">
 					<view class="u264-title">地图</view>
 					<view class="u264-map">
-						<map class="u264-map-box" :latitude="latitude" :longitude="longitude" :markers="markers">
+						<map class="u264-map-box" :latitude="latitude" :longitude="longitude" :markers="markers"
+							@markertap="clickMarker">
 						</map>
 					</view>
 				</view>
@@ -83,6 +84,17 @@
 			back() {
 				uni.navigateBack()
 			},
+			clickMarker(e) {
+				let _this = this;
+				uni.openLocation({
+					latitude: parseFloat(_this.latitude),
+					longitude: parseFloat(_this.longitude),
+					scale: 10,
+					success(res) {
+						console.log(res)
+					}
+				})
+			},
 			async getTralDetail() {
 				try {
 					const res = await this.$http(`${this.$API.getTralDetail}?id=${this.id}`);
@@ -95,9 +107,9 @@
 						id: this.detail.id,
 						latitude: this.latitude,
 						longitude: this.longitude,
-						iconPath: '/static/u115.svg',
+						// iconPath: '/static/u115.svg',
 						width: 20,
-						height: 28
+						height: 40
 					}]
 					uni.setNavigationBarTitle({
 						title: this.detail.name

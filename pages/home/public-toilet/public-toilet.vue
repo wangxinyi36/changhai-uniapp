@@ -15,10 +15,7 @@
 			<button class="u33-btn" @click="leave">出发</button>
 		</view>
 
-		<cover-view class="u-list" @click="show" v-if="address.length > 0">
-			<cover-image src="/static/map-list.svg" class="u-list-img"></cover-image>
-			查看列表
-		</cover-view>
+		<cover-view class="u-list" @click="show" v-if="address.length > 0">查看列表</cover-view>
 
 		<uni-popup ref="popup" type="bottom" @change="popupChange">
 			<view class="u19">
@@ -139,7 +136,7 @@
 							title: item.point,
 							// iconPath: icons[item.type],
 							width: 20,
-							height: 30
+							height: 40
 						}
 					})
 					this.longitude = this.markers[0].longitude;
@@ -164,6 +161,7 @@
 					el.isActive = el.id == item.id ? !item.isActive : false;
 					return el;
 				})
+				console.log(this.address)
 
 				setTimeout(() => {
 					this.$refs.popup.close()

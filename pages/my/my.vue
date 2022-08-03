@@ -50,6 +50,9 @@
 			this.wechat_userInfo = getStorage('wechat_userInfo')
 			this.getPhoneNumber()
 		},
+		onShow() {
+			this.wechat_userInfo = getStorage('wechat_userInfo')
+		},
 		methods: {
 			clickItem(url) {
 				let _this = this;

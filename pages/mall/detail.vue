@@ -225,7 +225,7 @@
 
 		.u-swiper,
 		.u20-img {
-			height: 290rpx;
+			height: 376rpx;
 			width: 100%;
 		}
 

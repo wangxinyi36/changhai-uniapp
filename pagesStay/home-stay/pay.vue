@@ -155,6 +155,10 @@
 				}
 			},
 			add() {
+				if (this.count >= this.detail.stock) {
+					showToast('已经达到库存上限！')
+					return;
+				}
 				this.count++;
 				this.homeForm.num = this.count;
 			},

@@ -24,7 +24,7 @@ export const OpenPage = (url, params) => {
 }
 
 
-export function WxLogin(_this) {
+export function WxLogin(_this, callback) {
 	uni.getUserProfile({
 		desc: '需要获取您的个人信息',
 		success(res) {
@@ -48,9 +48,18 @@ export function WxLogin(_this) {
 						const result = await _this.$http(_this.$API.postLoginByWeixin,
 							data,
 							'POST');
-						_this.wechat_userInfo = result.data.userInfo;
-						setStorage('wechat_userInfo', result.data.userInfo)
-						setStorage('wechat_openId', result.data.openId)
+						if (result.errno == 0) {
+							_this.wechat_userInfo = result.data.userInfo;
+							setStorage('wechat_userInfo', result.data.userInfo)
+							setStorage('wechat_openId', result.data.openId)
+							callback && callback(true)
+							return;
+						}
+						uni.showToast({
+							icon: 'none',
+							title: result.errmsg
+						})
+
 					} catch (e) {
 						console.log(e)
 						//TODO handle the exception
@@ -163,6 +172,9 @@ export async function getAddressAuthorize() {
 							})
 							resolve(result)
 						},
+						fail(err) {
+							reject(1)
+						}
 					})
 				} else {
 					uni.openSetting({
@@ -181,10 +193,14 @@ export async function getAddressAuthorize() {
 												})
 												resolve(result)
 											},
+											fail(locationError) {
+												reject(2)
+											}
 										})
 									},
 									fail(err) {
-										console.log('获取授权', err)
+										console.log("3", err)
+										reject(err)
 									}
 								})
 							} else {
@@ -195,11 +211,17 @@ export async function getAddressAuthorize() {
 											longitude: result.longitude
 										})
 										resolve(result)
+									},
+									fail(reError) {
+										reject(4)
 									}
 								})
 							}
 						},
-						fail(error) {}
+						fail(e) {
+							console.log("5", e)
+							reject(d)
+						}
 					});
 				}
 			}

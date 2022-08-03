@@ -10,7 +10,7 @@
 		<view class="u210">
 			<view class="u210-title">上传图片</view>
 			<view class="u244">
-				<uni-file-picker v-model="url" file-mediatype="image" @select="select" @delete="deletePic"
+				<uni-file-picker :value="url" file-mediatype="image" @select="select" @delete="deletePic"
 					:readonly="detail.id ?true :false">
 				</uni-file-picker>
 			</view>
@@ -34,6 +34,7 @@
 		data() {
 			return {
 				url: [], //{ "name": "file.txt", "extname": "txt", "url": "https://xxxx"  }
+				count: 0,
 				formData: {
 					content: "",
 					hasPicture: false,
@@ -46,9 +47,18 @@
 					userId: 0,
 					valueId: 0, //商品id
 				},
+				formData2: {
+					uuid: '',
+					tid: "",
+					ordersn: "",
+					comment: ""
+					score: 5,
+					picurls: []
+				},
 				detail: {},
 				id: '',
-				wechat_userInfo: {}
+				wechat_userInfo: {},
+				type: -1, //0商城 >0票付通
 			};
 		},
 		onLoad(options) {
@@ -59,28 +69,35 @@
 			this.formData.userId = this.wechat_userInfo.userId;
 
 			this.formData.valueId = options.id;
+			this.type = options.type;
 		},
 		methods: {
 			async submit() {
 				try {
 					let {
-						formData
+						formData,
+						count,
+						url,
+						type,
+						formData2
 					} = this.$data
 					if (formData.content.length <= 0) {
 						showToast('请输入评价内容~')
 						return;
 					}
-					if (this.url.length > 0) {
+					if (count > 0) {
 						formData.hasPicture = true;
-						formData.picUrls = this.url.map(item => {
-							return {
-								url: item.url
-							}
+						formData.picUrls = url.map(item => {
+							return item.url
 						})
 					}
 					console.log(formData)
-
-					const result = await this.$http(this.$API.postComment, formData, 'POST');
+					let result = {}
+					if (type > 0) {
+						result = await this.$http(this.$API.postCommentSave, formData2, 'POST');
+					} else {
+						result = await this.$http(this.$API.postComment, formData, 'POST');
+					}
 					if (result.errno == 0) {
 						showToast('提交成功~');
 
@@ -92,8 +109,9 @@
 						setTimeout(() => {
 							uni.navigateBack()
 						}, 1500)
+						return;
 					}
-
+					showToast(result.errmsg);
 				} catch (e) {
 					console.log(e)
 					//TODO handle the exception
@@ -102,6 +120,9 @@
 			async select(e) {
 				for (let i = 0; i < e.tempFiles.length; i++) {
 					try {
+						let {
+							url
+						} = this.$data;
 						const res = await upload(this.$API.postStorageCreate, e.tempFiles[i].path);
 						this.url.push({
 							name: e.tempFiles[i].name,
@@ -112,8 +133,9 @@
 						console.log("错误", e)
 						//TODO handle the exception
 					}
-
 				}
+				showToast('上传成功~')
+				this.count = this.url.length;
 			},
 			async deletePic(e) {
 				let {
@@ -122,6 +144,7 @@
 				let index = this.url.findIndex(item => item == e.tempFile);
 				url.splice(index, 1)
 				this.url = url;
+				this.count = this.url.length;
 			},
 		}
 	}

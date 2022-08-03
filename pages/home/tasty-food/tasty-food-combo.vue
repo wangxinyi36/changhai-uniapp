@@ -4,7 +4,7 @@
 			<view class="u240">螃蟹大锅烩</view>
 			<view class="u202">
 				<view class="u202-title">螃蟹大锅烩</view>
-				<image src="/static/mall8.png" mode="aspectFill" class="u202-img"></image>
+				<image src="" mode="aspectFill" class="u202-img"></image>
 				<view class="u202-pay"><text class="u202-pay-text">￥</text>155</view>
 				<view class="u207" @click="open">
 					<view class="u207-box">省</view>
@@ -53,7 +53,7 @@
 				<view class="u221-title">商户</view>
 				<view class="u221-box">
 					<view class="u221-box-left">
-						<image src="/static/home1.jpg" mode="aspectFill" class="u221-box-left-img"></image>
+						<image src="" mode="aspectFill" class="u221-box-left-img"></image>
 						<view class="u224">
 							<view class="u224-name">新鲜海鲜</view>
 							<view class="u224-box">

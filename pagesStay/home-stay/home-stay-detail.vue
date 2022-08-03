@@ -85,13 +85,13 @@
 					}, 'POST');
 					this.detail = result.data;
 					this.marker = [{
-						id,
+						id:parseFloat(id),
 						latitude: parseFloat(result.data.lat),
 						longitude: parseFloat(result.data.lng),
 						title: this.detail.businessName,
-						iconPath: '/static/u115.svg',
+						// iconPath: '/static/u115.svg',
 						width: 20,
-						height: 28
+						height: 40
 					}]
 					uni.setNavigationBarTitle({
 						title: this.detail.businessName
@@ -201,7 +201,7 @@
 		}
 
 		.u8 {
-			height: 150rpx;
+			height: 300rpx;
 			border-radius: 12rpx;
 			margin-top: 20rpx;
 			width: 100%;

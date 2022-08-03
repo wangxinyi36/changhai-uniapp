@@ -190,6 +190,9 @@
 					scale: 10,
 					success(res) {
 						console.log(res)
+					},
+					fail(err) {
+						console.log('失败',err)
 					}
 				})
 			},

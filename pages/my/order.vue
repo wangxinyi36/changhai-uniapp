@@ -4,9 +4,11 @@
 			<uni-segmented-control :current="type" styleType="text" activeColor="#31D0E6" :values="types"
 				@clickItem="changeType">
 			</uni-segmented-control>
+			<!-- 商城 -->
 			<uni-segmented-control :current="current" styleType="text" activeColor="#31D0E6" :values="tabs"
 				@clickItem="changeStatus" v-if="type == 0">
 			</uni-segmented-control>
+			<!-- 票付通 -->
 			<uni-segmented-control :current="current" styleType="text" activeColor="#31D0E6" :values="tabs2"
 				@clickItem="changeStatus" v-if="type > 0">
 			</uni-segmented-control>
@@ -46,8 +48,8 @@
 		data() {
 			return {
 				current: 0, //状态
-				tabs: ['全部', '待支付', '已完成'],
-				tabs2: ['全部', '未支付', '已支付'],
+				tabs: ['全部', '待支付', '已完成'], //商城状态列表
+				tabs2: ['全部', '未支付', '已支付'], //票付通状态列表
 				type: 0, //类型
 				types: ['商城', '民宿', '美食', '外卖', '船票'],
 				status: '',
@@ -145,11 +147,17 @@
 				if (this.type == 0) {
 					this.orderForm.orderStatusArray = e.currentIndex == 0 ? '' : e.currentIndex == 1 ? 101 : e
 						.currentIndex == 2 ? 201 : '';
+					this.pftForm.orderStatus = e.currentIndex == 0 ? -1 : e.currentIndex == 1 ? 0 : e
+						.currentIndex == 2 ? 1 : '';
+
 					this.orderForm.page = 1;
 					this.getOrderList();
 				} else {
 					this.pftForm.orderStatus = e.currentIndex == 0 ? -1 : e.currentIndex == 1 ? 0 : e
 						.currentIndex == 2 ? 1 : '';
+					this.orderForm.orderStatusArray = e.currentIndex == 0 ? '' : e.currentIndex == 1 ? 101 : e
+						.currentIndex == 2 ? 201 : '';
+
 					this.pftForm.current = 0;
 					this.getOrders();
 				}

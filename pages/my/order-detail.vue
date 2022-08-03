@@ -61,7 +61,7 @@
 			<view class="u9-title">商品信息</view>
 			<view class="u26" v-for="item in order.pftOrderDetailList" :key="item.tid">
 				<view class="u27">
-					<image :src="order.picurl" mode="aspectFill" class="u27-img"></image>
+					<image :src="item.picurl" mode="aspectFill" class="u27-img"></image>
 					<view class="u27-right">
 						<view class="u29">{{order.shopName}}</view>
 						<view class="u31">
@@ -69,6 +69,10 @@
 							<view class="u31-count">×{{item.num}}</view>
 						</view>
 					</view>
+				</view>
+				<view class="u98" v-if="item.pftqrimg">
+					<view class="u98-title">二维码</view>
+					<image :src="item.pftqrimg" mode="aspectFill" class="u98-code"></image>
 				</view>
 			</view>
 			<view class="u33">
@@ -95,9 +99,12 @@
 					<view class="u33-title">订单编号</view>
 					<view class="u33-text">{{order.orderSn}}</view>
 				</view>
+				<view class="u33-item">
+					<view class="u33-title">联系商家</view>
+					<image src="/static/icon7.svg" mode="aspectFill" class="u33-tel" @click="call(order.uutel)"></image>
+				</view>
 			</view>
 		</view>
-
 
 
 		<view class="bottom" v-if="order.orderStatus == 101 || order.orderStatus == 0">
@@ -109,6 +116,10 @@
 				<view class="bottom-right" @click="buy">立即付款</view>
 			</view>
 		</view>
+
+		<!-- <view class="bottom bottom2" v-if="order.orderStatus == 1">
+			<view class="bottom-right" @click="evaluate">立即评价</view>
+		</view> -->
 
 	</view>
 </template>
@@ -174,6 +185,11 @@
 					//TODO handle the exception
 				}
 			},
+			call(value) {
+				uni.makePhoneCall({
+					phoneNumber: value //仅为示例
+				});
+			},
 			dealTime(val) {
 				if (val) {
 					return `${val[0]}-${val[1]}-${val[2]} ${val[3]}:${val[4]}:${val[5]}`
@@ -181,7 +197,7 @@
 			},
 			evaluate(id) {
 				const _this = this;
-				OpenPage(`/pages/my/evaluate?id=${id}`).then(res => {
+				OpenPage(`/pages/my/evaluate?id=${id}&type=${this.type}`).then(res => {
 					if (res.isReload) {
 						_this.isReload = res.isReload;
 						_this.getDetail()
@@ -330,6 +346,20 @@
 				}
 			}
 		}
+
+		.u98 {
+			&-title {
+				font: normal 400 30rpx/normal '微软雅黑', sans-serif;
+				color: #000;
+				margin-top: 20rpx;
+			}
+
+			&-code {
+				width: 200rpx;
+				height: 200rpx;
+				margin-top: 10rpx;
+			}
+		}
 	}
 
 	.u33 {
@@ -348,6 +378,11 @@
 		&-text {
 			flex: 1;
 			text-align: right;
+		}
+
+		&-tel {
+			width: 24rpx;
+			height: 24rpx;
 		}
 
 		&-text-money {
@@ -447,5 +482,9 @@
 			line-height: 60rpx;
 		}
 
+	}
+
+	.bottom2 {
+		justify-content: flex-end;
 	}
 </style>
