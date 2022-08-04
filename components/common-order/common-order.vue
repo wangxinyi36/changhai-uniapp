@@ -19,7 +19,7 @@
 				<view class="u240">
 					<view class="u241 u241-cancel" @click="cancel" v-if="order.orderStatus === 101">取消订单</view>
 					<view class="u241" @click="buy" v-if="order.orderStatus == 0">立即付款</view>
-					<view class="u241" @click="pageDetail" v-if="order.orderStatus === 201">立即评价</view>
+					<view class="u241" @click="pageDetail" v-if="order.orderStatus == 1">立即评价</view>
 				</view>
 			</view>
 		</view>

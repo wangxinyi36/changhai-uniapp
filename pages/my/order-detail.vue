@@ -117,9 +117,9 @@
 			</view>
 		</view>
 
-		<!-- <view class="bottom bottom2" v-if="order.orderStatus == 1">
-			<view class="bottom-right" @click="evaluate">立即评价</view>
-		</view> -->
+		<view class="bottom bottom2" v-if="order.orderStatus == 1">
+			<view class="bottom-right" @click="evaluate()">立即评价</view>
+		</view>
 
 	</view>
 </template>
@@ -197,12 +197,13 @@
 			},
 			evaluate(id) {
 				const _this = this;
-				OpenPage(`/pages/my/evaluate?id=${id}&type=${this.type}`).then(res => {
-					if (res.isReload) {
-						_this.isReload = res.isReload;
-						_this.getDetail()
-					}
-				})
+				const {
+					type,
+					orderSn
+				} = this.$data;
+				let url = `/pages/my/evaluate?type=${type}&orderSn=${orderSn}`;
+				url = id ? `${url}&id=${id}` : url;
+				OpenPage(url)
 			},
 			async buy() {
 				try {
