@@ -105,15 +105,15 @@
 					toDestinationName,
 					ticketForm
 				} = this.$data;
-				if (pointOriginName && toDestinationName) {
+				if (pointOriginName || toDestinationName) {
 					let middle = pointOriginName;
 					this.pointOriginName = toDestinationName;
 					this.toDestinationName = middle;
-					
+
 					let formMiddle = ticketForm.pointOriginCode;
 					this.ticketForm.pointOriginCode = ticketForm.toDestinationCode;
 					this.ticketForm.toDestinationCode = formMiddle;
-					
+
 					this.total = 0;
 					this.list = [];
 					this.getList();
