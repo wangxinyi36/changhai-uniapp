@@ -42,6 +42,8 @@ const API = {
 	postQueryMyOrder: 'dev/xcx/order/queryMyOrder', // 票付通订单列表
 	getQueryOrderDetail: 'dev/xcx/order/queryOrderDetail', // 票付通订单详情
 	getProductPayOrder: 'dev/xcx/product/payOrder', // 票付通订单列表继续支付
+	getMyOrderCancel: 'dev/xcx/myorder/ordercancel', // 票付通取消订单
+	getMyOrderChangePro: 'dev/xcx/myorder/orderChangePro', // 票付通订单申请退款
 
 	getNewsList: 'dev/xcx/article/list', // 查询新闻列表
 	getNewsDetail: 'dev/xcx/article/detail', // 查询新闻详情

@@ -7,9 +7,8 @@
 			</view>
 			<view class="u39">
 				<view class="u39-grade">{{info.star}}分</view>
-				<view class="u39-pay">人均￥{{info.percapita/100}}</view>
+				<view class="u39-pay">起送￥{{info.startDelivery/100}}</view>
 			</view>
-			<view class="u40">起送￥{{info.startDelivery/100}}</view>
 			<view class="u41">
 				<view class="u41-tag" v-for="tag,i in info.ketKeywordList" :key="i">{{tag}}</view>
 			</view>

@@ -236,7 +236,8 @@
 				foods: [],
 				speLine: [],
 				homeList: [],
-				wechat_userInfo: {}
+				wechat_userInfo: {},
+				currentPoint: []
 			};
 		},
 		onLoad() {
@@ -287,10 +288,12 @@
 					return;
 				}
 
-				if (item.open.includes('public-toilet')) {
+				if (item.open.includes('public-toilet') || item.open.includes('tasty-food') || item.open.includes(
+						'home-meal')) {
 					let currentPoint = '';
 					try {
 						currentPoint = await getAddressAuthorize();
+						this.currentPoint = currentPoint;
 						console.log("currentPoint", currentPoint)
 					} catch (e) {
 						if (e == 1 || e == 2 || e == 4) {

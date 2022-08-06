@@ -6,7 +6,7 @@
 				<view class="u166-name">{{info.uutitle}}</view>
 				<view class="u167">
 					<uni-rate v-model="info.star" :readonly="true" :size="13" />
-					<view class="u167-pay">￥{{info.uuPrice/100}}/人</view>
+					<view class="u167-pay">￥{{info.percapita/100}}/人</view>
 				</view>
 				<view class="u168">
 					<view class="u168-address">{{info.uuarea}}</view>

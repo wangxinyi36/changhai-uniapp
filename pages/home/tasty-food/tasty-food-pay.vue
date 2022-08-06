@@ -1,10 +1,10 @@
 <template>
 	<view class="u6">
 		<view class="u63" @click="addAddress">
-			<view class="u63-btn" v-if="!address.id">请选择收货地址</view>
+			<view class="u63-btn" v-if="!address.id">请选择订餐人</view>
 			<view class="u22" v-else>
-				<view class="u22-name">{{address.name}}</view>
-				<view class="u22-address">{{address.address}}</view>
+				<view class="u22-name">{{address.passengerName}}</view>
+				<view class="u22-address">{{address.phone}}</view>
 			</view>
 		</view>
 
@@ -71,7 +71,7 @@
 				foodForm: {
 					uuId: "",
 					payType: 1,
-					addrId: '',
+					passengerId: '',
 					userId: '',
 					num: 1
 				},
@@ -105,7 +105,7 @@
 				OpenPage(`/pagesStay/home-stay/home-stay-people?from=tastyFood`).then(
 					res => {
 						_this.address = res.address;
-						_this.foodForm.addrId = res.address.id;
+						_this.foodForm.passengerId = res.address.id;
 					})
 			},
 			async pay() {
@@ -113,8 +113,8 @@
 					const {
 						foodForm,
 					} = this.$data;
-					if (!foodForm.addrId) {
-						showToast('请选择地址~')
+					if (!foodForm.passengerId) {
+						showToast('请选择订餐人~')
 						return;
 					}
 

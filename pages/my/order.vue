@@ -16,17 +16,17 @@
 		<view class="content">
 			<view v-if="current == 0">
 				<common-order v-for="item,index in orders" :order="item" :type="type" :key="index" @cancel="cancel"
-					@reload="reload">
+					@refund="refund" @reload="reload">
 				</common-order>
 			</view>
 			<view v-if="current == 1">
 				<common-order v-for="item,index in orders" :order="item" :type="type" :key="index" @cancel="cancel"
-					@reload="reload">
+					@refund="refund" @reload="reload">
 				</common-order>
 			</view>
 			<view v-if="current == 2">
 				<common-order v-for="item,index in orders" :order="item" :type="type" :key="index" @cancel="cancel"
-					@reload="reload">
+					@refund="refund" @reload="reload">
 				</common-order>
 			</view>
 			<common-empty index="2" v-if="orders.length == 0"></common-empty>
@@ -66,7 +66,7 @@
 				pftForm: {
 					current: 0,
 					size: 10,
-					orderStatus: -1, //-1：全部 0：未支付 1：已支付
+					orderStatus: -1, //-1：全部 0：未支付 1：已支付 10：已取消  20：已退款  30：退款中 40：退款驳回
 					userId: '',
 					orderType: "", //C：民宿 G：美食 W：外卖 S：船票
 				}
@@ -162,16 +162,59 @@
 					this.getOrders();
 				}
 			},
+			// 取消订单
 			async cancel(item) {
 				try {
 					const _this = this;
-					const result = await this.$http(`${this.$API.putOrderCancel}/${item.id}`, {}, 'PUT');
-					showToast('取消成功~');
+					const {
+						type
+					} = this.$data;
+					if (type == 0) {
+						const result = await this.$http(`${this.$API.putOrderCancel}/${item.id}`, {}, 'PUT');
+						showToast('取消成功~');
+					} else {
+						const result = await this.$http(`${this.$API.getMyOrderCancel}?orderSn=${item.orderSn}`);
+						if (result.errno != 0) {
+							showToast(result.errmsg);
+							return;
+						}
+						showToast('取消成功~');
+					}
+
 					setTimeout(() => {
 						_this.orderForm.page = 1;
 						_this.total = 0;
 						_this.orders = [];
-						_this.getOrderList()
+						type == 0 ? _this.getOrderList() : _this.getOrders()
+					}, 1500)
+				} catch (e) {
+					console.log(e)
+					//TODO handle the exception
+				}
+			},
+			async refund(item) {
+				try {
+					const _this = this;
+					const {
+						type
+					} = this.$data;
+					if (type == 0) {
+						// const result = await this.$http(`${this.$API.putOrderCancel}/${item.id}`, {}, 'PUT');
+						// showToast('取消成功~');
+					} else {
+						const result = await this.$http(`${this.$API.getMyOrderChangePro}?orderSn=${item.orderSn}`);
+						if (result.errno != 0) {
+							showToast(result.errmsg);
+							return;
+						}
+						showToast('申请成功~');
+					}
+
+					setTimeout(() => {
+						_this.orderForm.page = 1;
+						_this.total = 0;
+						_this.orders = [];
+						type == 0 ? _this.getOrderList() : _this.getOrders()
 					}, 1500)
 				} catch (e) {
 					console.log(e)
@@ -182,29 +225,12 @@
 				this.orderForm.page = 1;
 				this.orders = [];
 				this.total = 0;
-				this.getOrderList()
+				this.type == 0 ? this.getOrderList() : this.getOrders()
 			},
-			changeTab(val) {
-				switch (val.currentIndex) {
-					case 0:
-						this.orderForm.orderStatusArray = '';
-						break;
-					case 1:
-						this.orderForm.orderStatusArray = 101;
-						break;
-					case 2:
-						this.orderForm.orderStatusArray = 201;
-						break;
-				}
-				this.orderForm.page = 1;
-				this.orders = [];
-				this.total = 0;
-				this.getOrderList()
-			}
 		},
 		onReachBottom() {
 			this.orderForm.page++;
-			this.getOrderList()
+			this.type == 0 ? this.getOrderList() : this.getOrders()
 		}
 	}
 </script>

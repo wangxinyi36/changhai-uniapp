@@ -18,7 +18,8 @@
 
 <script>
 	import {
-		OpenPage
+		OpenPage,
+		getStorage
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -38,6 +39,8 @@
 			};
 		},
 		onLoad() {
+			this.mealForm.lat = getStorage('currentPoint').latitude;
+			this.mealForm.lng = getStorage('currentPoint').longitude;
 			this.getWMList()
 		},
 		methods: {

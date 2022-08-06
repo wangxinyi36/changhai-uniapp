@@ -1,7 +1,8 @@
 <template>
 	<view class="u99">
-		<!-- 酒店 -->
-		<uni-forms ref="form" :rules="rules1" :modelValue="formData1" v-if="from == 'homeStay'" label-width="80">
+		<!-- 酒店，美食-->
+		<uni-forms ref="form" :rules="rules1" :modelValue="formData1" v-if="from == 'homeStay' || from == 'tastyFood'"
+			label-width="80">
 			<uni-forms-item label="姓名" name="passengerName">
 				<uni-easyinput v-model="formData1.passengerName" :clearable="false" />
 			</uni-forms-item>
@@ -13,7 +14,7 @@
 			</uni-forms-item>
 		</uni-forms>
 
-		<!-- 商城，美食，外卖 -->
+		<!-- 商城，外卖 -->
 		<uni-forms ref="form" :rules="rules2" :modelValue="formData" v-else>
 			<uni-forms-item label="姓名" name="name">
 				<uni-easyinput v-model="formData.name" :clearable="false" />
@@ -144,7 +145,6 @@
 			const _this = this;
 			const eventChannel = this.getOpenerEventChannel();
 			eventChannel.on('sendParams', function(data) {
-				console.log(data)
 				_this.from = data.from;
 				_this.goodsId = data.goodsId || '';
 
@@ -152,13 +152,17 @@
 					uni.setNavigationBarTitle({
 						title: '入住信息'
 					})
+				} else if (data.from == 'tastyFood') {
+					uni.setNavigationBarTitle({
+						title: '订餐人信息'
+					})
 				} else {
 					_this.getProvince();
 				}
 
 				if (data.id) {
 					_this.id = data.id;
-					if (data.from == 'homeStay') {
+					if (data.from == 'homeStay' || data.from == 'tastyFood') {
 						_this.formData1 = data.item;
 					} else {
 						_this.formData = data.item;
@@ -235,12 +239,10 @@
 				this.$refs.form.validate().then(async res => {
 					try {
 						let {
-							formData,
 							formData1,
 							from,
 							id
 						} = _this.$data;
-
 						let form = {}
 						if (from == 'homeStay') {
 							form = JSON.parse(JSON.stringify(formData1))

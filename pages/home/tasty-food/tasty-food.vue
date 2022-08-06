@@ -20,7 +20,8 @@
 
 <script>
 	import {
-		OpenPage
+		OpenPage,
+		getStorage
 	} from '@/common/fun.js'
 	export default {
 		data() {
@@ -40,6 +41,8 @@
 			};
 		},
 		onLoad() {
+			this.foodForm.lat = getStorage('currentPoint').latitude;
+			this.foodForm.lng = getStorage('currentPoint').longitude;
 			this.getFoods()
 		},
 		methods: {

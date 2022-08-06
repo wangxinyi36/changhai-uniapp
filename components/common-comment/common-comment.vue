@@ -9,7 +9,7 @@
 			<view class="pics" v-if="comment.picUrls.length > 0">
 				<uni-row :gutter="10">
 					<uni-col :span="12" v-for="item,index in comment.picUrls" :key="index">
-						<image :src="item" mode="aspectFill" class="pic">
+						<image :src="item" mode="aspectFill" class="pic" @click="preview(index)">
 						</image>
 					</uni-col>
 				</uni-row>
@@ -47,7 +47,19 @@
 		data() {
 			return {};
 		},
-		created() {}
+		created() {},
+		methods: {
+			preview(index) {
+				let _this = this;
+				uni.previewImage({
+					current: index,
+					urls: _this.comment.picUrls,
+					success(res){
+						console.log(res)
+					}
+				});
+			}
+		}
 	}
 </script>
 <style>

@@ -17,7 +17,8 @@
 			</view>
 			<view class="u81-bottom">
 				<view class="u240">
-					<view class="u241 u241-cancel" @click="cancel" v-if="order.orderStatus === 101">取消订单</view>
+					<view class="u241 u241-cancel" @click="cancel" v-if="order.orderStatus == 0">取消订单</view>
+					<view class="u241 u241-cancel" @click="refund" v-if="order.orderStatus == 1">申请退款</view>
 					<view class="u241" @click="buy" v-if="order.orderStatus == 0">立即付款</view>
 					<view class="u241" @click="pageDetail" v-if="order.orderStatus == 1">立即评价</view>
 				</view>
@@ -134,6 +135,9 @@
 			},
 			cancel() {
 				this.$emit('cancel', this.order)
+			},
+			refund() {
+				this.$emit('refund', this.order)
 			}
 		}
 	}

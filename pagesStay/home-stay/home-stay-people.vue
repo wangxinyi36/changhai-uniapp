@@ -17,9 +17,22 @@
 				</view>
 				<image src="/static/icon5.svg" mode="aspectFill" class="u71-img" @click="edit(item)"></image>
 			</view>
-			<!-- 外卖 商城 美食 -->
+			<!-- 美食 -->
+			<view class="u71" v-for="item,index in people" :key="index" v-if="from == 'tastyFood'">
+				<view class="u71-left" @click="active = index">
+					<image :src="active == index ? chooseActiveIcon : chooseIcon" mode="aspectFill"
+						class="u71-left-img">
+					</image>
+					<view class="u71-left-box">
+						<view class="u71-left-box-name">{{item.passengerName}}</view>
+						<view class="u71-left-box-card">{{dealPhone(item.phone)}}</view>
+					</view>
+				</view>
+				<image src="/static/icon5.svg" mode="aspectFill" class="u71-img" @click="edit(item)"></image>
+			</view>
+			<!-- 外卖 商城 -->
 			<view class="u71" v-for="item,index in people" :key="item.id"
-				v-if="from == 'mallOrder' || from == 'homeMeal' || from == 'tastyFood'">
+				v-if="from == 'mallOrder' || from == 'homeMeal'">
 				<view class="u71-left" @click="active = index">
 					<image :src="index == active ? chooseActiveIcon : chooseIcon" mode="aspectFill"
 						class="u71-left-img"></image>
@@ -55,7 +68,7 @@
 				page: 1,
 				total: 0,
 				userId: '',
-				from: '', // homeStay民宿    mallOrder商城商品 homeMeal外卖 tastyFood美食
+				from: '', // homeStay民宿 tastyFood美食        mallOrder商城商品 homeMeal外卖 
 				goodsId: '',
 				addText: '',
 
@@ -66,12 +79,19 @@
 		onLoad(options) {
 			this.userId = getStorage('wechat_userInfo').userId;
 			this.from = options.from;
-			if (this.from == 'mallOrder' || this.from == 'homeMeal' || this.from == 'tastyFood') {
+			if (this.from == 'mallOrder' || this.from == 'homeMeal') {
 				uni.setNavigationBarTitle({
 					title: '收货地址'
 				})
 				this.addText = '新增收货地址'
 				this.getAddress()
+			}
+			if (this.from == 'tastyFood') {
+				uni.setNavigationBarTitle({
+					title: '用餐人列表'
+				})
+				this.addText = '新增用餐人'
+				this.getList()
 			}
 			if (this.from == 'homeStay') {
 				this.addText = '新增住客';
@@ -80,7 +100,7 @@
 			this.goodsId = options.goodsId || '';
 		},
 		methods: {
-			// 酒店入住信息列表
+			// 酒店入住信息，美食列表
 			async getList() {
 				try {
 					const {
@@ -96,7 +116,7 @@
 					//TODO handle the exception
 				}
 			},
-			// 商城,外卖,美食地址列表
+			// 商城,外卖地址列表
 			async getAddress() {
 				try {
 					const {
@@ -120,7 +140,7 @@
 			select(item, index) {
 				let {
 					people,
-					homeList
+					homeList,
 				} = this.$data;
 				this.$set(item, 'isActive', !item.isActive)
 				let count = 0;
@@ -165,6 +185,8 @@
 						showToast('最多选择5个人~');
 						return;
 					}
+				} else if (from == 'tastyFood') {
+
 				} else {
 					if (active === -1) {
 						showToast('请选择地址~');

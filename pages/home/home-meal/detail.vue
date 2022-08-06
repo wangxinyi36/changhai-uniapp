@@ -12,7 +12,6 @@
 							<view class="u27-right-title">{{detail.uutitle}}</view>
 							<view class="u27-right-star">
 								<uni-rate v-model="detail.star" :readonly="true" :size="13" />
-								<view class="u27-right-star-text">￥{{detail.percapita}}/人</view>
 							</view>
 							<view class="u27-right-time">营业时间：{{detail.uuruntime}}</view>
 						</view>
@@ -233,12 +232,17 @@
 				let {
 					cartList,
 					money,
-					id
+					id,
+					detail
 				} = this.$data;
-				
+
 				if (this.wechat_userInfo) {
 					if (cartList.length == 0) {
 						showToast('购物车为空~')
+						return;
+					}
+					if (money / 100 < detail.startDelivery) {
+						showToast('不满起送费，请继续添加商品~')
 						return;
 					}
 					OpenPage(`/pages/home/home-meal/pay`, {

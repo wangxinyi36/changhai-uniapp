@@ -148,7 +148,7 @@
 							if (!this.foodForm.price) {
 								item.isActive = false;
 							} else {
-								item.isActive = this.foodForm.price == item.name ? true : false;
+								item.isActive = this.foodForm.price == item.value ? true : false;
 							}
 							return item;
 						})
@@ -177,7 +177,7 @@
 			// 获取筛选条件
 			async getFilter() {
 				let pay = this.price.find(item => item.isActive);
-				this.foodForm.price = pay ? pay.name : '';
+				this.foodForm.price = pay ? pay.value : '';
 
 				let address = this.room.find(item => item.isActive)
 				this.foodForm.cityCode = address ? address.code : '';
@@ -315,7 +315,7 @@
 					border-radius: 12rpx;
 					font: normal 400 28rpx/48rpx '微软雅黑', sans-serif;
 					color: #333;
-					width: 160rpx;
+					width: 180rpx;
 					height: 48rpx;
 					text-align: center;
 					margin-top: 24rpx;

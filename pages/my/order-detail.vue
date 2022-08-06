@@ -53,6 +53,14 @@
 					<view class="u33-title">订单编号</view>
 					<view class="u33-text">{{order.orderSn}}</view>
 				</view>
+				<view class="u33-item">
+					<view class="u33-title">物流单号</view>
+					<view class="u33-item-box">
+						<view class="u33-text">{{order.shipSn || '-'}}</view>
+						<image src="/static/order-copy.svg" mode="aspectFill" class="u33-item-box-img"
+							@click="copy(order.shipSn)" v-if="order.shipSn"></image>
+					</view>
+				</view>
 			</view>
 		</view>
 
@@ -188,6 +196,14 @@
 			call(value) {
 				uni.makePhoneCall({
 					phoneNumber: value //仅为示例
+				});
+			},
+			copy(value) {
+				uni.setClipboardData({
+					data: value,
+					success: function() {
+						showToast('复制成功~')
+					}
 				});
 			},
 			dealTime(val) {
@@ -369,6 +385,16 @@
 			justify-content: space-between;
 			border-top: 2rpx solid rgba(242, 242, 242, 1);
 			padding: 20rpx 0;
+
+			&-box {
+				@extend .default-flex;
+
+				&-img {
+					width: 40rpx;
+					height: 40rpx;
+					margin-left: 10rpx;
+				}
+			}
 		}
 
 		&-title {

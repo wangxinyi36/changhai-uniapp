@@ -8,11 +8,6 @@
 						:color="tabIndex == 1 ? '#ff7100' : '#333'"></uni-icons>
 				</view>
 				<view class="u34-box" @click="open(2)">
-					<view class="u34-box-text" :class="{'u34-box-text-active':tabIndex == 2}">价格范围</view>
-					<uni-icons :type="tabIndex == 2 ? 'top' : 'bottom'" size="16"
-						:color="tabIndex == 2 ? '#ff7100' : '#333'"></uni-icons>
-				</view>
-				<view class="u34-box" @click="open(3)">
 					<view class="u34-box-text" :class="{'u34-box-text-active':tabIndex == 3}">筛选条件</view>
 					<uni-icons :type="tabIndex == 3 ? 'top' : 'bottom'" size="16"
 						:color="tabIndex == 3 ? '#ff7100' : '#333'"></uni-icons>
@@ -38,26 +33,10 @@
 			</view>
 
 			<view class="condition" v-if="tabIndex == 2">
-				<view class="u75">人均价格</view>
-				<view class="u76 u77">
-					<view class="u76-box" v-for="item,index in price" :key="item.name">
-						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 2 && item.isActive}"
-							@click="select(item)">{{item.name}}</view>
-					</view>
-				</view>
-				<view class="bottom">
-					<view class="btn-box">
-						<view class="btn-box-cancel" @click="cancel">取消</view>
-						<view class="btn-box-confirm" @click="confirm">确定</view>
-					</view>
-				</view>
-			</view>
-
-			<view class="condition" v-if="tabIndex == 3">
 				<view class="u75">地区</view>
 				<view class="u76">
 					<view class="u76-box" v-for="item,index in room" :key="index">
-						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 3 && item.isActive}"
+						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 2 && item.isActive}"
 							@click="select(item)">{{item.name}}</view>
 					</view>
 				</view>
@@ -75,7 +54,6 @@
 
 <script>
 	import {
-		FOOD_PRICE,
 		MEAL_DISTANCE
 	} from '@/common/common.js'
 	import {
@@ -89,7 +67,6 @@
 			return {
 				tabIndex: 0, //条件
 				regions: MEAL_DISTANCE,
-				price: FOOD_PRICE,
 				room: [],
 				currentPoint: []
 			};
@@ -116,10 +93,7 @@
 						this.regions = this.single(this.regions, item, 1);
 						break;
 					case 2:
-						this.price = this.single(this.price, item, 2);
-						break;
-					case 3:
-						this.room = this.single(this.room, item, 3);
+						this.room = this.single(this.room, item, 2);
 						break;
 				}
 			},
@@ -152,16 +126,6 @@
 						})
 						break;
 					case 2:
-						this.price = this.price.map(item => {
-							if (!this.mealForm.price) {
-								item.isActive = false;
-							} else {
-								item.isActive = this.mealForm.price == item.name ? true : false;
-							}
-							return item;
-						})
-						break;
-					case 3:
 						this.room = this.room.map(item => {
 							if (!this.mealForm.cityCode) {
 								item.isActive = false;
@@ -191,20 +155,17 @@
 					this.mealForm.distance = region.value;
 				}
 
-				let pay = this.price.find(item => item.isActive);
-				this.mealForm.price = pay ? pay.name : '';
-
 				let house = this.room.find(item => item.isActive)
 				this.mealForm.cityCode = house ? house.code : '';
 			},
 			// 选中条件
 			single(list, item, num) {
 				let newList = list.map(li => {
-					if (num === 1 || num === 2) {
+					if (num === 1) {
 						li.isActive = li.name == item.name && !li.isActive ? true : false;
 						return li;
 					}
-					if (num === 3) {
+					if (num === 2) {
 						li.isActive = li.id == item.id && !li.isActive ? true : false;
 						return li;
 					}
@@ -213,10 +174,6 @@
 			},
 		},
 		beforeDestroy() {
-			this.price.map(item => {
-				item.isActive = false;
-				return;
-			});
 			this.regions.map(item => {
 				item.isActive = false;
 				return;
@@ -251,7 +208,7 @@
 
 			.u33 {
 				@extend .default-flex;
-				justify-content: space-between;
+				justify-content: space-around;
 				height: 100%;
 				margin: 0 20px;
 			}
