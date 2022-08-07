@@ -76,7 +76,7 @@
 								<view class="u67">{{item.comment}}</view>
 								<view class="u58-item-imgs" v-if="item.picurls.length > 0">
 									<image :src="pic" mode="aspectFill" v-for="pic,i in item.picurls" :key="i"
-										class="u58-item-imgs-pic"></image>
+										class="u58-item-imgs-pic" @click="preview(i,item.picurls)"></image>
 								</view>
 								<view class="u69" v-if="item.reply">商家回复：{{item.reply}}</view>
 							</view>
@@ -260,6 +260,12 @@
 			},
 			change(index) {
 				this.current = index;
+			},
+			preview(index, list) {
+				uni.previewImage({
+					urls: list,
+					current: index,
+				})
 			},
 			changeScroll(index) {
 				this.scrollIndex = index;

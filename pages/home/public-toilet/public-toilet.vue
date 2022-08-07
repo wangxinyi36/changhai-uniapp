@@ -161,11 +161,12 @@
 					el.isActive = el.id == item.id ? !item.isActive : false;
 					return el;
 				})
-				console.log(this.address)
 
-				setTimeout(() => {
-					this.$refs.popup.close()
-				}, 2000)
+				uni.showLoading({
+					title: '加载中...',
+					mask: true
+				})
+				this.$refs.popup.close()
 			},
 			async popupChange(e) {
 				if (e.show == false) {
@@ -180,6 +181,7 @@
 						let result = await getDrivingRoute(parseFloat(mark.longitude), parseFloat(mark.latitude));
 						this.polyline = result.polyline;
 						this.distance = result.distance;
+						uni.hideLoading();
 					} catch (e) {
 						console.log(e)
 						//TODO handle the exception

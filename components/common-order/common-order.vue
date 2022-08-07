@@ -7,7 +7,8 @@
 				<view class="u178">
 					<view class="u178-name">
 						<view class="u178-name-title">{{order.title}}</view>
-						<view class="u178-status" :class="[{'u178-cancel':order.orderStatus == 0}]">
+						<view class="u178-status"
+							:class="[{'u178-cancel':order.orderStatus == 0 || order.orderStatus == 10}]">
 							{{order.orderStatusName}}
 						</view>
 					</view>

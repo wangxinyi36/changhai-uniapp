@@ -40,7 +40,7 @@
 			<view class="condition" v-if="tabIndex == 2">
 				<view class="u75">人均价格</view>
 				<view class="u76 u77">
-					<view class="u76-box" v-for="item,index in price" :key="item.name">
+					<view class="u76-box" v-for="item,index in price" :key="index">
 						<view class="u76-tag" :class="{'u76-tag-active':tabIndex == 2 && item.isActive}"
 							@click="select(item)">{{item.name}}</view>
 					</view>
@@ -115,10 +115,13 @@
 				switch (this.tabIndex) {
 					case 1:
 						this.regions = this.single(this.regions, item, 1)
+						break;
 					case 2:
 						this.price = this.single(this.price, item, 2)
+						break;
 					case 3:
 						this.room = this.single(this.room, item, 3)
+						break;
 				}
 			},
 			async open(val) {
@@ -145,10 +148,10 @@
 						break;
 					case 2:
 						this.price = this.price.map(item => {
-							if (!this.foodForm.price) {
+							if (!this.foodForm.minprice && this.foodForm.minprice != 0) {
 								item.isActive = false;
 							} else {
-								item.isActive = this.foodForm.price == item.value ? true : false;
+								item.isActive = this.foodForm.minprice == item.min ? true : false;
 							}
 							return item;
 						})
@@ -177,7 +180,8 @@
 			// 获取筛选条件
 			async getFilter() {
 				let pay = this.price.find(item => item.isActive);
-				this.foodForm.price = pay ? pay.value : '';
+				this.foodForm.minprice = pay ? pay.min : '';
+				this.foodForm.maxprice = pay ? pay.max : '';
 
 				let address = this.room.find(item => item.isActive)
 				this.foodForm.cityCode = address ? address.code : '';

@@ -99,19 +99,27 @@ export const HOUSE_TYPE = [{
 export const FOOD_PRICE = [{
 	name: '￥100以下',
 	isActive: false,
-	value: 100,
+	min: 0,
+	max: 100,
 }, {
 	name: '￥100-￥200',
 	isActive: false,
-	value: 200,
+	min: 100,
+	max: 200,
 }, {
 	name: '￥200-￥300',
 	isActive: false,
-	value: 300,
+	min: 200,
+	max: 300,
 }, {
 	name: '￥300-￥400',
 	isActive: false,
-	value: 400,
+	min: 300,
+	max: 400,
+}, {
+	name: '￥400以上',
+	isActive: false,
+	min: 400,
 }]
 
 export const MEAL_DISTANCE = [{

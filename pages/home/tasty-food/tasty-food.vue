@@ -33,10 +33,11 @@
 					distance: "",
 					lat: "",
 					lng: "",
-					price: "",
 					cityCode: "",
 					size: 10,
-					title: ""
+					title: "",
+					minprice: '',
+					maxprice: ''
 				},
 			};
 		},
