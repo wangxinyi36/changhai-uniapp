@@ -87,9 +87,7 @@
 							<view class="title-text">精选美食</view>
 						</uni-col>
 						<uni-col :span="12">
-							<navigator url="/pages/home/tasty-food/tasty-food" hover-class="none">
-								<view class="title-more">查看更多</view>
-							</navigator>
+							<view class="title-more" @click="foodMore">查看更多</view>
 						</uni-col>
 					</view>
 				</uni-row>
@@ -294,7 +292,6 @@
 					try {
 						currentPoint = await getAddressAuthorize();
 						this.currentPoint = currentPoint;
-						console.log("currentPoint", currentPoint)
 					} catch (e) {
 						if (e == 1 || e == 2 || e == 4) {
 							showToast('请开启系统设置中的定位权限!');
@@ -305,6 +302,20 @@
 				}
 
 				OpenPage(item.open)
+			},
+			async foodMore() {
+				let currentPoint = '';
+				try {
+					currentPoint = await getAddressAuthorize();
+					this.currentPoint = currentPoint;
+				} catch (e) {
+					if (e == 1 || e == 2 || e == 4) {
+						showToast('请开启系统设置中的定位权限!');
+					}
+					return;
+					//TODO handle the exception
+				}
+				OpenPage(`/pages/home/tasty-food/tasty-food`)
 			},
 			openPage(item, url) {
 				OpenPage(`${url}?title=${item.name}`)

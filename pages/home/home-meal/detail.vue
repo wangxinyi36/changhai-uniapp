@@ -116,7 +116,7 @@
 							<view class="u50-name">{{item.fuutitle}}</view>
 							<view class="u50-desc">{{item.desc}}</view>
 							<view class="u50-box">
-								<view class="u50-box-right-price">￥{{item.uutprice}}</view>
+								<view class="u50-box-right-price">￥{{item.uutprice/100}}</view>
 								<view class="u50-box-right">
 									<image src="/static/mall11.svg" mode="aspectFill" class="u50-box-right-img"
 										@click="reduceMeal(item,index)">
@@ -242,7 +242,7 @@
 						return;
 					}
 					if (money / 100 < detail.startDelivery) {
-						showToast('不满起送费，请继续添加商品~')
+						showToast(`不满${detail.startDelivery}元起送费，请继续添加商品~`)
 						return;
 					}
 					OpenPage(`/pages/home/home-meal/pay`, {

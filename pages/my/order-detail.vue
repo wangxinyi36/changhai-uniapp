@@ -125,7 +125,7 @@
 			</view>
 		</view>
 
-		<view class="bottom bottom2" v-if="order.orderStatus == 1">
+		<view class="bottom bottom2" v-if="order.evaluate == 1">
 			<view class="bottom-right" @click="evaluate()">立即评价</view>
 		</view>
 
