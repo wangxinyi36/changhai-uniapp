@@ -66,7 +66,7 @@
 				pftForm: {
 					current: 0,
 					size: 10,
-					orderStatus: -1, //-1：全部 0：未支付 1：已支付 10：已取消  20：已退款  30：退款中 40：退款驳回
+					orderStatus: -1, //-1：全部 0：未支付 1：已支付 3 已核销 10：已取消  20：已退款  30：退款中 40：退款驳回
 					userId: '',
 					orderType: "", //C：民宿 G：美食 W：外卖 S：船票
 				}
@@ -93,6 +93,7 @@
 					const result = await this.$http(this.$API.getOrderList, orderForm);
 					this.orders = this.orders.concat(result.data.items);
 					this.total = result.data.total;
+					uni.stopPullDownRefresh()
 				} catch (e) {
 					console.log(e)
 					//TODO handle the exception
@@ -114,6 +115,7 @@
 					const result = await this.$http(this.$API.postQueryMyOrder, pftForm, 'POST');
 					this.orders = this.orders.concat(result.data.list);
 					this.total = result.data.total;
+					uni.stopPullDownRefresh()
 				} catch (e) {
 					console.log(e)
 					//TODO handle the exception
@@ -231,6 +233,9 @@
 		onReachBottom() {
 			this.orderForm.page++;
 			this.type == 0 ? this.getOrderList() : this.getOrders()
+		},
+		onPullDownRefresh() {
+			this.reload()
 		}
 	}
 </script>

@@ -52,7 +52,7 @@
 		"path": "pages/my/order",
 		"style": {
 			"navigationBarTitleText": "我的订单",
-			"enablePullDownRefresh": false
+			"enablePullDownRefresh": true
 		}
 
 	}, {

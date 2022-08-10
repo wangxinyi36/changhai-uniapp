@@ -103,7 +103,7 @@
   color: #D9001B;
   font: normal 400 32rpx/normal '微软雅黑', sans-serif;
 }
-.u1 .u20-list .u20-pay .u27.data-v-65137dff {
+.u1 .u20-list .u20-pay .u27.data-v-65137dff, .u1 .u20-list .u20-pay .u27-disable.data-v-65137dff {
   width: 50rpx;
   height: 50rpx;
   font: normal 400 20rpx/normal 'Arial Normal', 'Arial', sans-serif;
@@ -113,6 +113,10 @@
   text-align: center;
   background-color: #d9001b;
   margin-left: 10rpx;
+}
+.u1 .u20-list .u20-pay .u27-disable.data-v-65137dff {
+  color: #fff;
+  background-color: #aaa;
 }
 .data-v-65137dff .uni-datetime-picker--btn {
   background-color: #f59a23;

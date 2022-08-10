@@ -80,7 +80,9 @@
 				</view>
 				<view class="u98" v-if="item.pftqrimg">
 					<view class="u98-title">二维码</view>
-					<image :src="item.pftqrimg" mode="aspectFill" class="u98-code"></image>
+					<view class="u98-imgBox">
+						<image :src="item.pftqrimg" mode="aspectFill" class="u98-code"></image>
+					</view>
 				</view>
 			</view>
 			<view class="u33">
@@ -372,9 +374,14 @@
 			}
 
 			&-code {
-				width: 200rpx;
-				height: 200rpx;
+				width: 400rpx;
+				height: 400rpx;
 				margin-top: 10rpx;
+			}
+
+			&-imgBox {
+				@extend .default-flex;
+				justify-content: center;
 			}
 		}
 	}

@@ -31,11 +31,12 @@
 						<view class="u20-box-name">{{item.housingname}}</view>
 						<view class="u20-box-dec">{{item.remark}}</view>
 						<view class="u20-box-tip">{{item.freeCancelMin}}分钟内可免费取消</view>
-						<text class="u20-box-btn">立即确定</text>
+						<text class="u20-box-btn" v-if="item.stock > 0">立即确定</text>
 					</view>
 					<view class="u20-pay">
 						<view class="u20-pay-num"><text style="font-size: 24rpx;">￥</text>{{item.uutprice/100}}</view>
-						<view class="u27">定</view>
+						<view class="u27" v-if="item.stock > 0">定</view>
+						<view class="u27 u27-disable" v-if="item.stock <= 0">满</view>
 					</view>
 				</view>
 			</view>
@@ -85,7 +86,7 @@
 					}, 'POST');
 					this.detail = result.data;
 					this.marker = [{
-						id:parseFloat(id),
+						id: parseFloat(id),
 						latitude: parseFloat(result.data.lat),
 						longitude: parseFloat(result.data.lng),
 						title: this.detail.businessName,
@@ -128,6 +129,9 @@
 			openPage(url, item) {
 				let _this = this;
 				if (this.wechat_userInfo) {
+					if (item.stock <= 0) {
+						return;
+					}
 					if (!this.time) {
 						showToast('请选择入住时间~')
 						return;
@@ -295,6 +299,12 @@
 						text-align: center;
 						background-color: rgba(217, 0, 27, 1);
 						margin-left: 10rpx;
+					}
+
+					.u27-disable {
+						@extend .u27;
+						color: #fff;
+						background-color: #aaa;
 					}
 				}
 
