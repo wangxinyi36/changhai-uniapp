@@ -45,8 +45,8 @@
 				<view class="u33-item">
 					<view class="u33-title">订单状态</view>
 					<view class="u33-text"
-						:class="[{'u178-cancel':order.orderStatus === 102 || order.orderStatus === 101},{'u178-done':order.orderStatus === 201}]">
-						{{order.orderStatus === 101 ? '待支付' : order.orderStatus === 102 ? '已取消': order.orderStatus === 201 ? '已完成' : ''}}
+						:class="[{'u178-cancel':order.orderStatus === 102 || order.orderStatus === 101},{'u178-done':order.orderStatus === 201 || order.orderStatus === 202 || order.orderStatus === 203}]">
+						{{order.orderStatus === 101 ? '待支付' : order.orderStatus === 102 ? '已取消': order.orderStatus === 201 ? '已完成' : order.orderStatus === 202 ? '退款中': order.orderStatus === 203 ?  '已退款' :''}}
 					</view>
 				</view>
 				<view class="u33-item">

@@ -294,7 +294,16 @@
 			"enablePullDownRefresh": false
 		}
 
-	}],
+	}    ,{
+            "path" : "pages/my/order-reason",
+            "style" :                                                                                    
+            {
+                "navigationBarTitleText": "退款理由",
+                "enablePullDownRefresh": false
+            }
+            
+        }
+    ],
 	"subPackages": [{
 		"root": "pagesStay",
 		"pages": [{

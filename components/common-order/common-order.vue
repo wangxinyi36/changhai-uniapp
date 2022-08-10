@@ -34,7 +34,7 @@
 						<view class="u178-name-title">{{dealName()}}</view>
 						<view class="u178-status"
 							:class="[{'u178-cancel':order.orderStatus === 102 || order.orderStatus === 101}]">
-							{{order.orderStatus === 101 ? '待支付' : order.orderStatus === 102 ? '已取消': order.orderStatus === 201 ? '已完成' : ''}}
+							{{order.orderStatus === 101 ? '待支付' : order.orderStatus === 102 ? '已取消': order.orderStatus === 201 ? '已完成' : order.orderStatus === 202 ? '退款中': order.orderStatus === 203 ?  '已退款' :''}}
 						</view>
 					</view>
 					<view class="u178-name">下单时间：{{dealTime(order.addTime)}}</view>
@@ -46,6 +46,7 @@
 				<view class="u240">
 					<view class="u241 u241-cancel" @click="cancel" v-if="order.orderStatus === 101">取消订单</view>
 					<view class="u241" @click="buy" v-if="order.orderStatus === 101">立即付款</view>
+					<view class="u241 u241-cancel" @click="refund" v-if="order.orderStatus === 201">申请退款</view>
 					<view class="u241" @click="pageDetail" v-if="order.orderStatus === 201">立即评价</view>
 				</view>
 			</view>

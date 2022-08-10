@@ -37,7 +37,8 @@
 <script>
 	import {
 		getStorage,
-		showToast
+		showToast,
+		OpenPage
 	} from '@/common/fun.js'
 	import {
 		ORDER_TYPE,
@@ -60,7 +61,7 @@
 				orderForm: {
 					limit: 10,
 					page: 1,
-					orderStatusArray: '', //‘’ 全部 101待支付 102已取消 201已完成
+					orderStatusArray: '', //‘’ 全部 101待支付 102已取消 201已完成(已付款) 202: '申请退款' 203: '已退款' 301: '已发货' 401: '用户收货' 402: '系统收货'
 					userId: '',
 				},
 				pftForm: {
@@ -201,8 +202,15 @@
 						type
 					} = this.$data;
 					if (type == 0) {
-						// const result = await this.$http(`${this.$API.putOrderCancel}/${item.id}`, {}, 'PUT');
-						// showToast('取消成功~');
+						OpenPage(`/pages/my/order-reason?orderNo=${item.orderSn}`).then((res) => {
+							if (res.isReload) {
+								_this.orderForm.page = 1;
+								_this.total = 0;
+								_this.orders = [];
+								type == 0 ? _this.getOrderList() : _this.getOrders()
+							}
+						})
+						return;
 					} else {
 						const result = await this.$http(`${this.$API.getMyOrderChangePro}?orderSn=${item.orderSn}`);
 						if (result.errno != 0) {

@@ -39,6 +39,7 @@ const API = {
 	getOrderDetail: 'dev/xcx/order/detail', // 商城订单详情
 	postComment: 'dev/xcx/comment/comment', // 商城订单发布评论
 	postPayOrder: 'dev/xcx/order/payOrder', // 商城待支付订单支付
+	postRefundapply: 'dev/xcx/order/refundapply', // 商城订单退款
 	postQueryMyOrder: 'dev/xcx/order/queryMyOrder', // 票付通订单列表
 	getQueryOrderDetail: 'dev/xcx/order/queryOrderDetail', // 票付通订单详情
 	getProductPayOrder: 'dev/xcx/product/payOrder', // 票付通订单列表继续支付
