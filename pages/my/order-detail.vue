@@ -78,6 +78,14 @@
 						</view>
 					</view>
 				</view>
+				<view class="u98" v-if="item.pftOrder">
+					<view class="u98-title">票付通订单号</view>
+					<view class="u98-box">
+						<view class="u98-value">{{item.pftOrder}}</view>
+						<image src="/static/order-copy.svg" mode="aspectFill" class="u98-box-img"
+							@click="copy(item.pftOrder)"></image>
+					</view>
+				</view>
 				<view class="u98" v-if="item.pftqrimg">
 					<view class="u98-title">二维码</view>
 					<view class="u98-imgBox">
@@ -382,6 +390,17 @@
 			&-imgBox {
 				@extend .default-flex;
 				justify-content: center;
+			}
+
+			&-box {
+				@extend .default-flex;
+				justify-content: space-between;
+
+				&-img {
+					width: 40rpx;
+					height: 40rpx;
+					margin-left: 10rpx;
+				}
 			}
 		}
 	}
