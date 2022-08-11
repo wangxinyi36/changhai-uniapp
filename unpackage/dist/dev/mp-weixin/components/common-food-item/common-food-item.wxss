@@ -56,10 +56,12 @@
 }
 .u24-item-bottom .u270.data-v-eec86df8 {
   flex: 1;
-  justify-content: space-between;
+  overflow-x: auto;
 }
 .u24-item-bottom .u270 .u270-item.data-v-eec86df8 {
   width: 32%;
+  margin-right: 20rpx;
+  flex-shrink: 0;
 }
 .u24-item-bottom .u270 .u270-item-img.data-v-eec86df8 {
   width: 100%;

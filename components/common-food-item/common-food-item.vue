@@ -127,10 +127,12 @@
 			.u270 {
 				@extend .default-flex;
 				flex: 1;
-				justify-content: space-between;
+				overflow-x: auto;
 
 				.u270-item {
 					width: 32%;
+					margin-right: 20rpx;
+					flex-shrink: 0;
 
 					&-img {
 						width: 100%;
