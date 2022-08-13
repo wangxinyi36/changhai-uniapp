@@ -19,7 +19,7 @@
 			<view class="u210-title">上传图片</view>
 			<view class="u244">
 				<uni-file-picker v-model="url" @select="select" @delete="deletePic" @success="success"
-					@progress="process">
+					@progress="progress">
 					<!-- 					:readonly="detail.id ?true :false"> -->
 				</uni-file-picker>
 			</view>
@@ -126,6 +126,10 @@
 				}
 			},
 			async select(e) {
+				uni.showLoading({
+					title: '上传中...',
+					mask: true,
+				})
 				for (let i = 0; i < e.tempFiles.length; i++) {
 					try {
 						let {
@@ -142,14 +146,9 @@
 						//TODO handle the exception
 					}
 				}
+				uni.hideLoading();
 				showToast('上传成功~')
 				this.count = this.url.length;
-			},
-			process(e) {
-				console.log(e)
-			},
-			success(e) {
-				console.log(e)
 			},
 			async deletePic(e) {
 				let {

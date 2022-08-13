@@ -131,16 +131,17 @@
 				if (this.wechat_userInfo) {
 					if (item.stock <= 0) {
 						return;
-					}
-					if (!this.time) {
-						showToast('请选择入住时间~')
+					} else {
+						if (!this.time) {
+							showToast('请选择入住时间~')
+							return;
+						}
+						OpenPage(url, {
+							item,
+							time: this.time
+						})
 						return;
 					}
-					OpenPage(url, {
-						item,
-						time: this.time
-					})
-					return;
 				}
 				WxLogin(this)
 			},

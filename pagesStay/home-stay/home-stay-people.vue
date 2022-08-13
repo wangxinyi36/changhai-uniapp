@@ -142,6 +142,10 @@
 					people,
 					homeList,
 				} = this.$data;
+				if (!item.passengerIdCard) {
+					showToast('身份证号码不存在，请填写身份证号码或选择其他住客信息')
+					return;
+				}
 				this.$set(item, 'isActive', !item.isActive)
 				let count = 0;
 				homeList = [];
@@ -156,6 +160,9 @@
 			},
 			add() {
 				const _this = this;
+				let {
+					from
+				} = this.$data;
 				OpenPage('/pagesStay/home-stay/home-stay-address', {
 					from: this.from
 				}).then((res) => {
@@ -163,7 +170,7 @@
 						_this.page = 1;
 						_this.people = [];
 						_this.total = 0;
-						_this.getAddress()
+						from == 'homeStay' || from == 'tastyFood' ? _this.getList() : _this.getAddress()
 					}
 				})
 			},
@@ -229,7 +236,7 @@
 								_this.page = 1;
 								_this.people = [];
 								_this.total = 0;
-								from == 'homeStay' ? _this.getList() : _this.getAddress()
+								from == 'homeStay' || from == 'tastyFood' ? _this.getList() : _this.getAddress()
 							}
 						})
 			},

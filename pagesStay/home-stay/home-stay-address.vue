@@ -1,13 +1,22 @@
 <template>
 	<view class="u99">
-		<!-- 酒店，美食-->
-		<uni-forms ref="form" :rules="rules1" :modelValue="formData1" v-if="from == 'homeStay' || from == 'tastyFood'"
-			label-width="80">
+		<!-- 酒店-->
+		<uni-forms ref="form" :rules="rules1" :modelValue="formData1" v-if="from == 'homeStay'" label-width="80">
 			<uni-forms-item label="姓名" name="passengerName">
 				<uni-easyinput v-model="formData1.passengerName" :clearable="false" />
 			</uni-forms-item>
 			<uni-forms-item label="身份证号码" name="passengerIdCard" :clearable="false">
 				<uni-easyinput v-model="formData1.passengerIdCard" type="idcard" maxlength="18" />
+			</uni-forms-item>
+			<uni-forms-item label="手机号码" name="phone" :clearable="false">
+				<uni-easyinput v-model="formData1.phone" type="number" maxlength="11" />
+			</uni-forms-item>
+		</uni-forms>
+
+		<!-- 美食-->
+		<uni-forms ref="form" :rules="rules3" :modelValue="formData1" v-else-if="from == 'tastyFood'" label-width="80">
+			<uni-forms-item label="姓名" name="passengerName">
+				<uni-easyinput v-model="formData1.passengerName" :clearable="false" />
 			</uni-forms-item>
 			<uni-forms-item label="手机号码" name="phone" :clearable="false">
 				<uni-easyinput v-model="formData1.phone" type="number" maxlength="11" />
@@ -85,6 +94,20 @@
 						}]
 					},
 				},
+				rules3: {
+					passengerName: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入姓名',
+						}]
+					},
+					phone: {
+						rules: [{
+							required: true,
+							errorMessage: '请输入手机号码',
+						}]
+					},
+				},
 				rules2: {
 					name: {
 						rules: [{
@@ -117,7 +140,8 @@
 					passengerName: "",
 					passengerIdCard: "",
 					phone: "",
-					id: ''
+					id: '',
+					addUserType: '', //G美食 其它船票和名宿需要填写身份证号，该参数可以为空
 				},
 				formData: {
 					name: '',
@@ -184,15 +208,23 @@
 						from,
 					} = this.$data;
 
-					if (from == 'homeStay') {
+					if (from == 'homeStay' || from == 'tastyFood') {
 						const result = await this.$http(this.$API.getPassengerDelete, {
 							id: formData1.id
 						});
+						if (!result.errno == 0) {
+							showToast(result.errmsg)
+							return;
+						}
 						showToast('删除成功~');
 					} else {
 						const result = await this.$http(
 							`${this.$API.postAddressDelete}?userId=${this.formData.userId}`,
 							this.formData, 'POST');
+						if (!result.errno == 0) {
+							showToast(result.errmsg)
+							return;
+						}
 						showToast('删除成功~');
 					}
 
@@ -240,12 +272,16 @@
 					try {
 						let {
 							formData1,
+							formData,
 							from,
 							id
 						} = _this.$data;
 						let form = {}
-						if (from == 'homeStay') {
+						if (from == 'homeStay' || from == 'tastyFood') {
 							form = JSON.parse(JSON.stringify(formData1))
+							if (from == 'tastyFood') {
+								form.addUserType = 'G'
+							}
 							if (id) {
 								const result = await _this.$http(`${_this.$API.postPassengerUpdate}`, form,
 									'POST');
@@ -253,7 +289,7 @@
 									showToast(result.errmsg);
 									return;
 								}
-								showToast('添加成功~');
+								showToast('编辑成功~');
 							} else {
 								const result = await _this.$http(`${_this.$API.postPassengerCreate}`, form,
 									'POST');
@@ -261,7 +297,7 @@
 									showToast(result.errmsg);
 									return;
 								}
-								showToast('编辑成功~');
+								showToast('添加成功~');
 							}
 						} else {
 							form = JSON.parse(JSON.stringify(formData))

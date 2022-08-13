@@ -28,7 +28,7 @@
 			<view class="pics" v-if="comment.picurls.length > 0">
 				<uni-row :gutter="10">
 					<uni-col :span="12" v-for="item,index in comment.picurls" :key="index">
-						<image :src="item" mode="aspectFill" class="pic">
+						<image :src="item" mode="aspectFill" class="pic" @click="preview(index)">
 						</image>
 					</uni-col>
 				</uni-row>
@@ -53,8 +53,8 @@
 				let _this = this;
 				uni.previewImage({
 					current: index,
-					urls: _this.comment.picUrls,
-					success(res){
+					urls: _this.comment.picUrls || _this.comment.picurls,
+					success(res) {
 						console.log(res)
 					}
 				});

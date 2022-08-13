@@ -108,6 +108,10 @@
 				}
 			},
 			select(item, index) {
+				if (!item.passengerIdCard) {
+					showToast('身份证号码不存在，请填写身份证号码或选择其他住客信息')
+					return;
+				}
 				this.$set(item, 'isActive', !item.isActive)
 				let count = 0;
 				this.list.forEach(item => {

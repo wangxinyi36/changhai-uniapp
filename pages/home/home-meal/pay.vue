@@ -90,10 +90,12 @@
 					return;
 				}
 				try {
+					let _this = this;
 					let {
 						orderForm,
 						cartList
 					} = this.$data;
+
 					orderForm.subPros = cartList.map(item => {
 						return {
 							uuid: item.fuuid,
@@ -109,7 +111,7 @@
 							...result.data,
 							success(res) {
 								showToast('支付成功~')
-								const eventChannel = this.getOpenerEventChannel();
+								const eventChannel = _this.getOpenerEventChannel();
 								eventChannel.emit('getParams', {
 									isReload: true
 								})
