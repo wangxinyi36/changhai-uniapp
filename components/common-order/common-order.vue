@@ -34,7 +34,7 @@
 						<view class="u178-name-title">{{dealName()}}</view>
 						<view class="u178-status"
 							:class="[{'u178-cancel':order.orderStatus === 102 || order.orderStatus === 101}]">
-							{{order.orderStatus === 101 ? '待支付' : order.orderStatus === 102 ? '已取消': order.orderStatus === 201 ? '已完成' : order.orderStatus === 202 ? '退款中': order.orderStatus === 203 ?  '已退款' :''}}
+							{{order.orderStatus === 101 ? '待支付' : order.orderStatus === 102 ? '已取消': order.orderStatus === 201 ? '已完成' : order.orderStatus === 202 ? '退款中': order.orderStatus === 203 ?  '已退款' : order.orderStatus === 301 ? '已发货':  order.orderStatus === 401 ? '用户收货' : order.orderStatus === 402 ? '系统收货': '' }}
 						</view>
 					</view>
 					<view class="u178-name">下单时间：{{dealTime(order.addTime)}}</view>

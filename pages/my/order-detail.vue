@@ -45,20 +45,20 @@
 				<view class="u33-item">
 					<view class="u33-title">订单状态</view>
 					<view class="u33-text"
-						:class="[{'u178-cancel':order.orderStatus === 102 || order.orderStatus === 101},{'u178-done':order.orderStatus === 201 || order.orderStatus === 202 || order.orderStatus === 203}]">
-						{{order.orderStatus === 101 ? '待支付' : order.orderStatus === 102 ? '已取消': order.orderStatus === 201 ? '已完成' : order.orderStatus === 202 ? '退款中': order.orderStatus === 203 ?  '已退款' :''}}
+						:class="[{'u178-cancel':order.orderStatus === 102 || order.orderStatus === 101},{'u178-done':order.orderStatus === 201 || order.orderStatus === 202 || order.orderStatus === 203 || order.orderStatus === 301}]">
+						{{order.orderStatus === 101 ? '待支付' : order.orderStatus === 102 ? '已取消': order.orderStatus === 201 ? '已完成' : order.orderStatus === 202 ? '退款中': order.orderStatus === 203 ?  '已退款' :order.orderStatus === 301 ? '已发货':  order.orderStatus === 401 ? '用户收货' : order.orderStatus === 402 ? '系统收货': ''}}
 					</view>
 				</view>
 				<view class="u33-item">
 					<view class="u33-title">订单编号</view>
 					<view class="u33-text">{{order.orderSn}}</view>
 				</view>
-				<view class="u33-item">
+				<view class="u33-item" v-if="order.shipSn">
 					<view class="u33-title">物流单号</view>
 					<view class="u33-item-box">
-						<view class="u33-text">{{order.shipSn || '-'}}</view>
+						<view class="u33-text">{{order.shipSn}}</view>
 						<image src="/static/order-copy.svg" mode="aspectFill" class="u33-item-box-img"
-							@click="copy(order.shipSn)" v-if="order.shipSn"></image>
+							@click="copy(order.shipSn)"></image>
 					</view>
 				</view>
 			</view>
@@ -71,7 +71,7 @@
 				<view class="u27">
 					<image :src="item.picurl" mode="aspectFill" class="u27-img"></image>
 					<view class="u27-right">
-						<view class="u29">{{order.shopName}}</view>
+						<view class="u29">{{item.proname}}</view>
 						<view class="u31">
 							<view class="u31-money">￥{{item.tprice/100}}</view>
 							<view class="u31-count">×{{item.num}}</view>
