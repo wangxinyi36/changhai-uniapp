@@ -21,7 +21,7 @@
 					</view>
 				</view>
 				<view class="u26-btn">
-					<view class="u241" @click="evaluate(item.goodsId)" v-if="order.orderStatus === 201">立即评价</view>
+					<view class="u241" @click="evaluate(item.goodsId)" v-if="item.evaluate">立即评价</view>
 				</view>
 			</view>
 			<view class="u33">
@@ -46,7 +46,7 @@
 					<view class="u33-title">订单状态</view>
 					<view class="u33-text"
 						:class="[{'u178-cancel':order.orderStatus === 102 || order.orderStatus === 101},{'u178-done':order.orderStatus === 201 || order.orderStatus === 202 || order.orderStatus === 203 || order.orderStatus === 301}]">
-						{{order.orderStatus === 101 ? '待支付' : order.orderStatus === 102 ? '已取消': order.orderStatus === 201 ? '已完成' : order.orderStatus === 202 ? '退款中': order.orderStatus === 203 ?  '已退款' :order.orderStatus === 301 ? '已发货':  order.orderStatus === 401 ? '用户收货' : order.orderStatus === 402 ? '系统收货': ''}}
+						{{order.orderStatus === 101 ? '待支付' : order.orderStatus === 102 ? '已取消': order.orderStatus === 201 ? '已支付' : order.orderStatus === 202 ? '退款中': order.orderStatus === 203 ?  '已退款' :order.orderStatus === 301 ? '已发货':  order.orderStatus === 401 ? '用户收货' : order.orderStatus === 402 ? '系统收货': ''}}
 					</view>
 				</view>
 				<view class="u33-item">
@@ -135,7 +135,7 @@
 			</view>
 		</view>
 
-		<view class="bottom bottom2" v-if="order.evaluate == 1">
+		<view class="bottom bottom2" v-if="order.evaluate == 1 && type > 0">
 			<view class="bottom-right" @click="evaluate()">立即评价</view>
 		</view>
 
