@@ -17,7 +17,7 @@
 					<view class="u29">{{item.name}}</view>
 					<view class="u31">
 						<view class="u31-money">￥{{item.retailPrice}}</view>
-						<view class="u31-count">×{{item.count || '1'}}</view>
+						<view class="u31-count">×{{ type == 'detail' ? '1' : item.count }}</view>
 					</view>
 				</view>
 			</view>
@@ -26,9 +26,6 @@
 					<view class="u33-title">订单备注</view>
 					<input class="u33-text" v-model="orderForm.message" placeholder-class="u33-placeholder"
 						placeholder="请和商家协商一致" />
-				</view>
-				<view class="u33-item">
-					<view class="u33-title">商品合计</view>
 				</view>
 				<view class="u33-item u33-pay">
 					<view class="u47-box" v-for="item,index in payList" :key="index" @click="choose(index)">
