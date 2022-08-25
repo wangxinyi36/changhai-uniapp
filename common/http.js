@@ -1,4 +1,4 @@
-const REQUEST_URL = "https://www.ming-yi.net/";
+const REQUEST_URL = "https://www.changhailvyou.cn/";
 /**
  * @description 公共请求方法
  * @param {*} url 接口类路径
